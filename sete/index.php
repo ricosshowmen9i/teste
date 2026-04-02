@@ -554,6 +554,20 @@ $theme = $userData['theme'] ?? 'verde';
             <datalist id="ai-model-list"></datalist>
           </div>
 
+          <div class="form-group">
+            <label class="form-label">Modo de seleção de modelo</label>
+            <div style="display:flex;align-items:center;gap:16px;margin-top:4px;flex-wrap:wrap">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px">
+                <input type="radio" name="ai-model-mode" id="ai-model-mode-random" value="random" checked style="accent-color:var(--accent)">
+                <span>🎲 Aleatório <small style="color:var(--text-secondary)">(sorteia um modelo gratuito a cada mensagem)</small></span>
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px">
+                <input type="radio" name="ai-model-mode" id="ai-model-mode-fixed" value="fixed" style="accent-color:var(--accent)">
+                <span>📌 Fixo <small style="color:var(--text-secondary)">(usa sempre o modelo acima)</small></span>
+              </label>
+            </div>
+          </div>
+
           <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
             <button class="btn btn-primary" id="ai-save-btn">
               <i class="fas fa-save"></i> Salvar

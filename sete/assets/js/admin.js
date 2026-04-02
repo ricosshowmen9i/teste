@@ -43,7 +43,23 @@ const Admin = (() => {
   };
 
   const PROVIDER_MODELS = {
-    openrouter: ['mistralai/mistral-7b-instruct:free', 'meta-llama/llama-3-8b-instruct:free', 'google/gemma-7b-it:free'],
+    openrouter: [
+      'nvidia/nemotron-nano-12b-v2-vl:free',
+      'nvidia/nemotron-3-super-120b-a12b:free',
+      'stepfun/step-3.5-flash:free',
+      'qwen/qwen3.6-plus-preview:free',
+      'arcee-ai/trinity-large-preview:free',
+      'z-ai/glm-4.5-air:free',
+      'nvidia/nemotron-3-nano-30b-a3b:free',
+      'arcee-ai/trinity-mini:free',
+      'nvidia/nemotron-nano-9b-v2:free',
+      'minimax/minimax-m2.5:free',
+      'qwen/qwen3-coder:free',
+      'qwen/qwen3.6-plus:free',
+      'google/gemma-3-27b-it:free',
+      'google/gemma-3-4b-it:free',
+      'nvidia/llama-nemotron-embed-vl-1b-v2:free',
+    ],
     groq:       ['llama3-8b-8192', 'llama3-70b-8192', 'mixtral-8x7b-32768', 'gemma-7b-it'],
     gemini:     ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'],
     ollama:     ['llama3', 'mistral', 'phi3', 'gemma2'],
@@ -62,19 +78,32 @@ const Admin = (() => {
       $('#ai-model').val(cfg.model);
       updateModelSuggestions(cfg.provider);
       updateConnectionStatus('idle');
+
+      // Aplica modo de seleção de modelo
+      const mode = cfg.model_mode || 'random';
+      $(`input[name="ai-model-mode"][value="${mode}"]`).prop('checked', true);
+      updateModelModeUI(mode);
     });
+  }
+
+  // ── Atualiza UI conforme o modo de modelo ────────────────
+  function updateModelModeUI(mode) {
+    const fixedMode = (mode === 'fixed');
+    $('#ai-model').prop('disabled', !fixedMode).css('opacity', fixedMode ? 1 : 0.5);
   }
 
   // ── Salvar IA ─────────────────────────────────────────────
   function saveAI() {
     const $btn = $('#ai-save-btn').addClass('loading');
+    const mode = $('input[name="ai-model-mode"]:checked').val() || 'random';
 
     $.post('api/admin.php', {
-      action:   'save_ai',
-      provider: $('#ai-provider').val(),
-      api_key:  $('#ai-api-key').val(),
-      base_url: $('#ai-base-url').val(),
-      model:    $('#ai-model').val(),
+      action:     'save_ai',
+      provider:   $('#ai-provider').val(),
+      api_key:    $('#ai-api-key').val(),
+      base_url:   $('#ai-base-url').val(),
+      model:      $('#ai-model').val(),
+      model_mode: mode,
     }, data => {
       $btn.removeClass('loading');
       if (data.success) {
@@ -93,13 +122,15 @@ const Admin = (() => {
   function testAI() {
     updateConnectionStatus('testing');
     const $btn = $('#ai-test-btn').addClass('loading');
+    const mode = $('input[name="ai-model-mode"]:checked').val() || 'random';
 
     $.post('api/admin.php', {
-      action:   'save_ai',
-      provider: $('#ai-provider').val(),
-      api_key:  $('#ai-api-key').val(),
-      base_url: $('#ai-base-url').val(),
-      model:    $('#ai-model').val(),
+      action:     'save_ai',
+      provider:   $('#ai-provider').val(),
+      api_key:    $('#ai-api-key').val(),
+      base_url:   $('#ai-base-url').val(),
+      model:      $('#ai-model').val(),
+      model_mode: mode,
     }, () => {
       $.post('api/admin.php', { action: 'test_ai' }, data => {
         $btn.removeClass('loading');
@@ -303,6 +334,11 @@ const Admin = (() => {
       $('#ai-base-url').val(PROVIDER_URLS[p] || '');
       updateModelSuggestions(p);
       updateConnectionStatus('idle');
+    });
+
+    // Toggle modo de seleção de modelo
+    $('input[name="ai-model-mode"]').on('change', function() {
+      updateModelModeUI($(this).val());
     });
 
     // Toggle API key visibility
