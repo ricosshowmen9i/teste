@@ -21,12 +21,19 @@ function getCharacter(PDO $db, int $charId): ?array {
 function getAIConfig(PDO $db): array {
     $stmt = $db->prepare("SELECT * FROM ai_config WHERE id = 1");
     $stmt->execute();
-    return $stmt->fetch() ?: [
-        'provider' => 'openrouter',
-        'api_key'  => '',
-        'base_url' => 'https://openrouter.ai/api/v1',
-        'model'    => 'mistralai/mistral-7b-instruct:free',
-    ];
+    $row = $stmt->fetch();
+    if (!$row) {
+        return [
+            'provider'   => 'openrouter',
+            'api_key'    => '',
+            'base_url'   => 'https://openrouter.ai/api/v1',
+            'model'      => 'mistralai/mistral-7b-instruct:free',
+            'model_mode' => 'random',
+        ];
+    }
+    // Garante campo model_mode com valor padrão
+    $row['model_mode'] = $row['model_mode'] ?? 'random';
+    return $row;
 }
 
 function getHistory(PDO $db, int $convId, int $limit): array {
@@ -74,11 +81,23 @@ function buildSystemPrompt(array $character, array $user): string {
     return $prompt;
 }
 
+/**
+ * Seleciona o modelo de IA: aleatório (da lista gratuita) ou fixo (configurado).
+ */
+function selectModel(array $aiConfig): string {
+    $modelMode = $aiConfig['model_mode'] ?? 'random';
+    if ($modelMode === 'random' && defined('FREE_MODELS') && !empty(FREE_MODELS)) {
+        $models = FREE_MODELS;
+        return $models[array_rand($models)];
+    }
+    return $aiConfig['model'] ?? 'mistralai/mistral-7b-instruct:free';
+}
+
 function callAI(array $history, array $character, array $aiConfig, array $user): array {
     $provider = $aiConfig['provider'] ?? 'openrouter';
     $apiKey   = $aiConfig['api_key']  ?? '';
     $baseUrl  = rtrim($aiConfig['base_url'] ?? 'https://openrouter.ai/api/v1', '/');
-    $model    = $aiConfig['model']    ?? 'mistralai/mistral-7b-instruct:free';
+    $model    = selectModel($aiConfig);
 
     $messages = [['role' => 'system', 'content' => buildSystemPrompt($character, $user)]];
     foreach ($history as $msg) {

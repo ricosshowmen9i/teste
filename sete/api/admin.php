@@ -38,27 +38,32 @@ switch ($action) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 function handleSaveAI(): void {
-    $provider = trim(filter_input(INPUT_POST, 'provider', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
-    $apiKey   = trim(filter_input(INPUT_POST, 'api_key',  FILTER_DEFAULT) ?? '');
-    $baseUrl  = trim(filter_input(INPUT_POST, 'base_url', FILTER_SANITIZE_URL) ?? '');
-    $model    = trim(filter_input(INPUT_POST, 'model',    FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
+    $provider   = trim(filter_input(INPUT_POST, 'provider',    FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
+    $apiKey     = trim(filter_input(INPUT_POST, 'api_key',     FILTER_DEFAULT) ?? '');
+    $baseUrl    = trim(filter_input(INPUT_POST, 'base_url',    FILTER_SANITIZE_URL) ?? '');
+    $model      = trim(filter_input(INPUT_POST, 'model',       FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
+    $modelMode  = trim(filter_input(INPUT_POST, 'model_mode',  FILTER_SANITIZE_SPECIAL_CHARS) ?? 'random');
 
     $validProviders = ['openrouter', 'groq', 'gemini', 'ollama', 'openai', 'mistral', 'together'];
     if (!in_array($provider, $validProviders)) {
         jsonResponse(['error' => 'Provider inválido'], 400);
     }
 
+    $modelMode = in_array($modelMode, ['random', 'fixed']) ? $modelMode : 'random';
+
     $db   = getDB();
     $stmt = $db->prepare("
         UPDATE ai_config
-        SET provider = :provider, api_key = :api_key, base_url = :base_url, model = :model, updated_at = CURRENT_TIMESTAMP
+        SET provider = :provider, api_key = :api_key, base_url = :base_url,
+            model = :model, model_mode = :model_mode, updated_at = CURRENT_TIMESTAMP
         WHERE id = 1
     ");
     $stmt->execute([
-        ':provider' => $provider,
-        ':api_key'  => $apiKey,
-        ':base_url' => $baseUrl,
-        ':model'    => $model,
+        ':provider'   => $provider,
+        ':api_key'    => $apiKey,
+        ':base_url'   => $baseUrl,
+        ':model'      => $model,
+        ':model_mode' => $modelMode,
     ]);
 
     jsonResponse(['success' => true, 'message' => 'Configuração salva!']);
@@ -139,8 +144,12 @@ function handleTestAI(): void {
 
 function handleGetAI(): void {
     $db     = getDB();
-    $config = $db->query("SELECT provider, base_url, model, updated_at FROM ai_config WHERE id = 1")->fetch();
+    $config = $db->query("SELECT provider, base_url, model, model_mode, updated_at FROM ai_config WHERE id = 1")->fetch();
     // Não retorna api_key por segurança
+    if ($config) {
+        // Garante valor padrão para model_mode
+        $config['model_mode'] = $config['model_mode'] ?? 'random';
+    }
     jsonResponse(['success' => true, 'config' => $config]);
 }
 

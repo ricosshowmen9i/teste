@@ -48,7 +48,7 @@ $history   = getHistory($db, $convId, $character['memory_context']);
 $provider = $aiConfig['provider'] ?? 'openrouter';
 $apiKey   = $aiConfig['api_key']  ?? '';
 $baseUrl  = rtrim($aiConfig['base_url'] ?? 'https://openrouter.ai/api/v1', '/');
-$model    = $aiConfig['model']    ?? 'mistralai/mistral-7b-instruct:free';
+$model    = selectModel($aiConfig);
 
 // Monta mensagens
 $messages = [['role' => 'system', 'content' => buildSystemPrompt($character, $user)]];

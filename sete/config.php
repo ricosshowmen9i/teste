@@ -33,6 +33,25 @@ define('ALLOWED_CODE_EXTS',   ['js', 'php', 'py', 'html', 'css']);
 // Rate-limiting
 define('RATE_LIMIT', 30); // requisições por minuto
 
+// Modelos gratuitos do OpenRouter
+define('FREE_MODELS', [
+    'nvidia/nemotron-nano-12b-v2-vl:free',
+    'nvidia/nemotron-3-super-120b-a12b:free',
+    'stepfun/step-3.5-flash:free',
+    'qwen/qwen3.6-plus-preview:free',
+    'arcee-ai/trinity-large-preview:free',
+    'z-ai/glm-4.5-air:free',
+    'nvidia/nemotron-3-nano-30b-a3b:free',
+    'arcee-ai/trinity-mini:free',
+    'nvidia/nemotron-nano-9b-v2:free',
+    'minimax/minimax-m2.5:free',
+    'qwen/qwen3-coder:free',
+    'qwen/qwen3.6-plus:free',
+    'google/gemma-3-27b-it:free',
+    'google/gemma-3-4b-it:free',
+    'nvidia/llama-nemotron-embed-vl-1b-v2:free',
+]);
+
 // Sessão
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_strict_mode', 1);
@@ -150,6 +169,22 @@ function createTables(PDO $pdo): void {
 
         INSERT OR IGNORE INTO ai_config (id) VALUES (1);
     ");
+
+    // Migrations: adiciona colunas novas sem quebrar banco existente
+    $migrations = [
+        "ALTER TABLE ai_config ADD COLUMN model_mode TEXT DEFAULT 'random'",
+        "ALTER TABLE ai_config ADD COLUMN free_models TEXT DEFAULT ''",
+    ];
+    foreach ($migrations as $sql) {
+        try {
+            $pdo->exec($sql);
+        } catch (\Exception $e) {
+            // Ignora erro "duplicate column name" — coluna já existe
+            if (strpos($e->getMessage(), 'duplicate column name') === false) {
+                error_log('Migration warning: ' . $e->getMessage());
+            }
+        }
+    }
 
     // Cria admin padrão se não existir
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = 'admin@sete.app'");
