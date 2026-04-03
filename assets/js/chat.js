@@ -116,8 +116,8 @@ const ChatManager = {
           ${unreadHtml}
         </div>
         <div class="contact-item-actions">
-          <button class="btn-edit-char btn btn-sm btn-outline" data-id="${char.id}" title="Editar">✏️</button>
-          <button class="btn-delete-char btn btn-sm" data-id="${char.id}" title="Excluir">🗑️</button>
+          <button class="btn-edit-char btn btn-sm btn-outline" data-id="${char.id}" title="Editar"><i class="fa-solid fa-edit" style="color:#00BCD4"></i></button>
+          <button class="btn-delete-char btn btn-sm" data-id="${char.id}" title="Excluir"><i class="fa-solid fa-trash-alt" style="color:#E91E63"></i></button>
         </div>
       `;
 
@@ -334,12 +334,41 @@ const ChatManager = {
   },
 
   speakMessage(btn) {
+    // If this button's audio is currently playing, toggle pause/resume
+    if (AudioManager.currentBtn === btn && AudioManager.isSpeaking()) {
+      if (AudioManager.isPaused()) {
+        AudioManager.togglePause();
+        btn.textContent = '⏸️ Pausar';
+        btn.title = 'Pausar';
+      } else {
+        AudioManager.togglePause();
+        btn.textContent = '▶️ Continuar';
+        btn.title = 'Continuar';
+      }
+      return;
+    }
+
+    // Stop any previous audio and reset its button
+    if (AudioManager.currentBtn && AudioManager.currentBtn !== btn) {
+      AudioManager.currentBtn.textContent = '🔊 Ouvir';
+      AudioManager.currentBtn.title = 'Ouvir';
+    }
+    AudioManager.stop();
+
     const text = btn.dataset.text;
     const char = this.activeCharacter;
+    btn.textContent = '⏸️ Pausar';
+    btn.title = 'Pausar';
+    AudioManager.currentBtn = btn;
+
     AudioManager.speak(text, {
       type: char?.voice_type || 'feminina_adulta',
       speed: char?.voice_speed || 1.0,
       pitch: char?.voice_pitch || 1.0,
+    }, () => {
+      btn.textContent = '🔊 Ouvir';
+      btn.title = 'Ouvir';
+      AudioManager.currentBtn = null;
     });
   },
 
@@ -471,14 +500,39 @@ const ChatManager = {
 
   // ── Typing indicator ────────────────────────────────────────────
   showTyping() {
-    const el = document.getElementById('typing-indicator');
-    if (el) el.classList.add('visible');
+    const container = document.getElementById('messages-container');
+    if (!container) return;
+
+    // Remove any existing typing indicator
+    const existing = container.querySelector('.typing-indicator-wrapper');
+    if (existing) existing.remove();
+
+    const char     = this.activeCharacter;
+    const initials = char ? char.name.slice(0, 2).toUpperCase() : 'IA';
+    const avatarSrc = char?.avatar;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'message-wrapper assistant typing-indicator-wrapper';
+    wrapper.innerHTML = `
+      <div class="msg-avatar">${avatarSrc ? `<img src="${escHtml(avatarSrc)}" alt="">` : escHtml(initials)}</div>
+      <div class="msg-bubble typing-bubble">
+        <div class="typing-indicator">
+          <span class="typing-text">digitando</span>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    `;
+    container.appendChild(wrapper);
     this.scrollToBottom();
   },
 
   hideTyping() {
-    const el = document.getElementById('typing-indicator');
-    if (el) el.classList.remove('visible');
+    const container = document.getElementById('messages-container');
+    if (!container) return;
+    const existing = container.querySelector('.typing-indicator-wrapper');
+    if (existing) existing.remove();
   },
 
   // ── Scroll ──────────────────────────────────────────────────────
@@ -700,7 +754,8 @@ const ChatManager = {
   // ── Clear chat ───────────────────────────────────────────────────
   async clearChat() {
     if (!this.activeCharacter) return;
-    if (!confirmAction('Apagar toda a conversa com ' + this.activeCharacter.name + '?')) return;
+    const confirmed = await confirmAction('Apagar toda a conversa com ' + this.activeCharacter.name + '?');
+    if (!confirmed) return;
 
     try {
       const data = await apiPost('api/chat.php', {
@@ -755,6 +810,41 @@ const ChatManager = {
     if (cancelBtn) {
       cancelBtn.addEventListener('click', () => closeModal('modal-character'));
     }
+
+    // Avatar upload for character
+    const charAvatarArea = document.getElementById('char-avatar-preview');
+    const charAvatarFile = document.getElementById('char-avatar-file');
+    if (charAvatarArea && charAvatarFile) {
+      charAvatarArea.addEventListener('click', () => charAvatarFile.click());
+      charAvatarFile.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        await this.uploadCharacterAvatar(file);
+        charAvatarFile.value = '';
+      });
+    }
+  },
+
+  async uploadCharacterAvatar(file) {
+    const fd = new FormData();
+    fd.append('avatar', file);
+    showToast('Enviando imagem…', 'info', 1500);
+    try {
+      const data = await apiPostFile('api/upload.php', fd);
+      if (data.error) { showToast(data.error, 'error'); return; }
+
+      const input = document.getElementById('char-avatar');
+      if (input) input.value = data.url;
+
+      const preview = document.getElementById('char-avatar-preview');
+      if (preview) {
+        preview.style.backgroundImage = `url('${escHtml(data.url)}?t=${Date.now()}')`;
+        preview.innerHTML = '';
+      }
+      showToast('Foto carregada!', 'success');
+    } catch (e) {
+      showToast('Erro ao enviar imagem.', 'error');
+    }
   },
 
   openCharacterModal(char) {
@@ -781,6 +871,17 @@ const ChatManager = {
     const ctxEl = document.getElementById('char-context-messages');
     if (ctxEl) ctxEl.value = '20';
 
+    // Reset avatar
+    const charAvatarInput = document.getElementById('char-avatar');
+    if (charAvatarInput) charAvatarInput.value = '';
+    const charAvatarPreview = document.getElementById('char-avatar-preview');
+    if (charAvatarPreview) {
+      charAvatarPreview.innerHTML = '';
+      charAvatarPreview.style.backgroundImage = '';
+    }
+    const charAvatarFileInput = document.getElementById('char-avatar-file');
+    if (charAvatarFileInput) charAvatarFileInput.value = '';
+
     if (char) {
       if (title) title.textContent = 'Editar Personagem';
       const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val ?? ''; };
@@ -801,8 +902,18 @@ const ChatManager = {
       setCheck('char-long-memory', char.long_memory);
       setCheck('char-auto-audio', char.auto_audio);
       setCheck('char-can-generate-images', char.can_generate_images);
+
+      // Restore avatar preview
+      if (charAvatarInput) charAvatarInput.value = char.avatar || '';
+      if (charAvatarPreview && char.avatar) {
+        charAvatarPreview.style.backgroundImage = `url('${escHtml(char.avatar)}')`;
+        charAvatarPreview.innerHTML = '';
+      } else if (charAvatarPreview) {
+        charAvatarPreview.innerHTML = escHtml((char.name || '?').slice(0, 2).toUpperCase());
+      }
     } else {
       if (title) title.textContent = 'Novo Personagem';
+      if (charAvatarPreview) charAvatarPreview.innerHTML = '📷';
     }
 
     // Reset to first tab
@@ -839,6 +950,7 @@ const ChatManager = {
       long_memory:         document.getElementById('char-long-memory')?.checked ? '1' : '0',
       auto_audio:          document.getElementById('char-auto-audio')?.checked ? '1' : '0',
       can_generate_images: document.getElementById('char-can-generate-images')?.checked ? '1' : '0',
+      avatar:              document.getElementById('char-avatar')?.value || '',
     };
 
     try {
@@ -861,7 +973,8 @@ const ChatManager = {
   },
 
   async deleteCharacter(char) {
-    if (!confirmAction(`Excluir "${char.name}"? Todas as mensagens serão apagadas.`)) return;
+    const confirmed = await confirmAction(`Excluir "${char.name}"? Todas as mensagens serão apagadas.`);
+    if (!confirmed) return;
 
     try {
       const data = await apiPost('api/characters.php', { action: 'delete', id: char.id });

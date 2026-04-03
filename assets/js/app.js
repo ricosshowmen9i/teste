@@ -44,21 +44,63 @@ async function apiPostFile(url, formData) {
 }
 
 // ── Toast notifications ───────────────────────────────────────────
-function showToast(message, type = 'info', duration = 3500) {
-  const container = document.getElementById('toast-container');
-  if (!container) return;
+function showToast(message, type = 'info', duration = 2500) {
+  if (typeof Swal === 'undefined') {
+    // Fallback if SweetAlert2 not loaded
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(30px)';
+      toast.style.transition = 'all .3s ease';
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
+    return;
+  }
 
-  const toast = document.createElement('div');
-  toast.className = `toast toast-${type}`;
-  toast.textContent = message;
-  container.appendChild(toast);
+  const iconMap = { success: 'success', error: 'error', warning: 'warning', info: 'info' };
+  const icon = iconMap[type] || 'info';
 
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateX(30px)';
-    toast.style.transition = 'all .3s ease';
-    setTimeout(() => toast.remove(), 300);
-  }, duration);
+  if (type === 'error') {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro!',
+      text: message,
+      confirmButtonColor: '#d33',
+    });
+  } else if (type === 'success') {
+    Swal.fire({
+      icon: 'success',
+      title: 'Sucesso!',
+      text: message,
+      timer: duration,
+      showConfirmButton: false,
+      position: 'center',
+      backdrop: true,
+    });
+  } else if (type === 'warning') {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Atenção',
+      text: message,
+      timer: duration,
+      showConfirmButton: false,
+      position: 'center',
+    });
+  } else {
+    Swal.fire({
+      icon: 'info',
+      title: 'Info',
+      text: message,
+      timer: duration,
+      showConfirmButton: false,
+      position: 'center',
+    });
+  }
 }
 
 // ── Modal helpers ─────────────────────────────────────────────────
@@ -86,8 +128,21 @@ function saveTheme(theme) {
 }
 
 // ── Confirm dialog ────────────────────────────────────────────────
-function confirmAction(message) {
-  return window.confirm(message);
+async function confirmAction(message) {
+  if (typeof Swal === 'undefined') {
+    return window.confirm(message);
+  }
+  const result = await Swal.fire({
+    icon: 'warning',
+    title: 'Tem certeza?',
+    text: message,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#aaa',
+    confirmButtonText: 'Sim, confirmar',
+    cancelButtonText: 'Cancelar',
+  });
+  return result.isConfirmed;
 }
 
 // ── Debounce ──────────────────────────────────────────────────────
@@ -173,7 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnLogout) {
     btnLogout.addEventListener('click', async () => {
-      if (!confirmAction('Deseja sair?')) return;
+      const confirmed = await confirmAction('Deseja sair?');
+      if (!confirmed) return;
       await apiPost('api/auth.php', { action: 'logout' });
       location.reload();
     });

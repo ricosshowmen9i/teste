@@ -39,7 +39,9 @@ $theme = $currentUser['theme'] ?? 'green';
   <meta name="description" content="What JUJU — Chat com personagens de IA">
   <title>What JUJU</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/app.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body<?= !$isLoggedIn ? ' class="login-page"' : '' ?>>
 
@@ -178,16 +180,31 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
   <!-- ── Header ──────────────────────────────────────────────────── -->
   <header id="main-header">
-    <div class="header-logo">What JUJU</div>
-    <div class="header-actions">
-      <button id="btn-contacts" title="Contatos">
-        💬 <span>Conversas</span>
+    <div class="header-left">
+      <button id="btn-profile" class="header-user-avatar" title="Meu Perfil">
+        <?php if (!empty($currentUser['avatar'])): ?>
+          <img src="<?= htmlspecialchars($currentUser['avatar']) ?>" alt="<?= htmlspecialchars($currentUser['name']) ?>">
+        <?php else: ?>
+          <span><?= htmlspecialchars(mb_substr($currentUser['name'] ?? 'U', 0, 1)) ?></span>
+        <?php endif; ?>
       </button>
-      <button id="btn-profile" title="Perfil">👤</button>
+      <div class="header-app-name">What JUJU</div>
+    </div>
+    <div class="header-actions">
+      <button id="btn-contacts" title="Conversas" class="header-btn">
+        <i class="fa-solid fa-users" style="color:#4CAF50"></i>
+        <span class="header-btn-label">Conversas</span>
+      </button>
       <?php if ($currentUser['role'] === 'admin'): ?>
-      <button id="btn-admin" title="Administração">⚙️</button>
+      <button id="btn-admin" title="Administração" class="header-btn">
+        <i class="fa-solid fa-cog" style="color:#FF9800"></i>
+        <span class="header-btn-label">Admin</span>
+      </button>
       <?php endif; ?>
-      <button id="btn-logout" title="Sair" style="background:rgba(255,0,0,.15);">🚪</button>
+      <button id="btn-logout" title="Sair" class="header-btn header-btn-logout">
+        <i class="fa-solid fa-sign-out-alt" style="color:#f44336"></i>
+        <span class="header-btn-label">Sair</span>
+      </button>
     </div>
   </header>
 
@@ -225,13 +242,6 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
         <!-- Messages rendered here by JS -->
       </div>
 
-      <!-- Typing indicator -->
-      <div id="typing-indicator">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-
       <!-- Scroll to bottom -->
       <button id="scroll-bottom-btn" title="Ir para o final">⬇️</button>
 
@@ -244,7 +254,9 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
       <!-- Input Bar -->
       <div id="input-bar">
         <button class="input-bar-btn" id="btn-emoji" title="Emoji">😊</button>
-        <button class="input-bar-btn" id="btn-attach" title="Anexar arquivo">📎</button>
+        <button class="input-bar-btn" id="btn-attach" title="Anexar arquivo">
+          <i class="fa-solid fa-paperclip" style="color:#795548"></i>
+        </button>
         <input type="file" id="file-input" style="display:none"
           accept="image/*,.pdf,.txt,.docx,.csv,.json,.md,.js,.php,.py,.html,.css">
 
@@ -252,8 +264,12 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
           <textarea id="message-input" placeholder="Digite uma mensagem…" rows="1"></textarea>
         </div>
 
-        <button class="input-bar-btn" id="btn-voice" title="Entrada de voz">🎙️</button>
-        <button class="send-btn" id="send-btn" title="Enviar">➤</button>
+        <button class="input-bar-btn" id="btn-voice" title="Entrada de voz">
+          <i class="fa-solid fa-microphone" style="color:#673AB7"></i>
+        </button>
+        <button class="send-btn" id="send-btn" title="Enviar">
+          <i class="fa-solid fa-paper-plane" style="color:#fff"></i>
+        </button>
       </div>
 
     </div><!-- /chat-view -->
@@ -293,6 +309,14 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
     </div>
 
     <input type="hidden" id="char-id">
+    <input type="hidden" id="char-avatar">
+
+    <!-- Character Avatar Upload Area -->
+    <div class="char-avatar-upload-wrap">
+      <div id="char-avatar-preview" class="char-avatar-upload-area" title="Clique para adicionar foto">📷</div>
+      <input type="file" id="char-avatar-file" accept="image/*" style="display:none">
+      <div style="font-size:.78rem;color:var(--text-muted);margin-top:4px;">Clique para adicionar foto</div>
+    </div>
 
     <!-- Tabs -->
     <div class="char-tabs">
@@ -495,15 +519,20 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
     <!-- Sidebar -->
     <div class="admin-sidebar">
-      <div class="admin-sidebar-logo">⚙️ ADMIN</div>
+      <div class="admin-sidebar-logo">
+        <i class="fa-solid fa-cog" style="color:#FF9800"></i> ADMIN
+      </div>
       <div class="admin-nav-item active" data-panel="stats">
-        📊 <span class="nav-label">Dashboard</span>
+        <i class="fa-solid fa-chart-bar" style="color:#4CAF50"></i>
+        <span class="nav-label">Dashboard</span>
       </div>
       <div class="admin-nav-item" data-panel="config">
-        🤖 <span class="nav-label">Config IA</span>
+        <i class="fa-solid fa-robot" style="color:#2196F3"></i>
+        <span class="nav-label">Config IA</span>
       </div>
       <div class="admin-nav-item" data-panel="users">
-        👥 <span class="nav-label">Usuários</span>
+        <i class="fa-solid fa-users" style="color:#FF9800"></i>
+        <span class="nav-label">Usuários</span>
       </div>
     </div>
 
@@ -792,10 +821,20 @@ const ProfileManager = {
       const data = await apiPostFile('api/profile.php', fd);
       if (data.error) { showToast(data.error, 'error'); return; }
 
+      const avatarUrl = data.avatar + '?t=' + Date.now();
+
+      // Update profile modal avatar
       const img = document.getElementById('profile-avatar-img');
       const ini = document.getElementById('profile-avatar-initials');
-      if (img) { img.src = data.avatar + '?t=' + Date.now(); img.style.display = 'block'; }
+      if (img) { img.src = avatarUrl; img.style.display = 'block'; }
       if (ini) ini.style.display = 'none';
+
+      // Update header user avatar
+      const headerBtn = document.getElementById('btn-profile');
+      if (headerBtn) {
+        headerBtn.innerHTML = `<img src="${escHtml(data.avatar)}?t=${Date.now()}" alt="avatar" style="width:100%;height:100%;object-fit:cover;">`;
+      }
+
       window.SETE_USER.avatar = data.avatar;
       showToast('Avatar atualizado!', 'success');
     } catch (e) {

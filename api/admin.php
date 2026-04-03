@@ -12,13 +12,22 @@ if (empty($_SESSION['user_id'])) {
     exit;
 }
 
-if (empty($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+$pdo    = getDB();
+$userId = (int)$_SESSION['user_id'];
+
+// Verify role from database (not just session)
+$roleCheck = $pdo->prepare("SELECT role FROM users WHERE id = ? AND active = 1");
+$roleCheck->execute([$userId]);
+$userRow = $roleCheck->fetch();
+
+if (!$userRow || $userRow['role'] !== 'admin') {
     http_response_code(403);
     echo json_encode(['error' => 'Acesso negado.']);
     exit;
 }
 
-$pdo    = getDB();
+// Update session with current role
+$_SESSION['role'] = $userRow['role'];
 $method = $_SERVER['REQUEST_METHOD'];
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 

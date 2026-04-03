@@ -129,7 +129,7 @@ function initSchema(PDO $pdo): void {
     if (!$cfgExists) {
         $pdo->exec("
             INSERT INTO ai_config (provider, api_key, base_url, model, model_mode)
-            VALUES ('openrouter', '', 'https://openrouter.ai/api/v1', 'google/gemma-3-1b-it:free', 'random')
+            VALUES ('openrouter', '', 'https://openrouter.ai/api/v1', 'google/gemma-3-27b-it:free', 'random')
         ");
     }
 

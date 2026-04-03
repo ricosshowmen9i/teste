@@ -71,13 +71,19 @@ if ($method === 'POST') {
         }
 
         $file = $_FILES['avatar'];
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
-        $mime = $finfo->file($file['tmp_name']);
-        $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
-        if (!in_array($mime, $allowed, true)) {
+        if ($file['error'] !== UPLOAD_ERR_OK) {
             http_response_code(400);
-            echo json_encode(['error' => 'Tipo de arquivo não permitido.']);
+            echo json_encode(['error' => 'Erro no upload: ' . $file['error']]);
+            exit;
+        }
+
+        $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $allowedExts, true)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Tipo de arquivo não permitido. Use jpg, jpeg, png, gif ou webp.']);
             exit;
         }
 
@@ -87,13 +93,19 @@ if ($method === 'POST') {
             exit;
         }
 
-        $ext      = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $filename = 'avatar_' . $userId . '_' . uniqid() . '.' . strtolower($ext);
+        $safeExt  = preg_replace('/[^a-z0-9]/', '', $ext);
+        $filename = 'avatar_' . $userId . '_' . uniqid() . '.' . $safeExt;
         $destDir  = __DIR__ . '/../uploads/avatars/';
         $dest     = $destDir . $filename;
 
         if (!is_dir($destDir)) {
             mkdir($destDir, 0755, true);
+        }
+
+        // Also ensure files dir exists
+        $filesDir = __DIR__ . '/../uploads/files/';
+        if (!is_dir($filesDir)) {
+            mkdir($filesDir, 0755, true);
         }
 
         if (!move_uploaded_file($file['tmp_name'], $dest)) {

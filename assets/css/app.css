@@ -255,29 +255,72 @@ body.login-page {
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  height: 58px;
+  height: 60px;
   background: var(--header-bg);
   color: var(--header-text);
   flex-shrink: 0;
-  box-shadow: 0 2px 8px var(--shadow);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  border-radius: 0 0 16px 16px;
   z-index: 10;
 }
 
-.header-logo {
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-app-name {
   font-size: 1.4rem;
   font-weight: 800;
   letter-spacing: 3px;
   color: var(--header-text);
 }
 
+.header-user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,.35);
+  cursor: pointer;
+  transition: border-color var(--transition), transform var(--transition);
+  padding: 0;
+}
+
+.header-user-avatar:hover {
+  border-color: rgba(255,255,255,.7);
+  transform: scale(1.05);
+}
+
+.header-user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header-user-avatar span {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
 .header-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
 }
 
-.header-actions button {
-  padding: 7px 14px;
+.header-btn {
+  padding: 7px 13px;
   border-radius: 20px;
   background: rgba(255,255,255,.12);
   color: var(--header-text);
@@ -286,10 +329,12 @@ body.login-page {
   transition: background var(--transition);
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
-.header-actions button:hover { background: rgba(255,255,255,.22); }
+.header-btn:hover { background: rgba(255,255,255,.22); }
+
+.header-btn-label { font-size: .82rem; }
 
 /* ── Chat Area ───────────────────────────────────────────────────── */
 #chat-area {
@@ -543,27 +588,42 @@ body.login-page {
   50% { opacity: 0; }
 }
 
-/* ── Typing Indicator ────────────────────────────────────────────── */
-#typing-indicator {
-  display: none;
-  align-self: flex-start;
-  padding: 8px 14px;
-  background: var(--bubble-ai);
-  border-radius: 0 8px 8px 8px;
-  box-shadow: 0 1px 2px var(--shadow);
-  margin-bottom: 6px;
+/* ── Typing Indicator (bubble on AI side) ────────────────────────── */
+.typing-bubble {
+  padding: 10px 16px !important;
+  max-width: 110px;
 }
 
-#typing-indicator.visible { display: flex; gap: 4px; align-items: center; }
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
-.typing-dot {
+.typing-text {
+  font-size: .78rem;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.typing-indicator .dot {
   width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: bounce 1.4s infinite;
+  flex-shrink: 0;
+}
+
+.typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
   height: 8px;
   border-radius: 50%;
   background: var(--text-muted);
   animation: bounce .8s ease infinite;
 }
 
+/* legacy - kept for fallback */
 .typing-dot:nth-child(2) { animation-delay: .16s; }
 .typing-dot:nth-child(3) { animation-delay: .32s; }
 
@@ -1483,3 +1543,96 @@ body.login-page {
 .justify-between { justify-content: space-between; }
 .gap-2 { gap: 8px; }
 .gap-3 { gap: 16px; }
+
+/* ── Character Avatar Upload Area ────────────────────────────────── */
+.char-avatar-upload-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 20px 8px;
+  border-bottom: 1px solid var(--border);
+  background: var(--sidebar-bg);
+}
+
+.char-avatar-upload-area {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  border: 3px dashed var(--text-muted);
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.char-avatar-upload-area:hover {
+  border-color: var(--accent);
+  transform: scale(1.04);
+}
+
+/* ── Modern Modals ───────────────────────────────────────────────── */
+.modal-box {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+#modal-character .modal-box,
+#modal-profile .modal-box,
+#user-modal-overlay .modal-box {
+  border-radius: 16px;
+}
+
+/* ── Modern Buttons ──────────────────────────────────────────────── */
+.btn {
+  border-radius: 12px;
+  padding: 9px 18px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  border-radius: 12px;
+}
+
+/* ── Admin Modern ────────────────────────────────────────────────── */
+.admin-sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-nav-item {
+  border-radius: 10px;
+  margin: 2px 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.stat-card {
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover { transform: translateY(-2px); }
+
+.data-table th, .data-table td {
+  transition: background 0.15s ease;
+}
+
+/* ── Input / Form modern ─────────────────────────────────────────── */
+.form-control {
+  border-radius: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ── Mobile header labels hide on small ─────────────────────────── */
+@media (max-width: 480px) {
+  .header-btn-label { display: none; }
+  .header-app-name { font-size: 1.1rem; letter-spacing: 1px; }
+}
