@@ -390,53 +390,75 @@ const ChatManager = {
     let streamEl = null;
     let fullText = '';
 
-    this.eventSource = new EventSource(url);
+    // Use fetch + ReadableStream for reliable SSE streaming
+    this.eventSource = true; // mark as streaming in progress
 
-    this.eventSource.onopen = () => {
+    try {
+      const response = await fetch(url, { credentials: 'same-origin' });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const reader  = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer    = '';
+
       this.hideTyping();
       streamEl = this.startStreamMessage();
-    };
 
-    this.eventSource.onmessage = (e) => {
-      if (e.data === '[DONE]') {
-        this.eventSource.close();
-        this.eventSource = null;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop(); // keep incomplete last line
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed || !trimmed.startsWith('data: ')) continue;
+
+          const payload = trimmed.slice(6);
+          if (payload === '[DONE]') {
+            this.finalizeStreamMessage(streamEl, fullText);
+            this.updateCharacterLastMessage(this.activeCharacter.id, fullText);
+            this.eventSource = null;
+            return;
+          }
+
+          try {
+            const parsed = JSON.parse(payload);
+            if (parsed.error) {
+              showToast(parsed.error, 'error');
+              this.eventSource = null;
+              return;
+            }
+            if (parsed.content) {
+              fullText += parsed.content;
+              if (streamEl) {
+                streamEl.innerHTML = parseMarkdown(fullText) + '<span class="streaming-cursor" style="display:inline-block"></span>';
+                this.scrollToBottom();
+              }
+            }
+          } catch (_) {}
+        }
+      }
+
+      // Stream ended without [DONE]
+      if (fullText) {
         this.finalizeStreamMessage(streamEl, fullText);
         this.updateCharacterLastMessage(this.activeCharacter.id, fullText);
-        return;
       }
-
-      try {
-        const parsed = JSON.parse(e.data);
-        if (parsed.error) {
-          this.hideTyping();
-          showToast(parsed.error, 'error');
-          this.eventSource.close();
-          this.eventSource = null;
-          return;
-        }
-        if (parsed.content) {
-          fullText += parsed.content;
-          if (streamEl) {
-            streamEl.innerHTML = parseMarkdown(fullText) + '<span class="streaming-cursor" style="display:inline-block"></span>';
-            this.scrollToBottom();
-          }
-        }
-      } catch (_) {}
-    };
-
-    this.eventSource.onerror = () => {
+    } catch (e) {
       this.hideTyping();
-      if (this.eventSource) {
-        this.eventSource.close();
-        this.eventSource = null;
-      }
       if (!fullText) {
         showToast('Erro na conexão com a IA.', 'error');
-      } else {
+      } else if (streamEl) {
         this.finalizeStreamMessage(streamEl, fullText);
       }
-    };
+    } finally {
+      this.eventSource = null;
+    }
   },
 
   updateCharacterLastMessage(charId, msg) {
