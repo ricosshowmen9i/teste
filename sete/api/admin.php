@@ -154,8 +154,9 @@ function handleGetAI(): void {
 }
 
 function handleUpdateProfile(array $user): void {
-    $name   = trim(filter_input(INPUT_POST, 'name',   FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
-    $status = trim(filter_input(INPUT_POST, 'status', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
+    // Usa FILTER_DEFAULT para não codificar entidades HTML no banco — a saída é escapada no HTML
+    $name   = trim(filter_input(INPUT_POST, 'name',   FILTER_DEFAULT) ?? '');
+    $status = trim(filter_input(INPUT_POST, 'status', FILTER_DEFAULT) ?? '');
     $avatar = trim(filter_input(INPUT_POST, 'avatar', FILTER_SANITIZE_URL) ?? '');
 
     if (!$name) {

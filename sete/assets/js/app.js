@@ -79,9 +79,7 @@ const App = (() => {
     if (!content && fileUrl) content = fileName || 'Arquivo';
 
     $input.val('').css('height', 'auto');
-    pendingFileUrl  = null;
-    pendingFileName = null;
-    pendingFileType = 'text';
+    clearPendingFile();
 
     // Exibe mensagem do usuário imediatamente
     appendUserMessage(content, msgType, fileUrl, fileName);
@@ -481,6 +479,20 @@ const App = (() => {
     // Delegado para Contacts.js
   }
 
+  // ── Arquivo pendente (upload antes de enviar) ─────────────
+  function setPendingFile(url, name, type) {
+    pendingFileUrl  = url;
+    pendingFileName = name;
+    pendingFileType = type || 'file';
+  }
+
+  function clearPendingFile() {
+    pendingFileUrl  = null;
+    pendingFileName = null;
+    pendingFileType = 'text';
+    $('#pending-file-preview').remove();
+  }
+
   // ── API pública ───────────────────────────────────────────
   return {
     init,
@@ -492,6 +504,8 @@ const App = (() => {
     formatTime,
     escHtml,
     scrollToBottom,
+    setPendingFile,
+    clearPendingFile,
     get currentConversationId() { return currentConversationId; },
     get currentCharacter()      { return currentCharacter; },
   };

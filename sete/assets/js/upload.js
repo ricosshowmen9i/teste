@@ -47,10 +47,8 @@ const Upload = (() => {
 
   // ── Configura arquivo pendente na input bar ───────────────
   function setPendingFile(url, name, type) {
-    // Expõe para app.js via variáveis globais temporárias
-    App._pendingFileUrl  = url;
-    App._pendingFileName = name;
-    App._pendingFileType = type || 'file';
+    // Delega ao App para que sendMessage() encontre o arquivo
+    App.setPendingFile(url, name, type || 'file');
 
     // Mostra preview acima da input area (antes de #input-bar)
     const icon = type === 'image' ? 'fa-image' : 'fa-file';
@@ -69,10 +67,7 @@ const Upload = (() => {
   }
 
   function clearPendingFile() {
-    App._pendingFileUrl  = null;
-    App._pendingFileName = null;
-    App._pendingFileType = 'text';
-    $('#pending-file-preview').remove();
+    App.clearPendingFile();
   }
 
   // ── Barra de progresso ────────────────────────────────────
@@ -165,33 +160,5 @@ const Upload = (() => {
     });
   });
 
-  // ── Patch no App para usar variáveis de arquivo pendente ──
-  // (integração com app.js sendMessage)
-  const origSendMessage = window._appSendHook;
-
   return { uploadFile, downloadFile, readFileForAI, clearPendingFile };
 })();
-
-// ── Patch em App.js para pegar arquivo pendente ──────────────
-// Sobrescreve sendMessage para incluir pendingFile
-$(document).ready(() => {
-  const $input  = $('#message-input');
-  const $sendBtn= $('#send-btn');
-
-  // Intercepta evento de envio para injetar pendingFile
-  function patchedSend() {
-    if (App._pendingFileUrl) {
-      // Injeta no App via propriedades internas
-      // Como App é IIFE fechado, usamos o evento de input customizado
-      $input.data('pendingFileUrl',  App._pendingFileUrl);
-      $input.data('pendingFileName', App._pendingFileName);
-      $input.data('pendingFileType', App._pendingFileType);
-      Upload.clearPendingFile();
-    }
-  }
-
-  $sendBtn.on('click.upload', patchedSend);
-  $input.on('keydown.upload', e => {
-    if (e.key === 'Enter' && !e.shiftKey) patchedSend();
-  });
-});
