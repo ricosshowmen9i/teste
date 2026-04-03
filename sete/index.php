@@ -872,6 +872,9 @@ $(document).ready(function() {
         } else {
           App.showToast(data.error || 'Erro no upload', 'error');
         }
+      },
+      error: function() {
+        App.showToast('Erro ao enviar foto', 'error');
       }
     });
   });
@@ -893,6 +896,9 @@ $(document).ready(function() {
       } else {
         App.showToast(data.error || 'Erro ao salvar', 'error');
       }
+    }).fail(function() {
+      $btn.removeClass('loading');
+      App.showToast('Erro de conexão ao salvar perfil', 'error');
     });
   });
 

@@ -74,7 +74,8 @@ function handleGet(array $user): void {
 function handleCreate(array $user): void {
     $data = extractCharacterData();
 
-    if (!$data['name']) {
+    // Os parâmetros PDO usam prefixo ':' — verifica a chave correta
+    if (!$data[':name']) {
         jsonResponse(['error' => 'Nome é obrigatório'], 400);
     }
 
@@ -212,7 +213,7 @@ function extractCharacterData(): array {
     }
 
     return [
-        ':name'          => $str('name'),
+        ':name'          => trim(filter_input(INPUT_POST, 'name', FILTER_DEFAULT) ?? ''),
         ':avatar'        => $avatar,
         ':desc'          => $str('description', FILTER_DEFAULT),
         ':personality'   => filter_input(INPUT_POST, 'personality',   FILTER_DEFAULT) ?? '',
