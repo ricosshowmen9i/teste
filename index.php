@@ -36,8 +36,8 @@ $theme = $currentUser['theme'] ?? 'green';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="SETE — Chat com personagens de IA">
-  <title>SETE</title>
+  <meta name="description" content="What JUJU — Chat com personagens de IA">
+  <title>What JUJU</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
   <link rel="stylesheet" href="assets/css/app.css">
 </head>
@@ -47,7 +47,7 @@ $theme = $currentUser['theme'] ?? 'green';
 <!-- ═══ LOGIN PAGE ═══════════════════════════════════════════════ -->
 <div class="login-card">
   <div class="login-logo">
-    <h1>SETE</h1>
+    <h1>What JUJU</h1>
     <p>Converse com personagens de IA</p>
   </div>
   <form class="login-form" id="login-form" novalidate>
@@ -105,7 +105,7 @@ document.getElementById('login-form').addEventListener('submit', async function(
 <!-- ═══ FORCE PASSWORD CHANGE ════════════════════════════════════ -->
 <div class="force-pw-card" style="margin:auto;margin-top:10vh;">
   <div class="login-logo">
-    <h1>SETE</h1>
+    <h1>What JUJU</h1>
     <p>Altere sua senha para continuar</p>
   </div>
   <form id="force-pw-form" class="login-form" novalidate>
@@ -178,7 +178,7 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
   <!-- ── Header ──────────────────────────────────────────────────── -->
   <header id="main-header">
-    <div class="header-logo">SETE</div>
+    <div class="header-logo">What JUJU</div>
     <div class="header-actions">
       <button id="btn-contacts" title="Contatos">
         💬 <span>Conversas</span>
@@ -197,7 +197,7 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
     <!-- Welcome -->
     <div id="welcome-screen">
       <div class="welcome-icon">💬</div>
-      <h2>Bem-vindo ao SETE</h2>
+      <h2>Bem-vindo ao What JUJU</h2>
       <p>Selecione um personagem em <strong>Conversas</strong> para começar a conversar, ou crie um novo.</p>
       <button class="btn btn-primary" onclick="openModal('modal-contacts'); ChatManager.loadCharacters();" style="margin-top:8px;">
         💬 Abrir Conversas

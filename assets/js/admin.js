@@ -138,7 +138,7 @@ const AdminManager = {
 
   updateProviderDefaults(provider, updateFields) {
     const defaults = {
-      openrouter: { url: 'https://openrouter.ai/api/v1',   model: 'openai/gpt-3.5-turbo' },
+      openrouter: { url: 'https://openrouter.ai/api/v1',   model: 'google/gemma-3-1b-it:free' },
       groq:       { url: 'https://api.groq.com/openai/v1', model: 'llama3-8b-8192' },
       openai:     { url: 'https://api.openai.com/v1',       model: 'gpt-3.5-turbo' },
       mistral:    { url: 'https://api.mistral.ai/v1',       model: 'mistral-small-latest' },
@@ -151,13 +151,19 @@ const AdminManager = {
     if (!d) return;
 
     const suggestions = {
-      openrouter: ['openai/gpt-3.5-turbo', 'meta-llama/llama-3-8b-instruct:free', 'mistralai/mistral-7b-instruct:free'],
+      openrouter: [
+        'google/gemma-3-1b-it:free',
+        'deepseek/deepseek-r1-0528:free',
+        'meta-llama/llama-4-scout:free',
+        'qwen/qwen-2.5-7b-instruct:free',
+        'openai/gpt-3.5-turbo',
+      ],
       groq:       ['llama3-8b-8192', 'mixtral-8x7b-32768', 'gemma-7b-it'],
       openai:     ['gpt-3.5-turbo', 'gpt-4o-mini', 'gpt-4o'],
       mistral:    ['mistral-small-latest', 'open-mistral-7b', 'mistral-medium-latest'],
       together:   ['togethercomputer/llama-2-7b-chat', 'mistralai/Mixtral-8x7B-Instruct-v0.1'],
       ollama:     ['llama3', 'mistral', 'gemma', 'phi3'],
-      gemini:     ['gemini-1.5-flash', 'gemini-1.0-pro'],
+      gemini:     ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.0-pro'],
     };
 
     const datalist = document.getElementById('model-suggestions');
@@ -214,7 +220,7 @@ const AdminManager = {
       // Save first
       await this.saveConfig();
 
-      const data = await apiPost('api/admin.php', { action: 'test_connection' });
+      const data = await apiPost('api/admin.php', { action: 'test_ai' });
 
       if (data.success) {
         showToast('✅ ' + (data.message || 'Conexão bem sucedida!'), 'success', 4000);
