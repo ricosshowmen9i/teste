@@ -8,9 +8,22 @@ require_once dirname(__DIR__) . '/config.php';
 header('Content-Type: application/json; charset=utf-8');
 
 $user   = requireLogin();
-$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_SPECIAL_CHARS)
-       ?? filter_input(INPUT_GET,  'action', FILTER_SANITIZE_SPECIAL_CHARS)
-       ?? '';
+
+// Suporta JSON body (fetch/axios), form-encoded ($.post) e query string ($.get)
+$jsonInput = null;
+$rawBody   = file_get_contents('php://input');
+if ($rawBody) {
+    $jsonInput = json_decode($rawBody, true);
+}
+
+$action = '';
+if ($jsonInput && isset($jsonInput['action'])) {
+    $action = $jsonInput['action'];
+} else {
+    $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_SPECIAL_CHARS)
+           ?? filter_input(INPUT_GET,  'action', FILTER_SANITIZE_SPECIAL_CHARS)
+           ?? '';
+}
 
 switch ($action) {
     case 'list':
@@ -20,16 +33,16 @@ switch ($action) {
         handleGet($user);
         break;
     case 'create':
-        handleCreate($user);
+        handleCreate($user, $jsonInput);
         break;
     case 'update':
-        handleUpdate($user);
+        handleUpdate($user, $jsonInput);
         break;
     case 'delete':
-        handleDelete($user);
+        handleDelete($user, $jsonInput);
         break;
     case 'open_conversation':
-        handleOpenConversation($user);
+        handleOpenConversation($user, $jsonInput);
         break;
     default:
         jsonResponse(['error' => 'Ação inválida'], 400);
@@ -71,10 +84,9 @@ function handleGet(array $user): void {
     jsonResponse(['success' => true, 'character' => $char]);
 }
 
-function handleCreate(array $user): void {
-    $data = extractCharacterData();
+function handleCreate(array $user, ?array $jsonInput = null): void {
+    $data = extractCharacterData($jsonInput);
 
-    // Os parâmetros PDO usam prefixo ':' — verifica a chave correta
     if (!$data[':name']) {
         jsonResponse(['error' => 'Nome é obrigatório'], 400);
     }
@@ -104,8 +116,8 @@ function handleCreate(array $user): void {
     jsonResponse(['success' => true, 'character_id' => $charId, 'conversation_id' => $convId]);
 }
 
-function handleUpdate(array $user): void {
-    $id   = (int)filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+function handleUpdate(array $user, ?array $jsonInput = null): void {
+    $id = (int)(($jsonInput['id'] ?? null) ?: filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT));
     if (!$id) {
         jsonResponse(['error' => 'ID obrigatório'], 400);
     }
@@ -117,7 +129,7 @@ function handleUpdate(array $user): void {
         jsonResponse(['error' => 'Personagem não encontrado'], 404);
     }
 
-    $data = extractCharacterData();
+    $data = extractCharacterData($jsonInput);
 
     $stmt = $db->prepare("
         UPDATE characters SET
@@ -136,8 +148,8 @@ function handleUpdate(array $user): void {
     jsonResponse(['success' => true]);
 }
 
-function handleDelete(array $user): void {
-    $id = (int)filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+function handleDelete(array $user, ?array $jsonInput = null): void {
+    $id = (int)(($jsonInput['id'] ?? null) ?: filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT));
     if (!$id) {
         jsonResponse(['error' => 'ID obrigatório'], 400);
     }
@@ -155,8 +167,8 @@ function handleDelete(array $user): void {
     jsonResponse(['success' => true]);
 }
 
-function handleOpenConversation(array $user): void {
-    $charId = (int)filter_input(INPUT_POST, 'character_id', FILTER_SANITIZE_NUMBER_INT);
+function handleOpenConversation(array $user, ?array $jsonInput = null): void {
+    $charId = (int)(($jsonInput['character_id'] ?? null) ?: filter_input(INPUT_POST, 'character_id', FILTER_SANITIZE_NUMBER_INT));
     if (!$charId) {
         jsonResponse(['error' => 'character_id obrigatório'], 400);
     }
@@ -187,37 +199,44 @@ function handleOpenConversation(array $user): void {
 
 // ──────────────────────────────────────────────────────────────────────────────
 
-function extractCharacterData(): array {
-    $str = function(string $key, int $filter = FILTER_SANITIZE_SPECIAL_CHARS): string {
-        return trim(filter_input(INPUT_POST, $key, $filter) ?? '');
+function extractCharacterData(?array $jsonInput = null): array {
+    // Usa JSON body se disponível, senão fallback para $_POST
+    $src = (!empty($jsonInput)) ? $jsonInput : $_POST;
+
+    $str = function(string $key, string $default = '') use ($src): string {
+        return trim((string)($src[$key] ?? $default));
     };
 
-    $bool = function(string $key): int {
-        return filter_input(INPUT_POST, $key, FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
+    $bool = function(string $key) use ($src): int {
+        $v = $src[$key] ?? false;
+        if (is_bool($v)) return $v ? 1 : 0;
+        if (is_numeric($v)) return (int)$v ? 1 : 0;
+        $lower = strtolower((string)$v);
+        return in_array($lower, ['true', '1', 'yes', 'on']) ? 1 : 0;
     };
 
-    $float = function(string $key, float $default): float {
-        $v = filter_input(INPUT_POST, $key, FILTER_VALIDATE_FLOAT);
-        return ($v !== false && $v !== null) ? (float)$v : $default;
+    $float = function(string $key, float $default) use ($src): float {
+        $v = $src[$key] ?? null;
+        return ($v !== null && $v !== '') ? (float)$v : $default;
     };
 
-    $int = function(string $key, int $default): int {
-        $v = filter_input(INPUT_POST, $key, FILTER_VALIDATE_INT);
-        return ($v !== false && $v !== null) ? (int)$v : $default;
+    $int = function(string $key, int $default) use ($src): int {
+        $v = $src[$key] ?? null;
+        return ($v !== null && $v !== '') ? (int)$v : $default;
     };
 
-    // Avatar: só salva se foi enviado um novo valor (não sobrescreve com vazio)
-    $avatar = $str('avatar', FILTER_SANITIZE_URL);
+    // Avatar: só salva se foi enviado um novo valor
+    $avatar = $str('avatar');
     if (!$avatar) {
         $avatar = null;
     }
 
     return [
-        ':name'          => trim(filter_input(INPUT_POST, 'name', FILTER_DEFAULT) ?? ''),
+        ':name'          => $str('name'),
         ':avatar'        => $avatar,
-        ':desc'          => $str('description', FILTER_DEFAULT),
-        ':personality'   => filter_input(INPUT_POST, 'personality',   FILTER_DEFAULT) ?? '',
-        ':voice_example' => filter_input(INPUT_POST, 'voice_example', FILTER_DEFAULT) ?? '',
+        ':desc'          => $str('description'),
+        ':personality'   => $str('personality'),
+        ':voice_example' => $str('voice_example'),
         ':voice_type'    => $str('voice_type') ?: 'feminina_adulta',
         ':voice_speed'   => $float('voice_speed', 1.0),
         ':voice_pitch'   => $float('voice_pitch', 1.0),

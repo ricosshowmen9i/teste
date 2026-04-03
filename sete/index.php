@@ -860,7 +860,7 @@ $(document).ready(function() {
     if (!this.files[0]) return;
     const fd = new FormData();
     fd.append('avatar', this.files[0]);
-    fd.append('type', 'avatar');
+    // Não definir Content-Type — o browser define com boundary automaticamente
     $.ajax({
       url: 'api/upload.php', type: 'POST', data: fd,
       processData: false, contentType: false,
@@ -870,11 +870,15 @@ $(document).ready(function() {
           $('#profile-avatar-preview').html(`<img src="${data.url}" alt=""><div class="avatar-preview-overlay"><i class="fas fa-camera"></i></div>`);
           App.showToast('Foto atualizada!', 'success');
         } else {
-          App.showToast(data.error || 'Erro no upload', 'error');
+          console.error('[Profile] avatar upload error:', data);
+          App.showToast(data.error || 'Erro no upload da foto', 'error');
         }
       },
-      error: function() {
-        App.showToast('Erro ao enviar foto', 'error');
+      error: function(xhr) {
+        console.error('[Profile] avatar upload FAIL:', xhr.responseText);
+        let msg = 'Erro ao enviar foto';
+        try { msg = JSON.parse(xhr.responseText).error || msg; } catch(e) {}
+        App.showToast(msg, 'error');
       }
     });
   });
@@ -894,11 +898,13 @@ $(document).ready(function() {
         $('#profile-modal').removeClass('open');
         $('body').css('overflow', '');
       } else {
-        App.showToast(data.error || 'Erro ao salvar', 'error');
+        App.showToast(data.error || 'Erro ao salvar perfil', 'error');
       }
-    }).fail(function() {
+    }).fail(function(xhr) {
       $btn.removeClass('loading');
-      App.showToast('Erro de conexão ao salvar perfil', 'error');
+      let msg = 'Erro de conexão ao salvar perfil';
+      try { msg = JSON.parse(xhr.responseText).error || msg; } catch(e) {}
+      App.showToast(msg, 'error');
     });
   });
 
