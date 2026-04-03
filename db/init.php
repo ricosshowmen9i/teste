@@ -9,6 +9,10 @@ function getDB(): PDO {
     $dbDir  = __DIR__;
     $dbFile = $dbDir . '/juju.db';
 
+    if (!is_dir($dbDir)) {
+        mkdir($dbDir, 0755, true);
+    }
+
     try {
         $pdo = new PDO('sqlite:' . $dbFile);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -115,6 +119,9 @@ function initSchema(PDO $pdo): void {
             VALUES ('Admin', 'admin@sete.app', ?, 'admin', 1)
         ");
         $stmt->execute([$hash]);
+        $adminId = (int)$pdo->lastInsertId();
+    } else {
+        $adminId = (int)$adminExists['id'];
     }
 
     // Seed default ai_config
@@ -122,12 +129,12 @@ function initSchema(PDO $pdo): void {
     if (!$cfgExists) {
         $pdo->exec("
             INSERT INTO ai_config (provider, api_key, base_url, model, model_mode)
-            VALUES ('openrouter', '', 'https://openrouter.ai/api/v1', 'google/gemma-3-1b-it:free', 'fixed')
+            VALUES ('openrouter', '', 'https://openrouter.ai/api/v1', 'google/gemma-3-1b-it:free', 'random')
         ");
     }
 
-    // Seed pre-created characters for admin (user_id=1)
-    $charCount = $pdo->query("SELECT COUNT(*) FROM characters WHERE user_id=1")->fetchColumn();
+    // Seed pre-created characters for admin
+    $charCount = $pdo->query("SELECT COUNT(*) FROM characters WHERE user_id={$adminId}")->fetchColumn();
     if ((int)$charCount === 0) {
         $seedChars = [
             [
@@ -231,10 +238,11 @@ function initSchema(PDO $pdo): void {
         $insertChar = $pdo->prepare("
             INSERT INTO characters
                 (user_id, name, description, personality, voice_example, bubble_color, voice_type)
-            VALUES (1, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         ");
         foreach ($seedChars as $c) {
             $insertChar->execute([
+                $adminId,
                 $c['name'],
                 $c['description'],
                 $c['personality'],

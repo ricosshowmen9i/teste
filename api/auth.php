@@ -39,6 +39,29 @@ if ($action === 'login') {
         $pdo->prepare("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?")
             ->execute([$user['id']]);
 
+        // Copy default characters from admin for users who have none
+        $charCount = $pdo->query("SELECT COUNT(*) FROM characters WHERE user_id=" . (int)$user['id'])->fetchColumn();
+        if ((int)$charCount === 0) {
+            $adminRow = $pdo->query("SELECT id FROM users WHERE role='admin' ORDER BY id LIMIT 1")->fetch();
+            if ($adminRow) {
+                $adminId  = (int)$adminRow['id'];
+                $defaults = $pdo->prepare("SELECT * FROM characters WHERE user_id=?");
+                $defaults->execute([$adminId]);
+                $insertChar = $pdo->prepare("
+                    INSERT INTO characters (user_id, name, description, personality, voice_example, avatar, bubble_color, voice_enabled, voice_type, voice_speed, voice_pitch, elevenlabs_id, can_read_files, can_generate_images, long_memory, context_messages, auto_audio)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ");
+                foreach ($defaults->fetchAll() as $c) {
+                    $insertChar->execute([
+                        $user['id'], $c['name'], $c['description'], $c['personality'], $c['voice_example'],
+                        $c['avatar'], $c['bubble_color'], $c['voice_enabled'], $c['voice_type'], $c['voice_speed'],
+                        $c['voice_pitch'], $c['elevenlabs_id'], $c['can_read_files'], $c['can_generate_images'],
+                        $c['long_memory'], $c['context_messages'], $c['auto_audio'],
+                    ]);
+                }
+            }
+        }
+
         if ($user['force_password_change']) {
             echo json_encode(['force_change' => true]);
             exit;
