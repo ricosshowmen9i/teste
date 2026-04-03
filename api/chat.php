@@ -159,19 +159,27 @@ if (isset($_GET['stream'])) {
     // Append file content to message if applicable
     $userMessageContent = $message;
     if ($fileUrl && $character['can_read_files']) {
-        $filePath = __DIR__ . '/../' . ltrim($fileUrl, '/');
-        if (file_exists($filePath)) {
-            $fileMime = mime_content_type($filePath);
+        $basePath = realpath(__DIR__ . '/../');
+        $uploadsFilesPath = $basePath ? realpath($basePath . '/uploads/files') : false;
+        $candidatePath = $basePath ? realpath($basePath . '/' . ltrim($fileUrl, '/')) : false;
+
+        $safePath = $candidatePath !== false
+            && $uploadsFilesPath !== false
+            && strpos($candidatePath, $uploadsFilesPath . DIRECTORY_SEPARATOR) === 0
+            && is_file($candidatePath);
+
+        if ($safePath) {
+            $fileMime = mime_content_type($candidatePath);
             $contextContent = '';
 
             if (strpos($fileMime, 'image/') === 0) {
-                $raw = file_get_contents($filePath);
+                $raw = file_get_contents($candidatePath);
                 if ($raw !== false) {
                     $contextContent = '[imagem base64 omitida para contexto] ' . substr(base64_encode($raw), 0, 4000);
                 }
             } elseif ($fileMime === 'application/pdf') {
                 if (function_exists('shell_exec')) {
-                    $escaped = escapeshellarg($filePath);
+                    $escaped = escapeshellarg($candidatePath);
                     $pdfText = @shell_exec("pdftotext {$escaped} - 2>/dev/null");
                     if (is_string($pdfText) && trim($pdfText) !== '') {
                         $contextContent = trim($pdfText);
@@ -181,7 +189,7 @@ if (isset($_GET['stream'])) {
                     $contextContent = '[PDF enviado, sem extração de texto disponível no servidor]';
                 }
             } elseif (strpos($fileMime, 'text/') === 0 || in_array($fileMime, ['application/json', 'application/javascript'], true)) {
-                $raw = file_get_contents($filePath);
+                $raw = file_get_contents($candidatePath);
                 if ($raw !== false) {
                     $contextContent = $raw;
                 }

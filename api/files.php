@@ -34,6 +34,8 @@ if ($fullPath === false || $uploadsPath === false || strpos($fullPath, $uploadsP
     exit;
 }
 
+$uploadFilesPath = realpath($basePath . 'uploads/files');
+
 if (!file_exists($fullPath)) {
     http_response_code(404);
     echo json_encode(['error' => 'Arquivo não encontrado.']);
@@ -81,7 +83,11 @@ if ($isText) {
 
 if ($mime === 'application/pdf' || $ext === 'pdf') {
     $content = '';
-    if (function_exists('shell_exec')) {
+    $safePdfPath = $uploadFilesPath !== false
+        && strpos($fullPath, $uploadFilesPath . DIRECTORY_SEPARATOR) === 0
+        && is_file($fullPath);
+
+    if ($safePdfPath && function_exists('shell_exec')) {
         $escaped = escapeshellarg($fullPath);
         $raw = @shell_exec("pdftotext {$escaped} - 2>/dev/null");
         if (is_string($raw)) {
