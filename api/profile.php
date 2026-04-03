@@ -89,7 +89,12 @@ if ($method === 'POST') {
 
         $ext      = pathinfo($file['name'], PATHINFO_EXTENSION);
         $filename = 'avatar_' . $userId . '_' . uniqid() . '.' . strtolower($ext);
-        $dest     = __DIR__ . '/../uploads/files/' . $filename;
+        $destDir  = __DIR__ . '/../uploads/avatars/';
+        $dest     = $destDir . $filename;
+
+        if (!is_dir($destDir)) {
+            mkdir($destDir, 0755, true);
+        }
 
         if (!move_uploaded_file($file['tmp_name'], $dest)) {
             http_response_code(500);
@@ -97,7 +102,7 @@ if ($method === 'POST') {
             exit;
         }
 
-        $url = 'uploads/files/' . $filename;
+        $url = 'uploads/avatars/' . $filename;
         $pdo->prepare("UPDATE users SET avatar=? WHERE id=?")->execute([$url, $userId]);
 
         echo json_encode(['success' => true, 'avatar' => $url]);
