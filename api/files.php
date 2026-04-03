@@ -89,7 +89,7 @@ if ($mime === 'application/pdf' || $ext === 'pdf') {
 
     if ($isPdfPathSafe && function_exists('shell_exec')) {
         $escaped = escapeshellarg($fullPath);
-        $raw = @shell_exec("pdftotext {$escaped} - 2>/dev/null");
+        $raw = shell_exec("pdftotext {$escaped} - 2>/dev/null");
         if (is_string($raw)) {
             $content = trim($raw);
         }

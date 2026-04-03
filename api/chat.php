@@ -180,7 +180,7 @@ if (isset($_GET['stream'])) {
             } elseif ($fileMime === 'application/pdf') {
                 if (function_exists('shell_exec')) {
                     $escaped = escapeshellarg($candidatePath);
-                    $pdfText = @shell_exec("pdftotext {$escaped} - 2>/dev/null");
+                    $pdfText = shell_exec("pdftotext {$escaped} - 2>/dev/null");
                     if (is_string($pdfText) && trim($pdfText) !== '') {
                         $contextContent = trim($pdfText);
                     }
