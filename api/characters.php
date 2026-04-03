@@ -81,9 +81,10 @@ if ($method === 'POST') {
             $canReadFiles, $canGenImages, $longMemory, $ctxMessages, $autoAudio,
         ]);
 
-        $id   = $pdo->lastInsertId();
-        $char = $pdo->prepare("SELECT * FROM characters WHERE id = ?")->execute([$id]);
-        $char = $pdo->query("SELECT * FROM characters WHERE id = $id")->fetch();
+        $id     = $pdo->lastInsertId();
+        $stmt   = $pdo->prepare("SELECT * FROM characters WHERE id = ?");
+        $stmt->execute([$id]);
+        $char   = $stmt->fetch();
 
         echo json_encode(['success' => true, 'character' => $char]);
         exit;
@@ -151,8 +152,9 @@ if ($method === 'POST') {
             $fields['avatar'] ?: null, $id, $userId,
         ]);
 
-        $updated = $pdo->prepare("SELECT * FROM characters WHERE id = ?")->execute([$id]);
-        $updated = $pdo->query("SELECT * FROM characters WHERE id = $id")->fetch();
+        $updStmt = $pdo->prepare("SELECT * FROM characters WHERE id = ?");
+        $updStmt->execute([$id]);
+        $updated = $updStmt->fetch();
 
         echo json_encode(['success' => true, 'character' => $updated]);
         exit;

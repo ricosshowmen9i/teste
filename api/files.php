@@ -24,10 +24,11 @@ if (!$fileParam) {
 $fileParam = ltrim($fileParam, '/');
 $fileParam = str_replace(['../', '..\\', '..'], '', $fileParam);
 
-$basePath = __DIR__ . '/../';
-$fullPath = realpath($basePath . $fileParam);
+$basePath    = __DIR__ . '/../';
+$uploadsPath = realpath($basePath . 'uploads');
+$fullPath    = realpath($basePath . $fileParam);
 
-if ($fullPath === false || !str_starts_with($fullPath, realpath($basePath . 'uploads/'))) {
+if ($fullPath === false || $uploadsPath === false || !str_starts_with($fullPath, $uploadsPath . DIRECTORY_SEPARATOR)) {
     http_response_code(403);
     echo json_encode(['error' => 'Acesso negado.']);
     exit;

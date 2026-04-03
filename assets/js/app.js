@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Init modules if present
   if (window.ChatManager) ChatManager.init();
-  if (window.AudioManager) AudioManager.init && AudioManager.init();
+  if (window.AudioManager && typeof AudioManager.init === 'function') AudioManager.init();
 });
 
 // Export globals
