@@ -75,7 +75,7 @@ $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
 // Tipos permitidos baseados em extensão (mais confiável que MIME em hospedagem compartilhada)
 $allowedImageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-$allowedFileExts  = ['pdf', 'txt', 'md', 'csv', 'json', 'js', 'php', 'py', 'html', 'css', 'docx'];
+$allowedFileExts  = ['pdf', 'txt', 'md', 'csv', 'json', 'py', 'html', 'css', 'docx'];
 
 if ($isAvatar) {
     if (!in_array($ext, $allowedImageExts)) {
