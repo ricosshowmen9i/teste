@@ -27,6 +27,7 @@ if ($method === 'GET') {
         $userCount = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
         $charCount = $pdo->query("SELECT COUNT(*) FROM characters")->fetchColumn();
         $todayMsgs = $pdo->query("SELECT COUNT(*) FROM messages WHERE DATE(created_at) = DATE('now')")->fetchColumn();
+        $cfg = $pdo->query("SELECT provider, model FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
         $lastLogins = $pdo->query("
             SELECT name, email, last_login FROM users
             WHERE last_login IS NOT NULL
@@ -37,6 +38,8 @@ if ($method === 'GET') {
             'user_count'    => $userCount,
             'char_count'    => $charCount,
             'today_messages'=> $todayMsgs,
+            'provider'      => $cfg['provider'] ?? null,
+            'model'         => $cfg['model'] ?? null,
             'last_logins'   => $lastLogins,
         ]);
         exit;

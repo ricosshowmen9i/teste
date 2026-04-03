@@ -162,9 +162,33 @@ if (isset($_GET['stream'])) {
         $filePath = __DIR__ . '/../' . ltrim($fileUrl, '/');
         if (file_exists($filePath)) {
             $fileMime = mime_content_type($filePath);
-            if (strpos($fileMime, 'text/') === 0 || in_array($fileMime, ['application/json', 'application/pdf'], true)) {
-                $fileContent = file_get_contents($filePath);
-                $userMessageContent .= "\n\n[Arquivo: $fileName]\n" . substr($fileContent, 0, 4000);
+            $contextContent = '';
+
+            if (strpos($fileMime, 'image/') === 0) {
+                $raw = file_get_contents($filePath);
+                if ($raw !== false) {
+                    $contextContent = '[imagem base64 omitida para contexto] ' . substr(base64_encode($raw), 0, 4000);
+                }
+            } elseif ($fileMime === 'application/pdf') {
+                if (function_exists('shell_exec')) {
+                    $escaped = escapeshellarg($filePath);
+                    $pdfText = @shell_exec("pdftotext {$escaped} - 2>/dev/null");
+                    if (is_string($pdfText) && trim($pdfText) !== '') {
+                        $contextContent = trim($pdfText);
+                    }
+                }
+                if ($contextContent === '') {
+                    $contextContent = '[PDF enviado, sem extração de texto disponível no servidor]';
+                }
+            } elseif (strpos($fileMime, 'text/') === 0 || in_array($fileMime, ['application/json', 'application/javascript'], true)) {
+                $raw = file_get_contents($filePath);
+                if ($raw !== false) {
+                    $contextContent = $raw;
+                }
+            }
+
+            if ($contextContent !== '') {
+                $userMessageContent .= "\n\nO usuário enviou um arquivo chamado {$fileName} com o seguinte conteúdo: " . substr($contextContent, 0, 4000);
             }
         }
     }

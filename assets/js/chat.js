@@ -116,6 +116,7 @@ const ChatManager = {
           ${unreadHtml}
         </div>
         <div class="contact-item-actions">
+          <button class="btn-open-char btn btn-sm btn-outline" data-id="${char.id}" title="Abrir chat">💬</button>
           <button class="btn-edit-char btn btn-sm btn-outline" data-id="${char.id}" title="Editar">✏️</button>
           <button class="btn-delete-char btn btn-sm" data-id="${char.id}" title="Excluir">🗑️</button>
         </div>
@@ -123,6 +124,12 @@ const ChatManager = {
 
       item.addEventListener('click', (e) => {
         if (e.target.closest('.contact-item-actions')) return;
+        this.openChat(char);
+        closeModal('modal-contacts');
+      });
+
+      item.querySelector('.btn-open-char')?.addEventListener('click', (e) => {
+        e.stopPropagation();
         this.openChat(char);
         closeModal('modal-contacts');
       });
@@ -163,6 +170,13 @@ const ChatManager = {
     }
     if (headerName)   headerName.textContent = char.name;
     if (headerStatus) headerStatus.textContent = char.description || 'Personagem IA';
+
+    const typingAvatar = document.getElementById('typing-avatar');
+    if (typingAvatar) {
+      typingAvatar.innerHTML = char.avatar
+        ? `<img src="${escHtml(char.avatar)}" alt="${escHtml(char.name)}">`
+        : initials;
+    }
 
     // Load history
     await this.loadHistory(char.id);

@@ -79,6 +79,34 @@ if ($isText) {
     exit;
 }
 
+if ($mime === 'application/pdf' || $ext === 'pdf') {
+    $content = '';
+    if (function_exists('shell_exec')) {
+        $escaped = escapeshellarg($fullPath);
+        $raw = @shell_exec("pdftotext {$escaped} - 2>/dev/null");
+        if (is_string($raw)) {
+            $content = trim($raw);
+        }
+    }
+
+    if ($content !== '') {
+        echo json_encode([
+            'type'    => 'text',
+            'mime'    => $mime,
+            'content' => $content,
+        ]);
+        exit;
+    }
+
+    echo json_encode([
+        'type'    => 'pdf',
+        'mime'    => $mime,
+        'content' => '',
+        'note'    => 'PDF enviado. Não foi possível extrair texto automaticamente.',
+    ]);
+    exit;
+}
+
 echo json_encode([
     'type' => 'binary',
     'mime' => $mime,

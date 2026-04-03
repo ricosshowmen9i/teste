@@ -36,8 +36,8 @@ $theme = $currentUser['theme'] ?? 'green';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="SETE — Chat com personagens de IA">
-  <title>SETE</title>
+  <meta name="description" content="What JUJU — Chat com personagens de IA">
+  <title>What JUJU</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
   <link rel="stylesheet" href="assets/css/app.css">
 </head>
@@ -178,10 +178,10 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
   <!-- ── Header ──────────────────────────────────────────────────── -->
   <header id="main-header">
-    <div class="header-logo">SETE</div>
+    <div class="header-logo">What JUJU</div>
     <div class="header-actions">
       <button id="btn-contacts" title="Contatos">
-        💬 <span>Conversas</span>
+        👥 <span>Contatos</span>
       </button>
       <button id="btn-profile" title="Perfil">👤</button>
       <?php if ($currentUser['role'] === 'admin'): ?>
@@ -197,10 +197,10 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
     <!-- Welcome -->
     <div id="welcome-screen">
       <div class="welcome-icon">💬</div>
-      <h2>Bem-vindo ao SETE</h2>
-      <p>Selecione um personagem em <strong>Conversas</strong> para começar a conversar, ou crie um novo.</p>
+      <h2>Bem-vindo ao What JUJU</h2>
+      <p>Selecione um personagem em <strong>Contatos</strong> para começar a conversar, ou crie um novo.</p>
       <button class="btn btn-primary" onclick="openModal('modal-contacts'); ChatManager.loadCharacters();" style="margin-top:8px;">
-        💬 Abrir Conversas
+        👥 Abrir Contatos
       </button>
     </div>
 
@@ -227,9 +227,12 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
       <!-- Typing indicator -->
       <div id="typing-indicator">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
+        <div class="typing-avatar" id="typing-avatar">IA</div>
+        <div class="typing-dots">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
       </div>
 
       <!-- Scroll to bottom -->
@@ -264,7 +267,7 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 <div id="modal-contacts" class="modal-overlay">
   <div class="modal-box">
     <div class="modal-header">
-      <h2>💬 Conversas</h2>
+      <h2>👥 Contatos</h2>
       <button class="modal-close" onclick="closeModal('modal-contacts')">✕</button>
     </div>
 
@@ -530,6 +533,14 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
               <div class="stat-label">Msgs hoje</div>
               <div class="stat-value" id="stat-messages">—</div>
             </div>
+            <div class="stat-card">
+              <div class="stat-label">Provider atual</div>
+              <div class="stat-value" id="stat-provider" style="font-size:1.1rem;">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Modelo em uso</div>
+              <div class="stat-value" id="stat-model" style="font-size:1.1rem;">—</div>
+            </div>
           </div>
 
           <h3 style="margin-bottom:12px;font-size:.95rem;color:var(--text-secondary);">Últimos Acessos</h3>
@@ -570,7 +581,10 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
             <div class="form-group">
               <label for="cfg-api-key">API Key</label>
-              <input type="password" id="cfg-api-key" class="form-control" placeholder="sk-…">
+              <div style="display:flex;gap:8px;">
+                <input type="password" id="cfg-api-key" class="form-control" placeholder="sk-…">
+                <button class="btn btn-outline" id="btn-toggle-api-key" type="button">👁️</button>
+              </div>
             </div>
 
             <div class="form-group">
@@ -596,6 +610,9 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
               <button class="btn btn-primary" id="btn-save-config">💾 Salvar</button>
               <button class="btn btn-outline" id="btn-test-connection">🔌 Testar Conexão</button>
             </div>
+            <div id="ai-connection-status" style="margin-top:10px;font-size:.9rem;color:var(--text-secondary);">
+              🟡 Não testado
+            </div>
           </div>
         </div>
       </div>
@@ -613,16 +630,18 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
             <table class="data-table">
               <thead>
                 <tr>
+                  <th>Avatar</th>
                   <th>Nome</th>
                   <th>Email</th>
                   <th>Papel</th>
                   <th>Status</th>
+                  <th>Criado em</th>
                   <th>Último acesso</th>
                   <th>Ações</th>
                 </tr>
               </thead>
               <tbody id="users-tbody">
-                <tr><td colspan="6" class="text-center text-muted">Carregando…</td></tr>
+                <tr><td colspan="8" class="text-center text-muted">Carregando…</td></tr>
               </tbody>
             </table>
           </div>

@@ -68,6 +68,8 @@ const AdminManager = {
       set('stat-users', data.user_count);
       set('stat-chars', data.char_count);
       set('stat-messages', data.today_messages);
+      set('stat-provider', data.provider || '—');
+      set('stat-model', data.model || '—');
 
       const tbody = document.getElementById('last-logins-tbody');
       if (tbody) {
@@ -105,6 +107,7 @@ const AdminManager = {
       set('cfg-model-mode', cfg.model_mode || 'fixed');
 
       this.updateProviderDefaults(cfg.provider || 'openrouter', false);
+      this.setConnectionStatus('idle');
 
     } catch (e) {
       showToast('Erro ao carregar configuração.', 'error');
@@ -134,6 +137,34 @@ const AdminManager = {
       testBtn._bound = true;
       testBtn.addEventListener('click', () => this.testConnection());
     }
+
+    const toggleApiKeyBtn = document.getElementById('btn-toggle-api-key');
+    if (toggleApiKeyBtn && !toggleApiKeyBtn._bound) {
+      toggleApiKeyBtn._bound = true;
+      toggleApiKeyBtn.addEventListener('click', () => {
+        const input = document.getElementById('cfg-api-key');
+        if (!input) return;
+        input.type = input.type === 'password' ? 'text' : 'password';
+      });
+    }
+  },
+
+  setConnectionStatus(state, message = '') {
+    const el = document.getElementById('ai-connection-status');
+    if (!el) return;
+    if (state === 'testing') {
+      el.textContent = '🟡 Testando conexão...';
+      return;
+    }
+    if (state === 'success') {
+      el.textContent = `🟢 Conectado${message ? ' — ' + message : ''}`;
+      return;
+    }
+    if (state === 'error') {
+      el.textContent = `🔴 Erro${message ? ' — ' + message : ''}`;
+      return;
+    }
+    el.textContent = '🟡 Não testado';
   },
 
   updateProviderDefaults(provider, updateFields) {
@@ -209,6 +240,7 @@ const AdminManager = {
       btn.textContent = '⏳ Testando…';
       btn.disabled = true;
     }
+    this.setConnectionStatus('testing');
 
     try {
       // Save first
@@ -218,11 +250,14 @@ const AdminManager = {
 
       if (data.success) {
         showToast('✅ ' + (data.message || 'Conexão bem sucedida!'), 'success', 4000);
+        this.setConnectionStatus('success', data.message || '');
       } else {
         showToast('❌ ' + (data.error || 'Falha na conexão.'), 'error', 5000);
+        this.setConnectionStatus('error', data.error || '');
       }
     } catch (e) {
       showToast('Erro ao testar conexão.', 'error');
+      this.setConnectionStatus('error', 'Falha inesperada');
     } finally {
       if (btn) {
         btn.textContent = '🔌 Testar Conexão';
@@ -258,11 +293,16 @@ const AdminManager = {
     tbody.innerHTML = '';
     filtered.forEach(u => {
       const tr = document.createElement('tr');
+      const avatarCell = u.avatar
+        ? `<img src="${escHtml(u.avatar)}" alt="${escHtml(u.name)}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;">`
+        : `<div style="width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;">${escHtml((u.name || 'U').slice(0,2).toUpperCase())}</div>`;
       tr.innerHTML = `
+        <td>${avatarCell}</td>
         <td>${escHtml(u.name)}</td>
         <td>${escHtml(u.email)}</td>
         <td><span class="badge badge-${u.role}">${escHtml(u.role)}</span></td>
         <td><span class="badge badge-${u.active ? 'active' : 'inactive'}">${u.active ? 'Ativo' : 'Inativo'}</span></td>
+        <td>${escHtml((u.created_at || '').toString().slice(0, 16).replace('T', ' '))}</td>
         <td>${escHtml(u.last_login || '—')}</td>
         <td>
           <button class="btn btn-sm btn-outline btn-edit-user" data-id="${u.id}">✏️ Editar</button>
