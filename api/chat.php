@@ -162,7 +162,7 @@ if (isset($_GET['stream'])) {
         $filePath = __DIR__ . '/../' . ltrim($fileUrl, '/');
         if (file_exists($filePath)) {
             $fileMime = mime_content_type($filePath);
-            if (str_starts_with($fileMime, 'text/') || in_array($fileMime, ['application/json', 'application/pdf'], true)) {
+            if (strpos($fileMime, 'text/') === 0 || in_array($fileMime, ['application/json', 'application/pdf'], true)) {
                 $fileContent = file_get_contents($filePath);
                 $userMessageContent .= "\n\n[Arquivo: $fileName]\n" . substr($fileContent, 0, 4000);
             }
@@ -294,7 +294,7 @@ function streamOpenAICompatible(array $config, string $model, string $systemProm
             foreach ($lines as $line) {
                 $line = trim($line);
                 if (!$line || $line === 'data: [DONE]') continue;
-                if (str_starts_with($line, 'data: ')) {
+                if (strpos($line, 'data: ') === 0) {
                     $json = substr($line, 6);
                     $decoded = json_decode($json, true);
                     $content = $decoded['choices'][0]['delta']['content'] ?? '';
@@ -351,7 +351,7 @@ function streamGemini(array $config, string $model, string $systemPrompt, array 
             $buffer  = array_pop($lines);
             foreach ($lines as $line) {
                 $line = trim($line);
-                if (!$line || !str_starts_with($line, 'data: ')) continue;
+                if (!$line || strpos($line, 'data: ') !== 0) continue;
                 $json    = substr($line, 6);
                 $decoded = json_decode($json, true);
                 $content = $decoded['candidates'][0]['content']['parts'][0]['text'] ?? '';

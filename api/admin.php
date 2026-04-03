@@ -159,7 +159,7 @@ if ($method === 'POST') {
                 ->execute([$name, $email, $hash, $role]);
             echo json_encode(['success' => true, 'id' => $pdo->lastInsertId()]);
         } catch (PDOException $e) {
-            if (str_contains($e->getMessage(), 'UNIQUE')) {
+            if (strpos($e->getMessage(), 'UNIQUE') !== false) {
                 http_response_code(409);
                 echo json_encode(['error' => 'Email já cadastrado.']);
             } else {

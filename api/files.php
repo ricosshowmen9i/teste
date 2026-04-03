@@ -28,7 +28,7 @@ $basePath    = __DIR__ . '/../';
 $uploadsPath = realpath($basePath . 'uploads');
 $fullPath    = realpath($basePath . $fileParam);
 
-if ($fullPath === false || $uploadsPath === false || !str_starts_with($fullPath, $uploadsPath . DIRECTORY_SEPARATOR)) {
+if ($fullPath === false || $uploadsPath === false || strpos($fullPath, $uploadsPath . DIRECTORY_SEPARATOR) !== 0) {
     http_response_code(403);
     echo json_encode(['error' => 'Acesso negado.']);
     exit;
@@ -44,7 +44,7 @@ $finfo = new finfo(FILEINFO_MIME_TYPE);
 $mime  = $finfo->file($fullPath);
 $ext   = strtolower(pathinfo($fullPath, PATHINFO_EXTENSION));
 
-if (str_starts_with($mime, 'image/')) {
+if (strpos($mime, 'image/') === 0) {
     $data = base64_encode(file_get_contents($fullPath));
     echo json_encode([
         'type'    => 'image',
@@ -59,7 +59,7 @@ $textTypes = [
 ];
 $isText = false;
 foreach ($textTypes as $t) {
-    if (str_starts_with($mime, $t)) {
+    if (strpos($mime, $t) === 0) {
         $isText = true;
         break;
     }
