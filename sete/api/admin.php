@@ -38,18 +38,32 @@ switch ($action) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 function handleSaveAI(): void {
-    $provider   = trim(filter_input(INPUT_POST, 'provider',    FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
-    $apiKey     = trim(filter_input(INPUT_POST, 'api_key',     FILTER_DEFAULT) ?? '');
-    $baseUrl    = trim(filter_input(INPUT_POST, 'base_url',    FILTER_SANITIZE_URL) ?? '');
-    $model      = trim(filter_input(INPUT_POST, 'model',       FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
-    $modelMode  = trim(filter_input(INPUT_POST, 'model_mode',  FILTER_SANITIZE_SPECIAL_CHARS) ?? 'random');
-
-    $validProviders = ['openrouter', 'groq', 'gemini', 'ollama', 'openai', 'mistral', 'together'];
-    if (!in_array($provider, $validProviders)) {
-        jsonResponse(['error' => 'Provider inválido'], 400);
+    // Aceita JSON body (fetch/axios) OU form-encoded (jQuery $.post)
+    $input = json_decode(file_get_contents('php://input'), true);
+    if (empty($input)) {
+        $input = $_POST;
     }
 
-    $modelMode = in_array($modelMode, ['random', 'fixed']) ? $modelMode : 'random';
+    $validProviders = ['openrouter', 'groq', 'gemini', 'ollama', 'openai', 'mistral', 'together'];
+    $provider  = trim($input['provider']  ?? 'openrouter');
+    $apiKey    = trim($input['api_key']   ?? '');
+    $baseUrl   = trim($input['base_url']  ?? 'https://openrouter.ai/api/v1');
+    $model     = trim($input['model']     ?? 'mistralai/mistral-7b-instruct:free');
+    $modelMode = trim($input['model_mode'] ?? 'random');
+
+    // Usa padrão se provider inválido em vez de rejeitar
+    if (!in_array($provider, $validProviders)) {
+        $provider = 'openrouter';
+    }
+    if (!in_array($modelMode, ['random', 'fixed'])) {
+        $modelMode = 'random';
+    }
+    if (!$baseUrl) {
+        $baseUrl = 'https://openrouter.ai/api/v1';
+    }
+    if (!$model) {
+        $model = 'mistralai/mistral-7b-instruct:free';
+    }
 
     $db   = getDB();
     $stmt = $db->prepare("
@@ -65,6 +79,21 @@ function handleSaveAI(): void {
         ':model'      => $model,
         ':model_mode' => $modelMode,
     ]);
+
+    // Garante que a linha existe (INSERT se não encontrou nada para atualizar)
+    $count = $db->query("SELECT COUNT(*) FROM ai_config WHERE id = 1")->fetchColumn();
+    if ((int)$count === 0) {
+        $db->prepare("
+            INSERT INTO ai_config (id, provider, api_key, base_url, model, model_mode)
+            VALUES (1, :provider, :api_key, :base_url, :model, :model_mode)
+        ")->execute([
+            ':provider'   => $provider,
+            ':api_key'    => $apiKey,
+            ':base_url'   => $baseUrl,
+            ':model'      => $model,
+            ':model_mode' => $modelMode,
+        ]);
+    }
 
     jsonResponse(['success' => true, 'message' => 'Configuração salva!']);
 }
@@ -154,10 +183,15 @@ function handleGetAI(): void {
 }
 
 function handleUpdateProfile(array $user): void {
-    // Usa FILTER_DEFAULT para não codificar entidades HTML no banco — a saída é escapada no HTML
-    $name   = trim(filter_input(INPUT_POST, 'name',   FILTER_DEFAULT) ?? '');
-    $status = trim(filter_input(INPUT_POST, 'status', FILTER_DEFAULT) ?? '');
-    $avatar = trim(filter_input(INPUT_POST, 'avatar', FILTER_SANITIZE_URL) ?? '');
+    // Aceita JSON body (fetch/axios) OU form-encoded (jQuery $.post)
+    $input = json_decode(file_get_contents('php://input'), true);
+    if (empty($input)) {
+        $input = $_POST;
+    }
+
+    $name   = trim($input['name']   ?? '');
+    $status = trim($input['status'] ?? '');
+    $avatar = trim($input['avatar'] ?? '');
 
     if (!$name) {
         jsonResponse(['error' => 'Nome é obrigatório'], 400);
@@ -178,7 +212,13 @@ function handleUpdateProfile(array $user): void {
 }
 
 function handleUpdateTheme(array $user): void {
-    $theme = trim(filter_input(INPUT_POST, 'theme', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
+    // Aceita JSON body (fetch/axios) OU form-encoded (jQuery $.post)
+    $input = json_decode(file_get_contents('php://input'), true);
+    if (empty($input)) {
+        $input = $_POST;
+    }
+
+    $theme = trim($input['theme'] ?? '');
     $valid = ['verde', 'dark_blue', 'dark_orange', 'rosa', 'light'];
 
     if (!in_array($theme, $valid)) {

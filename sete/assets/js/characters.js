@@ -143,16 +143,20 @@ const Characters = (() => {
 
     $.post('api/characters.php', formData, data => {
       $btn.removeClass('loading');
+      console.log('[Characters] save response:', data);
       if (data.success) {
         App.showToast(editingId ? 'Personagem atualizado!' : 'Personagem criado!', 'success');
         closeModal();
         Contacts.load();
       } else {
-        App.showToast(data.error || 'Erro ao salvar', 'error');
+        App.showToast(data.error || 'Erro ao salvar personagem', 'error');
       }
-    }).fail(() => {
+    }).fail((xhr) => {
       $btn.removeClass('loading');
-      App.showToast('Erro de conexão', 'error');
+      console.error('[Characters] save FAIL:', xhr.responseText);
+      let msg = 'Erro de conexão ao salvar';
+      try { msg = JSON.parse(xhr.responseText).error || msg; } catch(e) {}
+      App.showToast(msg, 'error');
     });
   }
 
@@ -173,7 +177,7 @@ const Characters = (() => {
 
     const formData = new FormData();
     formData.append('avatar', file);
-    formData.append('type', 'avatar');
+    // Não definir Content-Type — o browser define com boundary automaticamente
 
     $.ajax({
       url:         'api/upload.php',
@@ -187,10 +191,16 @@ const Characters = (() => {
           updateAvatarPreview(data.url);
           App.showToast('Foto atualizada!', 'success');
         } else {
-          App.showToast(data.error || 'Erro no upload', 'error');
+          console.error('[Characters] uploadAvatar error:', data);
+          App.showToast(data.error || 'Erro no upload da foto', 'error');
         }
       },
-      error: () => App.showToast('Erro ao enviar foto', 'error'),
+      error: (xhr) => {
+        console.error('[Characters] uploadAvatar FAIL:', xhr.responseText);
+        let msg = 'Erro ao enviar foto';
+        try { msg = JSON.parse(xhr.responseText).error || msg; } catch(e) {}
+        App.showToast(msg, 'error');
+      },
     });
   }
 

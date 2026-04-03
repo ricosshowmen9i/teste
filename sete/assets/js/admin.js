@@ -71,18 +71,20 @@ const Admin = (() => {
   // ── Carregar config de IA ─────────────────────────────────
   function loadAI() {
     $.get('api/admin.php', { action: 'get_ai' }, data => {
-      if (!data.success) return;
+      if (!data.success || !data.config) return;
       const cfg = data.config;
-      $('#ai-provider').val(cfg.provider);
-      $('#ai-base-url').val(cfg.base_url);
-      $('#ai-model').val(cfg.model);
-      updateModelSuggestions(cfg.provider);
+      if (cfg.provider) $('#ai-provider').val(cfg.provider);
+      if (cfg.base_url) $('#ai-base-url').val(cfg.base_url);
+      if (cfg.model)    $('#ai-model').val(cfg.model);
+      updateModelSuggestions(cfg.provider || 'openrouter');
       updateConnectionStatus('idle');
 
       // Aplica modo de seleção de modelo
       const mode = cfg.model_mode || 'random';
       $(`input[name="ai-model-mode"][value="${mode}"]`).prop('checked', true);
       updateModelModeUI(mode);
+    }).fail(() => {
+      console.warn('[Admin] loadAI falhou — usando valores padrão do formulário');
     });
   }
 
@@ -96,25 +98,37 @@ const Admin = (() => {
   function saveAI() {
     const $btn = $('#ai-save-btn').addClass('loading');
     const mode = $('input[name="ai-model-mode"]:checked').val() || 'random';
+    const provider = $('#ai-provider').val() || 'openrouter';
 
-    $.post('api/admin.php', {
+    const payload = {
       action:     'save_ai',
-      provider:   $('#ai-provider').val(),
+      provider:   provider,
       api_key:    $('#ai-api-key').val(),
-      base_url:   $('#ai-base-url').val(),
-      model:      $('#ai-model').val(),
+      base_url:   $('#ai-base-url').val() || 'https://openrouter.ai/api/v1',
+      model:      $('#ai-model').val() || 'mistralai/mistral-7b-instruct:free',
       model_mode: mode,
-    }, data => {
+    };
+
+    console.log('[Admin] saveAI payload:', { ...payload, api_key: payload.api_key ? '***' : '(empty)' });
+
+    $.post('api/admin.php', payload, data => {
       $btn.removeClass('loading');
+      console.log('[Admin] saveAI response:', data);
       if (data.success) {
         App.showToast('Configuração salva!', 'success');
         $('#ai-api-key').val('');
       } else {
-        App.showToast(data.error || 'Erro ao salvar', 'error');
+        App.showToast(data.error || data.message || 'Erro ao salvar configurações de IA', 'error');
       }
-    }).fail(() => {
+    }).fail((xhr, status, err) => {
       $btn.removeClass('loading');
-      App.showToast('Erro de conexão', 'error');
+      console.error('[Admin] saveAI FAIL:', status, err, xhr.responseText);
+      let errMsg = 'Erro de conexão ao salvar';
+      try {
+        const resp = JSON.parse(xhr.responseText);
+        errMsg = resp.error || resp.message || errMsg;
+      } catch (e) { /* ignorar */ }
+      App.showToast(errMsg, 'error');
     });
   }
 
@@ -124,12 +138,13 @@ const Admin = (() => {
     const $btn = $('#ai-test-btn').addClass('loading');
     const mode = $('input[name="ai-model-mode"]:checked').val() || 'random';
 
+    // Salva primeiro, depois testa
     $.post('api/admin.php', {
       action:     'save_ai',
-      provider:   $('#ai-provider').val(),
+      provider:   $('#ai-provider').val() || 'openrouter',
       api_key:    $('#ai-api-key').val(),
-      base_url:   $('#ai-base-url').val(),
-      model:      $('#ai-model').val(),
+      base_url:   $('#ai-base-url').val() || 'https://openrouter.ai/api/v1',
+      model:      $('#ai-model').val() || 'mistralai/mistral-7b-instruct:free',
       model_mode: mode,
     }, () => {
       $.post('api/admin.php', { action: 'test_ai' }, data => {
@@ -139,12 +154,21 @@ const Admin = (() => {
           App.showToast(data.message, 'success');
         } else {
           updateConnectionStatus('error');
-          App.showToast(data.message || 'Erro na conexão', 'error');
+          App.showToast(data.message || 'Erro na conexão com a IA', 'error');
         }
-      }).fail(() => {
+      }).fail((xhr) => {
         $btn.removeClass('loading');
         updateConnectionStatus('error');
+        let msg = 'Erro ao testar conexão';
+        try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {}
+        App.showToast(msg, 'error');
       });
+    }).fail((xhr) => {
+      $btn.removeClass('loading');
+      updateConnectionStatus('error');
+      let msg = 'Erro ao salvar antes de testar';
+      try { msg = JSON.parse(xhr.responseText).error || msg; } catch(e) {}
+      App.showToast(msg, 'error');
     });
   }
 
