@@ -83,11 +83,11 @@ if ($isText) {
 
 if ($mime === 'application/pdf' || $ext === 'pdf') {
     $content = '';
-    $safePdfPath = $uploadFilesPath !== false
+    $isPdfPathSafe = $uploadFilesPath !== false
         && strpos($fullPath, $uploadFilesPath . DIRECTORY_SEPARATOR) === 0
         && is_file($fullPath);
 
-    if ($safePdfPath && function_exists('shell_exec')) {
+    if ($isPdfPathSafe && function_exists('shell_exec')) {
         $escaped = escapeshellarg($fullPath);
         $raw = @shell_exec("pdftotext {$escaped} - 2>/dev/null");
         if (is_string($raw)) {

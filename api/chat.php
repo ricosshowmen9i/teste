@@ -163,12 +163,12 @@ if (isset($_GET['stream'])) {
         $uploadsFilesPath = $basePath ? realpath($basePath . '/uploads/files') : false;
         $candidatePath = $basePath ? realpath($basePath . '/' . ltrim($fileUrl, '/')) : false;
 
-        $safePath = $candidatePath !== false
+        $isPathSafe = $candidatePath !== false
             && $uploadsFilesPath !== false
             && strpos($candidatePath, $uploadsFilesPath . DIRECTORY_SEPARATOR) === 0
             && is_file($candidatePath);
 
-        if ($safePath) {
+        if ($isPathSafe) {
             $fileMime = mime_content_type($candidatePath);
             $contextContent = '';
 
