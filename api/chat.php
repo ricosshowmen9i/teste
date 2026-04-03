@@ -230,10 +230,14 @@ function determineModel(array $config): string {
     if ($config['model_mode'] === 'random') {
         $freeModels = [
             'openrouter' => [
-                'google/gemma-3-1b-it:free',
-                'deepseek/deepseek-r1-0528:free',
+                'google/gemma-3-27b-it:free',
                 'meta-llama/llama-4-scout:free',
-                'qwen/qwen-2.5-7b-instruct:free',
+                'meta-llama/llama-4-maverick:free',
+                'qwen/qwen3.6-plus-preview:free',
+                'nvidia/nemotron-3-super-120b-a12b:free',
+                'stepfun/step-3.5-flash:free',
+                'mistralai/mistral-small-3.1-24b-instruct:free',
+                'nvidia/nemotron-nano-12b-v2-vl:free',
             ],
             'groq'       => ['llama3-8b-8192', 'mixtral-8x7b-32768', 'gemma-7b-it'],
             'gemini'     => ['gemini-1.5-flash', 'gemini-2.0-flash'],

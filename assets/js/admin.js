@@ -138,7 +138,7 @@ const AdminManager = {
 
   updateProviderDefaults(provider, updateFields) {
     const defaults = {
-      openrouter: { url: 'https://openrouter.ai/api/v1',   model: 'google/gemma-3-1b-it:free' },
+      openrouter: { url: 'https://openrouter.ai/api/v1',   model: 'google/gemma-3-27b-it:free' },
       groq:       { url: 'https://api.groq.com/openai/v1', model: 'llama3-8b-8192' },
       openai:     { url: 'https://api.openai.com/v1',       model: 'gpt-3.5-turbo' },
       mistral:    { url: 'https://api.mistral.ai/v1',       model: 'mistral-small-latest' },
@@ -152,10 +152,14 @@ const AdminManager = {
 
     const suggestions = {
       openrouter: [
-        'google/gemma-3-1b-it:free',
-        'deepseek/deepseek-r1-0528:free',
+        'google/gemma-3-27b-it:free',
         'meta-llama/llama-4-scout:free',
-        'qwen/qwen-2.5-7b-instruct:free',
+        'meta-llama/llama-4-maverick:free',
+        'qwen/qwen3.6-plus-preview:free',
+        'nvidia/nemotron-3-super-120b-a12b:free',
+        'stepfun/step-3.5-flash:free',
+        'mistralai/mistral-small-3.1-24b-instruct:free',
+        'nvidia/nemotron-nano-12b-v2-vl:free',
         'openai/gpt-3.5-turbo',
       ],
       groq:       ['llama3-8b-8192', 'mixtral-8x7b-32768', 'gemma-7b-it'],
@@ -271,8 +275,8 @@ const AdminManager = {
         <td><span class="badge badge-${u.active ? 'active' : 'inactive'}">${u.active ? 'Ativo' : 'Inativo'}</span></td>
         <td>${escHtml(u.last_login || '—')}</td>
         <td>
-          <button class="btn btn-sm btn-outline btn-edit-user" data-id="${u.id}">✏️ Editar</button>
-          <button class="btn btn-sm btn-danger btn-delete-user" data-id="${u.id}" style="margin-left:4px">🗑️</button>
+          <button class="btn btn-sm btn-outline btn-edit-user" data-id="${u.id}"><i class="fa-solid fa-edit" style="color:#00BCD4"></i> Editar</button>
+          <button class="btn btn-sm btn-danger btn-delete-user" data-id="${u.id}" style="margin-left:4px"><i class="fa-solid fa-trash-alt" style="color:#E91E63"></i></button>
         </td>
       `;
 
@@ -389,7 +393,8 @@ const AdminManager = {
   },
 
   async deleteUser(user) {
-    if (!confirmAction(`Excluir usuário "${user.name}"? Esta ação não pode ser desfeita.`)) return;
+    const confirmed = await confirmAction(`Excluir usuário "${user.name}"? Esta ação não pode ser desfeita.`);
+    if (!confirmed) return;
 
     try {
       const data = await apiPost('api/admin.php', { action: 'delete_user', id: user.id });
