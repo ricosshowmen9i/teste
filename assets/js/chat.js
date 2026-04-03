@@ -838,7 +838,7 @@ const ChatManager = {
 
       const preview = document.getElementById('char-avatar-preview');
       if (preview) {
-        preview.style.backgroundImage = `url('${escHtml(data.url)}?t=${Date.now()}')`;
+        preview.style.backgroundImage = `url('${encodeURI(data.url)}?t=${Date.now()}')`;
         preview.innerHTML = '';
       }
       showToast('Foto carregada!', 'success');
@@ -906,7 +906,7 @@ const ChatManager = {
       // Restore avatar preview
       if (charAvatarInput) charAvatarInput.value = char.avatar || '';
       if (charAvatarPreview && char.avatar) {
-        charAvatarPreview.style.backgroundImage = `url('${escHtml(char.avatar)}')`;
+        charAvatarPreview.style.backgroundImage = `url('${encodeURI(char.avatar)}')`;
         charAvatarPreview.innerHTML = '';
       } else if (charAvatarPreview) {
         charAvatarPreview.innerHTML = escHtml((char.name || '?').slice(0, 2).toUpperCase());

@@ -101,7 +101,7 @@ if (!is_dir($avatarsDir)) mkdir($avatarsDir, 0755, true);
 if (!is_dir($filesDir))   mkdir($filesDir, 0755, true);
 
 if ($isAvatar && $category === 'image') {
-    $filename = 'avatar_' . (int)$_SESSION['user_id'] . '_' . uniqid() . '.' . $safeExt;
+    $filename = 'avatar_' . bin2hex(random_bytes(8)) . '.' . $safeExt;
     $destDir  = $avatarsDir;
 } else {
     $destDir  = $filesDir;
