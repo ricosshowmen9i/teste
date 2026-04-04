@@ -206,6 +206,52 @@ if ($method === 'POST') {
         exit;
     }
 
+    if ($action === 'upload_logo') {
+        if (empty($_FILES['logo'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Nenhum arquivo enviado.']);
+            exit;
+        }
+
+        $file = $_FILES['logo'];
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($file['tmp_name']);
+        $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+
+        if (!in_array($mime, $allowed, true)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Tipo de arquivo não permitido. Use PNG, JPG ou SVG.']);
+            exit;
+        }
+
+        if ($file['size'] > 2 * 1024 * 1024) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Arquivo muito grande. Máximo 2MB.']);
+            exit;
+        }
+
+        $ext      = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $filename = 'app_logo_' . uniqid() . '.' . $ext;
+        $dest     = __DIR__ . '/../uploads/files/' . $filename;
+
+        if (!move_uploaded_file($file['tmp_name'], $dest)) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Erro ao salvar arquivo.']);
+            exit;
+        }
+
+        $url = 'uploads/files/' . $filename;
+        $existing = $pdo->query("SELECT id FROM ai_config LIMIT 1")->fetch();
+        if ($existing) {
+            $pdo->prepare("UPDATE ai_config SET app_logo=? WHERE id=?")->execute([$url, $existing['id']]);
+        } else {
+            $pdo->prepare("INSERT INTO ai_config (app_logo) VALUES (?)")->execute([$url]);
+        }
+
+        echo json_encode(['success' => true, 'logo' => $url]);
+        exit;
+    }
+
     if ($action === 'delete_user') {
         $id = (int)($_POST['id'] ?? 0);
         if (!$id) {

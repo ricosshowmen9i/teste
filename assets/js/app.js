@@ -48,9 +48,12 @@ function showToast(message, type = 'info', duration = 3500) {
   const container = document.getElementById('toast-container');
   if (!container) return;
 
+  const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+  const icon = icons[type] || icons.info;
+
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
-  toast.textContent = message;
+  toast.innerHTML = `<span class="toast-icon">${icon}</span><span>${escHtml ? escHtml(message) : message}</span>`;
   container.appendChild(toast);
 
   setTimeout(() => {

@@ -290,7 +290,13 @@ const ChatManager = {
       </div>
     `;
 
-    container.appendChild(wrapper);
+    // Insert before typing indicator to keep it at the bottom
+    const typingEl = container.querySelector('#typing-indicator');
+    if (typingEl) {
+      container.insertBefore(wrapper, typingEl);
+    } else {
+      container.appendChild(wrapper);
+    }
 
     if (shouldScroll) this.scrollToBottom();
     return wrapper;
@@ -316,7 +322,12 @@ const ChatManager = {
       </div>
     `;
 
-    container.appendChild(wrapper);
+    const typingEl2 = container.querySelector('#typing-indicator');
+    if (typingEl2) {
+      container.insertBefore(wrapper, typingEl2);
+    } else {
+      container.appendChild(wrapper);
+    }
     this.scrollToBottom();
     return wrapper.querySelector('.msg-content');
   },
@@ -810,9 +821,59 @@ const ChatManager = {
       setCheck('char-long-memory', char.long_memory);
       setCheck('char-auto-audio', char.auto_audio);
       setCheck('char-can-generate-images', char.can_generate_images);
+
+      // Show existing avatar
+      const preview = document.getElementById('char-avatar-preview');
+      const previewImg = document.getElementById('char-avatar-img');
+      const previewIni = document.getElementById('char-avatar-initials');
+      if (char.avatar && previewImg) {
+        previewImg.src = char.avatar + '?t=' + Date.now();
+        previewImg.style.display = 'block';
+        if (previewIni) previewIni.style.display = 'none';
+      } else if (previewImg) {
+        previewImg.style.display = 'none';
+        if (previewIni) {
+          previewIni.style.display = '';
+          previewIni.textContent = (char.name || '?').slice(0, 2).toUpperCase();
+        }
+      }
     } else {
       if (title) title.textContent = 'Novo Personagem';
+      const previewImg = document.getElementById('char-avatar-img');
+      const previewIni = document.getElementById('char-avatar-initials');
+      if (previewImg) previewImg.style.display = 'none';
+      if (previewIni) { previewIni.style.display = ''; previewIni.textContent = '?'; }
     }
+
+    // Bind avatar file upload
+    const avatarFile = document.getElementById('char-avatar-file');
+    if (avatarFile && !avatarFile._bound) {
+      avatarFile._bound = true;
+      avatarFile.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        e.target.value = '';
+
+        const charId = document.getElementById('char-id')?.value;
+        if (!charId) {
+          // Not saved yet — preview only
+          const previewImg = document.getElementById('char-avatar-img');
+          const previewIni = document.getElementById('char-avatar-initials');
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            if (previewImg) { previewImg.src = ev.target.result; previewImg.style.display = 'block'; }
+            if (previewIni) previewIni.style.display = 'none';
+          };
+          reader.readAsDataURL(file);
+          // Store file temporarily for after save
+          this._pendingAvatarFile = file;
+          return;
+        }
+
+        await this.uploadCharacterAvatar(charId, file);
+      });
+    }
+    this._pendingAvatarFile = null;
 
     // Reset to first tab
     document.querySelectorAll('.char-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
@@ -856,6 +917,13 @@ const ChatManager = {
         showToast(data.error, 'error');
         return;
       }
+
+      // Upload pending avatar if any (e.g., selected before save for new char)
+      if (this._pendingAvatarFile && data.character?.id) {
+        await this.uploadCharacterAvatar(data.character.id, this._pendingAvatarFile);
+        this._pendingAvatarFile = null;
+      }
+
       showToast(id ? 'Personagem atualizado!' : 'Personagem criado!', 'success');
       closeModal('modal-character');
       await this.loadCharacters();
@@ -866,6 +934,29 @@ const ChatManager = {
       }
     } catch (e) {
       showToast('Erro ao salvar personagem.', 'error');
+    }
+  },
+
+  async uploadCharacterAvatar(charId, file) {
+    const fd = new FormData();
+    fd.append('avatar', file);
+    fd.append('char_id', charId);
+    fd.append('action', 'upload_avatar');
+
+    try {
+      const data = await apiPostFile('api/characters.php', fd);
+      if (data.error) { showToast(data.error, 'error'); return; }
+
+      const previewImg = document.getElementById('char-avatar-img');
+      const previewIni = document.getElementById('char-avatar-initials');
+      if (previewImg) { previewImg.src = data.avatar + '?t=' + Date.now(); previewImg.style.display = 'block'; }
+      if (previewIni) previewIni.style.display = 'none';
+      showToast('Foto do personagem atualizada!', 'success');
+
+      // Refresh characters list so new avatar shows in contacts
+      await this.loadCharacters();
+    } catch (e) {
+      showToast('Erro ao enviar foto do personagem.', 'error');
     }
   },
 

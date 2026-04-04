@@ -31,6 +31,14 @@ if ($isLoggedIn) {
 
 $theme = $currentUser['theme'] ?? 'green';
 
+// Load app config for logo
+$appLogo = null;
+try {
+    $dbForLogo = getDB();
+    $cfgRow = $dbForLogo->query("SELECT app_logo FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
+    $appLogo = $cfgRow['app_logo'] ?? null;
+} catch (Exception $e) { /* ignore */ }
+
 ?><!DOCTYPE html>
 <html lang="pt-BR" data-theme="<?= htmlspecialchars($theme) ?>">
 <head>
@@ -47,7 +55,12 @@ $theme = $currentUser['theme'] ?? 'green';
 <!-- ═══ LOGIN PAGE ═══════════════════════════════════════════════ -->
 <div class="login-card">
   <div class="login-logo">
-    <h1>SETE</h1>
+    <?php if ($appLogo): ?>
+      <img src="<?= htmlspecialchars($appLogo) ?>?t=<?= time() ?>" alt="Logo" class="login-logo-img">
+    <?php else: ?>
+      <div class="login-logo-emoji">🤖</div>
+      <h1>What JUJU</h1>
+    <?php endif; ?>
     <p>Converse com personagens de IA</p>
   </div>
   <form class="login-form" id="login-form" novalidate>
@@ -105,7 +118,12 @@ document.getElementById('login-form').addEventListener('submit', async function(
 <!-- ═══ FORCE PASSWORD CHANGE ════════════════════════════════════ -->
 <div class="force-pw-card" style="margin:auto;margin-top:10vh;">
   <div class="login-logo">
-    <h1>SETE</h1>
+    <?php if ($appLogo): ?>
+      <img src="<?= htmlspecialchars($appLogo) ?>?t=<?= time() ?>" alt="Logo" class="login-logo-img">
+    <?php else: ?>
+      <div class="login-logo-emoji">🤖</div>
+      <h1>What JUJU</h1>
+    <?php endif; ?>
     <p>Altere sua senha para continuar</p>
   </div>
   <form id="force-pw-form" class="login-form" novalidate>
@@ -605,6 +623,10 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
         <span class="admin-nav-icon" style="background:#9c27b0;">👥</span>
         <span class="nav-label">Usuários</span>
       </div>
+      <div class="admin-nav-item" data-panel="appearance">
+        <span class="admin-nav-icon" style="background:#ff5722;">🎨</span>
+        <span class="nav-label">Aparência</span>
+      </div>
     </div>
 
     <!-- Content -->
@@ -746,11 +768,30 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
         </div>
       </div>
 
+      <!-- Appearance Panel -->
+      <div class="admin-panel" id="admin-panel-appearance">
+        <div class="admin-panel-body">
+          <div style="max-width:480px;">
+            <h3 style="margin-bottom:16px;font-size:1rem;">🎨 Logo da Página de Login</h3>
+            <div class="logo-upload-preview" id="logo-preview-wrap">
+              <img id="logo-preview-img" src="" alt="" style="display:none;max-height:80px;border-radius:8px;margin-bottom:12px;">
+              <div id="logo-preview-empty" style="color:var(--text-muted);font-size:.9rem;margin-bottom:12px;">Nenhum logo configurado — será exibido o emoji 🤖</div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+              <label class="btn btn-outline" style="cursor:pointer;">
+                📤 Enviar logo
+                <input type="file" id="logo-upload-input" accept="image/*" style="display:none">
+              </label>
+              <button class="btn btn-ghost" id="btn-remove-logo" style="display:none;">🗑️ Remover</button>
+            </div>
+            <div class="form-hint" style="margin-top:8px;">PNG, JPG ou SVG. Recomendado: 200×60px. Máx. 2MB.</div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /admin-content -->
   </div><!-- /modal-box -->
 </div>
-
-<!-- User sub-modal -->
 <div id="user-modal-overlay" class="modal-overlay modal-centered" style="z-index:400;">
   <div class="modal-box" style="border-radius:14px;width:90%;max-width:460px;max-height:90vh;">
     <div class="modal-header">
@@ -914,6 +955,22 @@ const ProfileManager = {
       if (img) { img.src = data.avatar + '?t=' + Date.now(); img.style.display = 'block'; }
       if (ini) ini.style.display = 'none';
       window.SETE_USER.avatar = data.avatar;
+
+      // Sync header avatar
+      const headerAvatar = document.getElementById('header-user-avatar');
+      if (headerAvatar) {
+        let headerImg = headerAvatar.querySelector('img');
+        if (!headerImg) {
+          headerImg = document.createElement('img');
+          headerAvatar.appendChild(headerImg);
+        }
+        headerImg.src = data.avatar + '?t=' + Date.now();
+        headerImg.alt = '';
+        headerImg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;';
+        const ini2 = document.getElementById('header-user-initials');
+        if (ini2) ini2.style.display = 'none';
+      }
+
       showToast('Avatar atualizado!', 'success');
     } catch (e) {
       showToast('Erro ao enviar avatar.', 'error');

@@ -1801,3 +1801,45 @@ body.login-page {
 
 .msg-audio-btn:hover { background: rgba(0,0,0,.12); }
 .msg-audio-btn.playing { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ── Group Reply Quote ───────────────────────────────────────────── */
+.group-reply-quote {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 3px solid var(--accent);
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,.05);
+  margin-bottom: 6px;
+  font-size: .8rem;
+  max-width: 260px;
+  overflow: hidden;
+}
+
+.reply-quote-name {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.reply-quote-text {
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Login logo image ────────────────────────────────────────────── */
+.login-logo-img {
+  max-height: 72px;
+  max-width: 200px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.login-logo-emoji {
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 4px;
+}

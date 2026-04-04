@@ -323,12 +323,14 @@ if (isset($_GET['group_stream'])) {
 
     $model = determineModel($config);
 
-    foreach ($responding as $character) {
+    $prevChar = null; // track the last character that responded for reply-to chaining
+
+    foreach ($responding as $idx => $character) {
         // Emit typing indicator
         echo "data: " . json_encode([
-            'typing_char'    => true,
-            'character_id'   => (int)$character['id'],
-            'character_name' => $character['name'],
+            'typing_char'      => true,
+            'character_id'     => (int)$character['id'],
+            'character_name'   => $character['name'],
             'character_avatar' => $character['avatar'] ?? null,
         ]) . "\n\n";
         flush();
@@ -336,10 +338,33 @@ if (isset($_GET['group_stream'])) {
         $systemPrompt = buildGroupSystemPrompt($character, $group, $members, $userName);
         $history      = buildGroupHistory($contextHistory, $character);
 
+        // Determine what this character is replying to
+        $replyToId      = null;
+        $replyToName    = null;
+        $replyToSnippet = null;
+
+        if ($prevChar !== null) {
+            // This character is replying to the previous character's message
+            $lastCharMsg = end($contextHistory);
+            if ($lastCharMsg && $lastCharMsg['sender_type'] === 'character') {
+                $replyToId      = (int)($lastCharMsg['id'] ?? 0);
+                $replyToName    = $lastCharMsg['character_name'];
+                $replyToSnippet = mb_substr($lastCharMsg['content'], 0, 80);
+                // Add instruction to reply to that character
+                $systemPrompt .= "\n\nVocê está respondendo diretamente à mensagem de {$replyToName}: \"{$replyToSnippet}\"";
+            }
+        } elseif ($idx === 0) {
+            // First character replies to user message
+            $replyToName    = $userName;
+            $replyToSnippet = mb_substr($message, 0, 80);
+        }
+
         $charMeta = [
-            'character_id'     => (int)$character['id'],
-            'character_name'   => $character['name'],
-            'character_avatar' => $character['avatar'] ?? null,
+            'character_id'       => (int)$character['id'],
+            'character_name'     => $character['name'],
+            'character_avatar'   => $character['avatar'] ?? null,
+            'reply_to_name'      => $replyToName,
+            'reply_to_snippet'   => $replyToSnippet,
         ];
 
         $fullResponse = '';
@@ -351,18 +376,28 @@ if (isset($_GET['group_stream'])) {
         }
 
         if ($fullResponse) {
-            $pdo->prepare("
-                INSERT INTO group_messages (group_id, user_id, sender_type, character_id, character_name, content)
-                VALUES (?, ?, 'character', ?, ?, ?)
-            ")->execute([$groupId, $userId, (int)$character['id'], $character['name'], $fullResponse]);
+            $stmt = $pdo->prepare("
+                INSERT INTO group_messages (group_id, user_id, sender_type, character_id, character_name, content, reply_to_id, reply_to_name, reply_to_snippet)
+                VALUES (?, ?, 'character', ?, ?, ?, ?, ?, ?)
+            ");
+            $stmt->execute([
+                $groupId, $userId, (int)$character['id'], $character['name'], $fullResponse,
+                $replyToId ?: null, $replyToName, $replyToSnippet,
+            ]);
+            $newMsgId = (int)$pdo->lastInsertId();
 
-            // Append to local context so subsequent characters see it
-            $contextHistory[] = [
+            $newEntry = [
+                'id'             => $newMsgId,
                 'sender_type'    => 'character',
                 'character_id'   => (int)$character['id'],
                 'character_name' => $character['name'],
                 'content'        => $fullResponse,
+                'reply_to_name'  => $replyToName,
+                'reply_to_snippet' => $replyToSnippet,
             ];
+            // Append to local context so subsequent characters see it
+            $contextHistory[] = $newEntry;
+            $prevChar = $character;
         }
     }
 
@@ -604,34 +639,42 @@ function selectRespondingCharacters(array $members, array $group): array {
 
 function buildGroupSystemPrompt(array $character, array $group, array $allMembers, string $userName): string {
     $name = $character['name'];
-    $prompt = "Você é {$name}.";
+    $prompt = "Você é {$name}, um personagem de IA num grupo de chat chamado \"{$group['name']}\".";
     if ($character['description']) $prompt .= "\nDescrição: {$character['description']}";
     if ($character['personality']) $prompt .= "\nPersonalidade: {$character['personality']}";
-    if ($character['voice_example']) $prompt .= "\nExemplo de como falar: {$character['voice_example']}";
-
-    $prompt .= "\n\nVocê está participando do grupo \"{$group['name']}\".";
-    if ($group['description']) $prompt .= "\nSobre o grupo: {$group['description']}";
+    if ($character['voice_example']) $prompt .= "\nExemplo de como fala: {$character['voice_example']}";
 
     $others = array_filter($allMembers, fn($m) => (int)$m['id'] !== (int)$character['id']);
     if (!empty($others)) {
         $otherNames = array_map(fn($m) => $m['name'] . ($m['description'] ? " ({$m['description']})" : ''), $others);
-        $prompt .= "\nOutros participantes: " . implode(', ', array_values($otherNames)) . ".";
+        $prompt .= "\n\nOutros personagens no grupo: " . implode(', ', array_values($otherNames)) . ".";
     }
 
+    if ($group['description']) $prompt .= "\nSobre o grupo: {$group['description']}";
+
     if (!empty($group['story'])) {
-        $prompt .= "\n\nROTEIRO/CONTEXTO:\n{$group['story']}\nSiga este contexto.";
+        $prompt .= "\n\nROTEIRO DA HISTÓRIA:\n{$group['story']}";
+        $prompt .= "\n\nIMPORTANTE sobre o roteiro:";
+        $prompt .= "\n- Se o roteiro mencionar que seu personagem é controlado por outro (vilão, feitiço, tecnologia, etc.), FINJA estar sendo controlado — aja conforme esse controle enquanto a história exigir.";
+        $prompt .= "\n- Crie a história colaborativamente com os outros personagens, reagindo ao que eles dizem.";
+        $prompt .= "\n- Quando outro personagem disser algo que afete você na história, responda diretamente a ele de forma dramática e natural.";
+        $prompt .= "\n- Siga o roteiro mas improvise detalhes criativos dentro do contexto.";
     }
 
     $mode = $group['interaction_mode'] ?? 'random';
     if ($mode === 'story') {
-        $prompt .= "\n\nAja de acordo com o roteiro. Desenvolva a história de forma natural.";
+        $prompt .= "\n\nMODO ROTEIRO: Desenvolva a história de forma dramática e narrativa. Aja exatamente como seu personagem age nesta cena. Avance a trama.";
     } elseif ($mode === 'topic') {
-        $prompt .= "\n\nFoque no assunto e dê sua opinião conforme sua personalidade.";
+        $prompt .= "\n\nMODO ASSUNTO: Foque no tópico atual e comente com a perspectiva do seu personagem.";
     } else {
-        $prompt .= "\n\nInteraja naturalmente como pessoa real num grupo. Comente, concorde, discorde, faça perguntas.";
+        $prompt .= "\n\nMODO ALEATÓRIO: Interaja naturalmente como num grupo de amigos. Comente, concorde, discorde, faça perguntas ao grupo.";
     }
 
-    $prompt .= "\n\nVocê está conversando com {$userName}. Responda APENAS como {$name}. Respostas curtas e naturais, português do Brasil. Não quebre o personagem.";
+    $prompt .= "\n\nREGRAS OBRIGATÓRIAS:";
+    $prompt .= "\n- Responda APENAS como {$name}. Não saia do personagem.";
+    $prompt .= "\n- Respostas curtas a médias (1-4 frases), naturais, em português do Brasil.";
+    $prompt .= "\n- Se estiver respondendo a outro personagem, mencione o nome dele na resposta.";
+    $prompt .= "\n- O usuário humano se chama {$userName}. Trate-o como parte da história se o roteiro exigir.";
     return $prompt;
 }
 

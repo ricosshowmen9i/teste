@@ -140,11 +140,31 @@ function initSchema(PDO $pdo): void {
             character_id INTEGER DEFAULT NULL,
             character_name TEXT DEFAULT NULL,
             content TEXT NOT NULL,
+            reply_to_id INTEGER DEFAULT NULL,
+            reply_to_name TEXT DEFAULT NULL,
+            reply_to_snippet TEXT DEFAULT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (group_id) REFERENCES groups(id),
             FOREIGN KEY (user_id) REFERENCES users(id)
         )
     ");
+
+    // Migrations for existing tables
+    $cols = array_column($pdo->query("PRAGMA table_info(ai_config)")->fetchAll(), 'name');
+    if (!in_array('app_logo', $cols, true)) {
+        $pdo->exec("ALTER TABLE ai_config ADD COLUMN app_logo TEXT DEFAULT NULL");
+    }
+
+    $gmCols = array_column($pdo->query("PRAGMA table_info(group_messages)")->fetchAll(), 'name');
+    if (!in_array('reply_to_id', $gmCols, true)) {
+        $pdo->exec("ALTER TABLE group_messages ADD COLUMN reply_to_id INTEGER DEFAULT NULL");
+    }
+    if (!in_array('reply_to_name', $gmCols, true)) {
+        $pdo->exec("ALTER TABLE group_messages ADD COLUMN reply_to_name TEXT DEFAULT NULL");
+    }
+    if (!in_array('reply_to_snippet', $gmCols, true)) {
+        $pdo->exec("ALTER TABLE group_messages ADD COLUMN reply_to_snippet TEXT DEFAULT NULL");
+    }
 
     // Seed default admin
     $adminExists = $pdo->query("SELECT id FROM users WHERE email='admin@sete.app'")->fetch();

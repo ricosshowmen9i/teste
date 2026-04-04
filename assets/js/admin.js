@@ -45,13 +45,15 @@ const AdminManager = {
       stats: '📊 Dashboard',
       config: '🤖 Configuração IA',
       users: '👥 Usuários',
+      appearance: '🎨 Aparência',
     };
     if (titleEl) titleEl.textContent = titles[name] || name;
 
     switch (name) {
-      case 'stats':  this.loadStats(); break;
-      case 'config': this.loadConfig(); break;
-      case 'users':  this.loadUsers(); break;
+      case 'stats':      this.loadStats(); break;
+      case 'config':     this.loadConfig(); break;
+      case 'users':      this.loadUsers(); break;
+      case 'appearance': this.loadAppearance(); break;
     }
   },
 
@@ -435,6 +437,71 @@ const AdminManager = {
       await this.loadUsers();
     } catch (e) {
       showToast('Erro ao excluir usuário.', 'error');
+    }
+  },
+
+  async loadAppearance() {
+    try {
+      const data = await apiGet('api/admin.php?action=config');
+      const logo = data.config?.app_logo;
+      this.renderLogoPreview(logo);
+    } catch (e) { /* ignore */ }
+
+    const input = document.getElementById('logo-upload-input');
+    if (input && !input._bound) {
+      input._bound = true;
+      input.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) this.uploadLogo(file);
+        e.target.value = '';
+      });
+    }
+
+    const btnRemove = document.getElementById('btn-remove-logo');
+    if (btnRemove && !btnRemove._bound) {
+      btnRemove._bound = true;
+      btnRemove.addEventListener('click', () => this.removeLogo());
+    }
+  },
+
+  renderLogoPreview(url) {
+    const img   = document.getElementById('logo-preview-img');
+    const empty = document.getElementById('logo-preview-empty');
+    const btnRemove = document.getElementById('btn-remove-logo');
+    if (!img) return;
+    if (url) {
+      img.src = url + '?t=' + Date.now();
+      img.style.display = 'block';
+      if (empty) empty.style.display = 'none';
+      if (btnRemove) btnRemove.style.display = '';
+    } else {
+      img.style.display = 'none';
+      if (empty) empty.style.display = '';
+      if (btnRemove) btnRemove.style.display = 'none';
+    }
+  },
+
+  async uploadLogo(file) {
+    const fd = new FormData();
+    fd.append('logo', file);
+    fd.append('action', 'upload_logo');
+    try {
+      const data = await apiPostFile('api/admin.php', fd);
+      if (data.error) { showToast(data.error, 'error'); return; }
+      showToast('Logo atualizado com sucesso!', 'success');
+      this.renderLogoPreview(data.logo);
+    } catch (e) {
+      showToast('Erro ao enviar logo.', 'error');
+    }
+  },
+
+  async removeLogo() {
+    try {
+      const data = await apiPost('api/admin.php', { action: 'save_config', app_logo: '' });
+      showToast('Logo removido.', 'success');
+      this.renderLogoPreview(null);
+    } catch (e) {
+      showToast('Erro ao remover logo.', 'error');
     }
   },
 };

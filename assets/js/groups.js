@@ -400,6 +400,14 @@ const GroupManager = {
       bubble.appendChild(nameEl);
     }
 
+    // Reply-to quote
+    if (msg.reply_to_name && msg.reply_to_snippet) {
+      const replyEl = document.createElement('div');
+      replyEl.className = 'group-reply-quote';
+      replyEl.innerHTML = `<span class="reply-quote-name">${escHtml(msg.reply_to_name)}</span><span class="reply-quote-text">${escHtml(msg.reply_to_snippet)}</span>`;
+      bubble.appendChild(replyEl);
+    }
+
     const textEl = document.createElement('div');
     textEl.className = 'msg-content';
     textEl.innerHTML  = parseMarkdown(msg.content || '');
@@ -411,7 +419,14 @@ const GroupManager = {
     bubble.appendChild(timeEl);
 
     wrapper.appendChild(bubble);
-    container.appendChild(wrapper);
+
+    // Insert before typing indicator if it exists inside container
+    const typingEl = container.querySelector('#typing-indicator');
+    if (typingEl) {
+      container.insertBefore(wrapper, typingEl);
+    } else {
+      container.appendChild(wrapper);
+    }
   },
 
   // ── Start a streaming bubble for a character ─────────────────────
@@ -448,10 +463,17 @@ const GroupManager = {
     bubble.appendChild(textEl);
 
     wrapper.appendChild(bubble);
-    container.appendChild(wrapper);
+
+    // Insert before typing indicator if it's in the container
+    const typingEl = container.querySelector('#typing-indicator');
+    if (typingEl) {
+      container.insertBefore(wrapper, typingEl);
+    } else {
+      container.appendChild(wrapper);
+    }
     this.scrollToBottom();
 
-    return textEl;
+    return wrapper;
   },
 
   // ── Send a message to the active group ───────────────────────────
@@ -520,10 +542,16 @@ const GroupManager = {
         }
 
         if (parsed.typing_char) {
-          if (window.ChatManager) {
-            ChatManager.hideTyping();
-            ChatManager.showTyping();
+          // Show which character is typing with their name
+          const typingAvatar = document.getElementById('typing-avatar');
+          if (typingAvatar) {
+            if (parsed.character_avatar) {
+              typingAvatar.innerHTML = `<img src="${escHtml(parsed.character_avatar)}" alt="">`;
+            } else {
+              typingAvatar.textContent = (parsed.character_name || 'IA').slice(0, 2).toUpperCase();
+            }
           }
+          if (window.ChatManager) ChatManager.showTyping();
           return;
         }
 
@@ -533,16 +561,37 @@ const GroupManager = {
 
           if (!streamBubbles[charId]) {
             streamBubbles[charId] = {
-              el:   this.startGroupStreamBubble(charId, parsed.char.character_name, parsed.char.character_avatar),
-              text: '',
+              el:          this.startGroupStreamBubble(charId, parsed.char.character_name, parsed.char.character_avatar),
+              text:        '',
+              replyToName:    parsed.char.reply_to_name || null,
+              replyToSnippet: parsed.char.reply_to_snippet || null,
             };
+
+            // Show reply-to quote in bubble if available
+            if (streamBubbles[charId].el && parsed.char.reply_to_name && parsed.char.reply_to_snippet) {
+              const bubble = streamBubbles[charId].el.querySelector('.msg-bubble');
+              if (bubble) {
+                const replyEl = document.createElement('div');
+                replyEl.className = 'group-reply-quote';
+                replyEl.innerHTML = `<span class="reply-quote-name">${escHtml(parsed.char.reply_to_name)}</span><span class="reply-quote-text">${escHtml(parsed.char.reply_to_snippet)}</span>`;
+                const nameEl = bubble.querySelector('.msg-sender-name');
+                if (nameEl && nameEl.nextSibling) {
+                  bubble.insertBefore(replyEl, nameEl.nextSibling);
+                } else {
+                  bubble.insertBefore(replyEl, bubble.firstChild);
+                }
+              }
+            }
           }
 
           streamBubbles[charId].text += parsed.content;
           if (streamBubbles[charId].el) {
-            streamBubbles[charId].el.innerHTML =
-              parseMarkdown(streamBubbles[charId].text) +
-              '<span class="streaming-cursor" style="display:inline-block"></span>';
+            const contentEl = streamBubbles[charId].el.querySelector('.msg-content');
+            if (contentEl) {
+              contentEl.innerHTML =
+                parseMarkdown(streamBubbles[charId].text) +
+                '<span class="streaming-cursor" style="display:inline-block"></span>';
+            }
             this.scrollToBottom();
           }
         }
