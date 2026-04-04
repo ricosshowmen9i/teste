@@ -430,6 +430,9 @@ const AdminManager = {
     const img  = document.getElementById('logo-preview-img');
     if (!wrap || !img) return;
     if (url) {
+      // Only allow safe URL schemes (http, https, relative paths)
+      const safe = /^(https?:\/\/|uploads\/|\/)/i.test(url);
+      if (!safe) { wrap.style.display = 'none'; return; }
       img.src = url;
       wrap.style.display = 'block';
     } else {

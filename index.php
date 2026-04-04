@@ -195,42 +195,35 @@ document.getElementById('register-form').addEventListener('submit', async functi
 });
 
 // ── Toggle between login and register ────────────────────────────
-document.getElementById('show-register').addEventListener('click', function() {
-  const loginMode = document.getElementById('login-mode');
-  const regMode   = document.getElementById('register-mode');
-  loginMode.style.opacity = '0';
-  loginMode.style.transform = 'translateY(-10px)';
+function switchAuthMode(fromId, toId, focusId) {
+  var from = document.getElementById(fromId);
+  var to   = document.getElementById(toId);
+  from.style.transition = 'opacity .2s ease, transform .2s ease';
+  from.style.opacity = '0';
+  from.style.transform = 'translateY(-10px)';
   setTimeout(function() {
-    loginMode.style.display = 'none';
-    regMode.style.display = 'block';
-    regMode.style.opacity = '0';
-    regMode.style.transform = 'translateY(10px)';
+    from.style.display = 'none';
+    to.style.opacity = '0';
+    to.style.transform = 'translateY(10px)';
+    to.style.display = 'block';
     requestAnimationFrame(function() {
-      regMode.style.transition = 'opacity .3s ease, transform .3s ease';
-      regMode.style.opacity = '1';
-      regMode.style.transform = 'translateY(0)';
+      to.style.transition = 'opacity .3s ease, transform .3s ease';
+      to.style.opacity = '1';
+      to.style.transform = 'translateY(0)';
     });
-    document.getElementById('reg-name').focus();
-  }, 200);
+    if (focusId) {
+      var focusEl = document.getElementById(focusId);
+      if (focusEl) focusEl.focus();
+    }
+  }, 220);
+}
+
+document.getElementById('show-register').addEventListener('click', function() {
+  switchAuthMode('login-mode', 'register-mode', 'reg-name');
 });
 
 document.getElementById('show-login').addEventListener('click', function() {
-  const loginMode = document.getElementById('login-mode');
-  const regMode   = document.getElementById('register-mode');
-  regMode.style.opacity = '0';
-  regMode.style.transform = 'translateY(-10px)';
-  setTimeout(function() {
-    regMode.style.display = 'none';
-    loginMode.style.display = 'block';
-    loginMode.style.opacity = '0';
-    loginMode.style.transform = 'translateY(10px)';
-    requestAnimationFrame(function() {
-      loginMode.style.transition = 'opacity .3s ease, transform .3s ease';
-      loginMode.style.opacity = '1';
-      loginMode.style.transform = 'translateY(0)';
-    });
-    document.getElementById('login-email').focus();
-  }, 200);
+  switchAuthMode('register-mode', 'login-mode', 'login-email');
 });
 </script>
 
