@@ -359,9 +359,9 @@ const ChatManager = {
     const char = this.activeCharacter;
     AudioManager.speak(text, {
       type: char?.voice_type || 'feminina_adulta',
-      speed: char?.voice_speed || 1.0,
-      pitch: char?.voice_pitch || 1.0,
-    });
+      speed: char?.voice_speed || 0.95,
+      pitch: char?.voice_pitch || 1.05,
+    }, btn);
   },
 
   // ── Send message ────────────────────────────────────────────────

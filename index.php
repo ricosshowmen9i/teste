@@ -178,16 +178,30 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
   <!-- ── Header ──────────────────────────────────────────────────── -->
   <header id="main-header">
-    <div class="header-logo">What JUJU</div>
+    <div class="header-logo">
+      <div class="header-user-avatar" id="header-user-avatar" onclick="openModal('modal-profile'); ProfileManager.load();" title="Meu Perfil">
+        <span id="header-user-initials"><?= htmlspecialchars(mb_substr($currentUser['name'] ?? 'U', 0, 2)) ?></span>
+        <?php if (!empty($currentUser['avatar'])): ?>
+        <img src="<?= htmlspecialchars($currentUser['avatar']) ?>?t=<?= time() ?>" alt="">
+        <?php endif; ?>
+      </div>
+      <span class="header-logo-text">What JUJU</span>
+    </div>
     <div class="header-actions">
-      <button id="btn-contacts" title="Contatos">
-        👥 <span>Contatos</span>
+      <button id="btn-contacts" title="Contatos" class="hbtn hbtn-contacts">
+        <span class="hbtn-icon">👥</span> <span>Contatos</span>
       </button>
-      <button id="btn-profile" title="Perfil">👤</button>
+      <button id="btn-profile" title="Perfil" class="hbtn hbtn-profile">
+        <span class="hbtn-icon">👤</span>
+      </button>
       <?php if ($currentUser['role'] === 'admin'): ?>
-      <button id="btn-admin" title="Administração">⚙️</button>
+      <button id="btn-admin" title="Administração" class="hbtn hbtn-admin">
+        <span class="hbtn-icon">⚙️</span>
+      </button>
       <?php endif; ?>
-      <button id="btn-logout" title="Sair" style="background:rgba(255,0,0,.15);">🚪</button>
+      <button id="btn-logout" title="Sair" class="hbtn hbtn-logout">
+        <span class="hbtn-icon">🚪</span>
+      </button>
     </div>
   </header>
 
@@ -223,15 +237,15 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
       <!-- Messages -->
       <div id="messages-container">
         <!-- Messages rendered here by JS -->
-      </div>
 
-      <!-- Typing indicator -->
-      <div id="typing-indicator">
-        <div class="typing-avatar" id="typing-avatar">IA</div>
-        <div class="typing-dots">
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
+        <!-- Typing indicator (inside messages so it appears near last message) -->
+        <div id="typing-indicator">
+          <div class="typing-avatar" id="typing-avatar">IA</div>
+          <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
         </div>
       </div>
 
@@ -374,6 +388,17 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
       <!-- Tab: Basic -->
       <div class="char-tab-content active" id="tab-basic">
+
+        <div class="char-avatar-upload-wrap">
+          <div class="char-avatar-preview" id="char-avatar-preview" onclick="document.getElementById('char-avatar-file').click()">
+            <span id="char-avatar-initials">?</span>
+            <img id="char-avatar-img" src="" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;">
+            <div class="profile-avatar-overlay">📷</div>
+          </div>
+          <input type="file" id="char-avatar-file" accept="image/*" style="display:none">
+          <div style="font-size:.8rem;color:var(--text-muted);">Clique para adicionar foto</div>
+        </div>
+
         <div class="form-group">
           <label for="char-name">Nome *</label>
           <input type="text" id="char-name" class="form-control" placeholder="Ex: Luna, Max, Aria…">
@@ -564,15 +589,21 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
     <!-- Sidebar -->
     <div class="admin-sidebar">
-      <div class="admin-sidebar-logo">⚙️ ADMIN</div>
+      <div class="admin-sidebar-logo">
+        <span class="admin-logo-icon">🛡️</span>
+        <span>ADMIN</span>
+      </div>
       <div class="admin-nav-item active" data-panel="stats">
-        📊 <span class="nav-label">Dashboard</span>
+        <span class="admin-nav-icon" style="background:#4caf50;">📊</span>
+        <span class="nav-label">Dashboard</span>
       </div>
       <div class="admin-nav-item" data-panel="config">
-        🤖 <span class="nav-label">Config IA</span>
+        <span class="admin-nav-icon" style="background:#2196f3;">🤖</span>
+        <span class="nav-label">Config IA</span>
       </div>
       <div class="admin-nav-item" data-panel="users">
-        👥 <span class="nav-label">Usuários</span>
+        <span class="admin-nav-icon" style="background:#9c27b0;">👥</span>
+        <span class="nav-label">Usuários</span>
       </div>
     </div>
 

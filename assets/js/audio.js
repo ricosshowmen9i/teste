@@ -1,5 +1,5 @@
 /**
- * SETE — audio.js
+ * SETE - audio.js
  * Voice synthesis and speech recognition
  */
 
@@ -9,38 +9,82 @@ const AudioManager = {
   currentUtterance: null,
   recognition: null,
   isRecording: false,
+  activeBtn: null,
 
   init() {
-    // Preload voices
     if ('speechSynthesis' in window) {
       speechSynthesis.getVoices();
       speechSynthesis.addEventListener('voiceschanged', () => {});
     }
   },
 
-  speak(text, voiceConfig = {}) {
+  speak(text, voiceConfig = {}, btn = null) {
     if (!('speechSynthesis' in window)) return null;
-    speechSynthesis.cancel();
 
+    // Toggle pause/resume if same button clicked while speaking
+    if (btn && this.activeBtn === btn && speechSynthesis.speaking) {
+      if (speechSynthesis.paused) {
+        speechSynthesis.resume();
+        btn.textContent = '\u23F8 Pausar';
+        btn.classList.add('playing');
+      } else {
+        speechSynthesis.pause();
+        btn.textContent = '\u25B6 Continuar';
+        btn.classList.remove('playing');
+      }
+      return this.currentUtterance;
+    }
+
+    // Cancel previous and reset old button
+    speechSynthesis.cancel();
+    if (this.activeBtn && this.activeBtn !== btn) {
+      this.activeBtn.textContent = '\uD83D\uDD0A Ouvir';
+      this.activeBtn.classList.remove('playing');
+    }
+
+    // Clean text: remove HTML tags, markdown, images, links
     const cleaned = text
-      .replace(/```[\s\S]*?```/g, 'bloco de código')
-      .replace(/`[^`]+`/g, 'código')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/```[\s\S]*?```/g, 'bloco de codigo')
+      .replace(/`[^`]+`/g, 'codigo')
       .replace(/\*\*/g, '')
       .replace(/\*/g, '')
       .replace(/_/g, '')
       .replace(/#+\s/g, '')
       .replace(/https?:\/\/\S+/g, 'link')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/\s{2,}/g, ' ')
       .trim();
 
+    if (!cleaned) return null;
+
     const utterance = new SpeechSynthesisUtterance(cleaned);
-    utterance.lang  = 'pt-BR';
-    utterance.rate  = voiceConfig.speed || 1.0;
-    utterance.pitch = voiceConfig.pitch || 1.0;
+    utterance.lang   = 'pt-BR';
+    utterance.rate   = voiceConfig.speed || 0.95;
+    utterance.pitch  = voiceConfig.pitch || 1.05;
     utterance.volume = 1.0;
 
-    const voices = speechSynthesis.getVoices();
+    const voices   = speechSynthesis.getVoices();
     const selected = this.selectVoice(voices, voiceConfig.type || 'feminina_adulta');
     if (selected) utterance.voice = selected;
+
+    if (btn) {
+      btn.textContent = '\u23F8 Pausar';
+      btn.classList.add('playing');
+      this.activeBtn = btn;
+
+      utterance.onend = () => {
+        btn.textContent = '\uD83D\uDD0A Ouvir';
+        btn.classList.remove('playing');
+        if (this.activeBtn === btn) this.activeBtn = null;
+      };
+      utterance.onerror = () => {
+        btn.textContent = '\uD83D\uDD0A Ouvir';
+        btn.classList.remove('playing');
+        if (this.activeBtn === btn) this.activeBtn = null;
+      };
+    }
 
     this.currentUtterance = utterance;
     speechSynthesis.speak(utterance);
@@ -53,15 +97,25 @@ const AudioManager = {
     );
     const allVoices = ptVoices.length > 0 ? ptVoices : voices;
 
-    const female  = allVoices.filter(v => /female|fem|mulher|Luciana|Francisca|Maria|Victoria|Mônica/i.test(v.name));
-    const male    = allVoices.filter(v => /male|masc|homem|Daniel|Ricardo|Jorge/i.test(v.name));
+    // Prefer Google/Microsoft/Apple voices for natural sound
+    const naturalFemale = allVoices.filter(v =>
+      /Google|Microsoft|Apple/i.test(v.name) &&
+      /female|fem|mulher|Luciana|Francisca|Maria|Victoria|Monica|Camila|Fernanda/i.test(v.name)
+    );
+    const naturalMale = allVoices.filter(v =>
+      /Google|Microsoft|Apple/i.test(v.name) &&
+      /male|masc|homem|Daniel|Ricardo|Jorge|Carlos/i.test(v.name)
+    );
+
+    const female  = allVoices.filter(v => /female|fem|mulher|Luciana|Francisca|Maria|Victoria|Monica|Camila|Fernanda/i.test(v.name));
+    const male    = allVoices.filter(v => /male|masc|homem|Daniel|Ricardo|Jorge|Carlos/i.test(v.name));
     const robotic = allVoices.filter(v => /espeakng|espeak|robotic/i.test(v.name));
 
     switch (type) {
       case 'feminina_adulta':
-        return female[0] || ptVoices[0] || voices[0] || null;
+        return naturalFemale[0] || female[0] || ptVoices[0] || voices[0] || null;
       case 'masculina_adulto':
-        return male[0] || ptVoices[1] || voices[1] || null;
+        return naturalMale[0] || male[0] || ptVoices[1] || voices[1] || null;
       case 'crianca_menina':
         return female[0] || ptVoices[0] || null;
       case 'crianca_menino':
@@ -81,6 +135,11 @@ const AudioManager = {
     if ('speechSynthesis' in window) {
       speechSynthesis.cancel();
     }
+    if (this.activeBtn) {
+      this.activeBtn.textContent = '\uD83D\uDD0A Ouvir';
+      this.activeBtn.classList.remove('playing');
+      this.activeBtn = null;
+    }
   },
 
   isSpeaking() {
@@ -92,7 +151,7 @@ const AudioManager = {
       window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      if (onError) onError('Reconhecimento de voz não suportado neste navegador.');
+      if (onError) onError('Reconhecimento de voz nao suportado neste navegador.');
       return false;
     }
 

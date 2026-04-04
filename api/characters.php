@@ -17,6 +17,69 @@ $method = $_SERVER['REQUEST_METHOD'];
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 $pdo    = getDB();
 
+if ($method === 'POST' && $action === 'upload_avatar') {
+    $csrfToken = $_POST['csrf_token'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if ($csrfToken !== ($_SESSION['csrf_token'] ?? '')) {
+        http_response_code(403);
+        echo json_encode(['error' => 'Token CSRF inválido.']);
+        exit;
+    }
+
+    $charId = (int)($_POST['char_id'] ?? 0);
+    if (!$charId) {
+        http_response_code(400);
+        echo json_encode(['error' => 'ID do personagem inválido.']);
+        exit;
+    }
+
+    $existing = $pdo->prepare("SELECT id FROM characters WHERE id = ? AND user_id = ?");
+    $existing->execute([$charId, $userId]);
+    if (!$existing->fetch()) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Personagem não encontrado.']);
+        exit;
+    }
+
+    if (empty($_FILES['avatar'])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Nenhum arquivo enviado.']);
+        exit;
+    }
+
+    $file = $_FILES['avatar'];
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mime = $finfo->file($file['tmp_name']);
+    $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+    if (!in_array($mime, $allowed, true)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Tipo de arquivo não permitido.']);
+        exit;
+    }
+
+    if ($file['size'] > 2 * 1024 * 1024) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Arquivo muito grande. Máximo 2MB.']);
+        exit;
+    }
+
+    $ext      = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    $filename = 'char_avatar_' . $charId . '_' . uniqid() . '.' . $ext;
+    $dest     = __DIR__ . '/../uploads/files/' . $filename;
+
+    if (!move_uploaded_file($file['tmp_name'], $dest)) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Erro ao salvar arquivo.']);
+        exit;
+    }
+
+    $url = 'uploads/files/' . $filename;
+    $pdo->prepare("UPDATE characters SET avatar=? WHERE id=? AND user_id=?")->execute([$url, $charId, $userId]);
+
+    echo json_encode(['success' => true, 'avatar' => $url]);
+    exit;
+}
+
 if ($method === 'GET' && !$action) {
     // List characters for current user with last message + unread count
     $stmt = $pdo->prepare("
