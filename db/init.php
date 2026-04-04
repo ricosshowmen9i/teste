@@ -110,6 +110,13 @@ function initSchema(PDO $pdo): void {
         )
     ");
 
+    // Add app_logo column to ai_config if missing (safe migration)
+    try {
+        $pdo->exec("ALTER TABLE ai_config ADD COLUMN app_logo TEXT DEFAULT NULL");
+    } catch (PDOException $e) {
+        // Column already exists — ignore
+    }
+
     // Seed default admin
     $adminExists = $pdo->query("SELECT id FROM users WHERE email='admin@sete.app'")->fetch();
     if (!$adminExists) {

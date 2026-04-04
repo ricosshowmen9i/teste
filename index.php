@@ -31,6 +31,18 @@ if ($isLoggedIn) {
 
 $theme = $currentUser['theme'] ?? 'green';
 
+// Load app settings (logo) for login page
+$appLogo = null;
+if (!$isLoggedIn) {
+    try {
+        $pdo    = getDB();
+        $cfgRow = $pdo->query("SELECT app_logo FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
+        $appLogo = $cfgRow['app_logo'] ?? null;
+    } catch (Exception $e) {
+        // ignore
+    }
+}
+
 ?><!DOCTYPE html>
 <html lang="pt-BR" data-theme="<?= htmlspecialchars($theme) ?>">
 <head>
@@ -49,24 +61,64 @@ $theme = $currentUser['theme'] ?? 'green';
 <!-- ═══ LOGIN PAGE ═══════════════════════════════════════════════ -->
 <div class="login-card">
   <div class="login-logo">
+    <?php if ($appLogo): ?>
+      <img src="<?= htmlspecialchars($appLogo) ?>" alt="Logo" class="login-logo-img">
+    <?php else: ?>
+      <div class="login-logo-icon">🤖</div>
+    <?php endif; ?>
     <h1>What JUJU</h1>
     <p>Converse com personagens de IA</p>
   </div>
-  <form class="login-form" id="login-form" novalidate>
-    <div class="form-group">
-      <label for="login-email">Email</label>
-      <input type="email" id="login-email" name="email" placeholder="seu@email.com" autocomplete="email" required>
+
+  <!-- ── Login Mode ───────────────────────────────────────────── -->
+  <div id="login-mode">
+    <form class="login-form" id="login-form" novalidate>
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" name="email" placeholder="seu@email.com" autocomplete="email" required>
+      </div>
+      <div class="form-group">
+        <label for="login-password">Senha</label>
+        <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn-login" id="btn-login">Entrar</button>
+      <div class="login-error" id="login-error"></div>
+    </form>
+    <div class="login-switch">
+      Não tem conta? <button type="button" class="link-btn" id="show-register">Registrar</button>
     </div>
-    <div class="form-group">
-      <label for="login-password">Senha</label>
-      <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+  </div>
+
+  <!-- ── Register Mode ────────────────────────────────────────── -->
+  <div id="register-mode" style="display:none">
+    <form class="login-form" id="register-form" novalidate>
+      <div class="form-group">
+        <label for="reg-name">Nome</label>
+        <input type="text" id="reg-name" placeholder="Seu nome" autocomplete="name" required>
+      </div>
+      <div class="form-group">
+        <label for="reg-email">Email</label>
+        <input type="email" id="reg-email" placeholder="seu@email.com" autocomplete="email" required>
+      </div>
+      <div class="form-group">
+        <label for="reg-password">Senha</label>
+        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required>
+      </div>
+      <div class="form-group">
+        <label for="reg-confirm">Confirmar senha</label>
+        <input type="password" id="reg-confirm" placeholder="Repita a senha" autocomplete="new-password" required>
+      </div>
+      <button type="submit" class="btn-login" id="btn-register">Criar conta</button>
+      <div class="login-error" id="register-error"></div>
+    </form>
+    <div class="login-switch">
+      Já tem conta? <button type="button" class="link-btn" id="show-login">Entrar</button>
     </div>
-    <button type="submit" class="btn-login" id="btn-login">Entrar</button>
-    <div class="login-error" id="login-error"></div>
-  </form>
+  </div>
 </div>
 
 <script>
+// ── Login ─────────────────────────────────────────────────────────
 document.getElementById('login-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn   = document.getElementById('btn-login');
@@ -100,6 +152,78 @@ document.getElementById('login-form').addEventListener('submit', async function(
     btn.disabled = false;
     btn.textContent = 'Entrar';
   }
+});
+
+// ── Register ──────────────────────────────────────────────────────
+document.getElementById('register-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn    = document.getElementById('btn-register');
+  const errEl  = document.getElementById('register-error');
+  const name   = document.getElementById('reg-name').value.trim();
+  const email  = document.getElementById('reg-email').value.trim();
+  const pass   = document.getElementById('reg-password').value;
+  const conf   = document.getElementById('reg-confirm').value;
+
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Criando conta…';
+
+  try {
+    const fd = new FormData();
+    fd.append('action', 'register');
+    fd.append('name', name);
+    fd.append('email', email);
+    fd.append('password', pass);
+    fd.append('confirm_password', conf);
+
+    const res  = await fetch('api/auth.php', { method: 'POST', body: fd });
+    const data = await res.json();
+
+    if (data.error) {
+      errEl.textContent = data.error;
+      errEl.style.display = 'block';
+    } else {
+      location.reload();
+    }
+  } catch (err) {
+    errEl.textContent = 'Erro de rede. Tente novamente.';
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Criar conta';
+  }
+});
+
+// ── Toggle between login and register ────────────────────────────
+function switchAuthMode(fromId, toId, focusId) {
+  var from = document.getElementById(fromId);
+  var to   = document.getElementById(toId);
+  from.style.transition = 'opacity .2s ease, transform .2s ease';
+  from.style.opacity = '0';
+  from.style.transform = 'translateY(-10px)';
+  setTimeout(function() {
+    from.style.display = 'none';
+    to.style.opacity = '0';
+    to.style.transform = 'translateY(10px)';
+    to.style.display = 'block';
+    requestAnimationFrame(function() {
+      to.style.transition = 'opacity .3s ease, transform .3s ease';
+      to.style.opacity = '1';
+      to.style.transform = 'translateY(0)';
+    });
+    if (focusId) {
+      var focusEl = document.getElementById(focusId);
+      if (focusEl) focusEl.focus();
+    }
+  }, 220);
+}
+
+document.getElementById('show-register').addEventListener('click', function() {
+  switchAuthMode('login-mode', 'register-mode', 'reg-name');
+});
+
+document.getElementById('show-login').addEventListener('click', function() {
+  switchAuthMode('register-mode', 'login-mode', 'login-email');
 });
 </script>
 
@@ -534,6 +658,10 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
         <i class="fa-solid fa-users" style="color:#FF9800"></i>
         <span class="nav-label">Usuários</span>
       </div>
+      <div class="admin-nav-item" data-panel="appearance">
+        <i class="fa-solid fa-palette" style="color:#9C27B0"></i>
+        <span class="nav-label">Aparência</span>
+      </div>
     </div>
 
     <!-- Content -->
@@ -656,6 +784,34 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
             </table>
           </div>
 
+        </div>
+      </div>
+
+      <!-- Appearance Panel -->
+      <div class="admin-panel" id="admin-panel-appearance">
+        <div class="admin-panel-body">
+          <div style="max-width:560px;">
+            <h3 style="margin-bottom:16px;font-size:.95rem;color:var(--text-secondary);">🖼️ Logo do Aplicativo</h3>
+
+            <div class="form-group">
+              <label for="cfg-app-logo">URL da Logo (imagem)</label>
+              <input type="text" id="cfg-app-logo" class="form-control" placeholder="https://… ou uploads/avatars/…">
+              <div class="form-hint">Exibida na página de login. Deixe em branco para usar o ícone padrão 🤖</div>
+            </div>
+
+            <div id="logo-preview-wrap" style="margin:12px 0;display:none;">
+              <img id="logo-preview-img" src="" alt="Preview" style="max-height:80px;border-radius:8px;border:1px solid var(--border);">
+            </div>
+
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+              <label class="btn btn-outline" style="cursor:pointer;margin:0;" id="btn-logo-upload-label">
+                <i class="fa-solid fa-upload" style="color:#3F51B5"></i> Upload imagem
+                <input type="file" id="logo-upload-file" accept="image/*" style="display:none">
+              </label>
+              <button class="btn btn-primary" id="btn-save-appearance">💾 Salvar logo</button>
+              <button class="btn btn-ghost" id="btn-clear-logo">🗑️ Remover logo</button>
+            </div>
+          </div>
         </div>
       </div>
 
