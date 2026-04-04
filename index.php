@@ -271,18 +271,84 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
       <button class="modal-close" onclick="closeModal('modal-contacts')">✕</button>
     </div>
 
-    <div class="contacts-new-btn" id="btn-new-character">
-      ➕ Novo Personagem
+    <div class="contacts-modal-tabs">
+      <button class="contacts-modal-tab active" id="tab-btn-contacts" onclick="ContactsModal.showTab('contacts')">👥 Contatos</button>
+      <button class="contacts-modal-tab" id="tab-btn-groups" onclick="ContactsModal.showTab('groups')">🎭 Grupos</button>
     </div>
 
-    <div class="contact-search-wrap">
-      <input type="text" id="contact-search" placeholder="🔍 Pesquisar…">
-    </div>
-
-    <div class="contacts-list" id="contacts-list">
-      <div class="text-center text-muted" style="padding:24px;">
-        <div class="spinner"></div>
+    <div id="contacts-tab-panel" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+      <div class="contacts-new-btn" id="btn-new-character">
+        ➕ Novo Personagem
       </div>
+
+      <div class="contact-search-wrap">
+        <input type="text" id="contact-search" placeholder="🔍 Pesquisar…">
+      </div>
+
+      <div class="contacts-list" id="contacts-list">
+        <div class="text-center text-muted" style="padding:24px;">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="groups-tab-panel" style="display:none; flex-direction:column; flex:1; overflow:hidden;">
+      <div class="contacts-new-btn" id="btn-new-group">➕ Novo Grupo</div>
+      <div class="contacts-list" id="groups-list">
+        <div class="text-center text-muted" style="padding:24px;"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: Group Create / Edit ════════════════════════════════ -->
+<div id="modal-group" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 id="group-modal-title">Novo Grupo</h2>
+      <button class="modal-close" onclick="closeModal('modal-group')">✕</button>
+    </div>
+    <input type="hidden" id="group-id">
+    <div class="modal-body" style="overflow-y:auto;max-height:70vh;">
+      <div class="form-group">
+        <label for="group-name">Nome do grupo *</label>
+        <input type="text" id="group-name" class="form-control" placeholder="Ex: Família, Amigos, Aventureiros…">
+      </div>
+      <div class="form-group">
+        <label for="group-description">Descrição</label>
+        <textarea id="group-description" class="form-control" rows="2" placeholder="Sobre este grupo…"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="group-story">Roteiro / Contexto</label>
+        <textarea id="group-story" class="form-control" rows="4"
+          placeholder="Descreva a história ou o contexto que os personagens devem seguir. Ex: 'Somos uma equipe de detetives resolvendo um misterioso crime em 1920...'"></textarea>
+        <div class="form-hint">Os personagens vão agir de acordo com este roteiro.</div>
+      </div>
+      <div class="form-group">
+        <label for="group-interaction-mode">Modo de interação</label>
+        <select id="group-interaction-mode" class="form-control">
+          <option value="random">🎲 Aleatório — 1 a 2 personagens respondem por vez</option>
+          <option value="topic">💬 Por assunto — 1 a 3 personagens comentam o tópico</option>
+          <option value="story">📖 Roteiro — todos respondem em ordem</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Membros do grupo</label>
+        <div id="group-members-list" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;min-height:40px;border:1px dashed var(--border);border-radius:8px;padding:8px;">
+          <span class="text-muted" style="font-size:.85rem;">Nenhum membro adicionado</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Adicionar personagem</label>
+        <select id="group-add-member-select" class="form-control">
+          <option value="">— selecione —</option>
+        </select>
+        <button class="btn btn-outline btn-sm" id="btn-add-member-to-group" style="margin-top:6px;">➕ Adicionar ao grupo</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-group')">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-group">💾 Salvar Grupo</button>
     </div>
   </div>
 </div>
@@ -722,6 +788,7 @@ window.SETE_CSRF  = <?= json_encode($_SESSION['csrf_token']) ?>;
 <?php if ($currentUser['role'] === 'admin'): ?>
 <script src="assets/js/admin.js"></script>
 <?php endif; ?>
+<script src="assets/js/groups.js"></script>
 
 <script>
 // ── Profile Manager ──────────────────────────────────────────────

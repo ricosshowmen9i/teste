@@ -359,6 +359,11 @@ const ChatManager = {
 
   // ── Send message ────────────────────────────────────────────────
   async sendMessage() {
+    // Delegate to group chat if a group is active
+    if (window.GroupManager && GroupManager.activeGroup) {
+      return GroupManager.sendGroupMessage();
+    }
+
     const input = document.getElementById('message-input');
     if (!input || !this.activeCharacter) return;
 
@@ -691,6 +696,11 @@ const ChatManager = {
 
   // ── Clear chat ───────────────────────────────────────────────────
   async clearChat() {
+    // Delegate to group clear if a group is active
+    if (window.GroupManager && GroupManager.activeGroup) {
+      return GroupManager.clearGroupChat();
+    }
+
     if (!this.activeCharacter) return;
     if (!confirmAction('Apagar toda a conversa com ' + this.activeCharacter.name + '?')) return;
 

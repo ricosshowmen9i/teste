@@ -106,6 +106,46 @@ function initSchema(PDO $pdo): void {
         )
     ");
 
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS groups (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            description TEXT DEFAULT '',
+            avatar TEXT DEFAULT NULL,
+            story TEXT DEFAULT '',
+            interaction_mode TEXT DEFAULT 'random',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    ");
+
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS group_members (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            group_id INTEGER NOT NULL,
+            character_id INTEGER NOT NULL,
+            UNIQUE(group_id, character_id),
+            FOREIGN KEY (group_id) REFERENCES groups(id),
+            FOREIGN KEY (character_id) REFERENCES characters(id)
+        )
+    ");
+
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS group_messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            group_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
+            sender_type TEXT NOT NULL,
+            character_id INTEGER DEFAULT NULL,
+            character_name TEXT DEFAULT NULL,
+            content TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (group_id) REFERENCES groups(id),
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    ");
+
     // Seed default admin
     $adminExists = $pdo->query("SELECT id FROM users WHERE email='admin@sete.app'")->fetch();
     if (!$adminExists) {
