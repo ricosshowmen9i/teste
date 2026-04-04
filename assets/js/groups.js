@@ -175,7 +175,7 @@ const GroupManager = {
         <span class="chip-remove" data-id="${m.id}">✕</span>
       `;
       chip.querySelector('.chip-remove').addEventListener('click', () => {
-        this._modalMembers = this._modalMembers.filter(x => x.id != m.id);
+        this._modalMembers = this._modalMembers.filter(x => x.id !== m.id);
         this._renderMemberChips();
       });
       container.appendChild(chip);
@@ -187,7 +187,7 @@ const GroupManager = {
     const id   = parseInt(sel?.value || '0', 10);
     if (!id) return;
 
-    if (this._modalMembers.find(m => m.id == id)) {
+    if (this._modalMembers.find(m => m.id === id)) {
       showToast('Personagem já adicionado.', 'warning');
       return;
     }
