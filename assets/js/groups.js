@@ -301,10 +301,9 @@ const GroupManager = {
   },
 
   _updateChatHeader(group) {
-    const nameEl    = document.getElementById('chat-char-name');
-    const statusEl  = document.getElementById('chat-char-status');
-    const avatarEl  = document.getElementById('chat-char-avatar');
-    const initialsEl = document.getElementById('chat-char-initials');
+    const nameEl   = document.getElementById('chat-header-name');
+    const statusEl = document.getElementById('chat-header-status');
+    const avatarEl = document.getElementById('chat-header-avatar');
 
     if (nameEl) nameEl.textContent = group.name;
 
@@ -313,20 +312,16 @@ const GroupManager = {
     const modeLabel  = modeLabels[group.interaction_mode] || '🎲 Aleatório';
     if (statusEl) statusEl.textContent = `${members.length} membro${members.length !== 1 ? 's' : ''} · ${modeLabel}`;
 
-    // Build avatar stack in header
-    if (avatarEl && initialsEl) {
-      avatarEl.style.display   = 'none';
-      initialsEl.style.display = 'none';
-
+    // Replace avatar area with stacked group avatars
+    if (avatarEl) {
       // Remove any old stack
-      const existing = document.getElementById('group-header-avatar-stack');
-      if (existing) existing.remove();
+      document.getElementById('group-header-avatar-stack')?.remove();
 
       const stack = document.createElement('div');
       stack.id        = 'group-header-avatar-stack';
       stack.className = 'group-header-avatars';
 
-      members.slice(0, 4).forEach(m => {
+      (members.slice(0, 4)).forEach(m => {
         const div = document.createElement('div');
         div.className = 'ga';
         if (m.avatar) {
@@ -340,8 +335,13 @@ const GroupManager = {
         stack.appendChild(div);
       });
 
+      avatarEl.style.display = 'none';
       avatarEl.parentNode.insertBefore(stack, avatarEl);
     }
+
+    // Update typing avatar
+    const typingAvatar = document.getElementById('typing-avatar');
+    if (typingAvatar) typingAvatar.textContent = '🎭';
   },
 
   // ── Load group history ───────────────────────────────────────────
@@ -374,7 +374,7 @@ const GroupManager = {
 
     const isUser = msg.sender_type === 'user';
     const wrapper = document.createElement('div');
-    wrapper.className = `msg-wrapper ${isUser ? 'user' : 'bot'}`;
+    wrapper.className = `message-wrapper ${isUser ? 'user' : 'assistant'}`;
 
     if (!isUser) {
       const avatarDiv = document.createElement('div');
@@ -391,7 +391,7 @@ const GroupManager = {
     }
 
     const bubble = document.createElement('div');
-    bubble.className = `msg-bubble ${isUser ? 'user' : 'bot'}`;
+    bubble.className = 'msg-bubble';
 
     if (!isUser && msg.character_name) {
       const nameEl = document.createElement('div');
@@ -401,7 +401,7 @@ const GroupManager = {
     }
 
     const textEl = document.createElement('div');
-    textEl.className = 'msg-text';
+    textEl.className = 'msg-content';
     textEl.innerHTML  = parseMarkdown(msg.content || '');
     bubble.appendChild(textEl);
 
@@ -420,7 +420,7 @@ const GroupManager = {
     if (!container) return null;
 
     const wrapper = document.createElement('div');
-    wrapper.className   = 'msg-wrapper bot';
+    wrapper.className = 'message-wrapper assistant';
     wrapper.dataset.streamChar = charId;
 
     const avatarDiv = document.createElement('div');
@@ -436,7 +436,7 @@ const GroupManager = {
     wrapper.appendChild(avatarDiv);
 
     const bubble = document.createElement('div');
-    bubble.className = 'msg-bubble bot';
+    bubble.className = 'msg-bubble';
 
     const nameEl = document.createElement('div');
     nameEl.className   = 'msg-sender-name';
@@ -444,7 +444,7 @@ const GroupManager = {
     bubble.appendChild(nameEl);
 
     const textEl = document.createElement('div');
-    textEl.className = 'msg-text';
+    textEl.className = 'msg-content';
     bubble.appendChild(textEl);
 
     wrapper.appendChild(bubble);

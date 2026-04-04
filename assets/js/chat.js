@@ -152,6 +152,9 @@ const ChatManager = {
   async openChat(char) {
     this.activeCharacter = char;
 
+    // Deactivate any active group
+    if (window.GroupManager) GroupManager.activeGroup = null;
+
     const welcome  = document.getElementById('welcome-screen');
     const chatView = document.getElementById('chat-view');
     if (welcome)  welcome.style.display = 'none';
@@ -163,7 +166,11 @@ const ChatManager = {
     const headerName   = document.getElementById('chat-header-name');
     const headerStatus = document.getElementById('chat-header-status');
 
+    // Remove any group avatar stack
+    document.getElementById('group-header-avatar-stack')?.remove();
+
     if (headerAvatar) {
+      headerAvatar.style.display = '';
       headerAvatar.innerHTML = char.avatar
         ? `<img src="${escHtml(char.avatar)}" alt="${escHtml(char.name)}">`
         : initials;
