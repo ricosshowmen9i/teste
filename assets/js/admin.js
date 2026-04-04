@@ -42,16 +42,18 @@ const AdminManager = {
 
     const titleEl = document.getElementById('admin-panel-title');
     const titles = {
-      stats: '📊 Dashboard',
-      config: '🤖 Configuração IA',
-      users: '👥 Usuários',
+      stats:      '📊 Dashboard',
+      config:     '🤖 Configuração IA',
+      users:      '👥 Usuários',
+      appearance: '🎨 Aparência',
     };
     if (titleEl) titleEl.textContent = titles[name] || name;
 
     switch (name) {
-      case 'stats':  this.loadStats(); break;
-      case 'config': this.loadConfig(); break;
-      case 'users':  this.loadUsers(); break;
+      case 'stats':      this.loadStats(); break;
+      case 'config':     this.loadConfig(); break;
+      case 'users':      this.loadUsers(); break;
+      case 'appearance': this.loadAppearance(); break;
     }
   },
 
@@ -406,6 +408,97 @@ const AdminManager = {
       await this.loadUsers();
     } catch (e) {
       showToast('Erro ao excluir usuário.', 'error');
+    }
+  },
+
+  // ── Appearance ────────────────────────────────────────────────
+  async loadAppearance() {
+    try {
+      const data = await apiGet('api/admin.php?action=app_settings');
+      const logoInput = document.getElementById('cfg-app-logo');
+      if (logoInput) logoInput.value = data.app_logo || '';
+      this.updateLogoPreview(data.app_logo || '');
+    } catch (e) {
+      showToast('Erro ao carregar configurações de aparência.', 'error');
+    }
+
+    this.bindAppearanceEvents();
+  },
+
+  updateLogoPreview(url) {
+    const wrap = document.getElementById('logo-preview-wrap');
+    const img  = document.getElementById('logo-preview-img');
+    if (!wrap || !img) return;
+    if (url) {
+      img.src = url;
+      wrap.style.display = 'block';
+    } else {
+      wrap.style.display = 'none';
+    }
+  },
+
+  bindAppearanceEvents() {
+    const logoInput   = document.getElementById('cfg-app-logo');
+    const saveBtn     = document.getElementById('btn-save-appearance');
+    const clearBtn    = document.getElementById('btn-clear-logo');
+    const uploadFile  = document.getElementById('logo-upload-file');
+
+    if (logoInput && !logoInput._bound) {
+      logoInput._bound = true;
+      logoInput.addEventListener('input', () => {
+        this.updateLogoPreview(logoInput.value.trim());
+      });
+    }
+
+    if (uploadFile && !uploadFile._bound) {
+      uploadFile._bound = true;
+      uploadFile.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const fd = new FormData();
+        fd.append('avatar', file);
+        showToast('Enviando imagem…', 'info', 1500);
+        try {
+          const data = await apiPostFile('api/upload.php', fd);
+          if (data.error) { showToast(data.error, 'error'); return; }
+          const input = document.getElementById('cfg-app-logo');
+          if (input) { input.value = data.url; }
+          this.updateLogoPreview(data.url);
+          showToast('Imagem carregada!', 'success');
+        } catch (err) {
+          showToast('Erro ao enviar imagem.', 'error');
+        }
+        e.target.value = '';
+      });
+    }
+
+    if (saveBtn && !saveBtn._bound) {
+      saveBtn._bound = true;
+      saveBtn.addEventListener('click', async () => {
+        const url = document.getElementById('cfg-app-logo')?.value.trim() || '';
+        try {
+          const data = await apiPost('api/admin.php', { action: 'save_app_settings', app_logo: url });
+          if (data.error) { showToast(data.error, 'error'); return; }
+          showToast('Logo salva! Recarregue para ver na página de login.', 'success');
+        } catch (e) {
+          showToast('Erro ao salvar logo.', 'error');
+        }
+      });
+    }
+
+    if (clearBtn && !clearBtn._bound) {
+      clearBtn._bound = true;
+      clearBtn.addEventListener('click', async () => {
+        const input = document.getElementById('cfg-app-logo');
+        if (input) input.value = '';
+        this.updateLogoPreview('');
+        try {
+          await apiPost('api/admin.php', { action: 'save_app_settings', app_logo: '' });
+          showToast('Logo removida.', 'success');
+        } catch (e) {
+          showToast('Erro ao remover logo.', 'error');
+        }
+      });
     }
   },
 };

@@ -57,6 +57,12 @@ if ($method === 'GET') {
         exit;
     }
 
+    if ($action === 'app_settings') {
+        $config = $pdo->query("SELECT app_logo FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
+        echo json_encode(['app_logo' => $config['app_logo'] ?? null]);
+        exit;
+    }
+
     if ($action === 'users') {
         $users = $pdo->query("SELECT id, name, email, role, active, avatar, status, theme, created_at, last_login FROM users ORDER BY created_at DESC")->fetchAll();
         echo json_encode(['users' => $users]);
@@ -69,6 +75,18 @@ if ($method === 'POST') {
     if ($csrfToken !== ($_SESSION['csrf_token'] ?? '')) {
         http_response_code(403);
         echo json_encode(['error' => 'Token CSRF inválido.']);
+        exit;
+    }
+
+    if ($action === 'save_app_settings') {
+        $appLogo = trim($_POST['app_logo'] ?? '');
+
+        $existing = $pdo->query("SELECT id FROM ai_config LIMIT 1")->fetch();
+        if ($existing) {
+            $pdo->prepare("UPDATE ai_config SET app_logo=? WHERE id=?")
+                ->execute([$appLogo ?: null, $existing['id']]);
+        }
+        echo json_encode(['success' => true]);
         exit;
     }
 
