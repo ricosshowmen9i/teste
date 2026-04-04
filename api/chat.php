@@ -159,12 +159,44 @@ if (isset($_GET['stream'])) {
     // Append file content to message if applicable
     $userMessageContent = $message;
     if ($fileUrl && $character['can_read_files']) {
-        $filePath = __DIR__ . '/../' . ltrim($fileUrl, '/');
-        if (file_exists($filePath)) {
-            $fileMime = mime_content_type($filePath);
-            if (strpos($fileMime, 'text/') === 0 || in_array($fileMime, ['application/json', 'application/pdf'], true)) {
-                $fileContent = file_get_contents($filePath);
-                $userMessageContent .= "\n\n[Arquivo: $fileName]\n" . substr($fileContent, 0, 4000);
+        $basePath = realpath(__DIR__ . '/../');
+        $uploadsFilesPath = $basePath ? realpath($basePath . '/uploads/files') : false;
+        $candidatePath = $basePath ? realpath($basePath . '/' . ltrim($fileUrl, '/')) : false;
+
+        $isPathSafe = $candidatePath !== false
+            && $uploadsFilesPath !== false
+            && strpos($candidatePath, $uploadsFilesPath . DIRECTORY_SEPARATOR) === 0
+            && is_file($candidatePath);
+
+        if ($isPathSafe) {
+            $fileMime = mime_content_type($candidatePath);
+            $contextContent = '';
+
+            if (strpos($fileMime, 'image/') === 0) {
+                $raw = file_get_contents($candidatePath);
+                if ($raw !== false) {
+                    $contextContent = '[imagem base64 omitida para contexto] ' . substr(base64_encode($raw), 0, 4000);
+                }
+            } elseif ($fileMime === 'application/pdf') {
+                if (function_exists('shell_exec')) {
+                    $escaped = escapeshellarg($candidatePath);
+                    $pdfText = shell_exec("pdftotext {$escaped} - 2>/dev/null");
+                    if (is_string($pdfText) && trim($pdfText) !== '') {
+                        $contextContent = trim($pdfText);
+                    }
+                }
+                if ($contextContent === '') {
+                    $contextContent = '[PDF enviado, sem extração de texto disponível no servidor]';
+                }
+            } elseif (strpos($fileMime, 'text/') === 0 || in_array($fileMime, ['application/json', 'application/javascript'], true)) {
+                $raw = file_get_contents($candidatePath);
+                if ($raw !== false) {
+                    $contextContent = $raw;
+                }
+            }
+
+            if ($contextContent !== '') {
+                $userMessageContent .= "\n\nO usuário enviou um arquivo chamado {$fileName} com o seguinte conteúdo: " . substr($contextContent, 0, 4000);
             }
         }
     }
@@ -195,6 +227,182 @@ if (isset($_GET['stream'])) {
 if ($method === 'POST' && $action === 'send') {
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode(['error' => 'Use stream endpoint.']);
+    exit;
+}
+
+// ─── SSE: Group stream ────────────────────────────────────────────────────────
+if (isset($_GET['group_stream'])) {
+    header('Content-Type: text/event-stream');
+    header('Cache-Control: no-cache');
+    header('X-Accel-Buffering: no');
+    header('Connection: keep-alive');
+
+    $groupId = (int)($_GET['group_id'] ?? 0);
+    $message = trim($_GET['message'] ?? '');
+
+    if (!$groupId || !$message) {
+        echo "data: " . json_encode(['error' => 'Parâmetros inválidos.']) . "\n\n";
+        flush();
+        exit;
+    }
+
+    // Rate limiting
+    $sessionId = session_id();
+    $rateRow   = $pdo->prepare("SELECT * FROM rate_limits WHERE session_id=?");
+    $rateRow->execute([$sessionId]);
+    $rate = $rateRow->fetch();
+
+    if ($rate) {
+        $windowStart = strtotime($rate['window_start']);
+        if (time() - $windowStart < 60) {
+            if ($rate['requests'] >= 30) {
+                echo "data: " . json_encode(['error' => 'Limite de requisições atingido. Aguarde.']) . "\n\n";
+                flush();
+                exit;
+            }
+            $pdo->prepare("UPDATE rate_limits SET requests=requests+1 WHERE session_id=?")
+                ->execute([$sessionId]);
+        } else {
+            $pdo->prepare("UPDATE rate_limits SET requests=1, window_start=CURRENT_TIMESTAMP WHERE session_id=?")
+                ->execute([$sessionId]);
+        }
+    } else {
+        $pdo->prepare("INSERT INTO rate_limits (session_id, requests) VALUES (?,1)")->execute([$sessionId]);
+    }
+
+    // Load group (verify ownership)
+    $grpStmt = $pdo->prepare("SELECT * FROM groups WHERE id = ? AND user_id = ?");
+    $grpStmt->execute([$groupId, $userId]);
+    $group = $grpStmt->fetch();
+    if (!$group) {
+        echo "data: " . json_encode(['error' => 'Grupo não encontrado.']) . "\n\n";
+        flush();
+        exit;
+    }
+
+    // Load members
+    $mStmt = $pdo->prepare("
+        SELECT c.* FROM group_members gm
+        JOIN characters c ON c.id = gm.character_id
+        WHERE gm.group_id = ?
+    ");
+    $mStmt->execute([$groupId]);
+    $members = $mStmt->fetchAll();
+
+    if (empty($members)) {
+        echo "data: " . json_encode(['error' => 'O grupo não tem membros.']) . "\n\n";
+        flush();
+        exit;
+    }
+
+    // Load ai_config
+    $config = $pdo->query("SELECT * FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
+    if (!$config) {
+        echo "data: " . json_encode(['error' => 'IA não configurada.']) . "\n\n";
+        flush();
+        exit;
+    }
+
+    // Save user message
+    $pdo->prepare("
+        INSERT INTO group_messages (group_id, user_id, sender_type, content)
+        VALUES (?, ?, 'user', ?)
+    ")->execute([$groupId, $userId, $message]);
+
+    // Load last 30 group messages for context
+    $histStmt = $pdo->prepare("
+        SELECT * FROM group_messages
+        WHERE group_id = ?
+        ORDER BY created_at DESC LIMIT 30
+    ");
+    $histStmt->execute([$groupId]);
+    $contextHistory = array_reverse($histStmt->fetchAll());
+
+    // Select responding characters
+    $responding = selectRespondingCharacters($members, $group);
+
+    $model = determineModel($config);
+
+    $prevChar = null; // track the last character that responded for reply-to chaining
+
+    foreach ($responding as $idx => $character) {
+        // Emit typing indicator
+        echo "data: " . json_encode([
+            'typing_char'      => true,
+            'character_id'     => (int)$character['id'],
+            'character_name'   => $character['name'],
+            'character_avatar' => $character['avatar'] ?? null,
+        ]) . "\n\n";
+        flush();
+
+        $systemPrompt = buildGroupSystemPrompt($character, $group, $members, $userName);
+        $history      = buildGroupHistory($contextHistory, $character);
+
+        // Determine what this character is replying to
+        $replyToId      = null;
+        $replyToName    = null;
+        $replyToSnippet = null;
+
+        if ($prevChar !== null) {
+            // This character is replying to the previous character's message
+            $lastCharMsg = end($contextHistory);
+            if ($lastCharMsg && $lastCharMsg['sender_type'] === 'character') {
+                $replyToId      = (int)($lastCharMsg['id'] ?? 0);
+                $replyToName    = $lastCharMsg['character_name'];
+                $replyToSnippet = mb_substr($lastCharMsg['content'], 0, 80);
+                // Add instruction to reply to that character
+                $systemPrompt .= "\n\nVocê está respondendo diretamente à mensagem de {$replyToName}: \"{$replyToSnippet}\"";
+            }
+        } elseif ($idx === 0) {
+            // First character replies to user message
+            $replyToName    = $userName;
+            $replyToSnippet = mb_substr($message, 0, 80);
+        }
+
+        $charMeta = [
+            'character_id'       => (int)$character['id'],
+            'character_name'     => $character['name'],
+            'character_avatar'   => $character['avatar'] ?? null,
+            'reply_to_name'      => $replyToName,
+            'reply_to_snippet'   => $replyToSnippet,
+        ];
+
+        $fullResponse = '';
+        try {
+            $fullResponse = streamGroupCharacter($config, $model, $systemPrompt, $history, $message, $character, $charMeta);
+        } catch (Exception $e) {
+            echo "data: " . json_encode(['error' => $e->getMessage()]) . "\n\n";
+            flush();
+        }
+
+        if ($fullResponse) {
+            $stmt = $pdo->prepare("
+                INSERT INTO group_messages (group_id, user_id, sender_type, character_id, character_name, content, reply_to_id, reply_to_name, reply_to_snippet)
+                VALUES (?, ?, 'character', ?, ?, ?, ?, ?, ?)
+            ");
+            $stmt->execute([
+                $groupId, $userId, (int)$character['id'], $character['name'], $fullResponse,
+                $replyToId ?: null, $replyToName, $replyToSnippet,
+            ]);
+            $newMsgId = (int)$pdo->lastInsertId();
+
+            $newEntry = [
+                'id'             => $newMsgId,
+                'sender_type'    => 'character',
+                'character_id'   => (int)$character['id'],
+                'character_name' => $character['name'],
+                'content'        => $fullResponse,
+                'reply_to_name'  => $replyToName,
+                'reply_to_snippet' => $replyToSnippet,
+            ];
+            // Append to local context so subsequent characters see it
+            $contextHistory[] = $newEntry;
+            $prevChar = $character;
+        }
+    }
+
+    echo "data: [DONE]\n\n";
+    flush();
     exit;
 }
 
@@ -416,6 +624,251 @@ function streamOllama(array $config, string $model, string $systemPrompt, array 
                     $fullResponse .= $content;
                     echo "data: " . json_encode(['content' => $content]) . "\n\n";
                     ob_flush();
+                    flush();
+                }
+            }
+            return strlen($data);
+        },
+        CURLOPT_TIMEOUT => 120,
+    ]);
+    curl_exec($ch);
+    curl_close($ch);
+
+    return $fullResponse;
+}
+
+function selectRespondingCharacters(array $members, array $group): array {
+    if (empty($members)) return [];
+    $mode = $group['interaction_mode'] ?? 'random';
+    if ($mode === 'story') {
+        return $members;
+    }
+    $shuffled = $members;
+    shuffle($shuffled);
+    $count = min(count($shuffled), rand(1, min(3, count($shuffled))));
+    return array_slice($shuffled, 0, $count);
+}
+
+function buildGroupSystemPrompt(array $character, array $group, array $allMembers, string $userName): string {
+    $name = $character['name'];
+    $prompt = "Você é {$name}, um personagem de IA num grupo de chat chamado \"{$group['name']}\".";
+    if ($character['description']) $prompt .= "\nDescrição: {$character['description']}";
+    if ($character['personality']) $prompt .= "\nPersonalidade: {$character['personality']}";
+    if ($character['voice_example']) $prompt .= "\nExemplo de como fala: {$character['voice_example']}";
+
+    $others = array_filter($allMembers, fn($m) => (int)$m['id'] !== (int)$character['id']);
+    if (!empty($others)) {
+        $otherNames = array_map(fn($m) => $m['name'] . ($m['description'] ? " ({$m['description']})" : ''), $others);
+        $prompt .= "\n\nOutros personagens no grupo: " . implode(', ', array_values($otherNames)) . ".";
+    }
+
+    if ($group['description']) $prompt .= "\nSobre o grupo: {$group['description']}";
+
+    if (!empty($group['story'])) {
+        $prompt .= "\n\nROTEIRO DA HISTÓRIA:\n{$group['story']}";
+        $prompt .= "\n\nIMPORTANTE sobre o roteiro:";
+        $prompt .= "\n- Se o roteiro mencionar que seu personagem é controlado por outro (vilão, feitiço, tecnologia, etc.), FINJA estar sendo controlado — aja conforme esse controle enquanto a história exigir.";
+        $prompt .= "\n- Crie a história colaborativamente com os outros personagens, reagindo ao que eles dizem.";
+        $prompt .= "\n- Quando outro personagem disser algo que afete você na história, responda diretamente a ele de forma dramática e natural.";
+        $prompt .= "\n- Siga o roteiro mas improvise detalhes criativos dentro do contexto.";
+    }
+
+    $mode = $group['interaction_mode'] ?? 'random';
+    if ($mode === 'story') {
+        $prompt .= "\n\nMODO ROTEIRO: Desenvolva a história de forma dramática e narrativa. Aja exatamente como seu personagem age nesta cena. Avance a trama.";
+    } elseif ($mode === 'topic') {
+        $prompt .= "\n\nMODO ASSUNTO: Foque no tópico atual e comente com a perspectiva do seu personagem.";
+    } else {
+        $prompt .= "\n\nMODO ALEATÓRIO: Interaja naturalmente como num grupo de amigos. Comente, concorde, discorde, faça perguntas ao grupo.";
+    }
+
+    $prompt .= "\n\nREGRAS OBRIGATÓRIAS:";
+    $prompt .= "\n- Responda APENAS como {$name}. Não saia do personagem.";
+    $prompt .= "\n- Respostas curtas a médias (1-4 frases), naturais, em português do Brasil.";
+    $prompt .= "\n- Se estiver respondendo a outro personagem, mencione o nome dele na resposta.";
+    $prompt .= "\n- O usuário humano se chama {$userName}. Trate-o como parte da história se o roteiro exigir.";
+    return $prompt;
+}
+
+function buildGroupHistory(array $history, array $currentChar): array {
+    $msgs = [];
+    foreach ($history as $msg) {
+        if ($msg['sender_type'] === 'user') {
+            $msgs[] = ['role' => 'user', 'content' => $msg['content']];
+        } else {
+            $charId   = (int)($msg['character_id'] ?? 0);
+            $charName = $msg['character_name'] ?? 'Personagem';
+            if ($charId === (int)$currentChar['id']) {
+                $msgs[] = ['role' => 'assistant', 'content' => $msg['content']];
+            } else {
+                $msgs[] = ['role' => 'user', 'content' => "[{$charName}]: {$msg['content']}"];
+            }
+        }
+    }
+    return $msgs;
+}
+
+function streamGroupCharacter(array $config, string $model, string $systemPrompt, array $history, string $userMessage, array $character, array $charMeta): string {
+    $provider = $config['provider'];
+
+    if ($provider === 'gemini') {
+        return streamGroupGemini($config, $model, $systemPrompt, $history, $userMessage, $charMeta);
+    }
+
+    if ($provider === 'ollama') {
+        return streamGroupOllama($config, $model, $systemPrompt, $history, $userMessage, $charMeta);
+    }
+
+    return streamGroupOpenAICompatible($config, $model, $systemPrompt, $history, $userMessage, $charMeta);
+}
+
+function streamGroupOpenAICompatible(array $config, string $model, string $systemPrompt, array $history, string $userMessage, array $charMeta): string {
+    $url  = rtrim($config['base_url'], '/') . '/chat/completions';
+    $msgs = array_merge(
+        [['role' => 'system', 'content' => $systemPrompt]],
+        $history,
+        [['role' => 'user', 'content' => $userMessage]]
+    );
+
+    $body = json_encode([
+        'model'      => $model,
+        'messages'   => $msgs,
+        'stream'     => true,
+        'max_tokens' => 2000,
+    ]);
+
+    $headers = [
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $config['api_key'],
+    ];
+
+    if ($config['provider'] === 'openrouter') {
+        $headers[] = 'HTTP-Referer: ' . (isset($_SERVER['HTTP_HOST']) ? 'https://' . $_SERVER['HTTP_HOST'] : 'https://sete.app');
+        $headers[] = 'X-Title: SETE';
+    }
+
+    $fullResponse = '';
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $body,
+        CURLOPT_HTTPHEADER     => $headers,
+        CURLOPT_RETURNTRANSFER => false,
+        CURLOPT_WRITEFUNCTION  => function($ch, $data) use (&$fullResponse, $charMeta) {
+            $lines = explode("\n", $data);
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if (!$line || $line === 'data: [DONE]') continue;
+                if (strpos($line, 'data: ') === 0) {
+                    $json    = substr($line, 6);
+                    $decoded = json_decode($json, true);
+                    $content = $decoded['choices'][0]['delta']['content'] ?? '';
+                    if ($content) {
+                        $fullResponse .= $content;
+                        echo "data: " . json_encode(['content' => $content, 'char' => $charMeta]) . "\n\n";
+                        flush();
+                    }
+                }
+            }
+            return strlen($data);
+        },
+        CURLOPT_TIMEOUT => 120,
+    ]);
+    curl_exec($ch);
+    $error = curl_error($ch);
+    curl_close($ch);
+
+    if ($error) {
+        throw new Exception('Erro na conexão com IA: ' . $error);
+    }
+
+    return $fullResponse;
+}
+
+function streamGroupGemini(array $config, string $model, string $systemPrompt, array $history, string $userMessage, array $charMeta): string {
+    $apiKey = $config['api_key'];
+    $url    = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:streamGenerateContent?key={$apiKey}&alt=sse";
+
+    $contents = [];
+    foreach ($history as $msg) {
+        $geminiRole = $msg['role'] === 'assistant' ? 'model' : 'user';
+        $contents[] = ['role' => $geminiRole, 'parts' => [['text' => $msg['content']]]];
+    }
+    $contents[] = ['role' => 'user', 'parts' => [['text' => $userMessage]]];
+
+    $body = json_encode([
+        'system_instruction' => ['parts' => [['text' => $systemPrompt]]],
+        'contents'           => $contents,
+        'generationConfig'   => ['maxOutputTokens' => 2000],
+    ]);
+
+    $fullResponse = '';
+    $buffer       = '';
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_POST          => true,
+        CURLOPT_POSTFIELDS    => $body,
+        CURLOPT_HTTPHEADER    => ['Content-Type: application/json'],
+        CURLOPT_RETURNTRANSFER => false,
+        CURLOPT_WRITEFUNCTION => function($ch, $data) use (&$fullResponse, &$buffer, $charMeta) {
+            $buffer .= $data;
+            $lines   = explode("\n", $buffer);
+            $buffer  = array_pop($lines);
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if (!$line || strpos($line, 'data: ') !== 0) continue;
+                $json    = substr($line, 6);
+                $decoded = json_decode($json, true);
+                $content = $decoded['candidates'][0]['content']['parts'][0]['text'] ?? '';
+                if ($content) {
+                    $fullResponse .= $content;
+                    echo "data: " . json_encode(['content' => $content, 'char' => $charMeta]) . "\n\n";
+                    flush();
+                }
+            }
+            return strlen($data);
+        },
+        CURLOPT_TIMEOUT => 120,
+    ]);
+    curl_exec($ch);
+    curl_close($ch);
+
+    return $fullResponse;
+}
+
+function streamGroupOllama(array $config, string $model, string $systemPrompt, array $history, string $userMessage, array $charMeta): string {
+    $baseUrl = rtrim($config['base_url'] ?: 'http://localhost:11434', '/');
+    $url     = $baseUrl . '/api/chat';
+
+    $msgs = array_merge(
+        [['role' => 'system', 'content' => $systemPrompt]],
+        $history,
+        [['role' => 'user', 'content' => $userMessage]]
+    );
+
+    $body = json_encode([
+        'model'    => $model,
+        'messages' => $msgs,
+        'stream'   => true,
+    ]);
+
+    $fullResponse = '';
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_POST          => true,
+        CURLOPT_POSTFIELDS    => $body,
+        CURLOPT_HTTPHEADER    => ['Content-Type: application/json'],
+        CURLOPT_RETURNTRANSFER => false,
+        CURLOPT_WRITEFUNCTION => function($ch, $data) use (&$fullResponse, $charMeta) {
+            $lines = explode("\n", $data);
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if (!$line) continue;
+                $decoded = json_decode($line, true);
+                $content = $decoded['message']['content'] ?? '';
+                if ($content) {
+                    $fullResponse .= $content;
+                    echo "data: " . json_encode(['content' => $content, 'char' => $charMeta]) . "\n\n";
                     flush();
                 }
             }

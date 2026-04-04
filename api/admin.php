@@ -36,6 +36,7 @@ if ($method === 'GET') {
         $userCount = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
         $charCount = $pdo->query("SELECT COUNT(*) FROM characters")->fetchColumn();
         $todayMsgs = $pdo->query("SELECT COUNT(*) FROM messages WHERE DATE(created_at) = DATE('now')")->fetchColumn();
+        $cfg = $pdo->query("SELECT provider, model FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
         $lastLogins = $pdo->query("
             SELECT name, email, last_login FROM users
             WHERE last_login IS NOT NULL
@@ -46,6 +47,8 @@ if ($method === 'GET') {
             'user_count'    => $userCount,
             'char_count'    => $charCount,
             'today_messages'=> $todayMsgs,
+            'provider'      => $cfg['provider'] ?? null,
+            'model'         => $cfg['model'] ?? null,
             'last_logins'   => $lastLogins,
         ]);
         exit;
@@ -264,6 +267,52 @@ if ($method === 'POST') {
             http_response_code(500);
             echo json_encode(['error' => 'Erro ao atualizar usuário.']);
         }
+        exit;
+    }
+
+    if ($action === 'upload_logo') {
+        if (empty($_FILES['logo'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Nenhum arquivo enviado.']);
+            exit;
+        }
+
+        $file = $_FILES['logo'];
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($file['tmp_name']);
+        $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+
+        if (!in_array($mime, $allowed, true)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Tipo de arquivo não permitido. Use PNG, JPG ou SVG.']);
+            exit;
+        }
+
+        if ($file['size'] > 2 * 1024 * 1024) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Arquivo muito grande. Máximo 2MB.']);
+            exit;
+        }
+
+        $ext      = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $filename = 'app_logo_' . uniqid() . '.' . $ext;
+        $dest     = __DIR__ . '/../uploads/files/' . $filename;
+
+        if (!move_uploaded_file($file['tmp_name'], $dest)) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Erro ao salvar arquivo.']);
+            exit;
+        }
+
+        $url = 'uploads/files/' . $filename;
+        $existing = $pdo->query("SELECT id FROM ai_config LIMIT 1")->fetch();
+        if ($existing) {
+            $pdo->prepare("UPDATE ai_config SET app_logo=? WHERE id=?")->execute([$url, $existing['id']]);
+        } else {
+            $pdo->prepare("INSERT INTO ai_config (app_logo) VALUES (?)")->execute([$url]);
+        }
+
+        echo json_encode(['success' => true, 'logo' => $url]);
         exit;
     }
 

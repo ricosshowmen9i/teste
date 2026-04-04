@@ -116,13 +116,20 @@ const ChatManager = {
           ${unreadHtml}
         </div>
         <div class="contact-item-actions">
-          <button class="btn-edit-char btn btn-sm btn-outline" data-id="${char.id}" title="Editar"><i class="fa-solid fa-edit" style="color:#00BCD4"></i></button>
-          <button class="btn-delete-char btn btn-sm" data-id="${char.id}" title="Excluir"><i class="fa-solid fa-trash-alt" style="color:#E91E63"></i></button>
+          <button class="btn-open-char btn btn-sm btn-outline" data-id="${char.id}" title="Abrir chat">💬</button>
+          <button class="btn-edit-char btn btn-sm btn-outline" data-id="${char.id}" title="Editar">✏️</button>
+          <button class="btn-delete-char btn btn-sm" data-id="${char.id}" title="Excluir">🗑️</button>
         </div>
       `;
 
       item.addEventListener('click', (e) => {
         if (e.target.closest('.contact-item-actions')) return;
+        this.openChat(char);
+        closeModal('modal-contacts');
+      });
+
+      item.querySelector('.btn-open-char')?.addEventListener('click', (e) => {
+        e.stopPropagation();
         this.openChat(char);
         closeModal('modal-contacts');
       });
@@ -145,6 +152,9 @@ const ChatManager = {
   async openChat(char) {
     this.activeCharacter = char;
 
+    // Deactivate any active group
+    if (window.GroupManager) GroupManager.activeGroup = null;
+
     const welcome  = document.getElementById('welcome-screen');
     const chatView = document.getElementById('chat-view');
     if (welcome)  welcome.style.display = 'none';
@@ -156,13 +166,24 @@ const ChatManager = {
     const headerName   = document.getElementById('chat-header-name');
     const headerStatus = document.getElementById('chat-header-status');
 
+    // Remove any group avatar stack
+    document.getElementById('group-header-avatar-stack')?.remove();
+
     if (headerAvatar) {
+      headerAvatar.style.display = '';
       headerAvatar.innerHTML = char.avatar
         ? `<img src="${escHtml(char.avatar)}" alt="${escHtml(char.name)}">`
         : initials;
     }
     if (headerName)   headerName.textContent = char.name;
     if (headerStatus) headerStatus.textContent = char.description || 'Personagem IA';
+
+    const typingAvatar = document.getElementById('typing-avatar');
+    if (typingAvatar) {
+      typingAvatar.innerHTML = char.avatar
+        ? `<img src="${escHtml(char.avatar)}" alt="${escHtml(char.name)}">`
+        : initials;
+    }
 
     // Load history
     await this.loadHistory(char.id);
@@ -269,7 +290,13 @@ const ChatManager = {
       </div>
     `;
 
-    container.appendChild(wrapper);
+    // Insert before typing indicator to keep it at the bottom
+    const typingEl = container.querySelector('#typing-indicator');
+    if (typingEl) {
+      container.insertBefore(wrapper, typingEl);
+    } else {
+      container.appendChild(wrapper);
+    }
 
     if (shouldScroll) this.scrollToBottom();
     return wrapper;
@@ -295,7 +322,12 @@ const ChatManager = {
       </div>
     `;
 
-    container.appendChild(wrapper);
+    const typingEl2 = container.querySelector('#typing-indicator');
+    if (typingEl2) {
+      container.insertBefore(wrapper, typingEl2);
+    } else {
+      container.appendChild(wrapper);
+    }
     this.scrollToBottom();
     return wrapper.querySelector('.msg-content');
   },
@@ -334,46 +366,22 @@ const ChatManager = {
   },
 
   speakMessage(btn) {
-    // If this button's audio is currently playing, toggle pause/resume
-    if (AudioManager.currentBtn === btn && AudioManager.isSpeaking()) {
-      if (AudioManager.isPaused()) {
-        AudioManager.togglePause();
-        btn.textContent = '⏸️ Pausar';
-        btn.title = 'Pausar';
-      } else {
-        AudioManager.togglePause();
-        btn.textContent = '▶️ Continuar';
-        btn.title = 'Continuar';
-      }
-      return;
-    }
-
-    // Stop any previous audio and reset its button
-    if (AudioManager.currentBtn && AudioManager.currentBtn !== btn) {
-      AudioManager.currentBtn.textContent = '🔊 Ouvir';
-      AudioManager.currentBtn.title = 'Ouvir';
-    }
-    AudioManager.stop();
-
     const text = btn.dataset.text;
     const char = this.activeCharacter;
-    btn.textContent = '⏸️ Pausar';
-    btn.title = 'Pausar';
-    AudioManager.currentBtn = btn;
-
     AudioManager.speak(text, {
       type: char?.voice_type || 'feminina_adulta',
-      speed: char?.voice_speed || 1.0,
-      pitch: char?.voice_pitch || 1.0,
-    }, () => {
-      btn.textContent = '🔊 Ouvir';
-      btn.title = 'Ouvir';
-      AudioManager.currentBtn = null;
-    });
+      speed: char?.voice_speed || 0.95,
+      pitch: char?.voice_pitch || 1.05,
+    }, btn);
   },
 
   // ── Send message ────────────────────────────────────────────────
   async sendMessage() {
+    // Delegate to group chat if a group is active
+    if (window.GroupManager && GroupManager.activeGroup) {
+      return GroupManager.sendGroupMessage();
+    }
+
     const input = document.getElementById('message-input');
     if (!input || !this.activeCharacter) return;
 
@@ -419,75 +427,53 @@ const ChatManager = {
     let streamEl = null;
     let fullText = '';
 
-    // Use fetch + ReadableStream for reliable SSE streaming
-    this.eventSource = true; // mark as streaming in progress
+    this.eventSource = new EventSource(url);
 
-    try {
-      const response = await fetch(url, { credentials: 'same-origin' });
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      const reader  = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer    = '';
-
+    this.eventSource.onopen = () => {
       this.hideTyping();
       streamEl = this.startStreamMessage();
+    };
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop(); // keep incomplete last line
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed || !trimmed.startsWith('data: ')) continue;
-
-          const payload = trimmed.slice(6);
-          if (payload === '[DONE]') {
-            this.finalizeStreamMessage(streamEl, fullText);
-            this.updateCharacterLastMessage(this.activeCharacter.id, fullText);
-            this.eventSource = null;
-            return;
-          }
-
-          try {
-            const parsed = JSON.parse(payload);
-            if (parsed.error) {
-              showToast(parsed.error, 'error');
-              this.eventSource = null;
-              return;
-            }
-            if (parsed.content) {
-              fullText += parsed.content;
-              if (streamEl) {
-                streamEl.innerHTML = parseMarkdown(fullText) + '<span class="streaming-cursor" style="display:inline-block"></span>';
-                this.scrollToBottom();
-              }
-            }
-          } catch (_) {}
-        }
-      }
-
-      // Stream ended without [DONE]
-      if (fullText) {
+    this.eventSource.onmessage = (e) => {
+      if (e.data === '[DONE]') {
+        this.eventSource.close();
+        this.eventSource = null;
         this.finalizeStreamMessage(streamEl, fullText);
         this.updateCharacterLastMessage(this.activeCharacter.id, fullText);
+        return;
       }
-    } catch (e) {
+
+      try {
+        const parsed = JSON.parse(e.data);
+        if (parsed.error) {
+          this.hideTyping();
+          showToast(parsed.error, 'error');
+          this.eventSource.close();
+          this.eventSource = null;
+          return;
+        }
+        if (parsed.content) {
+          fullText += parsed.content;
+          if (streamEl) {
+            streamEl.innerHTML = parseMarkdown(fullText) + '<span class="streaming-cursor" style="display:inline-block"></span>';
+            this.scrollToBottom();
+          }
+        }
+      } catch (_) {}
+    };
+
+    this.eventSource.onerror = () => {
       this.hideTyping();
+      if (this.eventSource) {
+        this.eventSource.close();
+        this.eventSource = null;
+      }
       if (!fullText) {
         showToast('Erro na conexão com a IA.', 'error');
-      } else if (streamEl) {
+      } else {
         this.finalizeStreamMessage(streamEl, fullText);
       }
-    } finally {
-      this.eventSource = null;
-    }
+    };
   },
 
   updateCharacterLastMessage(charId, msg) {
@@ -500,39 +486,14 @@ const ChatManager = {
 
   // ── Typing indicator ────────────────────────────────────────────
   showTyping() {
-    const container = document.getElementById('messages-container');
-    if (!container) return;
-
-    // Remove any existing typing indicator
-    const existing = container.querySelector('.typing-indicator-wrapper');
-    if (existing) existing.remove();
-
-    const char     = this.activeCharacter;
-    const initials = char ? char.name.slice(0, 2).toUpperCase() : 'IA';
-    const avatarSrc = char?.avatar;
-
-    const wrapper = document.createElement('div');
-    wrapper.className = 'message-wrapper assistant typing-indicator-wrapper';
-    wrapper.innerHTML = `
-      <div class="msg-avatar">${avatarSrc ? `<img src="${escHtml(avatarSrc)}" alt="">` : escHtml(initials)}</div>
-      <div class="msg-bubble typing-bubble">
-        <div class="typing-indicator">
-          <span class="typing-text">digitando</span>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
-      </div>
-    `;
-    container.appendChild(wrapper);
+    const el = document.getElementById('typing-indicator');
+    if (el) el.classList.add('visible');
     this.scrollToBottom();
   },
 
   hideTyping() {
-    const container = document.getElementById('messages-container');
-    if (!container) return;
-    const existing = container.querySelector('.typing-indicator-wrapper');
-    if (existing) existing.remove();
+    const el = document.getElementById('typing-indicator');
+    if (el) el.classList.remove('visible');
   },
 
   // ── Scroll ──────────────────────────────────────────────────────
@@ -753,9 +714,13 @@ const ChatManager = {
 
   // ── Clear chat ───────────────────────────────────────────────────
   async clearChat() {
+    // Delegate to group clear if a group is active
+    if (window.GroupManager && GroupManager.activeGroup) {
+      return GroupManager.clearGroupChat();
+    }
+
     if (!this.activeCharacter) return;
-    const confirmed = await confirmAction('Apagar toda a conversa com ' + this.activeCharacter.name + '?');
-    if (!confirmed) return;
+    if (!confirmAction('Apagar toda a conversa com ' + this.activeCharacter.name + '?')) return;
 
     try {
       const data = await apiPost('api/chat.php', {
@@ -810,41 +775,6 @@ const ChatManager = {
     if (cancelBtn) {
       cancelBtn.addEventListener('click', () => closeModal('modal-character'));
     }
-
-    // Avatar upload for character
-    const charAvatarArea = document.getElementById('char-avatar-preview');
-    const charAvatarFile = document.getElementById('char-avatar-file');
-    if (charAvatarArea && charAvatarFile) {
-      charAvatarArea.addEventListener('click', () => charAvatarFile.click());
-      charAvatarFile.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        await this.uploadCharacterAvatar(file);
-        charAvatarFile.value = '';
-      });
-    }
-  },
-
-  async uploadCharacterAvatar(file) {
-    const fd = new FormData();
-    fd.append('avatar', file);
-    showToast('Enviando imagem…', 'info', 1500);
-    try {
-      const data = await apiPostFile('api/upload.php', fd);
-      if (data.error) { showToast(data.error, 'error'); return; }
-
-      const input = document.getElementById('char-avatar');
-      if (input) input.value = data.url;
-
-      const preview = document.getElementById('char-avatar-preview');
-      if (preview) {
-        preview.style.backgroundImage = `url('${encodeURI(data.url)}?t=${Date.now()}')`;
-        preview.innerHTML = '';
-      }
-      showToast('Foto carregada!', 'success');
-    } catch (e) {
-      showToast('Erro ao enviar imagem.', 'error');
-    }
   },
 
   openCharacterModal(char) {
@@ -871,17 +801,6 @@ const ChatManager = {
     const ctxEl = document.getElementById('char-context-messages');
     if (ctxEl) ctxEl.value = '20';
 
-    // Reset avatar
-    const charAvatarInput = document.getElementById('char-avatar');
-    if (charAvatarInput) charAvatarInput.value = '';
-    const charAvatarPreview = document.getElementById('char-avatar-preview');
-    if (charAvatarPreview) {
-      charAvatarPreview.innerHTML = '';
-      charAvatarPreview.style.backgroundImage = '';
-    }
-    const charAvatarFileInput = document.getElementById('char-avatar-file');
-    if (charAvatarFileInput) charAvatarFileInput.value = '';
-
     if (char) {
       if (title) title.textContent = 'Editar Personagem';
       const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val ?? ''; };
@@ -903,18 +822,58 @@ const ChatManager = {
       setCheck('char-auto-audio', char.auto_audio);
       setCheck('char-can-generate-images', char.can_generate_images);
 
-      // Restore avatar preview
-      if (charAvatarInput) charAvatarInput.value = char.avatar || '';
-      if (charAvatarPreview && char.avatar) {
-        charAvatarPreview.style.backgroundImage = `url('${encodeURI(char.avatar)}')`;
-        charAvatarPreview.innerHTML = '';
-      } else if (charAvatarPreview) {
-        charAvatarPreview.innerHTML = escHtml((char.name || '?').slice(0, 2).toUpperCase());
+      // Show existing avatar
+      const preview = document.getElementById('char-avatar-preview');
+      const previewImg = document.getElementById('char-avatar-img');
+      const previewIni = document.getElementById('char-avatar-initials');
+      if (char.avatar && previewImg) {
+        previewImg.src = char.avatar + '?t=' + Date.now();
+        previewImg.style.display = 'block';
+        if (previewIni) previewIni.style.display = 'none';
+      } else if (previewImg) {
+        previewImg.style.display = 'none';
+        if (previewIni) {
+          previewIni.style.display = '';
+          previewIni.textContent = (char.name || '?').slice(0, 2).toUpperCase();
+        }
       }
     } else {
       if (title) title.textContent = 'Novo Personagem';
-      if (charAvatarPreview) charAvatarPreview.innerHTML = '📷';
+      const previewImg = document.getElementById('char-avatar-img');
+      const previewIni = document.getElementById('char-avatar-initials');
+      if (previewImg) previewImg.style.display = 'none';
+      if (previewIni) { previewIni.style.display = ''; previewIni.textContent = '?'; }
     }
+
+    // Bind avatar file upload
+    const avatarFile = document.getElementById('char-avatar-file');
+    if (avatarFile && !avatarFile._bound) {
+      avatarFile._bound = true;
+      avatarFile.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        e.target.value = '';
+
+        const charId = document.getElementById('char-id')?.value;
+        if (!charId) {
+          // Not saved yet — preview only
+          const previewImg = document.getElementById('char-avatar-img');
+          const previewIni = document.getElementById('char-avatar-initials');
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            if (previewImg) { previewImg.src = ev.target.result; previewImg.style.display = 'block'; }
+            if (previewIni) previewIni.style.display = 'none';
+          };
+          reader.readAsDataURL(file);
+          // Store file temporarily for after save
+          this._pendingAvatarFile = file;
+          return;
+        }
+
+        await this.uploadCharacterAvatar(charId, file);
+      });
+    }
+    this._pendingAvatarFile = null;
 
     // Reset to first tab
     document.querySelectorAll('.char-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
@@ -950,7 +909,6 @@ const ChatManager = {
       long_memory:         document.getElementById('char-long-memory')?.checked ? '1' : '0',
       auto_audio:          document.getElementById('char-auto-audio')?.checked ? '1' : '0',
       can_generate_images: document.getElementById('char-can-generate-images')?.checked ? '1' : '0',
-      avatar:              document.getElementById('char-avatar')?.value || '',
     };
 
     try {
@@ -959,6 +917,13 @@ const ChatManager = {
         showToast(data.error, 'error');
         return;
       }
+
+      // Upload pending avatar if any (e.g., selected before save for new char)
+      if (this._pendingAvatarFile && data.character?.id) {
+        await this.uploadCharacterAvatar(data.character.id, this._pendingAvatarFile);
+        this._pendingAvatarFile = null;
+      }
+
       showToast(id ? 'Personagem atualizado!' : 'Personagem criado!', 'success');
       closeModal('modal-character');
       await this.loadCharacters();
@@ -972,9 +937,31 @@ const ChatManager = {
     }
   },
 
+  async uploadCharacterAvatar(charId, file) {
+    const fd = new FormData();
+    fd.append('avatar', file);
+    fd.append('char_id', charId);
+    fd.append('action', 'upload_avatar');
+
+    try {
+      const data = await apiPostFile('api/characters.php', fd);
+      if (data.error) { showToast(data.error, 'error'); return; }
+
+      const previewImg = document.getElementById('char-avatar-img');
+      const previewIni = document.getElementById('char-avatar-initials');
+      if (previewImg) { previewImg.src = data.avatar + '?t=' + Date.now(); previewImg.style.display = 'block'; }
+      if (previewIni) previewIni.style.display = 'none';
+      showToast('Foto do personagem atualizada!', 'success');
+
+      // Refresh characters list so new avatar shows in contacts
+      await this.loadCharacters();
+    } catch (e) {
+      showToast('Erro ao enviar foto do personagem.', 'error');
+    }
+  },
+
   async deleteCharacter(char) {
-    const confirmed = await confirmAction(`Excluir "${char.name}"? Todas as mensagens serão apagadas.`);
-    if (!confirmed) return;
+    if (!confirmAction(`Excluir "${char.name}"? Todas as mensagens serão apagadas.`)) return;
 
     try {
       const data = await apiPost('api/characters.php', { action: 'delete', id: char.id });

@@ -31,17 +31,13 @@ if ($isLoggedIn) {
 
 $theme = $currentUser['theme'] ?? 'green';
 
-// Load app settings (logo) for login page
+// Load app config for logo
 $appLogo = null;
-if (!$isLoggedIn) {
-    try {
-        $pdo    = getDB();
-        $cfgRow = $pdo->query("SELECT app_logo FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
-        $appLogo = $cfgRow['app_logo'] ?? null;
-    } catch (Exception $e) {
-        // ignore
-    }
-}
+try {
+    $dbForLogo = getDB();
+    $cfgRow = $dbForLogo->query("SELECT app_logo FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
+    $appLogo = $cfgRow['app_logo'] ?? null;
+} catch (Exception $e) { /* ignore */ }
 
 ?><!DOCTYPE html>
 <html lang="pt-BR" data-theme="<?= htmlspecialchars($theme) ?>">
@@ -51,9 +47,7 @@ if (!$isLoggedIn) {
   <meta name="description" content="What JUJU — Chat com personagens de IA">
   <title>What JUJU</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/app.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body<?= !$isLoggedIn ? ' class="login-page"' : '' ?>>
 
@@ -62,63 +56,28 @@ if (!$isLoggedIn) {
 <div class="login-card">
   <div class="login-logo">
     <?php if ($appLogo): ?>
-      <img src="<?= htmlspecialchars($appLogo) ?>" alt="Logo" class="login-logo-img">
+      <img src="<?= htmlspecialchars($appLogo) ?>?t=<?= time() ?>" alt="Logo" class="login-logo-img">
     <?php else: ?>
-      <div class="login-logo-icon">🤖</div>
+      <div class="login-logo-emoji">🤖</div>
+      <h1>What JUJU</h1>
     <?php endif; ?>
-    <h1>What JUJU</h1>
     <p>Converse com personagens de IA</p>
   </div>
-
-  <!-- ── Login Mode ───────────────────────────────────────────── -->
-  <div id="login-mode">
-    <form class="login-form" id="login-form" novalidate>
-      <div class="form-group">
-        <label for="login-email">Email</label>
-        <input type="email" id="login-email" name="email" placeholder="seu@email.com" autocomplete="email" required>
-      </div>
-      <div class="form-group">
-        <label for="login-password">Senha</label>
-        <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required>
-      </div>
-      <button type="submit" class="btn-login" id="btn-login">Entrar</button>
-      <div class="login-error" id="login-error"></div>
-    </form>
-    <div class="login-switch">
-      Não tem conta? <button type="button" class="link-btn" id="show-register">Registrar</button>
+  <form class="login-form" id="login-form" novalidate>
+    <div class="form-group">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" name="email" placeholder="seu@email.com" autocomplete="email" required>
     </div>
-  </div>
-
-  <!-- ── Register Mode ────────────────────────────────────────── -->
-  <div id="register-mode" style="display:none">
-    <form class="login-form" id="register-form" novalidate>
-      <div class="form-group">
-        <label for="reg-name">Nome</label>
-        <input type="text" id="reg-name" placeholder="Seu nome" autocomplete="name" required>
-      </div>
-      <div class="form-group">
-        <label for="reg-email">Email</label>
-        <input type="email" id="reg-email" placeholder="seu@email.com" autocomplete="email" required>
-      </div>
-      <div class="form-group">
-        <label for="reg-password">Senha</label>
-        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required>
-      </div>
-      <div class="form-group">
-        <label for="reg-confirm">Confirmar senha</label>
-        <input type="password" id="reg-confirm" placeholder="Repita a senha" autocomplete="new-password" required>
-      </div>
-      <button type="submit" class="btn-login" id="btn-register">Criar conta</button>
-      <div class="login-error" id="register-error"></div>
-    </form>
-    <div class="login-switch">
-      Já tem conta? <button type="button" class="link-btn" id="show-login">Entrar</button>
+    <div class="form-group">
+      <label for="login-password">Senha</label>
+      <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required>
     </div>
-  </div>
+    <button type="submit" class="btn-login" id="btn-login">Entrar</button>
+    <div class="login-error" id="login-error"></div>
+  </form>
 </div>
 
 <script>
-// ── Login ─────────────────────────────────────────────────────────
 document.getElementById('login-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn   = document.getElementById('btn-login');
@@ -153,85 +112,18 @@ document.getElementById('login-form').addEventListener('submit', async function(
     btn.textContent = 'Entrar';
   }
 });
-
-// ── Register ──────────────────────────────────────────────────────
-document.getElementById('register-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const btn    = document.getElementById('btn-register');
-  const errEl  = document.getElementById('register-error');
-  const name   = document.getElementById('reg-name').value.trim();
-  const email  = document.getElementById('reg-email').value.trim();
-  const pass   = document.getElementById('reg-password').value;
-  const conf   = document.getElementById('reg-confirm').value;
-
-  errEl.style.display = 'none';
-  btn.disabled = true;
-  btn.textContent = 'Criando conta…';
-
-  try {
-    const fd = new FormData();
-    fd.append('action', 'register');
-    fd.append('name', name);
-    fd.append('email', email);
-    fd.append('password', pass);
-    fd.append('confirm_password', conf);
-
-    const res  = await fetch('api/auth.php', { method: 'POST', body: fd });
-    const data = await res.json();
-
-    if (data.error) {
-      errEl.textContent = data.error;
-      errEl.style.display = 'block';
-    } else {
-      location.reload();
-    }
-  } catch (err) {
-    errEl.textContent = 'Erro de rede. Tente novamente.';
-    errEl.style.display = 'block';
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Criar conta';
-  }
-});
-
-// ── Toggle between login and register ────────────────────────────
-function switchAuthMode(fromId, toId, focusId) {
-  var from = document.getElementById(fromId);
-  var to   = document.getElementById(toId);
-  from.style.transition = 'opacity .2s ease, transform .2s ease';
-  from.style.opacity = '0';
-  from.style.transform = 'translateY(-10px)';
-  setTimeout(function() {
-    from.style.display = 'none';
-    to.style.opacity = '0';
-    to.style.transform = 'translateY(10px)';
-    to.style.display = 'block';
-    requestAnimationFrame(function() {
-      to.style.transition = 'opacity .3s ease, transform .3s ease';
-      to.style.opacity = '1';
-      to.style.transform = 'translateY(0)';
-    });
-    if (focusId) {
-      var focusEl = document.getElementById(focusId);
-      if (focusEl) focusEl.focus();
-    }
-  }, 220);
-}
-
-document.getElementById('show-register').addEventListener('click', function() {
-  switchAuthMode('login-mode', 'register-mode', 'reg-name');
-});
-
-document.getElementById('show-login').addEventListener('click', function() {
-  switchAuthMode('register-mode', 'login-mode', 'login-email');
-});
 </script>
 
 <?php elseif ($forcePasswordChange): ?>
 <!-- ═══ FORCE PASSWORD CHANGE ════════════════════════════════════ -->
 <div class="force-pw-card" style="margin:auto;margin-top:10vh;">
   <div class="login-logo">
-    <h1>What JUJU</h1>
+    <?php if ($appLogo): ?>
+      <img src="<?= htmlspecialchars($appLogo) ?>?t=<?= time() ?>" alt="Logo" class="login-logo-img">
+    <?php else: ?>
+      <div class="login-logo-emoji">🤖</div>
+      <h1>What JUJU</h1>
+    <?php endif; ?>
     <p>Altere sua senha para continuar</p>
   </div>
   <form id="force-pw-form" class="login-form" novalidate>
@@ -304,30 +196,29 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
   <!-- ── Header ──────────────────────────────────────────────────── -->
   <header id="main-header">
-    <div class="header-left">
-      <button id="btn-profile" class="header-user-avatar" title="Meu Perfil">
+    <div class="header-logo">
+      <div class="header-user-avatar" id="header-user-avatar" onclick="openModal('modal-profile'); ProfileManager.load();" title="Meu Perfil">
+        <span id="header-user-initials"><?= htmlspecialchars(mb_substr($currentUser['name'] ?? 'U', 0, 2)) ?></span>
         <?php if (!empty($currentUser['avatar'])): ?>
-          <img src="<?= htmlspecialchars($currentUser['avatar']) ?>" alt="<?= htmlspecialchars($currentUser['name']) ?>">
-        <?php else: ?>
-          <span><?= htmlspecialchars(mb_substr($currentUser['name'] ?? 'U', 0, 1)) ?></span>
+        <img src="<?= htmlspecialchars($currentUser['avatar']) ?>?t=<?= time() ?>" alt="">
         <?php endif; ?>
-      </button>
-      <div class="header-app-name">What JUJU</div>
+      </div>
+      <span class="header-logo-text">What JUJU</span>
     </div>
     <div class="header-actions">
-      <button id="btn-contacts" title="Conversas" class="header-btn">
-        <i class="fa-solid fa-users" style="color:#4CAF50"></i>
-        <span class="header-btn-label">Conversas</span>
+      <button id="btn-contacts" title="Contatos" class="hbtn hbtn-contacts">
+        <span class="hbtn-icon">👥</span> <span>Contatos</span>
+      </button>
+      <button id="btn-profile" title="Perfil" class="hbtn hbtn-profile">
+        <span class="hbtn-icon">👤</span>
       </button>
       <?php if ($currentUser['role'] === 'admin'): ?>
-      <button id="btn-admin" title="Administração" class="header-btn">
-        <i class="fa-solid fa-cog" style="color:#FF9800"></i>
-        <span class="header-btn-label">Admin</span>
+      <button id="btn-admin" title="Administração" class="hbtn hbtn-admin">
+        <span class="hbtn-icon">⚙️</span>
       </button>
       <?php endif; ?>
-      <button id="btn-logout" title="Sair" class="header-btn header-btn-logout">
-        <i class="fa-solid fa-sign-out-alt" style="color:#f44336"></i>
-        <span class="header-btn-label">Sair</span>
+      <button id="btn-logout" title="Sair" class="hbtn hbtn-logout">
+        <span class="hbtn-icon">🚪</span>
       </button>
     </div>
   </header>
@@ -339,9 +230,9 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
     <div id="welcome-screen">
       <div class="welcome-icon">💬</div>
       <h2>Bem-vindo ao What JUJU</h2>
-      <p>Selecione um personagem em <strong>Conversas</strong> para começar a conversar, ou crie um novo.</p>
+      <p>Selecione um personagem em <strong>Contatos</strong> para começar a conversar, ou crie um novo.</p>
       <button class="btn btn-primary" onclick="openModal('modal-contacts'); ChatManager.loadCharacters();" style="margin-top:8px;">
-        💬 Abrir Conversas
+        👥 Abrir Contatos
       </button>
     </div>
 
@@ -364,6 +255,16 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
       <!-- Messages -->
       <div id="messages-container">
         <!-- Messages rendered here by JS -->
+
+        <!-- Typing indicator (inside messages so it appears near last message) -->
+        <div id="typing-indicator">
+          <div class="typing-avatar" id="typing-avatar">IA</div>
+          <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
       </div>
 
       <!-- Scroll to bottom -->
@@ -378,9 +279,7 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
       <!-- Input Bar -->
       <div id="input-bar">
         <button class="input-bar-btn" id="btn-emoji" title="Emoji">😊</button>
-        <button class="input-bar-btn" id="btn-attach" title="Anexar arquivo">
-          <i class="fa-solid fa-paperclip" style="color:#795548"></i>
-        </button>
+        <button class="input-bar-btn" id="btn-attach" title="Anexar arquivo">📎</button>
         <input type="file" id="file-input" style="display:none"
           accept="image/*,.pdf,.txt,.docx,.csv,.json,.md,.js,.php,.py,.html,.css">
 
@@ -388,12 +287,8 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
           <textarea id="message-input" placeholder="Digite uma mensagem…" rows="1"></textarea>
         </div>
 
-        <button class="input-bar-btn" id="btn-voice" title="Entrada de voz">
-          <i class="fa-solid fa-microphone" style="color:#673AB7"></i>
-        </button>
-        <button class="send-btn" id="send-btn" title="Enviar">
-          <i class="fa-solid fa-paper-plane" style="color:#fff"></i>
-        </button>
+        <button class="input-bar-btn" id="btn-voice" title="Entrada de voz">🎙️</button>
+        <button class="send-btn" id="send-btn" title="Enviar">➤</button>
       </div>
 
     </div><!-- /chat-view -->
@@ -404,22 +299,88 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 <div id="modal-contacts" class="modal-overlay">
   <div class="modal-box">
     <div class="modal-header">
-      <h2>💬 Conversas</h2>
+      <h2>👥 Contatos</h2>
       <button class="modal-close" onclick="closeModal('modal-contacts')">✕</button>
     </div>
 
-    <div class="contacts-new-btn" id="btn-new-character">
-      ➕ Novo Personagem
+    <div class="contacts-modal-tabs">
+      <button class="contacts-modal-tab active" id="tab-btn-contacts" onclick="ContactsModal.showTab('contacts')">👥 Contatos</button>
+      <button class="contacts-modal-tab" id="tab-btn-groups" onclick="ContactsModal.showTab('groups')">🎭 Grupos</button>
     </div>
 
-    <div class="contact-search-wrap">
-      <input type="text" id="contact-search" placeholder="🔍 Pesquisar…">
-    </div>
-
-    <div class="contacts-list" id="contacts-list">
-      <div class="text-center text-muted" style="padding:24px;">
-        <div class="spinner"></div>
+    <div id="contacts-tab-panel" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+      <div class="contacts-new-btn" id="btn-new-character">
+        ➕ Novo Personagem
       </div>
+
+      <div class="contact-search-wrap">
+        <input type="text" id="contact-search" placeholder="🔍 Pesquisar…">
+      </div>
+
+      <div class="contacts-list" id="contacts-list">
+        <div class="text-center text-muted" style="padding:24px;">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="groups-tab-panel" style="display:none; flex-direction:column; flex:1; overflow:hidden;">
+      <div class="contacts-new-btn" id="btn-new-group">➕ Novo Grupo</div>
+      <div class="contacts-list" id="groups-list">
+        <div class="text-center text-muted" style="padding:24px;"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: Group Create / Edit ════════════════════════════════ -->
+<div id="modal-group" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 id="group-modal-title">Novo Grupo</h2>
+      <button class="modal-close" onclick="closeModal('modal-group')">✕</button>
+    </div>
+    <input type="hidden" id="group-id">
+    <div class="modal-body" style="overflow-y:auto;max-height:70vh;">
+      <div class="form-group">
+        <label for="group-name">Nome do grupo *</label>
+        <input type="text" id="group-name" class="form-control" placeholder="Ex: Família, Amigos, Aventureiros…">
+      </div>
+      <div class="form-group">
+        <label for="group-description">Descrição</label>
+        <textarea id="group-description" class="form-control" rows="2" placeholder="Sobre este grupo…"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="group-story">Roteiro / Contexto</label>
+        <textarea id="group-story" class="form-control" rows="4"
+          placeholder="Descreva a história ou o contexto que os personagens devem seguir. Ex: 'Somos uma equipe de detetives resolvendo um misterioso crime em 1920...'"></textarea>
+        <div class="form-hint">Os personagens vão agir de acordo com este roteiro.</div>
+      </div>
+      <div class="form-group">
+        <label for="group-interaction-mode">Modo de interação</label>
+        <select id="group-interaction-mode" class="form-control">
+          <option value="random">🎲 Aleatório — 1 a 2 personagens respondem por vez</option>
+          <option value="topic">💬 Por assunto — 1 a 3 personagens comentam o tópico</option>
+          <option value="story">📖 Roteiro — todos respondem em ordem</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Membros do grupo</label>
+        <div id="group-members-list" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;min-height:40px;border:1px dashed var(--border);border-radius:8px;padding:8px;">
+          <span class="text-muted" style="font-size:.85rem;">Nenhum membro adicionado</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Adicionar personagem</label>
+        <select id="group-add-member-select" class="form-control">
+          <option value="">— selecione —</option>
+        </select>
+        <button class="btn btn-outline btn-sm" id="btn-add-member-to-group" style="margin-top:6px;">➕ Adicionar ao grupo</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-group')">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-group">💾 Salvar Grupo</button>
     </div>
   </div>
 </div>
@@ -433,14 +394,6 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
     </div>
 
     <input type="hidden" id="char-id">
-    <input type="hidden" id="char-avatar">
-
-    <!-- Character Avatar Upload Area -->
-    <div class="char-avatar-upload-wrap">
-      <div id="char-avatar-preview" class="char-avatar-upload-area" title="Clique para adicionar foto">📷</div>
-      <input type="file" id="char-avatar-file" accept="image/*" style="display:none">
-      <div style="font-size:.78rem;color:var(--text-muted);margin-top:4px;">Clique para adicionar foto</div>
-    </div>
 
     <!-- Tabs -->
     <div class="char-tabs">
@@ -453,6 +406,17 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
       <!-- Tab: Basic -->
       <div class="char-tab-content active" id="tab-basic">
+
+        <div class="char-avatar-upload-wrap">
+          <div class="char-avatar-preview" id="char-avatar-preview" onclick="document.getElementById('char-avatar-file').click()">
+            <span id="char-avatar-initials">?</span>
+            <img id="char-avatar-img" src="" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;">
+            <div class="profile-avatar-overlay">📷</div>
+          </div>
+          <input type="file" id="char-avatar-file" accept="image/*" style="display:none">
+          <div style="font-size:.8rem;color:var(--text-muted);">Clique para adicionar foto</div>
+        </div>
+
         <div class="form-group">
           <label for="char-name">Nome *</label>
           <input type="text" id="char-name" class="form-control" placeholder="Ex: Luna, Max, Aria…">
@@ -644,22 +608,23 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
     <!-- Sidebar -->
     <div class="admin-sidebar">
       <div class="admin-sidebar-logo">
-        <i class="fa-solid fa-cog" style="color:#FF9800"></i> ADMIN
+        <span class="admin-logo-icon">🛡️</span>
+        <span>ADMIN</span>
       </div>
       <div class="admin-nav-item active" data-panel="stats">
-        <i class="fa-solid fa-chart-bar" style="color:#4CAF50"></i>
+        <span class="admin-nav-icon" style="background:#4caf50;">📊</span>
         <span class="nav-label">Dashboard</span>
       </div>
       <div class="admin-nav-item" data-panel="config">
-        <i class="fa-solid fa-robot" style="color:#2196F3"></i>
+        <span class="admin-nav-icon" style="background:#2196f3;">🤖</span>
         <span class="nav-label">Config IA</span>
       </div>
       <div class="admin-nav-item" data-panel="users">
-        <i class="fa-solid fa-users" style="color:#FF9800"></i>
+        <span class="admin-nav-icon" style="background:#9c27b0;">👥</span>
         <span class="nav-label">Usuários</span>
       </div>
       <div class="admin-nav-item" data-panel="appearance">
-        <i class="fa-solid fa-palette" style="color:#9C27B0"></i>
+        <span class="admin-nav-icon" style="background:#ff5722;">🎨</span>
         <span class="nav-label">Aparência</span>
       </div>
     </div>
@@ -686,6 +651,14 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
             <div class="stat-card">
               <div class="stat-label">Msgs hoje</div>
               <div class="stat-value" id="stat-messages">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Provider atual</div>
+              <div class="stat-value" id="stat-provider" style="font-size:1.1rem;">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Modelo em uso</div>
+              <div class="stat-value" id="stat-model" style="font-size:1.1rem;">—</div>
             </div>
           </div>
 
@@ -727,7 +700,10 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
 
             <div class="form-group">
               <label for="cfg-api-key">API Key</label>
-              <input type="password" id="cfg-api-key" class="form-control" placeholder="sk-…">
+              <div style="display:flex;gap:8px;">
+                <input type="password" id="cfg-api-key" class="form-control" placeholder="sk-…">
+                <button class="btn btn-outline" id="btn-toggle-api-key" type="button">👁️</button>
+              </div>
             </div>
 
             <div class="form-group">
@@ -753,6 +729,9 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
               <button class="btn btn-primary" id="btn-save-config">💾 Salvar</button>
               <button class="btn btn-outline" id="btn-test-connection">🔌 Testar Conexão</button>
             </div>
+            <div id="ai-connection-status" style="margin-top:10px;font-size:.9rem;color:var(--text-secondary);">
+              🟡 Não testado
+            </div>
           </div>
         </div>
       </div>
@@ -770,16 +749,18 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
             <table class="data-table">
               <thead>
                 <tr>
+                  <th>Avatar</th>
                   <th>Nome</th>
                   <th>Email</th>
                   <th>Papel</th>
                   <th>Status</th>
+                  <th>Criado em</th>
                   <th>Último acesso</th>
                   <th>Ações</th>
                 </tr>
               </thead>
               <tbody id="users-tbody">
-                <tr><td colspan="6" class="text-center text-muted">Carregando…</td></tr>
+                <tr><td colspan="8" class="text-center text-muted">Carregando…</td></tr>
               </tbody>
             </table>
           </div>
@@ -790,27 +771,20 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
       <!-- Appearance Panel -->
       <div class="admin-panel" id="admin-panel-appearance">
         <div class="admin-panel-body">
-          <div style="max-width:560px;">
-            <h3 style="margin-bottom:16px;font-size:.95rem;color:var(--text-secondary);">🖼️ Logo do Aplicativo</h3>
-
-            <div class="form-group">
-              <label for="cfg-app-logo">URL da Logo (imagem)</label>
-              <input type="text" id="cfg-app-logo" class="form-control" placeholder="https://… ou uploads/avatars/…">
-              <div class="form-hint">Exibida na página de login. Deixe em branco para usar o ícone padrão 🤖</div>
+          <div style="max-width:480px;">
+            <h3 style="margin-bottom:16px;font-size:1rem;">🎨 Logo da Página de Login</h3>
+            <div class="logo-upload-preview" id="logo-preview-wrap">
+              <img id="logo-preview-img" src="" alt="" style="display:none;max-height:80px;border-radius:8px;margin-bottom:12px;">
+              <div id="logo-preview-empty" style="color:var(--text-muted);font-size:.9rem;margin-bottom:12px;">Nenhum logo configurado — será exibido o emoji 🤖</div>
             </div>
-
-            <div id="logo-preview-wrap" style="margin:12px 0;display:none;">
-              <img id="logo-preview-img" src="" alt="Preview" style="max-height:80px;border-radius:8px;border:1px solid var(--border);">
-            </div>
-
-            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
-              <label class="btn btn-outline" style="cursor:pointer;margin:0;" id="btn-logo-upload-label">
-                <i class="fa-solid fa-upload" style="color:#3F51B5"></i> Upload imagem
-                <input type="file" id="logo-upload-file" accept="image/*" style="display:none">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+              <label class="btn btn-outline" style="cursor:pointer;">
+                📤 Enviar logo
+                <input type="file" id="logo-upload-input" accept="image/*" style="display:none">
               </label>
-              <button class="btn btn-primary" id="btn-save-appearance">💾 Salvar logo</button>
-              <button class="btn btn-ghost" id="btn-clear-logo">🗑️ Remover logo</button>
+              <button class="btn btn-ghost" id="btn-remove-logo" style="display:none;">🗑️ Remover</button>
             </div>
+            <div class="form-hint" style="margin-top:8px;">PNG, JPG ou SVG. Recomendado: 200×60px. Máx. 2MB.</div>
           </div>
         </div>
       </div>
@@ -818,8 +792,6 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
     </div><!-- /admin-content -->
   </div><!-- /modal-box -->
 </div>
-
-<!-- User sub-modal -->
 <div id="user-modal-overlay" class="modal-overlay modal-centered" style="z-index:400;">
   <div class="modal-box" style="border-radius:14px;width:90%;max-width:460px;max-height:90vh;">
     <div class="modal-header">
@@ -888,6 +860,7 @@ window.SETE_CSRF  = <?= json_encode($_SESSION['csrf_token']) ?>;
 <?php if ($currentUser['role'] === 'admin'): ?>
 <script src="assets/js/admin.js"></script>
 <?php endif; ?>
+<script src="assets/js/groups.js"></script>
 
 <script>
 // ── Profile Manager ──────────────────────────────────────────────
@@ -977,21 +950,27 @@ const ProfileManager = {
       const data = await apiPostFile('api/profile.php', fd);
       if (data.error) { showToast(data.error, 'error'); return; }
 
-      const avatarUrl = data.avatar + '?t=' + Date.now();
-
-      // Update profile modal avatar
       const img = document.getElementById('profile-avatar-img');
       const ini = document.getElementById('profile-avatar-initials');
-      if (img) { img.src = avatarUrl; img.style.display = 'block'; }
+      if (img) { img.src = data.avatar + '?t=' + Date.now(); img.style.display = 'block'; }
       if (ini) ini.style.display = 'none';
+      window.SETE_USER.avatar = data.avatar;
 
-      // Update header user avatar
-      const headerBtn = document.getElementById('btn-profile');
-      if (headerBtn) {
-        headerBtn.innerHTML = `<img src="${escHtml(data.avatar)}?t=${Date.now()}" alt="avatar" style="width:100%;height:100%;object-fit:cover;">`;
+      // Sync header avatar
+      const headerAvatar = document.getElementById('header-user-avatar');
+      if (headerAvatar) {
+        let headerImg = headerAvatar.querySelector('img');
+        if (!headerImg) {
+          headerImg = document.createElement('img');
+          headerAvatar.appendChild(headerImg);
+        }
+        headerImg.src = data.avatar + '?t=' + Date.now();
+        headerImg.alt = '';
+        headerImg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;';
+        const ini2 = document.getElementById('header-user-initials');
+        if (ini2) ini2.style.display = 'none';
       }
 
-      window.SETE_USER.avatar = data.avatar;
       showToast('Avatar atualizado!', 'success');
     } catch (e) {
       showToast('Erro ao enviar avatar.', 'error');

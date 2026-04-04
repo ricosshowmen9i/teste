@@ -42,9 +42,9 @@ const AdminManager = {
 
     const titleEl = document.getElementById('admin-panel-title');
     const titles = {
-      stats:      '📊 Dashboard',
-      config:     '🤖 Configuração IA',
-      users:      '👥 Usuários',
+      stats: '📊 Dashboard',
+      config: '🤖 Configuração IA',
+      users: '👥 Usuários',
       appearance: '🎨 Aparência',
     };
     if (titleEl) titleEl.textContent = titles[name] || name;
@@ -70,6 +70,8 @@ const AdminManager = {
       set('stat-users', data.user_count);
       set('stat-chars', data.char_count);
       set('stat-messages', data.today_messages);
+      set('stat-provider', data.provider || '—');
+      set('stat-model', data.model || '—');
 
       const tbody = document.getElementById('last-logins-tbody');
       if (tbody) {
@@ -107,6 +109,7 @@ const AdminManager = {
       set('cfg-model-mode', cfg.model_mode || 'fixed');
 
       this.updateProviderDefaults(cfg.provider || 'openrouter', false);
+      this.setConnectionStatus('idle');
 
     } catch (e) {
       showToast('Erro ao carregar configuração.', 'error');
@@ -136,11 +139,39 @@ const AdminManager = {
       testBtn._bound = true;
       testBtn.addEventListener('click', () => this.testConnection());
     }
+
+    const toggleApiKeyBtn = document.getElementById('btn-toggle-api-key');
+    if (toggleApiKeyBtn && !toggleApiKeyBtn._bound) {
+      toggleApiKeyBtn._bound = true;
+      toggleApiKeyBtn.addEventListener('click', () => {
+        const input = document.getElementById('cfg-api-key');
+        if (!input) return;
+        input.type = input.type === 'password' ? 'text' : 'password';
+      });
+    }
+  },
+
+  setConnectionStatus(state, message = '') {
+    const el = document.getElementById('ai-connection-status');
+    if (!el) return;
+    if (state === 'testing') {
+      el.textContent = '🟡 Testando conexão...';
+      return;
+    }
+    if (state === 'success') {
+      el.textContent = `🟢 Conectado${message ? ' — ' + message : ''}`;
+      return;
+    }
+    if (state === 'error') {
+      el.textContent = `🔴 Erro${message ? ' — ' + message : ''}`;
+      return;
+    }
+    el.textContent = '🟡 Não testado';
   },
 
   updateProviderDefaults(provider, updateFields) {
     const defaults = {
-      openrouter: { url: 'https://openrouter.ai/api/v1',   model: 'google/gemma-3-27b-it:free' },
+      openrouter: { url: 'https://openrouter.ai/api/v1',   model: 'openai/gpt-3.5-turbo' },
       groq:       { url: 'https://api.groq.com/openai/v1', model: 'llama3-8b-8192' },
       openai:     { url: 'https://api.openai.com/v1',       model: 'gpt-3.5-turbo' },
       mistral:    { url: 'https://api.mistral.ai/v1',       model: 'mistral-small-latest' },
@@ -153,23 +184,13 @@ const AdminManager = {
     if (!d) return;
 
     const suggestions = {
-      openrouter: [
-        'google/gemma-3-27b-it:free',
-        'meta-llama/llama-4-scout:free',
-        'meta-llama/llama-4-maverick:free',
-        'qwen/qwen3.6-plus-preview:free',
-        'nvidia/nemotron-3-super-120b-a12b:free',
-        'stepfun/step-3.5-flash:free',
-        'mistralai/mistral-small-3.1-24b-instruct:free',
-        'nvidia/nemotron-nano-12b-v2-vl:free',
-        'openai/gpt-3.5-turbo',
-      ],
+      openrouter: ['openai/gpt-3.5-turbo', 'meta-llama/llama-3-8b-instruct:free', 'mistralai/mistral-7b-instruct:free'],
       groq:       ['llama3-8b-8192', 'mixtral-8x7b-32768', 'gemma-7b-it'],
       openai:     ['gpt-3.5-turbo', 'gpt-4o-mini', 'gpt-4o'],
       mistral:    ['mistral-small-latest', 'open-mistral-7b', 'mistral-medium-latest'],
       together:   ['togethercomputer/llama-2-7b-chat', 'mistralai/Mixtral-8x7B-Instruct-v0.1'],
       ollama:     ['llama3', 'mistral', 'gemma', 'phi3'],
-      gemini:     ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.0-pro'],
+      gemini:     ['gemini-1.5-flash', 'gemini-1.0-pro'],
     };
 
     const datalist = document.getElementById('model-suggestions');
@@ -221,20 +242,24 @@ const AdminManager = {
       btn.textContent = '⏳ Testando…';
       btn.disabled = true;
     }
+    this.setConnectionStatus('testing');
 
     try {
       // Save first
       await this.saveConfig();
 
-      const data = await apiPost('api/admin.php', { action: 'test_ai' });
+      const data = await apiPost('api/admin.php', { action: 'test_connection' });
 
       if (data.success) {
         showToast('✅ ' + (data.message || 'Conexão bem sucedida!'), 'success', 4000);
+        this.setConnectionStatus('success', data.message || '');
       } else {
         showToast('❌ ' + (data.error || 'Falha na conexão.'), 'error', 5000);
+        this.setConnectionStatus('error', data.error || '');
       }
     } catch (e) {
       showToast('Erro ao testar conexão.', 'error');
+      this.setConnectionStatus('error', 'Falha inesperada');
     } finally {
       if (btn) {
         btn.textContent = '🔌 Testar Conexão';
@@ -270,15 +295,20 @@ const AdminManager = {
     tbody.innerHTML = '';
     filtered.forEach(u => {
       const tr = document.createElement('tr');
+      const avatarCell = u.avatar
+        ? `<img src="${escHtml(u.avatar)}" alt="${escHtml(u.name)}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;">`
+        : `<div style="width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;">${escHtml((u.name || 'U').slice(0,2).toUpperCase())}</div>`;
       tr.innerHTML = `
+        <td>${avatarCell}</td>
         <td>${escHtml(u.name)}</td>
         <td>${escHtml(u.email)}</td>
         <td><span class="badge badge-${u.role}">${escHtml(u.role)}</span></td>
         <td><span class="badge badge-${u.active ? 'active' : 'inactive'}">${u.active ? 'Ativo' : 'Inativo'}</span></td>
+        <td>${escHtml((u.created_at || '').toString().slice(0, 16).replace('T', ' '))}</td>
         <td>${escHtml(u.last_login || '—')}</td>
         <td>
-          <button class="btn btn-sm btn-outline btn-edit-user" data-id="${u.id}"><i class="fa-solid fa-edit" style="color:#00BCD4"></i> Editar</button>
-          <button class="btn btn-sm btn-danger btn-delete-user" data-id="${u.id}" style="margin-left:4px"><i class="fa-solid fa-trash-alt" style="color:#E91E63"></i></button>
+          <button class="btn btn-sm btn-outline btn-edit-user" data-id="${u.id}">✏️ Editar</button>
+          <button class="btn btn-sm btn-danger btn-delete-user" data-id="${u.id}" style="margin-left:4px">🗑️</button>
         </td>
       `;
 
@@ -395,8 +425,7 @@ const AdminManager = {
   },
 
   async deleteUser(user) {
-    const confirmed = await confirmAction(`Excluir usuário "${user.name}"? Esta ação não pode ser desfeita.`);
-    if (!confirmed) return;
+    if (!confirmAction(`Excluir usuário "${user.name}"? Esta ação não pode ser desfeita.`)) return;
 
     try {
       const data = await apiPost('api/admin.php', { action: 'delete_user', id: user.id });
@@ -411,97 +440,68 @@ const AdminManager = {
     }
   },
 
-  // ── Appearance ────────────────────────────────────────────────
   async loadAppearance() {
     try {
-      const data = await apiGet('api/admin.php?action=app_settings');
-      const logoInput = document.getElementById('cfg-app-logo');
-      if (logoInput) logoInput.value = data.app_logo || '';
-      this.updateLogoPreview(data.app_logo || '');
-    } catch (e) {
-      showToast('Erro ao carregar configurações de aparência.', 'error');
-    }
+      const data = await apiGet('api/admin.php?action=config');
+      const logo = data.config?.app_logo;
+      this.renderLogoPreview(logo);
+    } catch (e) { /* ignore */ }
 
-    this.bindAppearanceEvents();
-  },
-
-  updateLogoPreview(url) {
-    const wrap = document.getElementById('logo-preview-wrap');
-    const img  = document.getElementById('logo-preview-img');
-    if (!wrap || !img) return;
-    if (url) {
-      // Only allow safe URL schemes (http, https, relative paths)
-      const safe = /^(https?:\/\/|uploads\/|\/)/i.test(url);
-      if (!safe) { wrap.style.display = 'none'; return; }
-      img.src = url;
-      wrap.style.display = 'block';
-    } else {
-      wrap.style.display = 'none';
-    }
-  },
-
-  bindAppearanceEvents() {
-    const logoInput   = document.getElementById('cfg-app-logo');
-    const saveBtn     = document.getElementById('btn-save-appearance');
-    const clearBtn    = document.getElementById('btn-clear-logo');
-    const uploadFile  = document.getElementById('logo-upload-file');
-
-    if (logoInput && !logoInput._bound) {
-      logoInput._bound = true;
-      logoInput.addEventListener('input', () => {
-        this.updateLogoPreview(logoInput.value.trim());
-      });
-    }
-
-    if (uploadFile && !uploadFile._bound) {
-      uploadFile._bound = true;
-      uploadFile.addEventListener('change', async (e) => {
+    const input = document.getElementById('logo-upload-input');
+    if (input && !input._bound) {
+      input._bound = true;
+      input.addEventListener('change', (e) => {
         const file = e.target.files[0];
-        if (!file) return;
-        const fd = new FormData();
-        fd.append('avatar', file);
-        showToast('Enviando imagem…', 'info', 1500);
-        try {
-          const data = await apiPostFile('api/upload.php', fd);
-          if (data.error) { showToast(data.error, 'error'); return; }
-          const input = document.getElementById('cfg-app-logo');
-          if (input) { input.value = data.url; }
-          this.updateLogoPreview(data.url);
-          showToast('Imagem carregada!', 'success');
-        } catch (err) {
-          showToast('Erro ao enviar imagem.', 'error');
-        }
+        if (file) this.uploadLogo(file);
         e.target.value = '';
       });
     }
 
-    if (saveBtn && !saveBtn._bound) {
-      saveBtn._bound = true;
-      saveBtn.addEventListener('click', async () => {
-        const url = document.getElementById('cfg-app-logo')?.value.trim() || '';
-        try {
-          const data = await apiPost('api/admin.php', { action: 'save_app_settings', app_logo: url });
-          if (data.error) { showToast(data.error, 'error'); return; }
-          showToast('Logo salva! Recarregue para ver na página de login.', 'success');
-        } catch (e) {
-          showToast('Erro ao salvar logo.', 'error');
-        }
-      });
+    const btnRemove = document.getElementById('btn-remove-logo');
+    if (btnRemove && !btnRemove._bound) {
+      btnRemove._bound = true;
+      btnRemove.addEventListener('click', () => this.removeLogo());
     }
+  },
 
-    if (clearBtn && !clearBtn._bound) {
-      clearBtn._bound = true;
-      clearBtn.addEventListener('click', async () => {
-        const input = document.getElementById('cfg-app-logo');
-        if (input) input.value = '';
-        this.updateLogoPreview('');
-        try {
-          await apiPost('api/admin.php', { action: 'save_app_settings', app_logo: '' });
-          showToast('Logo removida.', 'success');
-        } catch (e) {
-          showToast('Erro ao remover logo.', 'error');
-        }
-      });
+  renderLogoPreview(url) {
+    const img   = document.getElementById('logo-preview-img');
+    const empty = document.getElementById('logo-preview-empty');
+    const btnRemove = document.getElementById('btn-remove-logo');
+    if (!img) return;
+    if (url) {
+      img.src = url + '?t=' + Date.now();
+      img.style.display = 'block';
+      if (empty) empty.style.display = 'none';
+      if (btnRemove) btnRemove.style.display = '';
+    } else {
+      img.style.display = 'none';
+      if (empty) empty.style.display = '';
+      if (btnRemove) btnRemove.style.display = 'none';
+    }
+  },
+
+  async uploadLogo(file) {
+    const fd = new FormData();
+    fd.append('logo', file);
+    fd.append('action', 'upload_logo');
+    try {
+      const data = await apiPostFile('api/admin.php', fd);
+      if (data.error) { showToast(data.error, 'error'); return; }
+      showToast('Logo atualizado com sucesso!', 'success');
+      this.renderLogoPreview(data.logo);
+    } catch (e) {
+      showToast('Erro ao enviar logo.', 'error');
+    }
+  },
+
+  async removeLogo() {
+    try {
+      const data = await apiPost('api/admin.php', { action: 'save_config', app_logo: '' });
+      showToast('Logo removido.', 'success');
+      this.renderLogoPreview(null);
+    } catch (e) {
+      showToast('Erro ao remover logo.', 'error');
     }
   },
 };
