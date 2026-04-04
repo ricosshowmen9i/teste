@@ -39,6 +39,29 @@ if ($action === 'login') {
         $pdo->prepare("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?")
             ->execute([$user['id']]);
 
+        // Copy default characters from admin for users who have none
+        $charCount = $pdo->query("SELECT COUNT(*) FROM characters WHERE user_id=" . (int)$user['id'])->fetchColumn();
+        if ((int)$charCount === 0) {
+            $adminRow = $pdo->query("SELECT id FROM users WHERE role='admin' ORDER BY id LIMIT 1")->fetch();
+            if ($adminRow) {
+                $adminId  = (int)$adminRow['id'];
+                $defaults = $pdo->prepare("SELECT * FROM characters WHERE user_id=?");
+                $defaults->execute([$adminId]);
+                $insertChar = $pdo->prepare("
+                    INSERT INTO characters (user_id, name, description, personality, voice_example, avatar, bubble_color, voice_enabled, voice_type, voice_speed, voice_pitch, elevenlabs_id, can_read_files, can_generate_images, long_memory, context_messages, auto_audio)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ");
+                foreach ($defaults->fetchAll() as $c) {
+                    $insertChar->execute([
+                        $user['id'], $c['name'], $c['description'], $c['personality'], $c['voice_example'],
+                        $c['avatar'], $c['bubble_color'], $c['voice_enabled'], $c['voice_type'], $c['voice_speed'],
+                        $c['voice_pitch'], $c['elevenlabs_id'], $c['can_read_files'], $c['can_generate_images'],
+                        $c['long_memory'], $c['context_messages'], $c['auto_audio'],
+                    ]);
+                }
+            }
+        }
+
         if ($user['force_password_change']) {
             echo json_encode(['force_change' => true]);
             exit;
@@ -59,6 +82,94 @@ if ($action === 'login') {
         error_log($e->getMessage());
         http_response_code(500);
         echo json_encode(['error' => 'Erro interno.']);
+        exit;
+    }
+}
+
+if ($action === 'register') {
+    $name            = trim($_POST['name'] ?? '');
+    $email           = strtolower(trim($_POST['email'] ?? ''));
+    $password        = $_POST['password'] ?? '';
+    $confirmPassword = $_POST['confirm_password'] ?? '';
+
+    if (!$name || !$email || !$password || !$confirmPassword) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Todos os campos são obrigatórios.']);
+        exit;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Email inválido.']);
+        exit;
+    }
+
+    if (strlen($password) < 6) {
+        http_response_code(400);
+        echo json_encode(['error' => 'A senha deve ter pelo menos 6 caracteres.']);
+        exit;
+    }
+
+    if ($password !== $confirmPassword) {
+        http_response_code(400);
+        echo json_encode(['error' => 'As senhas não coincidem.']);
+        exit;
+    }
+
+    try {
+        $pdo = getDB();
+
+        $existing = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+        $existing->execute([$email]);
+        if ($existing->fetch()) {
+            http_response_code(409);
+            echo json_encode(['error' => 'Este email já está cadastrado.']);
+            exit;
+        }
+
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $pdo->prepare("INSERT INTO users (name, email, password, role) VALUES (?,?,?,'user')")
+            ->execute([$name, $email, $hash]);
+
+        $newUserId = (int)$pdo->lastInsertId();
+
+        // Auto-login
+        $_SESSION['user_id']    = $newUserId;
+        $_SESSION['role']       = 'user';
+        $_SESSION['name']       = $name;
+        $_SESSION['theme']      = 'green';
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+        $pdo->prepare("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?")
+            ->execute([$newUserId]);
+
+        // Copy default characters from admin
+        $adminRow = $pdo->query("SELECT id FROM users WHERE role='admin' ORDER BY id LIMIT 1")->fetch();
+        if ($adminRow) {
+            $adminId  = (int)$adminRow['id'];
+            $defaults = $pdo->prepare("SELECT * FROM characters WHERE user_id=?");
+            $defaults->execute([$adminId]);
+            $insertChar = $pdo->prepare("
+                INSERT INTO characters (user_id, name, description, personality, voice_example, avatar, bubble_color, voice_enabled, voice_type, voice_speed, voice_pitch, elevenlabs_id, can_read_files, can_generate_images, long_memory, context_messages, auto_audio)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            foreach ($defaults->fetchAll() as $c) {
+                $insertChar->execute([
+                    $newUserId, $c['name'], $c['description'], $c['personality'], $c['voice_example'],
+                    $c['avatar'], $c['bubble_color'], $c['voice_enabled'], $c['voice_type'], $c['voice_speed'],
+                    $c['voice_pitch'], $c['elevenlabs_id'], $c['can_read_files'], $c['can_generate_images'],
+                    $c['long_memory'], $c['context_messages'], $c['auto_audio'],
+                ]);
+            }
+        }
+
+        echo json_encode(['success' => true]);
+        exit;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        http_response_code(500);
+        echo json_encode(['error' => 'Erro ao criar conta.']);
         exit;
     }
 }

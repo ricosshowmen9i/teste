@@ -12,13 +12,22 @@ if (empty($_SESSION['user_id'])) {
     exit;
 }
 
-if (empty($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+$pdo    = getDB();
+$userId = (int)$_SESSION['user_id'];
+
+// Verify role from database (not just session)
+$roleCheck = $pdo->prepare("SELECT role FROM users WHERE id = ? AND active = 1");
+$roleCheck->execute([$userId]);
+$userRow = $roleCheck->fetch();
+
+if (!$userRow || $userRow['role'] !== 'admin') {
     http_response_code(403);
     echo json_encode(['error' => 'Acesso negado.']);
     exit;
 }
 
-$pdo    = getDB();
+// Update session with current role
+$_SESSION['role'] = $userRow['role'];
 $method = $_SERVER['REQUEST_METHOD'];
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
@@ -51,6 +60,12 @@ if ($method === 'GET') {
         exit;
     }
 
+    if ($action === 'app_settings') {
+        $config = $pdo->query("SELECT app_logo FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
+        echo json_encode(['app_logo' => $config['app_logo'] ?? null]);
+        exit;
+    }
+
     if ($action === 'users') {
         $users = $pdo->query("SELECT id, name, email, role, active, avatar, status, theme, created_at, last_login FROM users ORDER BY created_at DESC")->fetchAll();
         echo json_encode(['users' => $users]);
@@ -63,6 +78,18 @@ if ($method === 'POST') {
     if ($csrfToken !== ($_SESSION['csrf_token'] ?? '')) {
         http_response_code(403);
         echo json_encode(['error' => 'Token CSRF inválido.']);
+        exit;
+    }
+
+    if ($action === 'save_app_settings') {
+        $appLogo = trim($_POST['app_logo'] ?? '');
+
+        $existing = $pdo->query("SELECT id FROM ai_config LIMIT 1")->fetch();
+        if ($existing) {
+            $pdo->prepare("UPDATE ai_config SET app_logo=? WHERE id=?")
+                ->execute([$appLogo ?: null, $existing['id']]);
+        }
+        echo json_encode(['success' => true]);
         exit;
     }
 
@@ -96,7 +123,7 @@ if ($method === 'POST') {
         exit;
     }
 
-    if ($action === 'test_connection') {
+    if ($action === 'test_ai' || $action === 'test_connection') {
         $config = $pdo->query("SELECT * FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
 
         if (!$config || !$config['api_key']) {
@@ -105,24 +132,61 @@ if ($method === 'POST') {
         }
 
         try {
-            $url = rtrim($config['base_url'], '/') . '/models';
-            $ch  = curl_init($url);
-            curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT        => 10,
-                CURLOPT_HTTPHEADER     => [
-                    'Authorization: Bearer ' . $config['api_key'],
+            $provider = $config['provider'] ?? 'openrouter';
+            $baseUrl  = rtrim($config['base_url'], '/');
+
+            if ($provider === 'gemini') {
+                // Gemini: use models list endpoint
+                $url = "https://generativelanguage.googleapis.com/v1beta/models?key=" . urlencode($config['api_key']);
+                $ch  = curl_init($url);
+                curl_setopt_array($ch, [
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_TIMEOUT        => 15,
+                    CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+                ]);
+            } else {
+                // OpenAI-compatible providers: send a minimal chat completion request
+                $url  = $baseUrl . '/chat/completions';
+                $body = json_encode([
+                    'model'      => $config['model'] ?: 'gpt-3.5-turbo',
+                    'messages'   => [['role' => 'user', 'content' => 'Hi']],
+                    'max_tokens' => 5,
+                    'stream'     => false,
+                ]);
+                $headers = [
                     'Content-Type: application/json',
-                ],
-            ]);
+                    'Authorization: Bearer ' . $config['api_key'],
+                ];
+                if ($provider === 'openrouter') {
+                    $headers[] = 'HTTP-Referer: ' . (isset($_SERVER['HTTP_HOST']) ? 'https://' . $_SERVER['HTTP_HOST'] : 'https://whatjuju.app');
+                    $headers[] = 'X-Title: What JUJU';
+                }
+                $ch = curl_init($url);
+                curl_setopt_array($ch, [
+                    CURLOPT_POST           => true,
+                    CURLOPT_POSTFIELDS     => $body,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_TIMEOUT        => 20,
+                    CURLOPT_HTTPHEADER     => $headers,
+                ]);
+            }
+
             $response = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlErr  = curl_error($ch);
             curl_close($ch);
 
+            if ($curlErr) {
+                echo json_encode(['success' => false, 'error' => 'Erro de rede: ' . $curlErr]);
+                exit;
+            }
+
             if ($httpCode >= 200 && $httpCode < 300) {
-                echo json_encode(['success' => true, 'message' => 'Conexão bem sucedida!']);
+                echo json_encode(['success' => true, 'message' => '🟢 Conexão bem sucedida! Provider: ' . $provider]);
             } else {
-                echo json_encode(['success' => false, 'error' => "HTTP $httpCode: " . substr($response, 0, 200)]);
+                $decoded = json_decode($response, true);
+                $errMsg  = $decoded['error']['message'] ?? $decoded['error'] ?? substr($response, 0, 200);
+                echo json_encode(['success' => false, 'error' => "HTTP $httpCode: $errMsg"]);
             }
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);

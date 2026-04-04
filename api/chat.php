@@ -437,9 +437,18 @@ function buildSystemPrompt(array $character, string $userName): string {
 function determineModel(array $config): string {
     if ($config['model_mode'] === 'random') {
         $freeModels = [
-            'openrouter' => ['openai/gpt-3.5-turbo', 'meta-llama/llama-3-8b-instruct:free', 'mistralai/mistral-7b-instruct:free'],
+            'openrouter' => [
+                'google/gemma-3-27b-it:free',
+                'meta-llama/llama-4-scout:free',
+                'meta-llama/llama-4-maverick:free',
+                'qwen/qwen3.6-plus-preview:free',
+                'nvidia/nemotron-3-super-120b-a12b:free',
+                'stepfun/step-3.5-flash:free',
+                'mistralai/mistral-small-3.1-24b-instruct:free',
+                'nvidia/nemotron-nano-12b-v2-vl:free',
+            ],
             'groq'       => ['llama3-8b-8192', 'mixtral-8x7b-32768', 'gemma-7b-it'],
-            'gemini'     => ['gemini-1.5-flash', 'gemini-1.0-pro'],
+            'gemini'     => ['gemini-1.5-flash', 'gemini-2.0-flash'],
             'ollama'     => ['llama3', 'mistral', 'gemma'],
             'openai'     => ['gpt-3.5-turbo'],
             'mistral'    => ['mistral-small-latest', 'open-mistral-7b'],
@@ -486,8 +495,8 @@ function streamOpenAICompatible(array $config, string $model, string $systemProm
     ];
 
     if ($config['provider'] === 'openrouter') {
-        $headers[] = 'HTTP-Referer: ' . (isset($_SERVER['HTTP_HOST']) ? 'https://' . $_SERVER['HTTP_HOST'] : 'https://sete.app');
-        $headers[] = 'X-Title: SETE';
+        $headers[] = 'HTTP-Referer: ' . (isset($_SERVER['HTTP_HOST']) ? 'https://' . $_SERVER['HTTP_HOST'] : 'https://whatjuju.app');
+        $headers[] = 'X-Title: What JUJU';
     }
 
     $fullResponse = '';
@@ -509,6 +518,7 @@ function streamOpenAICompatible(array $config, string $model, string $systemProm
                     if ($content) {
                         $fullResponse .= $content;
                         echo "data: " . json_encode(['content' => $content]) . "\n\n";
+                        ob_flush();
                         flush();
                     }
                 }
@@ -566,6 +576,7 @@ function streamGemini(array $config, string $model, string $systemPrompt, array 
                 if ($content) {
                     $fullResponse .= $content;
                     echo "data: " . json_encode(['content' => $content]) . "\n\n";
+                    ob_flush();
                     flush();
                 }
             }
@@ -612,6 +623,7 @@ function streamOllama(array $config, string $model, string $systemPrompt, array 
                 if ($content) {
                     $fullResponse .= $content;
                     echo "data: " . json_encode(['content' => $content]) . "\n\n";
+                    ob_flush();
                     flush();
                 }
             }
