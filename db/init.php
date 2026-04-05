@@ -134,15 +134,12 @@ function initSchema(PDO $pdo): void {
     )");
 
     // Migrations for existing tables
-    $cols = array_column($pdo->query("PRAGMA table_info(ai_config)"").fetchAll(), 'name');
+    $cols = array_column($pdo->query("PRAGMA table_info(ai_config)")->fetchAll(), 'name');
     if (!in_array('app_logo', $cols, true)) {
         $pdo->exec("ALTER TABLE ai_config ADD COLUMN app_logo TEXT DEFAULT NULL");
     }
-    if (!in_array('elevenlabs_api_key', $cols, true)) {
-        $pdo->exec("ALTER TABLE ai_config ADD COLUMN elevenlabs_api_key TEXT DEFAULT NULL");
-    }
 
-    $gmCols = array_column($pdo->query("PRAGMA table_info(group_messages)"").fetchAll(), 'name');
+    $gmCols = array_column($pdo->query("PRAGMA table_info(group_messages)")->fetchAll(), 'name');
     if (!in_array('reply_to_id', $gmCols, true)) {
         $pdo->exec("ALTER TABLE group_messages ADD COLUMN reply_to_id INTEGER DEFAULT NULL");
     }

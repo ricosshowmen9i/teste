@@ -19,11 +19,6 @@ const AudioManager = {
   },
 
   speak(text, voiceConfig = {}, btn = null) {
-    // If ElevenLabs Voice ID is configured, use ElevenLabs TTS
-    if (voiceConfig.elevenLabsId) {
-      return this._speakElevenLabs(text, voiceConfig.elevenLabsId, btn);
-    }
-
     if (!('speechSynthesis' in window)) return null;
 
     // Toggle pause/resume if same button clicked while speaking
@@ -96,110 +91,6 @@ const AudioManager = {
     return utterance;
   },
 
-  _speakElevenLabs(text, voiceId, btn = null) {
-    // Stop any current speech
-    if ('speechSynthesis' in window) speechSynthesis.cancel();
-    if (this.activeElevenLabsAudio) {
-      this.activeElevenLabsAudio.pause();
-      this.activeElevenLabsAudio = null;
-    }
-    if (this.activeBtn && this.activeBtn !== btn) {
-      this.activeBtn.textContent = '\uD83D\uDD0A Ouvir';
-      this.activeBtn.classList.remove('playing');
-    }
-
-    // Clean text
-    const cleaned = text
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/```[\s\S]*?```/g, 'bloco de codigo')
-      .replace(/`[^`]+`/g, 'codigo')
-      .replace(/\*\*/g, '')
-      .replace(/\*/g, '')
-      .replace(/_/g, '')
-      .replace(/#+\s/g, '')
-      .replace(/https?:\/\/\S+/g, 'link')
-      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
-      .replace(/\[[^\]]*\]\([^)]*\)/g, '')
-      .replace(/\s{2,}/g, ' ')
-      .trim();
-
-    if (!cleaned) return null;
-
-    if (btn) {
-      btn.textContent = '\u23F8 Pausar';
-      btn.classList.add('playing');
-      this.activeBtn = btn;
-    }
-
-    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
-    const headers = { 'Content-Type': 'application/json' };
-    if (csrfMeta) headers['X-CSRF-Token'] = csrfMeta.content;
-
-    fetch('api/elevenlabs_tts.php', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ text: cleaned, voice_id: voiceId }),
-    })
-      .then(res => {
-        if (!res.ok) {
-          return res.json().then(err => { throw new Error(err.error || 'Erro ElevenLabs'); });
-        }
-        return res.blob();
-      })
-      .then(blob => {
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        this.activeElevenLabsAudio = audio;
-
-        if (btn) {
-          btn.textContent = '\u23F8 Pausar';
-          btn.classList.add('playing');
-
-          // Toggle pause/resume on subsequent clicks
-          btn._elevenLabsAudio = audio;
-          btn.onclick = () => {
-            if (audio.paused) {
-              audio.play();
-              btn.textContent = '\u23F8 Pausar';
-              btn.classList.add('playing');
-            } else {
-              audio.pause();
-              btn.textContent = '\u25B6 Continuar';
-              btn.classList.remove('playing');
-            }
-          };
-
-          audio.onended = () => {
-            btn.textContent = '\uD83D\uDD0A Ouvir';
-            btn.classList.remove('playing');
-            btn.onclick = null;
-            if (this.activeBtn === btn) this.activeBtn = null;
-            URL.revokeObjectURL(url);
-          };
-          audio.onerror = () => {
-            btn.textContent = '\uD83D\uDD0A Ouvir';
-            btn.classList.remove('playing');
-            btn.onclick = null;
-            if (this.activeBtn === btn) this.activeBtn = null;
-            URL.revokeObjectURL(url);
-          };
-        }
-
-        audio.play();
-      })
-      .catch(err => {
-        if (btn) {
-          btn.textContent = '\uD83D\uDD0A Ouvir';
-          btn.classList.remove('playing');
-          btn.onclick = null;
-          if (this.activeBtn === btn) this.activeBtn = null;
-        }
-        console.error('ElevenLabs TTS error:', err.message);
-      });
-
-    return null;
-  },
-
   selectVoice(voices, type) {
     const ptVoices = voices.filter(v =>
       v.lang.startsWith('pt') || v.lang.startsWith('PT')
@@ -243,10 +134,6 @@ const AudioManager = {
   stop() {
     if ('speechSynthesis' in window) {
       speechSynthesis.cancel();
-    }
-    if (this.activeElevenLabsAudio) {
-      this.activeElevenLabsAudio.pause();
-      this.activeElevenLabsAudio = null;
     }
     if (this.activeBtn) {
       this.activeBtn.textContent = '\uD83D\uDD0A Ouvir';

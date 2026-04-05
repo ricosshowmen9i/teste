@@ -99,7 +99,6 @@ if ($method === 'POST') {
         $baseUrl   = trim($_POST['base_url'] ?? '');
         $model     = trim($_POST['model'] ?? '');
         $modelMode = trim($_POST['model_mode'] ?? 'fixed');
-        $elevenLabsApiKey = trim($_POST['elevenlabs_api_key'] ?? '');
 
         $validProviders = ['openrouter', 'groq', 'openai', 'mistral', 'together', 'ollama', 'gemini'];
         if (!in_array($provider, $validProviders, true)) {
@@ -111,13 +110,13 @@ if ($method === 'POST') {
         $existing = $pdo->query("SELECT id FROM ai_config LIMIT 1")->fetch();
         if ($existing) {
             $pdo->prepare("
-                UPDATE ai_config SET provider=?, api_key=?, base_url=?, model=?, model_mode=?, elevenlabs_api_key=?, updated_at=CURRENT_TIMESTAMP
+                UPDATE ai_config SET provider=?, api_key=?, base_url=?, model=?, model_mode=?, updated_at=CURRENT_TIMESTAMP
                 WHERE id=?
-            ")->execute([$provider, $apiKey, $baseUrl, $model, $modelMode, $elevenLabsApiKey ?: null, $existing['id']]);
+            ")->execute([$provider, $apiKey, $baseUrl, $model, $modelMode, $existing['id']]);
         } else {
             $pdo->prepare("
-                INSERT INTO ai_config (provider, api_key, base_url, model, model_mode, elevenlabs_api_key) VALUES (?,?,?,?,?,?)
-            ")->execute([$provider, $apiKey, $baseUrl, $model, $modelMode, $elevenLabsApiKey ?: null]);
+                INSERT INTO ai_config (provider, api_key, base_url, model, model_mode) VALUES (?,?,?,?,?)
+            ")->execute([$provider, $apiKey, $baseUrl, $model, $modelMode]);
         }
 
         echo json_encode(['success' => true]);
