@@ -203,7 +203,7 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
         <img src="<?= htmlspecialchars($currentUser['avatar']) ?>?t=<?= time() ?>" alt="">
         <?php endif; ?>
       </div>
-      <span class="header-logo-text">What JUJU</span>
+      <span class="header-logo-text"><?= htmlspecialchars($currentUser['name'] ?? $currentUser['email'] ?? 'Usuário') ?></span>
     </div>
     <div class="header-actions">
       <button id="btn-contacts" title="Contatos" class="hbtn hbtn-contacts">
@@ -723,6 +723,14 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
                 <option value="fixed">Fixo (usar modelo configurado)</option>
                 <option value="random">Aleatório (modelos gratuitos)</option>
               </select>
+            </div>
+
+            <div class="form-group">
+              <label for="cfg-elevenlabs-api-key">ElevenLabs API Key</label>
+              <div style="display:flex;gap:8px;">
+                <input type="password" id="cfg-elevenlabs-api-key" class="form-control" placeholder="sk_…">
+                <button class="btn btn-outline" id="btn-toggle-elevenlabs-key" type="button">👁️</button>
+              </div>
             </div>
 
             <div style="display:flex;gap:10px;margin-top:8px;">

@@ -67,6 +67,10 @@ if ($method === 'POST' && $action === 'upload_avatar') {
     $filename = 'char_avatar_' . $charId . '_' . uniqid() . '.' . $ext;
     $dest     = __DIR__ . '/../uploads/files/' . $filename;
 
+    if (!is_dir(__DIR__ . '/../uploads/files/')) {
+        mkdir(__DIR__ . '/../uploads/files/', 0775, true);
+    }
+
     if (!move_uploaded_file($file['tmp_name'], $dest)) {
         http_response_code(500);
         echo json_encode(['error' => 'Erro ao salvar arquivo.']);
