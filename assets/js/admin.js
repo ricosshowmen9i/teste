@@ -171,6 +171,12 @@ const AdminManager = {
         input.type = input.type === 'password' ? 'text' : 'password';
       });
     }
+
+    const testGoogleTtsBtn = document.getElementById('btn-test-google-tts-key');
+    if (testGoogleTtsBtn && !testGoogleTtsBtn._bound) {
+      testGoogleTtsBtn._bound = true;
+      testGoogleTtsBtn.addEventListener('click', () => this.testGoogleTTS());
+    }
   },
 
   setConnectionStatus(state, message = '') {
@@ -287,6 +293,33 @@ const AdminManager = {
     } finally {
       if (btn) {
         btn.textContent = '🔌 Testar Conexão';
+        btn.disabled = false;
+      }
+    }
+  },
+
+  async testGoogleTTS() {
+    const btn = document.getElementById('btn-test-google-tts-key');
+    if (btn) {
+      btn.textContent = '⏳ Testando…';
+      btn.disabled = true;
+    }
+
+    try {
+      await this.saveConfig();
+
+      const data = await apiPost('api/admin.php', { action: 'test_google_tts' });
+
+      if (data.success) {
+        showToast('✅ ' + (data.message || 'Google TTS OK!'), 'success', 4000);
+      } else {
+        showToast('❌ ' + (data.error || 'Falha ao testar Google TTS.'), 'error', 5000);
+      }
+    } catch (e) {
+      showToast('Erro ao testar chave Google TTS.', 'error');
+    } finally {
+      if (btn) {
+        btn.textContent = '🧪 Testar';
         btn.disabled = false;
       }
     }

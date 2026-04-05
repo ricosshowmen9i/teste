@@ -24,7 +24,7 @@ const AudioManager = {
       return this._speakElevenLabs(text, voiceConfig.elevenLabsId, btn);
     }
 
-    // Clean text: remove HTML tags, markdown, images, links
+    // Clean text: remove HTML tags, markdown, images, links, emojis/symbols
     const cleaned = text
       .replace(/<[^>]+>/g, ' ')
       .replace(/```[\s\S]*?```/g, 'bloco de codigo')
@@ -36,6 +36,7 @@ const AudioManager = {
       .replace(/https?:\/\/\S+/g, 'link')
       .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
       .replace(/\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/\p{Extended_Pictographic}/gu, '')
       .replace(/\s{2,}/g, ' ')
       .trim();
 
@@ -47,6 +48,21 @@ const AudioManager = {
   },
 
   _speakGoogleTTS(cleaned, voiceConfig, btn = null) {
+    // Toggle pause/resume if same button clicked while audio is playing
+    if (btn && this.activeBtn === btn && this.activeGoogleTTSAudio) {
+      const audio = this.activeGoogleTTSAudio;
+      if (audio.paused) {
+        audio.play();
+        btn.textContent = '\u23F8 Pausar';
+        btn.classList.add('playing');
+      } else {
+        audio.pause();
+        btn.textContent = '\u25B6 Continuar';
+        btn.classList.remove('playing');
+      }
+      return;
+    }
+
     // Stop any current speech
     if ('speechSynthesis' in window) speechSynthesis.cancel();
     if (this.activeGoogleTTSAudio) {
