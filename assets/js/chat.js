@@ -350,6 +350,7 @@ const ChatManager = {
         type: char.voice_type,
         speed: char.voice_speed,
         pitch: char.voice_pitch,
+        elevenLabsId: char.elevenlabs_id || '',
       });
     }
 
@@ -372,6 +373,7 @@ const ChatManager = {
       type: char?.voice_type || 'feminina_adulta',
       speed: char?.voice_speed || 0.95,
       pitch: char?.voice_pitch || 1.05,
+      elevenLabsId: char?.elevenlabs_id || '',
     }, btn);
   },
 

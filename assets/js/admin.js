@@ -107,6 +107,7 @@ const AdminManager = {
       set('cfg-base-url', cfg.base_url || '');
       set('cfg-model', cfg.model || '');
       set('cfg-model-mode', cfg.model_mode || 'fixed');
+      set('cfg-elevenlabs-api-key', cfg.elevenlabs_api_key || '');
 
       this.updateProviderDefaults(cfg.provider || 'openrouter', false);
       this.setConnectionStatus('idle');
@@ -145,6 +146,16 @@ const AdminManager = {
       toggleApiKeyBtn._bound = true;
       toggleApiKeyBtn.addEventListener('click', () => {
         const input = document.getElementById('cfg-api-key');
+        if (!input) return;
+        input.type = input.type === 'password' ? 'text' : 'password';
+      });
+    }
+
+    const toggleElevenLabsKeyBtn = document.getElementById('btn-toggle-elevenlabs-key');
+    if (toggleElevenLabsKeyBtn && !toggleElevenLabsKeyBtn._bound) {
+      toggleElevenLabsKeyBtn._bound = true;
+      toggleElevenLabsKeyBtn.addEventListener('click', () => {
+        const input = document.getElementById('cfg-elevenlabs-api-key');
         if (!input) return;
         input.type = input.type === 'password' ? 'text' : 'password';
       });
@@ -216,12 +227,13 @@ const AdminManager = {
     const get = (id) => document.getElementById(id)?.value?.trim() || '';
 
     const payload = {
-      action:     'save_config',
-      provider:   get('cfg-provider'),
-      api_key:    get('cfg-api-key'),
-      base_url:   get('cfg-base-url'),
-      model:      get('cfg-model'),
-      model_mode: get('cfg-model-mode'),
+      action:              'save_config',
+      provider:            get('cfg-provider'),
+      api_key:             get('cfg-api-key'),
+      base_url:            get('cfg-base-url'),
+      model:               get('cfg-model'),
+      model_mode:          get('cfg-model-mode'),
+      elevenlabs_api_key:  get('cfg-elevenlabs-api-key'),
     };
 
     try {
