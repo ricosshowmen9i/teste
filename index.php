@@ -733,6 +733,14 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
               </div>
             </div>
 
+            <div class="form-group">
+              <label for="cfg-google-tts-key">Google AI Studio TTS API Key</label>
+              <div style="display:flex;gap:8px;">
+                <input type="password" id="cfg-google-tts-key" class="form-control" placeholder="AIza…">
+                <button class="btn btn-outline" id="btn-toggle-google-tts-key" type="button">👁️</button>
+              </div>
+            </div>
+
             <div style="display:flex;gap:10px;margin-top:8px;">
               <button class="btn btn-primary" id="btn-save-config">💾 Salvar</button>
               <button class="btn btn-outline" id="btn-test-connection">🔌 Testar Conexão</button>

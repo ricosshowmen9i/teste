@@ -108,6 +108,7 @@ const AdminManager = {
       set('cfg-model', cfg.model || '');
       set('cfg-model-mode', cfg.model_mode || 'fixed');
       set('cfg-elevenlabs-api-key', cfg.elevenlabs_api_key || '');
+      set('cfg-google-tts-key', cfg.google_tts_api_key || '');
 
       this.updateProviderDefaults(cfg.provider || 'openrouter', false);
       this.setConnectionStatus('idle');
@@ -156,6 +157,16 @@ const AdminManager = {
       toggleElevenLabsKeyBtn._bound = true;
       toggleElevenLabsKeyBtn.addEventListener('click', () => {
         const input = document.getElementById('cfg-elevenlabs-api-key');
+        if (!input) return;
+        input.type = input.type === 'password' ? 'text' : 'password';
+      });
+    }
+
+    const toggleGoogleTtsKeyBtn = document.getElementById('btn-toggle-google-tts-key');
+    if (toggleGoogleTtsKeyBtn && !toggleGoogleTtsKeyBtn._bound) {
+      toggleGoogleTtsKeyBtn._bound = true;
+      toggleGoogleTtsKeyBtn.addEventListener('click', () => {
+        const input = document.getElementById('cfg-google-tts-key');
         if (!input) return;
         input.type = input.type === 'password' ? 'text' : 'password';
       });
@@ -234,6 +245,7 @@ const AdminManager = {
       model:               get('cfg-model'),
       model_mode:          get('cfg-model-mode'),
       elevenlabs_api_key:  get('cfg-elevenlabs-api-key'),
+      google_tts_api_key:  get('cfg-google-tts-key'),
     };
 
     try {

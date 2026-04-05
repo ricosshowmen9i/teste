@@ -24,7 +24,113 @@ const AudioManager = {
       return this._speakElevenLabs(text, voiceConfig.elevenLabsId, btn);
     }
 
-    if (!('speechSynthesis' in window)) return null;
+    // Clean text: remove HTML tags, markdown, images, links
+    const cleaned = text
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/```[\s\S]*?```/g, 'bloco de codigo')
+      .replace(/`[^`]+`/g, 'codigo')
+      .replace(/\*\*/g, '')
+      .replace(/\*/g, '')
+      .replace(/_/g, '')
+      .replace(/#+\s/g, '')
+      .replace(/https?:\/\/\S+/g, 'link')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+
+    if (!cleaned) return null;
+
+    // Try Google TTS first, fallback to Web Speech API
+    this._speakGoogleTTS(cleaned, voiceConfig, btn);
+    return null;
+  },
+
+  _speakGoogleTTS(cleaned, voiceConfig, btn = null) {
+    // Stop any current speech
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    if (this.activeGoogleTTSAudio) {
+      this.activeGoogleTTSAudio.pause();
+      this.activeGoogleTTSAudio = null;
+    }
+    if (this.activeBtn && this.activeBtn !== btn) {
+      this.activeBtn.textContent = '\uD83D\uDD0A Ouvir';
+      this.activeBtn.classList.remove('playing');
+    }
+
+    if (btn) {
+      btn.textContent = '\u23F8 Pausar';
+      btn.classList.add('playing');
+      this.activeBtn = btn;
+    }
+
+    fetch('api/google_tts.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ text: cleaned, voice_type: voiceConfig.type || 'feminina_adulta' }),
+    })
+      .then(res => {
+        if (!res.ok || !res.headers.get('content-type')?.includes('audio/wav')) {
+          throw new Error('Google TTS indisponível');
+        }
+        return res.blob();
+      })
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        this.activeGoogleTTSAudio = audio;
+
+        if (btn) {
+          btn.textContent = '\u23F8 Pausar';
+          btn.classList.add('playing');
+
+          btn._googleTTSAudio = audio;
+          btn.onclick = () => {
+            if (audio.paused) {
+              audio.play();
+              btn.textContent = '\u23F8 Pausar';
+              btn.classList.add('playing');
+            } else {
+              audio.pause();
+              btn.textContent = '\u25B6 Continuar';
+              btn.classList.remove('playing');
+            }
+          };
+
+          audio.onended = () => {
+            btn.textContent = '\uD83D\uDD0A Ouvir';
+            btn.classList.remove('playing');
+            btn.onclick = null;
+            if (this.activeBtn === btn) this.activeBtn = null;
+            URL.revokeObjectURL(url);
+          };
+          audio.onerror = () => {
+            btn.textContent = '\uD83D\uDD0A Ouvir';
+            btn.classList.remove('playing');
+            btn.onclick = null;
+            if (this.activeBtn === btn) this.activeBtn = null;
+            URL.revokeObjectURL(url);
+          };
+        }
+
+        audio.play();
+      })
+      .catch(() => {
+        // Fallback to Web Speech API
+        this._speakWebSpeech(cleaned, voiceConfig, btn);
+      });
+  },
+
+  _speakWebSpeech(cleaned, voiceConfig, btn = null) {
+    if (!('speechSynthesis' in window)) {
+      if (btn) {
+        btn.textContent = '\uD83D\uDD0A Ouvir';
+        btn.classList.remove('playing');
+        if (this.activeBtn === btn) this.activeBtn = null;
+      }
+      return null;
+    }
 
     // Toggle pause/resume if same button clicked while speaking
     if (btn && this.activeBtn === btn && speechSynthesis.speaking) {
@@ -46,23 +152,6 @@ const AudioManager = {
       this.activeBtn.textContent = '\uD83D\uDD0A Ouvir';
       this.activeBtn.classList.remove('playing');
     }
-
-    // Clean text: remove HTML tags, markdown, images, links
-    const cleaned = text
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/```[\s\S]*?```/g, 'bloco de codigo')
-      .replace(/`[^`]+`/g, 'codigo')
-      .replace(/\*\*/g, '')
-      .replace(/\*/g, '')
-      .replace(/_/g, '')
-      .replace(/#+\s/g, '')
-      .replace(/https?:\/\/\S+/g, 'link')
-      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
-      .replace(/\[[^\]]*\]\([^)]*\)/g, '')
-      .replace(/\s{2,}/g, ' ')
-      .trim();
-
-    if (!cleaned) return null;
 
     const utterance = new SpeechSynthesisUtterance(cleaned);
     utterance.lang   = 'pt-BR';
@@ -243,6 +332,10 @@ const AudioManager = {
   stop() {
     if ('speechSynthesis' in window) {
       speechSynthesis.cancel();
+    }
+    if (this.activeGoogleTTSAudio) {
+      this.activeGoogleTTSAudio.pause();
+      this.activeGoogleTTSAudio = null;
     }
     if (this.activeElevenLabsAudio) {
       this.activeElevenLabsAudio.pause();
