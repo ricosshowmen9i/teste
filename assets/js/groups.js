@@ -416,6 +416,11 @@ const GroupManager = {
     textEl.innerHTML  = parseMarkdown(msg.content || '');
     bubble.appendChild(textEl);
 
+    // Audio button for character messages
+    if (!isUser && msg.content) {
+      bubble.appendChild(this._createGroupAudioBtn(msg.content, msg.character_id));
+    }
+
     const timeEl = document.createElement('div');
     timeEl.className   = 'msg-time';
     timeEl.textContent = formatTime ? formatTime(msg.created_at) : msg.created_at || '';
@@ -524,8 +529,18 @@ const GroupManager = {
         this.eventSource.close();
         this.eventSource = null;
 
-        Object.values(streamBubbles).forEach(b => {
-          if (b.el) b.el.querySelector('.streaming-cursor')?.remove();
+        Object.entries(streamBubbles).forEach(([charId, b]) => {
+          if (b.el) {
+            b.el.querySelector('.streaming-cursor')?.remove();
+            // Add audio button to finalized streaming bubble
+            if (b.text) {
+              const audioBtn = this._createGroupAudioBtn(b.text, charId);
+              const bubble = b.el.querySelector('.msg-bubble');
+              const timeEl = bubble?.querySelector('.msg-time');
+              if (bubble && timeEl) bubble.insertBefore(audioBtn, timeEl);
+              else if (bubble) bubble.appendChild(audioBtn);
+            }
+          }
         });
         streamBubbles = {};
 
@@ -614,6 +629,24 @@ const GroupManager = {
   // ── Show typing for a group character ────────────────────────────
   showGroupTyping(charName, charAvatar) {
     if (window.ChatManager) ChatManager.showTyping();
+  },
+
+  // ── Create an audio button for a group character message ─────────
+  _createGroupAudioBtn(msgText, charId) {
+    const charData = (window.ChatManager?.characters || []).find(c => Number(c.id) === Number(charId));
+    const voiceConfig = {
+      type: charData?.voice_type || 'feminina_adulta',
+      speed: charData?.voice_speed || 0.95,
+      pitch: charData?.voice_pitch || 1.05,
+      elevenLabsId: charData?.elevenlabs_id || '',
+    };
+    const btn = document.createElement('button');
+    btn.className = 'msg-audio-btn';
+    btn.textContent = '\uD83D\uDD0A Ouvir';
+    btn.addEventListener('click', function() {
+      if (window.AudioManager) AudioManager.speak(msgText, voiceConfig, btn);
+    });
+    return btn;
   },
 
   // ── Update last message in local groups array ────────────────────

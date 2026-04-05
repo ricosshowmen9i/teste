@@ -312,6 +312,8 @@ const AdminManager = {
 
       if (data.success) {
         showToast('✅ ' + (data.message || 'Google TTS OK!'), 'success', 4000);
+      } else if (data.warning) {
+        showToast(data.error || '⚠️ Cota excedida.', 'warning', 6000);
       } else {
         showToast('❌ ' + (data.error || 'Falha ao testar Google TTS.'), 'error', 5000);
       }
