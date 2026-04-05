@@ -281,6 +281,9 @@ const GroupManager = {
   async openGroupChat(group) {
     this.activeGroup = group;
 
+    // Stop any playing audio
+    if (window.AudioManager) AudioManager.stop();
+
     // Deactivate individual character
     if (window.ChatManager) {
       ChatManager.activeCharacter = null;

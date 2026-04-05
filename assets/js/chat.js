@@ -152,6 +152,9 @@ const ChatManager = {
   async openChat(char) {
     this.activeCharacter = char;
 
+    // Stop any playing audio
+    if (window.AudioManager) AudioManager.stop();
+
     // Deactivate any active group
     if (window.GroupManager) GroupManager.activeGroup = null;
 

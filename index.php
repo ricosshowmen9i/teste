@@ -738,6 +738,7 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
               <div style="display:flex;gap:8px;">
                 <input type="password" id="cfg-google-tts-key" class="form-control" placeholder="AIza…">
                 <button class="btn btn-outline" id="btn-toggle-google-tts-key" type="button">👁️</button>
+                <button class="btn btn-outline" id="btn-test-google-tts-key" type="button">🧪 Testar</button>
               </div>
             </div>
 

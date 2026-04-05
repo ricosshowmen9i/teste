@@ -125,6 +125,60 @@ if ($method === 'POST') {
         exit;
     }
 
+    if ($action === 'test_google_tts') {
+        $config = $pdo->query("SELECT google_tts_api_key FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
+        $apiKey = $config['google_tts_api_key'] ?? '';
+
+        if (!$apiKey) {
+            echo json_encode(['success' => false, 'error' => 'Google TTS API Key não configurada. Salve a chave primeiro.']);
+            exit;
+        }
+
+        $url  = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' . urlencode($apiKey);
+        $body = json_encode([
+            'contents' => [['parts' => [['text' => 'Olá']]]],
+            'generationConfig' => [
+                'responseModalities' => ['AUDIO'],
+                'speechConfig'       => ['voiceConfig' => ['prebuiltVoiceConfig' => ['voiceName' => 'Aoede']]],
+            ],
+        ]);
+
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $body,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 20,
+            CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlErr  = curl_error($ch);
+        curl_close($ch);
+
+        if ($curlErr) {
+            echo json_encode(['success' => false, 'error' => 'Erro de rede: ' . $curlErr]);
+            exit;
+        }
+
+        if ($httpCode >= 200 && $httpCode < 300) {
+            $decoded  = json_decode($response, true);
+            $parts    = $decoded['candidates'][0]['content']['parts'] ?? [];
+            $audioB64 = $parts[0]['inlineData']['data'] ?? '';
+            if ($audioB64) {
+                echo json_encode(['success' => true, 'message' => '🟢 Google TTS funcionando corretamente!']);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Resposta inesperada da API Google TTS.']);
+            }
+        } else {
+            $decoded = json_decode($response, true);
+            $errMsg  = $decoded['error']['message'] ?? substr($response, 0, 200);
+            echo json_encode(['success' => false, 'error' => "HTTP $httpCode: $errMsg"]);
+        }
+        exit;
+    }
+
     if ($action === 'test_ai' || $action === 'test_connection') {
         $config = $pdo->query("SELECT * FROM ai_config ORDER BY id DESC LIMIT 1")->fetch();
 
