@@ -725,14 +725,6 @@ document.getElementById('force-pw-form').addEventListener('submit', async functi
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="cfg-elevenlabs-api-key">ElevenLabs API Key</label>
-              <div style="display:flex;gap:8px;">
-                <input type="password" id="cfg-elevenlabs-api-key" class="form-control" placeholder="sk_…">
-                <button class="btn btn-outline" id="btn-toggle-elevenlabs-key" type="button">👁️</button>
-              </div>
-            </div>
-
             <div style="display:flex;gap:10px;margin-top:8px;">
               <button class="btn btn-primary" id="btn-save-config">💾 Salvar</button>
               <button class="btn btn-outline" id="btn-test-connection">🔌 Testar Conexão</button>
