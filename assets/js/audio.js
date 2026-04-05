@@ -72,7 +72,7 @@ const AudioManager = {
     })
       .then(res => {
         if (!res.ok || !res.headers.get('content-type')?.includes('audio/wav')) {
-          throw new Error('Google TTS indisponível');
+          throw new Error(`Google TTS indisponível (HTTP ${res.status})`);
         }
         return res.blob();
       })

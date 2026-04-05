@@ -29,7 +29,7 @@ $apiKey = $config['google_tts_api_key'] ?? '';
 if (!$apiKey) {
     http_response_code(500);
     header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['error' => 'Google TTS API Key nao configurada']);
+    echo json_encode(['error' => 'Google TTS API Key não configurada']);
     exit;
 }
 
