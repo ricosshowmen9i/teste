@@ -26,21 +26,112 @@ function getDB(): PDO {
 }
 
 function initSchema(PDO $pdo): void {
-    $pdo->exec("\n        CREATE TABLE IF NOT EXISTS users (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            name TEXT NOT NULL,\n            email TEXT UNIQUE NOT NULL,\n            password TEXT NOT NULL,\n            role TEXT DEFAULT 'user',\n            active INTEGER DEFAULT 1,\n            avatar TEXT DEFAULT NULL,\n            status TEXT DEFAULT 'Disponível',\n            theme TEXT DEFAULT 'green',\n            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,\n            last_login DATETIME DEFAULT NULL,\n            force_password_change INTEGER DEFAULT 0\n        )\n    ");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        role TEXT DEFAULT 'user',
+        active INTEGER DEFAULT 1,
+        avatar TEXT DEFAULT NULL,
+        status TEXT DEFAULT 'Disponivel',
+        theme TEXT DEFAULT 'green',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        last_login DATETIME DEFAULT NULL,
+        force_password_change INTEGER DEFAULT 0
+    )");
 
-    $pdo->exec("\n        CREATE TABLE IF NOT EXISTS characters (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            user_id INTEGER NOT NULL,\n            name TEXT NOT NULL,\n            description TEXT DEFAULT '',\n            personality TEXT DEFAULT '',\n            voice_example TEXT DEFAULT '',\n            avatar TEXT DEFAULT NULL,\n            bubble_color TEXT DEFAULT '#dcf8c6',\n            voice_enabled INTEGER DEFAULT 0,\n            voice_type TEXT DEFAULT 'feminina_adulta',\n            voice_speed REAL DEFAULT 1.0,\n            voice_pitch REAL DEFAULT 1.0,\n            elevenlabs_id TEXT DEFAULT NULL,\n            can_read_files INTEGER DEFAULT 1,\n            can_generate_images INTEGER DEFAULT 0,\n            long_memory INTEGER DEFAULT 1,\n            context_messages INTEGER DEFAULT 20,\n            auto_audio INTEGER DEFAULT 0,\n            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,\n            FOREIGN KEY (user_id) REFERENCES users(id)\n        )\n    ");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS characters (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        description TEXT DEFAULT '',
+        personality TEXT DEFAULT '',
+        voice_example TEXT DEFAULT '',
+        avatar TEXT DEFAULT NULL,
+        bubble_color TEXT DEFAULT '#dcf8c6',
+        voice_enabled INTEGER DEFAULT 0,
+        voice_type TEXT DEFAULT 'feminina_adulta',
+        voice_speed REAL DEFAULT 1.0,
+        voice_pitch REAL DEFAULT 1.0,
+        elevenlabs_id TEXT DEFAULT NULL,
+        can_read_files INTEGER DEFAULT 1,
+        can_generate_images INTEGER DEFAULT 0,
+        long_memory INTEGER DEFAULT 1,
+        context_messages INTEGER DEFAULT 20,
+        auto_audio INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    )");
 
-    $pdo->exec("\n        CREATE TABLE IF NOT EXISTS messages (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            user_id INTEGER NOT NULL,\n            character_id INTEGER NOT NULL,\n            role TEXT NOT NULL,\n            content TEXT NOT NULL,\n            file_url TEXT DEFAULT NULL,\n            file_name TEXT DEFAULT NULL,\n            file_type TEXT DEFAULT NULL,\n            read_at DATETIME DEFAULT NULL,\n            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,\n            FOREIGN KEY (user_id) REFERENCES users(id),\n            FOREIGN KEY (character_id) REFERENCES characters(id)\n        )\n    ");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        character_id INTEGER NOT NULL,
+        role TEXT NOT NULL,
+        content TEXT NOT NULL,
+        file_url TEXT DEFAULT NULL,
+        file_name TEXT DEFAULT NULL,
+        file_type TEXT DEFAULT NULL,
+        read_at DATETIME DEFAULT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (character_id) REFERENCES characters(id)
+    )");
 
-    $pdo->exec("\n        CREATE TABLE IF NOT EXISTS ai_config (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            provider TEXT DEFAULT 'openrouter',\n            api_key TEXT DEFAULT '',\n            base_url TEXT DEFAULT 'https://openrouter.ai/api/v1',\n            model TEXT DEFAULT 'openai/gpt-3.5-turbo',\n            model_mode TEXT DEFAULT 'fixed',\n            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP\n        )\n    ");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS ai_config (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        provider TEXT DEFAULT 'openrouter',
+        api_key TEXT DEFAULT '',
+        base_url TEXT DEFAULT 'https://openrouter.ai/api/v1',
+        model TEXT DEFAULT 'openai/gpt-3.5-turbo',
+        model_mode TEXT DEFAULT 'fixed',
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )");
 
-    $pdo->exec("\n        CREATE TABLE IF NOT EXISTS rate_limits (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            session_id TEXT NOT NULL,\n            requests INTEGER DEFAULT 0,\n            window_start DATETIME DEFAULT CURRENT_TIMESTAMP\n        )\n    ");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS rate_limits (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id TEXT NOT NULL,
+        requests INTEGER DEFAULT 0,
+        window_start DATETIME DEFAULT CURRENT_TIMESTAMP
+    )");
 
-    $pdo->exec("\n        CREATE TABLE IF NOT EXISTS groups (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            user_id INTEGER NOT NULL,\n            name TEXT NOT NULL,\n            description TEXT DEFAULT '',\n            avatar TEXT DEFAULT NULL,\n            story TEXT DEFAULT '',\n            interaction_mode TEXT DEFAULT 'random',\n            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,\n            FOREIGN KEY (user_id) REFERENCES users(id)\n        )\n    ");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS groups (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        description TEXT DEFAULT '',
+        avatar TEXT DEFAULT NULL,
+        story TEXT DEFAULT '',
+        interaction_mode TEXT DEFAULT 'random',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    )");
 
-    $pdo->exec("\n        CREATE TABLE IF NOT EXISTS group_members (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            group_id INTEGER NOT NULL,\n            character_id INTEGER NOT NULL,\n            UNIQUE(group_id, character_id),\n            FOREIGN KEY (group_id) REFERENCES groups(id),\n            FOREIGN KEY (character_id) REFERENCES characters(id)\n        )\n    ");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS group_members (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        group_id INTEGER NOT NULL,
+        character_id INTEGER NOT NULL,
+        UNIQUE(group_id, character_id),
+        FOREIGN KEY (group_id) REFERENCES groups(id),
+        FOREIGN KEY (character_id) REFERENCES characters(id)
+    )");
 
-    $pdo->exec("\n        CREATE TABLE IF NOT EXISTS group_messages (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            group_id INTEGER NOT NULL,\n            user_id INTEGER NOT NULL,\n            sender_type TEXT NOT NULL,\n            character_id INTEGER DEFAULT NULL,\n            character_name TEXT DEFAULT NULL,\n            content TEXT NOT NULL,\n            reply_to_id INTEGER DEFAULT NULL,\n            reply_to_name TEXT DEFAULT NULL,\n            reply_to_snippet TEXT DEFAULT NULL,\n            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,\n            FOREIGN KEY (group_id) REFERENCES groups(id),\n            FOREIGN KEY (user_id) REFERENCES users(id)\n        )\n    ");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS group_messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        group_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        sender_type TEXT NOT NULL,
+        character_id INTEGER DEFAULT NULL,
+        character_name TEXT DEFAULT NULL,
+        content TEXT NOT NULL,
+        reply_to_id INTEGER DEFAULT NULL,
+        reply_to_name TEXT DEFAULT NULL,
+        reply_to_snippet TEXT DEFAULT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (group_id) REFERENCES groups(id),
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    )");
 
     // Migrations for existing tables
     $cols = array_column($pdo->query("PRAGMA table_info(ai_config)"").fetchAll(), 'name');
@@ -66,13 +157,15 @@ function initSchema(PDO $pdo): void {
     $adminExists = $pdo->query("SELECT id FROM users WHERE email='admin@sete.app'")->fetch();
     if (!$adminExists) {
         $hash = password_hash('admin123', PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("\n            INSERT INTO users (name, email, password, role, force_password_change)\n            VALUES ('Admin', 'admin@sete.app', ?, 'admin', 1)\n        ");
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password, role, force_password_change)
+            VALUES ('Admin', 'admin@sete.app', ?, 'admin', 1)");
         $stmt->execute([$hash]);
     }
 
     // Seed default ai_config
     $cfgExists = $pdo->query("SELECT id FROM ai_config LIMIT 1")->fetch();
     if (!$cfgExists) {
-        $pdo->exec("\n            INSERT INTO ai_config (provider, api_key, base_url, model, model_mode)\n            VALUES ('openrouter', '', 'https://openrouter.ai/api/v1', 'openai/gpt-3.5-turbo', 'fixed')\n        ");
+        $pdo->exec("INSERT INTO ai_config (provider, api_key, base_url, model, model_mode)
+            VALUES ('openrouter', '', 'https://openrouter.ai/api/v1', 'openai/gpt-3.5-turbo', 'fixed')");
     }
 }
