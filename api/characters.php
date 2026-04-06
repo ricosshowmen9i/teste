@@ -47,8 +47,29 @@ if ($method === 'POST' && $action === 'upload_avatar') {
     }
 
     $file = $_FILES['avatar'];
+
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        $uploadErrors = [
+            UPLOAD_ERR_INI_SIZE   => 'Arquivo muito grande para o servidor.',
+            UPLOAD_ERR_FORM_SIZE  => 'Arquivo muito grande.',
+            UPLOAD_ERR_PARTIAL    => 'Upload incompleto.',
+            UPLOAD_ERR_NO_FILE    => 'Nenhum arquivo enviado.',
+            UPLOAD_ERR_NO_TMP_DIR => 'Erro no servidor de upload.',
+            UPLOAD_ERR_CANT_WRITE => 'Erro ao salvar arquivo.',
+            UPLOAD_ERR_EXTENSION  => 'Upload bloqueado por extensão PHP.',
+        ];
+        $errMsg = $uploadErrors[$file['error']] ?? 'Erro desconhecido no upload.';
+        http_response_code(400);
+        echo json_encode(['error' => $errMsg]);
+        exit;
+    }
+
+    // Use output buffering around risky file operations to prevent PHP warnings
+    // from corrupting the JSON response
+    ob_start();
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $mime = $finfo->file($file['tmp_name']);
+    ob_end_clean();
     $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
     if (!in_array($mime, $allowed, true)) {
