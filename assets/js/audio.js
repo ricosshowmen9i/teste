@@ -101,31 +101,18 @@ const AudioManager = {
           btn.textContent = '\u23F8 Pausar';
           btn.classList.add('playing');
 
-          btn._googleTTSAudio = audio;
-          btn.onclick = () => {
-            if (audio.paused) {
-              audio.play();
-              btn.textContent = '\u23F8 Pausar';
-              btn.classList.add('playing');
-            } else {
-              audio.pause();
-              btn.textContent = '\u25B6 Continuar';
-              btn.classList.remove('playing');
-            }
-          };
-
           audio.onended = () => {
             btn.textContent = '\uD83D\uDD0A Ouvir';
             btn.classList.remove('playing');
-            btn.onclick = null;
             if (this.activeBtn === btn) this.activeBtn = null;
+            if (this.activeGoogleTTSAudio === audio) this.activeGoogleTTSAudio = null;
             URL.revokeObjectURL(url);
           };
           audio.onerror = () => {
             btn.textContent = '\uD83D\uDD0A Ouvir';
             btn.classList.remove('playing');
-            btn.onclick = null;
             if (this.activeBtn === btn) this.activeBtn = null;
+            if (this.activeGoogleTTSAudio === audio) this.activeGoogleTTSAudio = null;
             URL.revokeObjectURL(url);
           };
         }
@@ -261,31 +248,18 @@ const AudioManager = {
           btn.classList.add('playing');
 
           // Toggle pause/resume on subsequent clicks
-          btn._elevenLabsAudio = audio;
-          btn.onclick = () => {
-            if (audio.paused) {
-              audio.play();
-              btn.textContent = '\u23F8 Pausar';
-              btn.classList.add('playing');
-            } else {
-              audio.pause();
-              btn.textContent = '\u25B6 Continuar';
-              btn.classList.remove('playing');
-            }
-          };
-
           audio.onended = () => {
             btn.textContent = '\uD83D\uDD0A Ouvir';
             btn.classList.remove('playing');
-            btn.onclick = null;
             if (this.activeBtn === btn) this.activeBtn = null;
+            if (this.activeElevenLabsAudio === audio) this.activeElevenLabsAudio = null;
             URL.revokeObjectURL(url);
           };
           audio.onerror = () => {
             btn.textContent = '\uD83D\uDD0A Ouvir';
             btn.classList.remove('playing');
-            btn.onclick = null;
             if (this.activeBtn === btn) this.activeBtn = null;
+            if (this.activeElevenLabsAudio === audio) this.activeElevenLabsAudio = null;
             URL.revokeObjectURL(url);
           };
         }
@@ -296,7 +270,6 @@ const AudioManager = {
         if (btn) {
           btn.textContent = '\uD83D\uDD0A Ouvir';
           btn.classList.remove('playing');
-          btn.onclick = null;
           if (this.activeBtn === btn) this.activeBtn = null;
         }
         console.error('ElevenLabs TTS error:', err.message);
@@ -351,10 +324,12 @@ const AudioManager = {
     }
     if (this.activeGoogleTTSAudio) {
       this.activeGoogleTTSAudio.pause();
+      this.activeGoogleTTSAudio.currentTime = 0;
       this.activeGoogleTTSAudio = null;
     }
     if (this.activeElevenLabsAudio) {
       this.activeElevenLabsAudio.pause();
+      this.activeElevenLabsAudio.currentTime = 0;
       this.activeElevenLabsAudio = null;
     }
     if (this.activeBtn) {

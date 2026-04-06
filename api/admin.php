@@ -171,6 +171,8 @@ if ($method === 'POST') {
             } else {
                 echo json_encode(['success' => false, 'error' => 'Resposta inesperada da API Google TTS.']);
             }
+        } elseif ($httpCode === 429) {
+            echo json_encode(['success' => false, 'warning' => true, 'error' => '⚠️ Chave válida! Mas a cota gratuita foi excedida. Aguarde alguns minutos e tente novamente.']);
         } else {
             $decoded = json_decode($response, true);
             $errMsg  = $decoded['error']['message'] ?? substr($response, 0, 200);
