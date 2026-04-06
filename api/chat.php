@@ -465,7 +465,7 @@ function determineModel(array $config): string {
                 'nvidia/nemotron-nano-12b-v2-vl:free',
             ],
             'groq'       => ['llama3-8b-8192', 'mixtral-8x7b-32768', 'gemma-7b-it'],
-            'gemini'     => ['gemini-1.5-flash', 'gemini-2.0-flash'],
+            'gemini'     => ['gemini-2.0-flash', 'gemini-2.0-flash-lite'],
             'ollama'     => ['llama3', 'mistral', 'gemma'],
             'openai'     => ['gpt-3.5-turbo'],
             'mistral'    => ['mistral-small-latest', 'open-mistral-7b'],

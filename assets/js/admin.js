@@ -205,7 +205,7 @@ const AdminManager = {
       mistral:    { url: 'https://api.mistral.ai/v1',       model: 'mistral-small-latest' },
       together:   { url: 'https://api.together.xyz/v1',     model: 'togethercomputer/llama-2-7b-chat' },
       ollama:     { url: 'http://localhost:11434/api',       model: 'llama3' },
-      gemini:     { url: 'https://generativelanguage.googleapis.com/v1beta', model: 'gemini-1.5-flash' },
+      gemini:     { url: 'https://generativelanguage.googleapis.com/v1beta', model: 'gemini-2.0-flash' },
     };
 
     const d = defaults[provider];
@@ -218,7 +218,7 @@ const AdminManager = {
       mistral:    ['mistral-small-latest', 'open-mistral-7b', 'mistral-medium-latest'],
       together:   ['togethercomputer/llama-2-7b-chat', 'mistralai/Mixtral-8x7B-Instruct-v0.1'],
       ollama:     ['llama3', 'mistral', 'gemma', 'phi3'],
-      gemini:     ['gemini-1.5-flash', 'gemini-1.0-pro'],
+      gemini:     ['gemini-2.0-flash', 'gemini-2.0-flash-lite', 'gemini-1.5-pro'],
     };
 
     const datalist = document.getElementById('model-suggestions');
