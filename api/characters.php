@@ -21,91 +21,93 @@ $action = $_POST['action'] ?? $_GET['action'] ?? '';
 $pdo    = getDB();
 
 if ($method === 'POST' && $action === 'upload_avatar') {
-    $csrfToken = $_POST['csrf_token'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if ($csrfToken !== ($_SESSION['csrf_token'] ?? '')) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Token CSRF inválido.']);
+    try {
+        $csrfToken = $_POST['csrf_token'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+        if ($csrfToken !== ($_SESSION['csrf_token'] ?? '')) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Token CSRF inválido.']);
+            exit;
+        }
+
+        $charId = (int)($_POST['char_id'] ?? 0);
+        if (!$charId) {
+            http_response_code(400);
+            echo json_encode(['error' => 'ID do personagem inválido.']);
+            exit;
+        }
+
+        $existing = $pdo->prepare("SELECT id FROM characters WHERE id = ? AND user_id = ?");
+        $existing->execute([$charId, $userId]);
+        if (!$existing->fetch()) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Personagem não encontrado.']);
+            exit;
+        }
+
+        if (empty($_FILES['avatar'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Nenhum arquivo enviado.']);
+            exit;
+        }
+
+        $file = $_FILES['avatar'];
+
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            $uploadErrors = [
+                UPLOAD_ERR_INI_SIZE   => 'Arquivo muito grande para o servidor.',
+                UPLOAD_ERR_FORM_SIZE  => 'Arquivo muito grande.',
+                UPLOAD_ERR_PARTIAL    => 'Upload incompleto.',
+                UPLOAD_ERR_NO_FILE    => 'Nenhum arquivo enviado.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Erro no servidor de upload.',
+                UPLOAD_ERR_CANT_WRITE => 'Erro ao salvar arquivo.',
+                UPLOAD_ERR_EXTENSION  => 'Upload bloqueado por extensão PHP.',
+            ];
+            $errMsg = $uploadErrors[$file['error']] ?? 'Erro desconhecido no upload.';
+            http_response_code(400);
+            echo json_encode(['error' => $errMsg]);
+            exit;
+        }
+
+        $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $allowedExts, true)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Tipo de arquivo não permitido. Use jpg, jpeg, png, gif ou webp.']);
+            exit;
+        }
+
+        if ($file['size'] > 2 * 1024 * 1024) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Arquivo muito grande. Máximo 2MB.']);
+            exit;
+        }
+
+        $safeExt  = preg_replace('/[^a-z0-9]/', '', $ext);
+        $filename = 'char_avatar_' . $charId . '_' . uniqid() . '.' . $safeExt;
+        $dest     = __DIR__ . '/../uploads/files/' . $filename;
+
+        if (!is_dir(__DIR__ . '/../uploads/files/')) {
+            mkdir(__DIR__ . '/../uploads/files/', 0755, true);
+        }
+
+        if (!move_uploaded_file($file['tmp_name'], $dest)) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Erro ao salvar arquivo.']);
+            exit;
+        }
+
+        $url = 'uploads/files/' . $filename;
+        $pdo->prepare("UPDATE characters SET avatar=? WHERE id=? AND user_id=?")->execute([$url, $charId, $userId]);
+
+        echo json_encode(['success' => true, 'avatar' => $url]);
         exit;
-    }
-
-    $charId = (int)($_POST['char_id'] ?? 0);
-    if (!$charId) {
-        http_response_code(400);
-        echo json_encode(['error' => 'ID do personagem inválido.']);
-        exit;
-    }
-
-    $existing = $pdo->prepare("SELECT id FROM characters WHERE id = ? AND user_id = ?");
-    $existing->execute([$charId, $userId]);
-    if (!$existing->fetch()) {
-        http_response_code(404);
-        echo json_encode(['error' => 'Personagem não encontrado.']);
-        exit;
-    }
-
-    if (empty($_FILES['avatar'])) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Nenhum arquivo enviado.']);
-        exit;
-    }
-
-    $file = $_FILES['avatar'];
-
-    if ($file['error'] !== UPLOAD_ERR_OK) {
-        $uploadErrors = [
-            UPLOAD_ERR_INI_SIZE   => 'Arquivo muito grande para o servidor.',
-            UPLOAD_ERR_FORM_SIZE  => 'Arquivo muito grande.',
-            UPLOAD_ERR_PARTIAL    => 'Upload incompleto.',
-            UPLOAD_ERR_NO_FILE    => 'Nenhum arquivo enviado.',
-            UPLOAD_ERR_NO_TMP_DIR => 'Erro no servidor de upload.',
-            UPLOAD_ERR_CANT_WRITE => 'Erro ao salvar arquivo.',
-            UPLOAD_ERR_EXTENSION  => 'Upload bloqueado por extensão PHP.',
-        ];
-        $errMsg = $uploadErrors[$file['error']] ?? 'Erro desconhecido no upload.';
-        http_response_code(400);
-        echo json_encode(['error' => $errMsg]);
-        exit;
-    }
-
-    // Use output buffering around risky file operations to prevent PHP warnings
-    // from corrupting the JSON response
-    ob_start();
-    $finfo = new finfo(FILEINFO_MIME_TYPE);
-    $mime = $finfo->file($file['tmp_name']);
-    ob_end_clean();
-    $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-
-    if (!in_array($mime, $allowed, true)) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Tipo de arquivo não permitido.']);
-        exit;
-    }
-
-    if ($file['size'] > 2 * 1024 * 1024) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Arquivo muito grande. Máximo 2MB.']);
-        exit;
-    }
-
-    $ext      = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-    $filename = 'char_avatar_' . $charId . '_' . uniqid() . '.' . $ext;
-    $dest     = __DIR__ . '/../uploads/files/' . $filename;
-
-    if (!is_dir(__DIR__ . '/../uploads/files/')) {
-        mkdir(__DIR__ . '/../uploads/files/', 0775, true);
-    }
-
-    if (!move_uploaded_file($file['tmp_name'], $dest)) {
+    } catch (Throwable $e) {
+        error_log('characters upload_avatar error: ' . $e->getMessage());
         http_response_code(500);
-        echo json_encode(['error' => 'Erro ao salvar arquivo.']);
+        echo json_encode(['error' => 'Erro interno ao processar o upload.']);
         exit;
     }
-
-    $url = 'uploads/files/' . $filename;
-    $pdo->prepare("UPDATE characters SET avatar=? WHERE id=? AND user_id=?")->execute([$url, $charId, $userId]);
-
-    echo json_encode(['success' => true, 'avatar' => $url]);
-    exit;
 }
 
 if ($method === 'GET' && !$action) {
