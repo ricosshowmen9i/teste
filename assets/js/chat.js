@@ -306,6 +306,12 @@ const ChatManager = {
   },
 
   // ── Streaming message ───────────────────────────────────────────
+  _removeStreamBubble(contentEl) {
+    if (!contentEl) return;
+    const wrapper = contentEl.closest('.message-wrapper');
+    if (wrapper) wrapper.remove();
+  },
+
   startStreamMessage() {
     const container = document.getElementById('messages-container');
     if (!container) return null;
@@ -338,6 +344,11 @@ const ChatManager = {
   finalizeStreamMessage(contentEl, fullText) {
     if (!contentEl) return;
     const wrapper = contentEl.closest('.message-wrapper');
+    if (!fullText) {
+      // No content received — remove the empty bubble silently
+      this._removeStreamBubble(contentEl);
+      return;
+    }
     if (wrapper) wrapper.classList.remove('streaming');
     contentEl.classList.remove('streaming-cursor');
     contentEl.innerHTML = parseMarkdown(fullText);
@@ -453,6 +464,8 @@ const ChatManager = {
         if (parsed.error) {
           this.hideTyping();
           showToast(parsed.error, 'error');
+          this._removeStreamBubble(streamEl);
+          streamEl = null;
           this.eventSource.close();
           this.eventSource = null;
           return;
@@ -474,6 +487,8 @@ const ChatManager = {
         this.eventSource = null;
       }
       if (!fullText) {
+        this._removeStreamBubble(streamEl);
+        streamEl = null;
         showToast('Erro na conexão com a IA.', 'error');
       } else {
         this.finalizeStreamMessage(streamEl, fullText);

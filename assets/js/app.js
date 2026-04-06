@@ -40,7 +40,11 @@ async function apiPostFile(url, formData) {
     credentials: 'same-origin',
     body: formData,
   });
-  return res.json();
+  try {
+    return await res.json();
+  } catch (_e) {
+    return { error: 'Resposta inválida do servidor.' };
+  }
 }
 
 // ── Toast notifications ───────────────────────────────────────────

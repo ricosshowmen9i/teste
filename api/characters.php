@@ -1,5 +1,8 @@
 <?php
 
+// Prevent PHP notices/warnings from corrupting the JSON response
+ini_set('display_errors', '0');
+
 session_start();
 
 require_once __DIR__ . '/../db/init.php';
