@@ -11,6 +11,7 @@ const AudioManager = {
   isRecording: false,
   activeBtn: null,
   _ttsAbortId: 0,
+  _activeBackend: null, // 'google' | 'elevenlabs' | 'webspeech' | null
 
   init() {
     if ('speechSynthesis' in window) {
@@ -46,7 +47,7 @@ const AudioManager = {
         }
         return null;
       }
-      if ('speechSynthesis' in window && speechSynthesis.speaking) {
+      if (this._activeBackend === 'webspeech' && 'speechSynthesis' in window && speechSynthesis.speaking) {
         if (speechSynthesis.paused) {
           speechSynthesis.resume();
           btn.textContent = '\u23F8 Pausar';
@@ -138,10 +139,11 @@ const AudioManager = {
         return res.blob();
       })
       .then(blob => {
-        if (this._ttsAbortId !== abortId) { return; }
+        if (this._ttsAbortId !== abortId) return;
         const url = URL.createObjectURL(blob);
         const audio = new Audio(url);
         this.activeGoogleTTSAudio = audio;
+        this._activeBackend = 'google';
 
         if (btn) {
           btn.textContent = '\u23F8 Pausar';
@@ -152,6 +154,7 @@ const AudioManager = {
             btn.classList.remove('playing');
             if (this.activeBtn === btn) this.activeBtn = null;
             if (this.activeGoogleTTSAudio === audio) this.activeGoogleTTSAudio = null;
+            if (this._activeBackend === 'google') this._activeBackend = null;
             URL.revokeObjectURL(url);
           };
           audio.onerror = () => {
@@ -159,6 +162,7 @@ const AudioManager = {
             btn.classList.remove('playing');
             if (this.activeBtn === btn) this.activeBtn = null;
             if (this.activeGoogleTTSAudio === audio) this.activeGoogleTTSAudio = null;
+            if (this._activeBackend === 'google') this._activeBackend = null;
             URL.revokeObjectURL(url);
           };
         }
@@ -222,14 +226,17 @@ const AudioManager = {
         btn.textContent = '\uD83D\uDD0A Ouvir';
         btn.classList.remove('playing');
         if (this.activeBtn === btn) this.activeBtn = null;
+        if (this._activeBackend === 'webspeech') this._activeBackend = null;
       };
       utterance.onerror = () => {
         btn.textContent = '\uD83D\uDD0A Ouvir';
         btn.classList.remove('playing');
         if (this.activeBtn === btn) this.activeBtn = null;
+        if (this._activeBackend === 'webspeech') this._activeBackend = null;
       };
     }
 
+    this._activeBackend = 'webspeech';
     this.currentUtterance = utterance;
     speechSynthesis.speak(utterance);
     return utterance;
@@ -288,10 +295,11 @@ const AudioManager = {
         return res.blob();
       })
       .then(blob => {
-        if (this._ttsAbortId !== abortId) { return; }
+        if (this._ttsAbortId !== abortId) return;
         const url = URL.createObjectURL(blob);
         const audio = new Audio(url);
         this.activeElevenLabsAudio = audio;
+        this._activeBackend = 'elevenlabs';
 
         if (btn) {
           btn.textContent = '\u23F8 Pausar';
@@ -302,6 +310,7 @@ const AudioManager = {
             btn.classList.remove('playing');
             if (this.activeBtn === btn) this.activeBtn = null;
             if (this.activeElevenLabsAudio === audio) this.activeElevenLabsAudio = null;
+            if (this._activeBackend === 'elevenlabs') this._activeBackend = null;
             URL.revokeObjectURL(url);
           };
           audio.onerror = () => {
@@ -309,6 +318,7 @@ const AudioManager = {
             btn.classList.remove('playing');
             if (this.activeBtn === btn) this.activeBtn = null;
             if (this.activeElevenLabsAudio === audio) this.activeElevenLabsAudio = null;
+            if (this._activeBackend === 'elevenlabs') this._activeBackend = null;
             URL.revokeObjectURL(url);
           };
         }
@@ -388,6 +398,7 @@ const AudioManager = {
       this.activeBtn.classList.remove('playing');
       this.activeBtn = null;
     }
+    this._activeBackend = null;
   },
 
   isSpeaking() {
