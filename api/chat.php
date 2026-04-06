@@ -1,5 +1,7 @@
 <?php
 
+ini_set('display_errors', '0');
+
 session_start();
 
 require_once __DIR__ . '/../db/init.php';
@@ -500,20 +502,30 @@ function streamOpenAICompatible(array $config, string $model, string $systemProm
     }
 
     $fullResponse = '';
+    $rawBody      = '';
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_POST           => true,
         CURLOPT_POSTFIELDS     => $body,
         CURLOPT_HTTPHEADER     => $headers,
         CURLOPT_RETURNTRANSFER => false,
-        CURLOPT_WRITEFUNCTION  => function($ch, $data) use (&$fullResponse) {
+        CURLOPT_WRITEFUNCTION  => function($ch, $data) use (&$fullResponse, &$rawBody) {
             $lines = explode("\n", $data);
             foreach ($lines as $line) {
                 $line = trim($line);
                 if (!$line || $line === 'data: [DONE]') continue;
                 if (strpos($line, 'data: ') === 0) {
-                    $json = substr($line, 6);
+                    $json    = substr($line, 6);
                     $decoded = json_decode($json, true);
+                    // Surface API-level errors sent inside the SSE stream
+                    if (isset($decoded['error'])) {
+                        $errMsg = is_array($decoded['error'])
+                            ? ($decoded['error']['message'] ?? json_encode($decoded['error']))
+                            : (string)$decoded['error'];
+                        echo "data: " . json_encode(['error' => $errMsg]) . "\n\n";
+                        ob_flush();
+                        flush();
+                    }
                     $content = $decoded['choices'][0]['delta']['content'] ?? '';
                     if ($content) {
                         $fullResponse .= $content;
@@ -521,6 +533,9 @@ function streamOpenAICompatible(array $config, string $model, string $systemProm
                         ob_flush();
                         flush();
                     }
+                } else {
+                    // Accumulate non-SSE lines (e.g. plain JSON error response)
+                    $rawBody .= $line;
                 }
             }
             return strlen($data);
@@ -528,11 +543,20 @@ function streamOpenAICompatible(array $config, string $model, string $systemProm
         CURLOPT_TIMEOUT => 120,
     ]);
     curl_exec($ch);
-    $error = curl_error($ch);
+    $curlError = curl_error($ch);
+    $httpCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    if ($error) {
-        throw new Exception('Erro na conexão com IA: ' . $error);
+    if ($curlError) {
+        throw new Exception('Erro na conexão com IA: ' . $curlError);
+    }
+
+    if (!$fullResponse && $rawBody) {
+        $decoded = json_decode($rawBody, true);
+        $errMsg  = $decoded['error']['message']
+            ?? $decoded['message']
+            ?? null;
+        throw new Exception($errMsg ?? 'Erro na API da IA (HTTP ' . $httpCode . '). Verifique as configurações.');
     }
 
     return $fullResponse;
@@ -557,21 +581,36 @@ function streamGemini(array $config, string $model, string $systemPrompt, array 
 
     $fullResponse = '';
     $buffer       = '';
+    $rawBody      = '';
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_POST          => true,
         CURLOPT_POSTFIELDS    => $body,
         CURLOPT_HTTPHEADER    => ['Content-Type: application/json'],
         CURLOPT_RETURNTRANSFER => false,
-        CURLOPT_WRITEFUNCTION => function($ch, $data) use (&$fullResponse, &$buffer) {
+        CURLOPT_WRITEFUNCTION => function($ch, $data) use (&$fullResponse, &$buffer, &$rawBody) {
             $buffer .= $data;
             $lines   = explode("\n", $buffer);
             $buffer  = array_pop($lines);
             foreach ($lines as $line) {
                 $line = trim($line);
-                if (!$line || strpos($line, 'data: ') !== 0) continue;
+                if (!$line) continue;
+                if (strpos($line, 'data: ') !== 0) {
+                    // Accumulate non-SSE lines (e.g. plain JSON error response)
+                    $rawBody .= $line;
+                    continue;
+                }
                 $json    = substr($line, 6);
                 $decoded = json_decode($json, true);
+                // Surface API-level errors sent inside the SSE stream
+                if (isset($decoded['error'])) {
+                    $errMsg = is_array($decoded['error'])
+                        ? ($decoded['error']['message'] ?? json_encode($decoded['error']))
+                        : (string)$decoded['error'];
+                    echo "data: " . json_encode(['error' => $errMsg]) . "\n\n";
+                    ob_flush();
+                    flush();
+                }
                 $content = $decoded['candidates'][0]['content']['parts'][0]['text'] ?? '';
                 if ($content) {
                     $fullResponse .= $content;
@@ -585,7 +624,21 @@ function streamGemini(array $config, string $model, string $systemPrompt, array 
         CURLOPT_TIMEOUT => 120,
     ]);
     curl_exec($ch);
+    $curlError = curl_error($ch);
+    $httpCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+
+    if ($curlError) {
+        throw new Exception('Erro na conexão com IA: ' . $curlError);
+    }
+
+    if (!$fullResponse && $rawBody) {
+        $decoded = json_decode($rawBody, true);
+        $errMsg  = $decoded['error']['message']
+            ?? $decoded['message']
+            ?? null;
+        throw new Exception($errMsg ?? 'Erro na API do Gemini (HTTP ' . $httpCode . '). Verifique as configurações.');
+    }
 
     return $fullResponse;
 }
@@ -607,18 +660,30 @@ function streamOllama(array $config, string $model, string $systemPrompt, array 
     ]);
 
     $fullResponse = '';
+    $rawBody      = '';
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_POST          => true,
         CURLOPT_POSTFIELDS    => $body,
         CURLOPT_HTTPHEADER    => ['Content-Type: application/json'],
         CURLOPT_RETURNTRANSFER => false,
-        CURLOPT_WRITEFUNCTION => function($ch, $data) use (&$fullResponse) {
+        CURLOPT_WRITEFUNCTION => function($ch, $data) use (&$fullResponse, &$rawBody) {
             $lines = explode("\n", $data);
             foreach ($lines as $line) {
                 $line = trim($line);
                 if (!$line) continue;
                 $decoded = json_decode($line, true);
+                if ($decoded === null) {
+                    $rawBody .= $line;
+                    continue;
+                }
+                // Ollama error response
+                if (isset($decoded['error'])) {
+                    $errMsg = is_string($decoded['error']) ? $decoded['error'] : json_encode($decoded['error']);
+                    echo "data: " . json_encode(['error' => $errMsg]) . "\n\n";
+                    ob_flush();
+                    flush();
+                }
                 $content = $decoded['message']['content'] ?? '';
                 if ($content) {
                     $fullResponse .= $content;
@@ -632,7 +697,19 @@ function streamOllama(array $config, string $model, string $systemPrompt, array 
         CURLOPT_TIMEOUT => 120,
     ]);
     curl_exec($ch);
+    $curlError = curl_error($ch);
+    $httpCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+
+    if ($curlError) {
+        throw new Exception('Erro na conexão com Ollama: ' . $curlError);
+    }
+
+    if (!$fullResponse && $rawBody) {
+        $decoded = json_decode($rawBody, true);
+        $errMsg  = $decoded['error'] ?? $decoded['message'] ?? null;
+        throw new Exception(is_string($errMsg) ? $errMsg : 'Erro no Ollama (HTTP ' . $httpCode . '). Verifique as configurações.');
+    }
 
     return $fullResponse;
 }
@@ -748,13 +825,14 @@ function streamGroupOpenAICompatible(array $config, string $model, string $syste
     }
 
     $fullResponse = '';
+    $rawBody      = '';
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_POST           => true,
         CURLOPT_POSTFIELDS     => $body,
         CURLOPT_HTTPHEADER     => $headers,
         CURLOPT_RETURNTRANSFER => false,
-        CURLOPT_WRITEFUNCTION  => function($ch, $data) use (&$fullResponse, $charMeta) {
+        CURLOPT_WRITEFUNCTION  => function($ch, $data) use (&$fullResponse, &$rawBody, $charMeta) {
             $lines = explode("\n", $data);
             foreach ($lines as $line) {
                 $line = trim($line);
@@ -762,12 +840,23 @@ function streamGroupOpenAICompatible(array $config, string $model, string $syste
                 if (strpos($line, 'data: ') === 0) {
                     $json    = substr($line, 6);
                     $decoded = json_decode($json, true);
+                    if (isset($decoded['error'])) {
+                        $errMsg = is_array($decoded['error'])
+                            ? ($decoded['error']['message'] ?? json_encode($decoded['error']))
+                            : (string)$decoded['error'];
+                        echo "data: " . json_encode(['error' => $errMsg]) . "\n\n";
+                        ob_flush();
+                        flush();
+                    }
                     $content = $decoded['choices'][0]['delta']['content'] ?? '';
                     if ($content) {
                         $fullResponse .= $content;
                         echo "data: " . json_encode(['content' => $content, 'char' => $charMeta]) . "\n\n";
+                        ob_flush();
                         flush();
                     }
+                } else {
+                    $rawBody .= $line;
                 }
             }
             return strlen($data);
@@ -775,11 +864,18 @@ function streamGroupOpenAICompatible(array $config, string $model, string $syste
         CURLOPT_TIMEOUT => 120,
     ]);
     curl_exec($ch);
-    $error = curl_error($ch);
+    $error    = curl_error($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
     if ($error) {
         throw new Exception('Erro na conexão com IA: ' . $error);
+    }
+
+    if (!$fullResponse && $rawBody) {
+        $decoded = json_decode($rawBody, true);
+        $errMsg  = $decoded['error']['message'] ?? $decoded['message'] ?? null;
+        throw new Exception($errMsg ?? 'Erro na API da IA (HTTP ' . $httpCode . '). Verifique as configurações.');
     }
 
     return $fullResponse;
@@ -804,25 +900,39 @@ function streamGroupGemini(array $config, string $model, string $systemPrompt, a
 
     $fullResponse = '';
     $buffer       = '';
+    $rawBody      = '';
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_POST          => true,
         CURLOPT_POSTFIELDS    => $body,
         CURLOPT_HTTPHEADER    => ['Content-Type: application/json'],
         CURLOPT_RETURNTRANSFER => false,
-        CURLOPT_WRITEFUNCTION => function($ch, $data) use (&$fullResponse, &$buffer, $charMeta) {
+        CURLOPT_WRITEFUNCTION => function($ch, $data) use (&$fullResponse, &$buffer, &$rawBody, $charMeta) {
             $buffer .= $data;
             $lines   = explode("\n", $buffer);
             $buffer  = array_pop($lines);
             foreach ($lines as $line) {
                 $line = trim($line);
-                if (!$line || strpos($line, 'data: ') !== 0) continue;
+                if (!$line) continue;
+                if (strpos($line, 'data: ') !== 0) {
+                    $rawBody .= $line;
+                    continue;
+                }
                 $json    = substr($line, 6);
                 $decoded = json_decode($json, true);
+                if (isset($decoded['error'])) {
+                    $errMsg = is_array($decoded['error'])
+                        ? ($decoded['error']['message'] ?? json_encode($decoded['error']))
+                        : (string)$decoded['error'];
+                    echo "data: " . json_encode(['error' => $errMsg]) . "\n\n";
+                    ob_flush();
+                    flush();
+                }
                 $content = $decoded['candidates'][0]['content']['parts'][0]['text'] ?? '';
                 if ($content) {
                     $fullResponse .= $content;
                     echo "data: " . json_encode(['content' => $content, 'char' => $charMeta]) . "\n\n";
+                    ob_flush();
                     flush();
                 }
             }
@@ -831,7 +941,19 @@ function streamGroupGemini(array $config, string $model, string $systemPrompt, a
         CURLOPT_TIMEOUT => 120,
     ]);
     curl_exec($ch);
+    $curlError = curl_error($ch);
+    $httpCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+
+    if ($curlError) {
+        throw new Exception('Erro na conexão com IA: ' . $curlError);
+    }
+
+    if (!$fullResponse && $rawBody) {
+        $decoded = json_decode($rawBody, true);
+        $errMsg  = $decoded['error']['message'] ?? $decoded['message'] ?? null;
+        throw new Exception($errMsg ?? 'Erro na API do Gemini (HTTP ' . $httpCode . '). Verifique as configurações.');
+    }
 
     return $fullResponse;
 }
@@ -865,10 +987,18 @@ function streamGroupOllama(array $config, string $model, string $systemPrompt, a
                 $line = trim($line);
                 if (!$line) continue;
                 $decoded = json_decode($line, true);
+                if ($decoded === null) continue;
+                if (isset($decoded['error'])) {
+                    $errMsg = is_string($decoded['error']) ? $decoded['error'] : json_encode($decoded['error']);
+                    echo "data: " . json_encode(['error' => $errMsg]) . "\n\n";
+                    ob_flush();
+                    flush();
+                }
                 $content = $decoded['message']['content'] ?? '';
                 if ($content) {
                     $fullResponse .= $content;
                     echo "data: " . json_encode(['content' => $content, 'char' => $charMeta]) . "\n\n";
+                    ob_flush();
                     flush();
                 }
             }
