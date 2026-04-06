@@ -202,6 +202,55 @@ if ($method === 'POST') {
                     CURLOPT_TIMEOUT        => 15,
                     CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
                 ]);
+
+                $response = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $curlErr  = curl_error($ch);
+                curl_close($ch);
+
+                if ($curlErr) {
+                    echo json_encode(['success' => false, 'error' => 'Erro de rede: ' . $curlErr]);
+                    exit;
+                }
+
+                if ($httpCode < 200 || $httpCode >= 300) {
+                    $decoded = json_decode($response, true);
+                    $errMsg  = $decoded['error']['message'] ?? $decoded['error'] ?? substr($response, 0, 200);
+                    echo json_encode(['success' => false, 'error' => "HTTP $httpCode: $errMsg"]);
+                    exit;
+                }
+
+                // Verify the configured model exists and supports generateContent
+                $decoded       = json_decode($response, true);
+                $modelsList    = $decoded['models'] ?? [];
+                $configuredModel = trim($config['model'] ?? '');
+                $found         = false;
+                $available     = [];
+
+                foreach ($modelsList as $m) {
+                    $name      = $m['name'] ?? '';                                           // e.g. "models/gemini-2.0-flash"
+                    $shortName = strncmp($name, 'models/', 7) === 0 ? substr($name, 7) : $name; // e.g. "gemini-2.0-flash"
+                    $methods  = $m['supportedGenerationMethods'] ?? [];
+
+                    if (in_array('generateContent', $methods, true) || in_array('streamGenerateContent', $methods, true)) {
+                        $available[] = $shortName;
+                        if ($shortName === $configuredModel || $name === $configuredModel) {
+                            $found = true;
+                        }
+                    }
+                }
+
+                if (!$found && $configuredModel !== '') {
+                    $suggestions = array_slice($available, 0, 5);
+                    echo json_encode([
+                        'success' => false,
+                        'error'   => "O modelo '{$configuredModel}' não foi encontrado ou não suporta generateContent. Modelos disponíveis: " . implode(', ', $suggestions),
+                    ]);
+                    exit;
+                }
+
+                echo json_encode(['success' => true, 'message' => '🟢 Conexão bem sucedida! Provider: ' . $provider]);
+                exit;
             } else {
                 // OpenAI-compatible providers: send a minimal chat completion request
                 $url  = $baseUrl . '/chat/completions';
