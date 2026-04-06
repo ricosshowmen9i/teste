@@ -156,6 +156,9 @@ function initSchema(PDO $pdo): void {
         $pdo->exec("ALTER TABLE group_messages ADD COLUMN reply_to_snippet TEXT DEFAULT NULL");
     }
 
+    // Migrate deprecated Gemini 1.5 model names to 2.0 equivalents
+    $pdo->exec("UPDATE ai_config SET model = 'gemini-2.0-flash' WHERE provider = 'gemini' AND model IN ('gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-1.5-pro', 'gemini-1.5-pro-latest')");
+
     // Seed default admin
     $adminExists = $pdo->query("SELECT id FROM users WHERE email='admin@sete.app'")->fetch();
     if (!$adminExists) {
