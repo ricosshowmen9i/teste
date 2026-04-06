@@ -306,6 +306,12 @@ const ChatManager = {
   },
 
   // ── Streaming message ───────────────────────────────────────────
+  _removeStreamBubble(contentEl) {
+    if (!contentEl) return;
+    const wrapper = contentEl.closest('.message-wrapper');
+    if (wrapper) wrapper.remove();
+  },
+
   startStreamMessage() {
     const container = document.getElementById('messages-container');
     if (!container) return null;
@@ -340,7 +346,7 @@ const ChatManager = {
     const wrapper = contentEl.closest('.message-wrapper');
     if (!fullText) {
       // No content received — remove the empty bubble silently
-      if (wrapper) wrapper.remove();
+      this._removeStreamBubble(contentEl);
       return;
     }
     if (wrapper) wrapper.classList.remove('streaming');
@@ -458,12 +464,8 @@ const ChatManager = {
         if (parsed.error) {
           this.hideTyping();
           showToast(parsed.error, 'error');
-          // Remove the empty/partial stream bubble
-          if (streamEl) {
-            const wrapper = streamEl.closest('.message-wrapper');
-            if (wrapper) wrapper.remove();
-            streamEl = null;
-          }
+          this._removeStreamBubble(streamEl);
+          streamEl = null;
           this.eventSource.close();
           this.eventSource = null;
           return;
@@ -485,12 +487,8 @@ const ChatManager = {
         this.eventSource = null;
       }
       if (!fullText) {
-        // Remove empty/partial stream bubble
-        if (streamEl) {
-          const wrapper = streamEl.closest('.message-wrapper');
-          if (wrapper) wrapper.remove();
-          streamEl = null;
-        }
+        this._removeStreamBubble(streamEl);
+        streamEl = null;
         showToast('Erro na conexão com a IA.', 'error');
       } else {
         this.finalizeStreamMessage(streamEl, fullText);

@@ -42,7 +42,7 @@ async function apiPostFile(url, formData) {
   });
   try {
     return await res.json();
-  } catch (_) {
+  } catch (_e) {
     return { error: 'Resposta inválida do servidor.' };
   }
 }

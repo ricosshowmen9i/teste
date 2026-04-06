@@ -414,6 +414,21 @@ echo json_encode(['error' => 'Ação inválida.']);
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+/**
+ * Safely extract an error message from a decoded API JSON response body.
+ * Handles both {"error": {"message": "..."}} and {"error": "..."} formats.
+ */
+function extractApiError(?array $decoded): ?string {
+    if (!is_array($decoded)) return null;
+    $err = $decoded['error'] ?? null;
+    if (is_array($err)) {
+        return isset($err['message']) ? (string)$err['message'] : json_encode($err);
+    }
+    if (is_string($err) && $err !== '') return $err;
+    if (isset($decoded['message'])) return (string)$decoded['message'];
+    return null;
+}
+
 function buildSystemPrompt(array $character, string $userName): string {
     $name        = $character['name'];
     $description = $character['description'];
@@ -553,9 +568,7 @@ function streamOpenAICompatible(array $config, string $model, string $systemProm
 
     if (!$fullResponse && $rawBody) {
         $decoded = json_decode($rawBody, true);
-        $errMsg  = $decoded['error']['message']
-            ?? $decoded['message']
-            ?? null;
+        $errMsg  = extractApiError($decoded);
         throw new Exception($errMsg ?? 'Erro na API da IA (HTTP ' . $httpCode . '). Verifique as configurações.');
     }
 
@@ -634,9 +647,7 @@ function streamGemini(array $config, string $model, string $systemPrompt, array 
 
     if (!$fullResponse && $rawBody) {
         $decoded = json_decode($rawBody, true);
-        $errMsg  = $decoded['error']['message']
-            ?? $decoded['message']
-            ?? null;
+        $errMsg  = extractApiError($decoded);
         throw new Exception($errMsg ?? 'Erro na API do Gemini (HTTP ' . $httpCode . '). Verifique as configurações.');
     }
 
@@ -707,8 +718,8 @@ function streamOllama(array $config, string $model, string $systemPrompt, array 
 
     if (!$fullResponse && $rawBody) {
         $decoded = json_decode($rawBody, true);
-        $errMsg  = $decoded['error'] ?? $decoded['message'] ?? null;
-        throw new Exception(is_string($errMsg) ? $errMsg : 'Erro no Ollama (HTTP ' . $httpCode . '). Verifique as configurações.');
+        $errMsg  = extractApiError($decoded);
+        throw new Exception($errMsg ?? 'Erro no Ollama (HTTP ' . $httpCode . '). Verifique as configurações.');
     }
 
     return $fullResponse;
@@ -874,7 +885,7 @@ function streamGroupOpenAICompatible(array $config, string $model, string $syste
 
     if (!$fullResponse && $rawBody) {
         $decoded = json_decode($rawBody, true);
-        $errMsg  = $decoded['error']['message'] ?? $decoded['message'] ?? null;
+        $errMsg  = extractApiError($decoded);
         throw new Exception($errMsg ?? 'Erro na API da IA (HTTP ' . $httpCode . '). Verifique as configurações.');
     }
 
@@ -951,7 +962,7 @@ function streamGroupGemini(array $config, string $model, string $systemPrompt, a
 
     if (!$fullResponse && $rawBody) {
         $decoded = json_decode($rawBody, true);
-        $errMsg  = $decoded['error']['message'] ?? $decoded['message'] ?? null;
+        $errMsg  = extractApiError($decoded);
         throw new Exception($errMsg ?? 'Erro na API do Gemini (HTTP ' . $httpCode . '). Verifique as configurações.');
     }
 
