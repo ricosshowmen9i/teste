@@ -228,9 +228,9 @@ if ($method === 'POST') {
                 $available     = [];
 
                 foreach ($modelsList as $m) {
-                    $name      = $m['name'] ?? '';                                           // e.g. "models/gemini-2.0-flash"
-                    $shortName = strncmp($name, 'models/', 7) === 0 ? substr($name, 7) : $name; // e.g. "gemini-2.0-flash"
-                    $methods  = $m['supportedGenerationMethods'] ?? [];
+                    $name      = $m['name'] ?? '';                                                           // e.g. "models/gemini-2.0-flash"
+                    $shortName = str_starts_with($name, 'models/') ? substr($name, 7) : $name;              // e.g. "gemini-2.0-flash"
+                    $methods   = $m['supportedGenerationMethods'] ?? [];
 
                     if (in_array('generateContent', $methods, true) || in_array('streamGenerateContent', $methods, true)) {
                         $available[] = $shortName;
@@ -240,11 +240,19 @@ if ($method === 'POST') {
                     }
                 }
 
-                if (!$found && $configuredModel !== '') {
+                if ($configuredModel === '') {
                     $suggestions = array_slice($available, 0, 5);
+                    $hint        = !empty($suggestions) ? ' Sugestões: ' . implode(', ', $suggestions) : '';
+                    echo json_encode(['success' => false, 'error' => 'Nenhum modelo configurado.' . $hint]);
+                    exit;
+                }
+
+                if (!$found) {
+                    $suggestions = array_slice($available, 0, 5);
+                    $hint        = !empty($suggestions) ? ' Modelos disponíveis: ' . implode(', ', $suggestions) : ' Nenhum modelo compatível encontrado.';
                     echo json_encode([
                         'success' => false,
-                        'error'   => "O modelo '{$configuredModel}' não foi encontrado ou não suporta generateContent. Modelos disponíveis: " . implode(', ', $suggestions),
+                        'error'   => "O modelo '{$configuredModel}' não foi encontrado ou não suporta generateContent.{$hint}",
                     ]);
                     exit;
                 }
