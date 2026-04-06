@@ -10,6 +10,7 @@ const AudioManager = {
   recognition: null,
   isRecording: false,
   activeBtn: null,
+  _ttsAbortId: 0,
 
   init() {
     if ('speechSynthesis' in window) {
@@ -19,6 +20,48 @@ const AudioManager = {
   },
 
   speak(text, voiceConfig = {}, btn = null) {
+    // If same button is active, toggle pause/resume instead of restarting
+    if (btn && this.activeBtn === btn) {
+      if (this.activeElevenLabsAudio) {
+        if (this.activeElevenLabsAudio.paused) {
+          this.activeElevenLabsAudio.play();
+          btn.textContent = '\u23F8 Pausar';
+          btn.classList.add('playing');
+        } else {
+          this.activeElevenLabsAudio.pause();
+          btn.textContent = '\u25B6 Continuar';
+          btn.classList.remove('playing');
+        }
+        return null;
+      }
+      if (this.activeGoogleTTSAudio) {
+        if (this.activeGoogleTTSAudio.paused) {
+          this.activeGoogleTTSAudio.play();
+          btn.textContent = '\u23F8 Pausar';
+          btn.classList.add('playing');
+        } else {
+          this.activeGoogleTTSAudio.pause();
+          btn.textContent = '\u25B6 Continuar';
+          btn.classList.remove('playing');
+        }
+        return null;
+      }
+      if ('speechSynthesis' in window && speechSynthesis.speaking) {
+        if (speechSynthesis.paused) {
+          speechSynthesis.resume();
+          btn.textContent = '\u23F8 Pausar';
+          btn.classList.add('playing');
+        } else {
+          speechSynthesis.pause();
+          btn.textContent = '\u25B6 Continuar';
+          btn.classList.remove('playing');
+        }
+        return null;
+      }
+      // Still loading (fetch in progress) — prevent re-trigger
+      return null;
+    }
+
     // If ElevenLabs Voice ID is configured, use ElevenLabs TTS
     if (voiceConfig.elevenLabsId) {
       return this._speakElevenLabs(text, voiceConfig.elevenLabsId, btn);
@@ -80,6 +123,8 @@ const AudioManager = {
       this.activeBtn = btn;
     }
 
+    const abortId = ++this._ttsAbortId;
+
     fetch('api/google_tts.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -93,6 +138,7 @@ const AudioManager = {
         return res.blob();
       })
       .then(blob => {
+        if (this._ttsAbortId !== abortId) { return; }
         const url = URL.createObjectURL(blob);
         const audio = new Audio(url);
         this.activeGoogleTTSAudio = audio;
@@ -120,6 +166,7 @@ const AudioManager = {
         audio.play();
       })
       .catch(() => {
+        if (this._ttsAbortId !== abortId) return;
         // Fallback to Web Speech API
         this._speakWebSpeech(cleaned, voiceConfig, btn);
       });
@@ -227,6 +274,8 @@ const AudioManager = {
     const headers = { 'Content-Type': 'application/json' };
     if (csrfMeta) headers['X-CSRF-Token'] = csrfMeta.content;
 
+    const abortId = ++this._ttsAbortId;
+
     fetch('api/elevenlabs_tts.php', {
       method: 'POST',
       headers,
@@ -239,6 +288,7 @@ const AudioManager = {
         return res.blob();
       })
       .then(blob => {
+        if (this._ttsAbortId !== abortId) { return; }
         const url = URL.createObjectURL(blob);
         const audio = new Audio(url);
         this.activeElevenLabsAudio = audio;
@@ -247,7 +297,6 @@ const AudioManager = {
           btn.textContent = '\u23F8 Pausar';
           btn.classList.add('playing');
 
-          // Toggle pause/resume on subsequent clicks
           audio.onended = () => {
             btn.textContent = '\uD83D\uDD0A Ouvir';
             btn.classList.remove('playing');
@@ -267,6 +316,7 @@ const AudioManager = {
         audio.play();
       })
       .catch(err => {
+        if (this._ttsAbortId !== abortId) return;
         if (btn) {
           btn.textContent = '\uD83D\uDD0A Ouvir';
           btn.classList.remove('playing');
@@ -319,6 +369,7 @@ const AudioManager = {
   },
 
   stop() {
+    this._ttsAbortId++;
     if ('speechSynthesis' in window) {
       speechSynthesis.cancel();
     }

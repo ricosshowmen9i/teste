@@ -978,6 +978,7 @@ const ChatManager = {
 
       if (this.activeCharacter?.id === char.id) {
         this.activeCharacter = null;
+        if (window.AudioManager) AudioManager.stop();
         const welcome  = document.getElementById('welcome-screen');
         const chatView = document.getElementById('chat-view');
         if (welcome)  welcome.style.display = '';

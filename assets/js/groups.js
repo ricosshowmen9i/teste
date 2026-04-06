@@ -679,6 +679,7 @@ const GroupManager = {
 
   // ── Show welcome screen ──────────────────────────────────────────
   _showWelcome() {
+    if (window.AudioManager) AudioManager.stop();
     const welcome  = document.getElementById('welcome-screen');
     const chatView = document.getElementById('chat-view');
     if (chatView) chatView.style.display = 'none';
