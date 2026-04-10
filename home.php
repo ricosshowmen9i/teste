@@ -54,8 +54,19 @@ function aleatorio653751($input) {
         exit();
     }
 
-    // ── Trocar tema: processado por temas.php ──
-    // (processarTemaPOST será chamado após initTemas mais abaixo)
+    // ── Trocar tema: antes de qualquer HTML ──
+    if (isset($_POST['__setMeuTema']) || isset($_POST['__setLoginTema']) || isset($_POST['__resetTema'])) {
+        include_once('AegisCore/temas.php');
+        if (isset($_POST['__setMeuTema'])) {
+            setarTemaUsuario($conn, intval($_SESSION['iduser']??0), intval($_POST['__setMeuTema']));
+        } elseif (isset($_POST['__setLoginTema'])) {
+            setarTemaLogin($conn, intval($_POST['__setLoginTema']));
+        } elseif (isset($_POST['__resetTema'])) {
+            setarTemaUsuario($conn, intval($_SESSION['iduser']??0), 1);
+        }
+        header('Location: home.php');
+        exit();
+    }
 
     $dominio = $_SERVER['HTTP_HOST'];
 
@@ -516,7 +527,6 @@ if (
     <?php
     include_once("AegisCore/temas.php");
     $temaHome = initTemas($conn);
-    processarTemaPOST($conn);
     ?>
     <style>
         <?php echo $csspersonali; ?>
@@ -792,7 +802,6 @@ if (
     </style>
 </head>
 <body class="<?php echo htmlspecialchars(getBodyClass($temaHome)); ?>">
-<?php echo getFundoPersonalizadoCSS($conn, $temaHome); ?>
 
 <div class="menu-overlay" id="menuOverlay"></div>
 
@@ -1295,7 +1304,7 @@ function voltarAdmin() {
 
 </script>
 
-<?php echo getModalTemasHTML($conn); ?>
+<?php include_once("AegisCore/modal_temas.php"); ?>
 
 </body>
 </html>
