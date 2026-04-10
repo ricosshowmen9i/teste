@@ -26,7 +26,7 @@ body.theme-dark {
   --scr: #6366f1 !important;
   background: radial-gradient(ellipse at 50% 0%, #6366f126 0%, #0f172a 70%) !important;
 }
-body.theme-dark .modern-card, body.theme-dark .dash-card, body.theme-dark .user-card, body.theme-dark .revendedor-card, body.theme-dark .server-card, body.theme-dark .g-card, body.theme-dark .stats-card, body.theme-dark .profile-card, body.theme-dark .login-card, body.theme-dark .modal-content-custom, body.theme-dark .modal-box, body.theme-dark .app-card, body.theme-dark .ad-card, body.theme-dark .video-card, body.theme-dark .pay-card, body.theme-dark .cat-card, body.theme-dark .log-card, body.theme-dark .plano-card, body.theme-dark .filters-card, body.theme-dark .links-card, body.theme-dark .form-card, body.theme-dark .action-card, body.theme-dark .swal2-popup, body.theme-dark .swal2-modal, body.theme-dark .modal-content, body.theme-dark .modal-dialog {
+body.theme-dark .modern-card, body.theme-dark .dash-card, body.theme-dark .user-card, body.theme-dark .revendedor-card, body.theme-dark .server-card, body.theme-dark .g-card, body.theme-dark .stats-card, body.theme-dark .profile-card, body.theme-dark .login-card, body.theme-dark .modal-content-custom, body.theme-dark .modal-box, body.theme-dark .app-card, body.theme-dark .ad-card, body.theme-dark .video-card, body.theme-dark .pay-card, body.theme-dark .cat-card, body.theme-dark .log-card, body.theme-dark .plano-card, body.theme-dark .filters-card, body.theme-dark .links-card, body.theme-dark .form-card, body.theme-dark .action-card, body.theme-dark .limite-card, body.theme-dark .swal2-popup, body.theme-dark .swal2-modal, body.theme-dark .modal-content, body.theme-dark .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #6366f140 !important;
   border-radius: 24px !important;
@@ -75,7 +75,7 @@ body.theme-neon-roxo {
   --scr: #a855f7 !important;
   background: radial-gradient(ellipse at 50% 0%, #a855f726 0%, #0f172a 70%) !important;
 }
-body.theme-neon-roxo .modern-card, body.theme-neon-roxo .dash-card, body.theme-neon-roxo .user-card, body.theme-neon-roxo .revendedor-card, body.theme-neon-roxo .server-card, body.theme-neon-roxo .g-card, body.theme-neon-roxo .stats-card, body.theme-neon-roxo .profile-card, body.theme-neon-roxo .login-card, body.theme-neon-roxo .modal-content-custom, body.theme-neon-roxo .modal-box, body.theme-neon-roxo .app-card, body.theme-neon-roxo .ad-card, body.theme-neon-roxo .video-card, body.theme-neon-roxo .pay-card, body.theme-neon-roxo .cat-card, body.theme-neon-roxo .log-card, body.theme-neon-roxo .plano-card, body.theme-neon-roxo .filters-card, body.theme-neon-roxo .links-card, body.theme-neon-roxo .form-card, body.theme-neon-roxo .action-card, body.theme-neon-roxo .swal2-popup, body.theme-neon-roxo .swal2-modal, body.theme-neon-roxo .modal-content, body.theme-neon-roxo .modal-dialog {
+body.theme-neon-roxo .modern-card, body.theme-neon-roxo .dash-card, body.theme-neon-roxo .user-card, body.theme-neon-roxo .revendedor-card, body.theme-neon-roxo .server-card, body.theme-neon-roxo .g-card, body.theme-neon-roxo .stats-card, body.theme-neon-roxo .profile-card, body.theme-neon-roxo .login-card, body.theme-neon-roxo .modal-content-custom, body.theme-neon-roxo .modal-box, body.theme-neon-roxo .app-card, body.theme-neon-roxo .ad-card, body.theme-neon-roxo .video-card, body.theme-neon-roxo .pay-card, body.theme-neon-roxo .cat-card, body.theme-neon-roxo .log-card, body.theme-neon-roxo .plano-card, body.theme-neon-roxo .filters-card, body.theme-neon-roxo .links-card, body.theme-neon-roxo .form-card, body.theme-neon-roxo .action-card, body.theme-neon-roxo .limite-card, body.theme-neon-roxo .swal2-popup, body.theme-neon-roxo .swal2-modal, body.theme-neon-roxo .modal-content, body.theme-neon-roxo .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #a855f740 !important;
   border-radius: 0 !important;
@@ -127,7 +127,7 @@ body.theme-cyber {
   --scr: #facc15 !important;
   background: radial-gradient(ellipse at 50% 0%, #facc1526 0%, #0f172a 70%) !important;
 }
-body.theme-cyber .modern-card, body.theme-cyber .dash-card, body.theme-cyber .user-card, body.theme-cyber .revendedor-card, body.theme-cyber .server-card, body.theme-cyber .g-card, body.theme-cyber .stats-card, body.theme-cyber .profile-card, body.theme-cyber .login-card, body.theme-cyber .modal-content-custom, body.theme-cyber .modal-box, body.theme-cyber .app-card, body.theme-cyber .ad-card, body.theme-cyber .video-card, body.theme-cyber .pay-card, body.theme-cyber .cat-card, body.theme-cyber .log-card, body.theme-cyber .plano-card, body.theme-cyber .filters-card, body.theme-cyber .links-card, body.theme-cyber .form-card, body.theme-cyber .action-card, body.theme-cyber .swal2-popup, body.theme-cyber .swal2-modal, body.theme-cyber .modal-content, body.theme-cyber .modal-dialog {
+body.theme-cyber .modern-card, body.theme-cyber .dash-card, body.theme-cyber .user-card, body.theme-cyber .revendedor-card, body.theme-cyber .server-card, body.theme-cyber .g-card, body.theme-cyber .stats-card, body.theme-cyber .profile-card, body.theme-cyber .login-card, body.theme-cyber .modal-content-custom, body.theme-cyber .modal-box, body.theme-cyber .app-card, body.theme-cyber .ad-card, body.theme-cyber .video-card, body.theme-cyber .pay-card, body.theme-cyber .cat-card, body.theme-cyber .log-card, body.theme-cyber .plano-card, body.theme-cyber .filters-card, body.theme-cyber .links-card, body.theme-cyber .form-card, body.theme-cyber .action-card, body.theme-cyber .limite-card, body.theme-cyber .swal2-popup, body.theme-cyber .swal2-modal, body.theme-cyber .modal-content, body.theme-cyber .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #facc1540 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -176,7 +176,7 @@ body.theme-arctic {
   --scr: #38bdf8 !important;
   background: radial-gradient(ellipse at 50% 0%, #38bdf826 0%, #0f172a 70%) !important;
 }
-body.theme-arctic .modern-card, body.theme-arctic .dash-card, body.theme-arctic .user-card, body.theme-arctic .revendedor-card, body.theme-arctic .server-card, body.theme-arctic .g-card, body.theme-arctic .stats-card, body.theme-arctic .profile-card, body.theme-arctic .login-card, body.theme-arctic .modal-content-custom, body.theme-arctic .modal-box, body.theme-arctic .app-card, body.theme-arctic .ad-card, body.theme-arctic .video-card, body.theme-arctic .pay-card, body.theme-arctic .cat-card, body.theme-arctic .log-card, body.theme-arctic .plano-card, body.theme-arctic .filters-card, body.theme-arctic .links-card, body.theme-arctic .form-card, body.theme-arctic .action-card, body.theme-arctic .swal2-popup, body.theme-arctic .swal2-modal, body.theme-arctic .modal-content, body.theme-arctic .modal-dialog {
+body.theme-arctic .modern-card, body.theme-arctic .dash-card, body.theme-arctic .user-card, body.theme-arctic .revendedor-card, body.theme-arctic .server-card, body.theme-arctic .g-card, body.theme-arctic .stats-card, body.theme-arctic .profile-card, body.theme-arctic .login-card, body.theme-arctic .modal-content-custom, body.theme-arctic .modal-box, body.theme-arctic .app-card, body.theme-arctic .ad-card, body.theme-arctic .video-card, body.theme-arctic .pay-card, body.theme-arctic .cat-card, body.theme-arctic .log-card, body.theme-arctic .plano-card, body.theme-arctic .filters-card, body.theme-arctic .links-card, body.theme-arctic .form-card, body.theme-arctic .action-card, body.theme-arctic .limite-card, body.theme-arctic .swal2-popup, body.theme-arctic .swal2-modal, body.theme-arctic .modal-content, body.theme-arctic .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #38bdf840 !important;
   border-radius: 0 30px 30px 0 !important;
@@ -228,7 +228,7 @@ body.theme-violet {
   --scr: #7c3aed !important;
   background: radial-gradient(ellipse at 50% 0%, #7c3aed26 0%, #0f172a 70%) !important;
 }
-body.theme-violet .modern-card, body.theme-violet .dash-card, body.theme-violet .user-card, body.theme-violet .revendedor-card, body.theme-violet .server-card, body.theme-violet .g-card, body.theme-violet .stats-card, body.theme-violet .profile-card, body.theme-violet .login-card, body.theme-violet .modal-content-custom, body.theme-violet .modal-box, body.theme-violet .app-card, body.theme-violet .ad-card, body.theme-violet .video-card, body.theme-violet .pay-card, body.theme-violet .cat-card, body.theme-violet .log-card, body.theme-violet .plano-card, body.theme-violet .filters-card, body.theme-violet .links-card, body.theme-violet .form-card, body.theme-violet .action-card, body.theme-violet .swal2-popup, body.theme-violet .swal2-modal, body.theme-violet .modal-content, body.theme-violet .modal-dialog {
+body.theme-violet .modern-card, body.theme-violet .dash-card, body.theme-violet .user-card, body.theme-violet .revendedor-card, body.theme-violet .server-card, body.theme-violet .g-card, body.theme-violet .stats-card, body.theme-violet .profile-card, body.theme-violet .login-card, body.theme-violet .modal-content-custom, body.theme-violet .modal-box, body.theme-violet .app-card, body.theme-violet .ad-card, body.theme-violet .video-card, body.theme-violet .pay-card, body.theme-violet .cat-card, body.theme-violet .log-card, body.theme-violet .plano-card, body.theme-violet .filters-card, body.theme-violet .links-card, body.theme-violet .form-card, body.theme-violet .action-card, body.theme-violet .limite-card, body.theme-violet .swal2-popup, body.theme-violet .swal2-modal, body.theme-violet .modal-content, body.theme-violet .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #7c3aed40 !important;
   border-radius: 24px !important;
@@ -277,7 +277,7 @@ body.theme-inferno {
   --scr: #dc2626 !important;
   background: radial-gradient(ellipse at 50% 0%, #dc262626 0%, #0f172a 70%) !important;
 }
-body.theme-inferno .modern-card, body.theme-inferno .dash-card, body.theme-inferno .user-card, body.theme-inferno .revendedor-card, body.theme-inferno .server-card, body.theme-inferno .g-card, body.theme-inferno .stats-card, body.theme-inferno .profile-card, body.theme-inferno .login-card, body.theme-inferno .modal-content-custom, body.theme-inferno .modal-box, body.theme-inferno .app-card, body.theme-inferno .ad-card, body.theme-inferno .video-card, body.theme-inferno .pay-card, body.theme-inferno .cat-card, body.theme-inferno .log-card, body.theme-inferno .plano-card, body.theme-inferno .filters-card, body.theme-inferno .links-card, body.theme-inferno .form-card, body.theme-inferno .action-card, body.theme-inferno .swal2-popup, body.theme-inferno .swal2-modal, body.theme-inferno .modal-content, body.theme-inferno .modal-dialog {
+body.theme-inferno .modern-card, body.theme-inferno .dash-card, body.theme-inferno .user-card, body.theme-inferno .revendedor-card, body.theme-inferno .server-card, body.theme-inferno .g-card, body.theme-inferno .stats-card, body.theme-inferno .profile-card, body.theme-inferno .login-card, body.theme-inferno .modal-content-custom, body.theme-inferno .modal-box, body.theme-inferno .app-card, body.theme-inferno .ad-card, body.theme-inferno .video-card, body.theme-inferno .pay-card, body.theme-inferno .cat-card, body.theme-inferno .log-card, body.theme-inferno .plano-card, body.theme-inferno .filters-card, body.theme-inferno .links-card, body.theme-inferno .form-card, body.theme-inferno .action-card, body.theme-inferno .limite-card, body.theme-inferno .swal2-popup, body.theme-inferno .swal2-modal, body.theme-inferno .modal-content, body.theme-inferno .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #dc262640 !important;
   border-radius: 0 !important;
@@ -329,7 +329,7 @@ body.theme-ocean {
   --scr: #0ea5e9 !important;
   background: radial-gradient(ellipse at 50% 0%, #0ea5e926 0%, #0f172a 70%) !important;
 }
-body.theme-ocean .modern-card, body.theme-ocean .dash-card, body.theme-ocean .user-card, body.theme-ocean .revendedor-card, body.theme-ocean .server-card, body.theme-ocean .g-card, body.theme-ocean .stats-card, body.theme-ocean .profile-card, body.theme-ocean .login-card, body.theme-ocean .modal-content-custom, body.theme-ocean .modal-box, body.theme-ocean .app-card, body.theme-ocean .ad-card, body.theme-ocean .video-card, body.theme-ocean .pay-card, body.theme-ocean .cat-card, body.theme-ocean .log-card, body.theme-ocean .plano-card, body.theme-ocean .filters-card, body.theme-ocean .links-card, body.theme-ocean .form-card, body.theme-ocean .action-card, body.theme-ocean .swal2-popup, body.theme-ocean .swal2-modal, body.theme-ocean .modal-content, body.theme-ocean .modal-dialog {
+body.theme-ocean .modern-card, body.theme-ocean .dash-card, body.theme-ocean .user-card, body.theme-ocean .revendedor-card, body.theme-ocean .server-card, body.theme-ocean .g-card, body.theme-ocean .stats-card, body.theme-ocean .profile-card, body.theme-ocean .login-card, body.theme-ocean .modal-content-custom, body.theme-ocean .modal-box, body.theme-ocean .app-card, body.theme-ocean .ad-card, body.theme-ocean .video-card, body.theme-ocean .pay-card, body.theme-ocean .cat-card, body.theme-ocean .log-card, body.theme-ocean .plano-card, body.theme-ocean .filters-card, body.theme-ocean .links-card, body.theme-ocean .form-card, body.theme-ocean .action-card, body.theme-ocean .limite-card, body.theme-ocean .swal2-popup, body.theme-ocean .swal2-modal, body.theme-ocean .modal-content, body.theme-ocean .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #0ea5e940 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -378,7 +378,7 @@ body.theme-sunset {
   --scr: #f97316 !important;
   background: radial-gradient(ellipse at 50% 0%, #f9731626 0%, #0f172a 70%) !important;
 }
-body.theme-sunset .modern-card, body.theme-sunset .dash-card, body.theme-sunset .user-card, body.theme-sunset .revendedor-card, body.theme-sunset .server-card, body.theme-sunset .g-card, body.theme-sunset .stats-card, body.theme-sunset .profile-card, body.theme-sunset .login-card, body.theme-sunset .modal-content-custom, body.theme-sunset .modal-box, body.theme-sunset .app-card, body.theme-sunset .ad-card, body.theme-sunset .video-card, body.theme-sunset .pay-card, body.theme-sunset .cat-card, body.theme-sunset .log-card, body.theme-sunset .plano-card, body.theme-sunset .filters-card, body.theme-sunset .links-card, body.theme-sunset .form-card, body.theme-sunset .action-card, body.theme-sunset .swal2-popup, body.theme-sunset .swal2-modal, body.theme-sunset .modal-content, body.theme-sunset .modal-dialog {
+body.theme-sunset .modern-card, body.theme-sunset .dash-card, body.theme-sunset .user-card, body.theme-sunset .revendedor-card, body.theme-sunset .server-card, body.theme-sunset .g-card, body.theme-sunset .stats-card, body.theme-sunset .profile-card, body.theme-sunset .login-card, body.theme-sunset .modal-content-custom, body.theme-sunset .modal-box, body.theme-sunset .app-card, body.theme-sunset .ad-card, body.theme-sunset .video-card, body.theme-sunset .pay-card, body.theme-sunset .cat-card, body.theme-sunset .log-card, body.theme-sunset .plano-card, body.theme-sunset .filters-card, body.theme-sunset .links-card, body.theme-sunset .form-card, body.theme-sunset .action-card, body.theme-sunset .limite-card, body.theme-sunset .swal2-popup, body.theme-sunset .swal2-modal, body.theme-sunset .modal-content, body.theme-sunset .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #f9731640 !important;
   border-radius: 0 30px 30px 0 !important;
@@ -430,7 +430,7 @@ body.theme-emerald {
   --scr: #10b981 !important;
   background: radial-gradient(ellipse at 50% 0%, #10b98126 0%, #0f172a 70%) !important;
 }
-body.theme-emerald .modern-card, body.theme-emerald .dash-card, body.theme-emerald .user-card, body.theme-emerald .revendedor-card, body.theme-emerald .server-card, body.theme-emerald .g-card, body.theme-emerald .stats-card, body.theme-emerald .profile-card, body.theme-emerald .login-card, body.theme-emerald .modal-content-custom, body.theme-emerald .modal-box, body.theme-emerald .app-card, body.theme-emerald .ad-card, body.theme-emerald .video-card, body.theme-emerald .pay-card, body.theme-emerald .cat-card, body.theme-emerald .log-card, body.theme-emerald .plano-card, body.theme-emerald .filters-card, body.theme-emerald .links-card, body.theme-emerald .form-card, body.theme-emerald .action-card, body.theme-emerald .swal2-popup, body.theme-emerald .swal2-modal, body.theme-emerald .modal-content, body.theme-emerald .modal-dialog {
+body.theme-emerald .modern-card, body.theme-emerald .dash-card, body.theme-emerald .user-card, body.theme-emerald .revendedor-card, body.theme-emerald .server-card, body.theme-emerald .g-card, body.theme-emerald .stats-card, body.theme-emerald .profile-card, body.theme-emerald .login-card, body.theme-emerald .modal-content-custom, body.theme-emerald .modal-box, body.theme-emerald .app-card, body.theme-emerald .ad-card, body.theme-emerald .video-card, body.theme-emerald .pay-card, body.theme-emerald .cat-card, body.theme-emerald .log-card, body.theme-emerald .plano-card, body.theme-emerald .filters-card, body.theme-emerald .links-card, body.theme-emerald .form-card, body.theme-emerald .action-card, body.theme-emerald .limite-card, body.theme-emerald .swal2-popup, body.theme-emerald .swal2-modal, body.theme-emerald .modal-content, body.theme-emerald .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #10b98140 !important;
   border-radius: 24px !important;
@@ -479,7 +479,7 @@ body.theme-sakura {
   --scr: #ec4899 !important;
   background: radial-gradient(ellipse at 50% 0%, #ec489926 0%, #0f172a 70%) !important;
 }
-body.theme-sakura .modern-card, body.theme-sakura .dash-card, body.theme-sakura .user-card, body.theme-sakura .revendedor-card, body.theme-sakura .server-card, body.theme-sakura .g-card, body.theme-sakura .stats-card, body.theme-sakura .profile-card, body.theme-sakura .login-card, body.theme-sakura .modal-content-custom, body.theme-sakura .modal-box, body.theme-sakura .app-card, body.theme-sakura .ad-card, body.theme-sakura .video-card, body.theme-sakura .pay-card, body.theme-sakura .cat-card, body.theme-sakura .log-card, body.theme-sakura .plano-card, body.theme-sakura .filters-card, body.theme-sakura .links-card, body.theme-sakura .form-card, body.theme-sakura .action-card, body.theme-sakura .swal2-popup, body.theme-sakura .swal2-modal, body.theme-sakura .modal-content, body.theme-sakura .modal-dialog {
+body.theme-sakura .modern-card, body.theme-sakura .dash-card, body.theme-sakura .user-card, body.theme-sakura .revendedor-card, body.theme-sakura .server-card, body.theme-sakura .g-card, body.theme-sakura .stats-card, body.theme-sakura .profile-card, body.theme-sakura .login-card, body.theme-sakura .modal-content-custom, body.theme-sakura .modal-box, body.theme-sakura .app-card, body.theme-sakura .ad-card, body.theme-sakura .video-card, body.theme-sakura .pay-card, body.theme-sakura .cat-card, body.theme-sakura .log-card, body.theme-sakura .plano-card, body.theme-sakura .filters-card, body.theme-sakura .links-card, body.theme-sakura .form-card, body.theme-sakura .action-card, body.theme-sakura .limite-card, body.theme-sakura .swal2-popup, body.theme-sakura .swal2-modal, body.theme-sakura .modal-content, body.theme-sakura .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #ec489940 !important;
   border-radius: 0 !important;
@@ -531,7 +531,7 @@ body.theme-caramel {
   --scr: #d97706 !important;
   background: radial-gradient(ellipse at 50% 0%, #d9770626 0%, #0f172a 70%) !important;
 }
-body.theme-caramel .modern-card, body.theme-caramel .dash-card, body.theme-caramel .user-card, body.theme-caramel .revendedor-card, body.theme-caramel .server-card, body.theme-caramel .g-card, body.theme-caramel .stats-card, body.theme-caramel .profile-card, body.theme-caramel .login-card, body.theme-caramel .modal-content-custom, body.theme-caramel .modal-box, body.theme-caramel .app-card, body.theme-caramel .ad-card, body.theme-caramel .video-card, body.theme-caramel .pay-card, body.theme-caramel .cat-card, body.theme-caramel .log-card, body.theme-caramel .plano-card, body.theme-caramel .filters-card, body.theme-caramel .links-card, body.theme-caramel .form-card, body.theme-caramel .action-card, body.theme-caramel .swal2-popup, body.theme-caramel .swal2-modal, body.theme-caramel .modal-content, body.theme-caramel .modal-dialog {
+body.theme-caramel .modern-card, body.theme-caramel .dash-card, body.theme-caramel .user-card, body.theme-caramel .revendedor-card, body.theme-caramel .server-card, body.theme-caramel .g-card, body.theme-caramel .stats-card, body.theme-caramel .profile-card, body.theme-caramel .login-card, body.theme-caramel .modal-content-custom, body.theme-caramel .modal-box, body.theme-caramel .app-card, body.theme-caramel .ad-card, body.theme-caramel .video-card, body.theme-caramel .pay-card, body.theme-caramel .cat-card, body.theme-caramel .log-card, body.theme-caramel .plano-card, body.theme-caramel .filters-card, body.theme-caramel .links-card, body.theme-caramel .form-card, body.theme-caramel .action-card, body.theme-caramel .limite-card, body.theme-caramel .swal2-popup, body.theme-caramel .swal2-modal, body.theme-caramel .modal-content, body.theme-caramel .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #d9770640 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -580,7 +580,7 @@ body.theme-galaxy {
   --scr: #8b5cf6 !important;
   background: radial-gradient(ellipse at 50% 0%, #8b5cf626 0%, #0f172a 70%) !important;
 }
-body.theme-galaxy .modern-card, body.theme-galaxy .dash-card, body.theme-galaxy .user-card, body.theme-galaxy .revendedor-card, body.theme-galaxy .server-card, body.theme-galaxy .g-card, body.theme-galaxy .stats-card, body.theme-galaxy .profile-card, body.theme-galaxy .login-card, body.theme-galaxy .modal-content-custom, body.theme-galaxy .modal-box, body.theme-galaxy .app-card, body.theme-galaxy .ad-card, body.theme-galaxy .video-card, body.theme-galaxy .pay-card, body.theme-galaxy .cat-card, body.theme-galaxy .log-card, body.theme-galaxy .plano-card, body.theme-galaxy .filters-card, body.theme-galaxy .links-card, body.theme-galaxy .form-card, body.theme-galaxy .action-card, body.theme-galaxy .swal2-popup, body.theme-galaxy .swal2-modal, body.theme-galaxy .modal-content, body.theme-galaxy .modal-dialog {
+body.theme-galaxy .modern-card, body.theme-galaxy .dash-card, body.theme-galaxy .user-card, body.theme-galaxy .revendedor-card, body.theme-galaxy .server-card, body.theme-galaxy .g-card, body.theme-galaxy .stats-card, body.theme-galaxy .profile-card, body.theme-galaxy .login-card, body.theme-galaxy .modal-content-custom, body.theme-galaxy .modal-box, body.theme-galaxy .app-card, body.theme-galaxy .ad-card, body.theme-galaxy .video-card, body.theme-galaxy .pay-card, body.theme-galaxy .cat-card, body.theme-galaxy .log-card, body.theme-galaxy .plano-card, body.theme-galaxy .filters-card, body.theme-galaxy .links-card, body.theme-galaxy .form-card, body.theme-galaxy .action-card, body.theme-galaxy .limite-card, body.theme-galaxy .swal2-popup, body.theme-galaxy .swal2-modal, body.theme-galaxy .modal-content, body.theme-galaxy .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #8b5cf640 !important;
   border-radius: 0 30px 30px 0 !important;
@@ -632,7 +632,7 @@ body.theme-rose {
   --scr: #f43f5e !important;
   background: radial-gradient(ellipse at 50% 0%, #f43f5e26 0%, #0f172a 70%) !important;
 }
-body.theme-rose .modern-card, body.theme-rose .dash-card, body.theme-rose .user-card, body.theme-rose .revendedor-card, body.theme-rose .server-card, body.theme-rose .g-card, body.theme-rose .stats-card, body.theme-rose .profile-card, body.theme-rose .login-card, body.theme-rose .modal-content-custom, body.theme-rose .modal-box, body.theme-rose .app-card, body.theme-rose .ad-card, body.theme-rose .video-card, body.theme-rose .pay-card, body.theme-rose .cat-card, body.theme-rose .log-card, body.theme-rose .plano-card, body.theme-rose .filters-card, body.theme-rose .links-card, body.theme-rose .form-card, body.theme-rose .action-card, body.theme-rose .swal2-popup, body.theme-rose .swal2-modal, body.theme-rose .modal-content, body.theme-rose .modal-dialog {
+body.theme-rose .modern-card, body.theme-rose .dash-card, body.theme-rose .user-card, body.theme-rose .revendedor-card, body.theme-rose .server-card, body.theme-rose .g-card, body.theme-rose .stats-card, body.theme-rose .profile-card, body.theme-rose .login-card, body.theme-rose .modal-content-custom, body.theme-rose .modal-box, body.theme-rose .app-card, body.theme-rose .ad-card, body.theme-rose .video-card, body.theme-rose .pay-card, body.theme-rose .cat-card, body.theme-rose .log-card, body.theme-rose .plano-card, body.theme-rose .filters-card, body.theme-rose .links-card, body.theme-rose .form-card, body.theme-rose .action-card, body.theme-rose .limite-card, body.theme-rose .swal2-popup, body.theme-rose .swal2-modal, body.theme-rose .modal-content, body.theme-rose .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #f43f5e40 !important;
   border-radius: 24px !important;
@@ -681,7 +681,7 @@ body.theme-mint {
   --scr: #14b8a6 !important;
   background: radial-gradient(ellipse at 50% 0%, #14b8a626 0%, #0f172a 70%) !important;
 }
-body.theme-mint .modern-card, body.theme-mint .dash-card, body.theme-mint .user-card, body.theme-mint .revendedor-card, body.theme-mint .server-card, body.theme-mint .g-card, body.theme-mint .stats-card, body.theme-mint .profile-card, body.theme-mint .login-card, body.theme-mint .modal-content-custom, body.theme-mint .modal-box, body.theme-mint .app-card, body.theme-mint .ad-card, body.theme-mint .video-card, body.theme-mint .pay-card, body.theme-mint .cat-card, body.theme-mint .log-card, body.theme-mint .plano-card, body.theme-mint .filters-card, body.theme-mint .links-card, body.theme-mint .form-card, body.theme-mint .action-card, body.theme-mint .swal2-popup, body.theme-mint .swal2-modal, body.theme-mint .modal-content, body.theme-mint .modal-dialog {
+body.theme-mint .modern-card, body.theme-mint .dash-card, body.theme-mint .user-card, body.theme-mint .revendedor-card, body.theme-mint .server-card, body.theme-mint .g-card, body.theme-mint .stats-card, body.theme-mint .profile-card, body.theme-mint .login-card, body.theme-mint .modal-content-custom, body.theme-mint .modal-box, body.theme-mint .app-card, body.theme-mint .ad-card, body.theme-mint .video-card, body.theme-mint .pay-card, body.theme-mint .cat-card, body.theme-mint .log-card, body.theme-mint .plano-card, body.theme-mint .filters-card, body.theme-mint .links-card, body.theme-mint .form-card, body.theme-mint .action-card, body.theme-mint .limite-card, body.theme-mint .swal2-popup, body.theme-mint .swal2-modal, body.theme-mint .modal-content, body.theme-mint .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #14b8a640 !important;
   border-radius: 0 !important;
@@ -733,7 +733,7 @@ body.theme-lavender {
   --scr: #9333ea !important;
   background: radial-gradient(ellipse at 50% 0%, #9333ea26 0%, #0f172a 70%) !important;
 }
-body.theme-lavender .modern-card, body.theme-lavender .dash-card, body.theme-lavender .user-card, body.theme-lavender .revendedor-card, body.theme-lavender .server-card, body.theme-lavender .g-card, body.theme-lavender .stats-card, body.theme-lavender .profile-card, body.theme-lavender .login-card, body.theme-lavender .modal-content-custom, body.theme-lavender .modal-box, body.theme-lavender .app-card, body.theme-lavender .ad-card, body.theme-lavender .video-card, body.theme-lavender .pay-card, body.theme-lavender .cat-card, body.theme-lavender .log-card, body.theme-lavender .plano-card, body.theme-lavender .filters-card, body.theme-lavender .links-card, body.theme-lavender .form-card, body.theme-lavender .action-card, body.theme-lavender .swal2-popup, body.theme-lavender .swal2-modal, body.theme-lavender .modal-content, body.theme-lavender .modal-dialog {
+body.theme-lavender .modern-card, body.theme-lavender .dash-card, body.theme-lavender .user-card, body.theme-lavender .revendedor-card, body.theme-lavender .server-card, body.theme-lavender .g-card, body.theme-lavender .stats-card, body.theme-lavender .profile-card, body.theme-lavender .login-card, body.theme-lavender .modal-content-custom, body.theme-lavender .modal-box, body.theme-lavender .app-card, body.theme-lavender .ad-card, body.theme-lavender .video-card, body.theme-lavender .pay-card, body.theme-lavender .cat-card, body.theme-lavender .log-card, body.theme-lavender .plano-card, body.theme-lavender .filters-card, body.theme-lavender .links-card, body.theme-lavender .form-card, body.theme-lavender .action-card, body.theme-lavender .limite-card, body.theme-lavender .swal2-popup, body.theme-lavender .swal2-modal, body.theme-lavender .modal-content, body.theme-lavender .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #9333ea40 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -782,7 +782,7 @@ body.theme-aqua {
   --scr: #0891b2 !important;
   background: radial-gradient(ellipse at 50% 0%, #0891b226 0%, #0f172a 70%) !important;
 }
-body.theme-aqua .modern-card, body.theme-aqua .dash-card, body.theme-aqua .user-card, body.theme-aqua .revendedor-card, body.theme-aqua .server-card, body.theme-aqua .g-card, body.theme-aqua .stats-card, body.theme-aqua .profile-card, body.theme-aqua .login-card, body.theme-aqua .modal-content-custom, body.theme-aqua .modal-box, body.theme-aqua .app-card, body.theme-aqua .ad-card, body.theme-aqua .video-card, body.theme-aqua .pay-card, body.theme-aqua .cat-card, body.theme-aqua .log-card, body.theme-aqua .plano-card, body.theme-aqua .filters-card, body.theme-aqua .links-card, body.theme-aqua .form-card, body.theme-aqua .action-card, body.theme-aqua .swal2-popup, body.theme-aqua .swal2-modal, body.theme-aqua .modal-content, body.theme-aqua .modal-dialog {
+body.theme-aqua .modern-card, body.theme-aqua .dash-card, body.theme-aqua .user-card, body.theme-aqua .revendedor-card, body.theme-aqua .server-card, body.theme-aqua .g-card, body.theme-aqua .stats-card, body.theme-aqua .profile-card, body.theme-aqua .login-card, body.theme-aqua .modal-content-custom, body.theme-aqua .modal-box, body.theme-aqua .app-card, body.theme-aqua .ad-card, body.theme-aqua .video-card, body.theme-aqua .pay-card, body.theme-aqua .cat-card, body.theme-aqua .log-card, body.theme-aqua .plano-card, body.theme-aqua .filters-card, body.theme-aqua .links-card, body.theme-aqua .form-card, body.theme-aqua .action-card, body.theme-aqua .limite-card, body.theme-aqua .swal2-popup, body.theme-aqua .swal2-modal, body.theme-aqua .modal-content, body.theme-aqua .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #0891b240 !important;
   border-radius: 0 30px 30px 0 !important;
@@ -834,7 +834,7 @@ body.theme-gold {
   --scr: #d97706 !important;
   background: radial-gradient(ellipse at 50% 0%, #d9770626 0%, #0f172a 70%) !important;
 }
-body.theme-gold .modern-card, body.theme-gold .dash-card, body.theme-gold .user-card, body.theme-gold .revendedor-card, body.theme-gold .server-card, body.theme-gold .g-card, body.theme-gold .stats-card, body.theme-gold .profile-card, body.theme-gold .login-card, body.theme-gold .modal-content-custom, body.theme-gold .modal-box, body.theme-gold .app-card, body.theme-gold .ad-card, body.theme-gold .video-card, body.theme-gold .pay-card, body.theme-gold .cat-card, body.theme-gold .log-card, body.theme-gold .plano-card, body.theme-gold .filters-card, body.theme-gold .links-card, body.theme-gold .form-card, body.theme-gold .action-card, body.theme-gold .swal2-popup, body.theme-gold .swal2-modal, body.theme-gold .modal-content, body.theme-gold .modal-dialog {
+body.theme-gold .modern-card, body.theme-gold .dash-card, body.theme-gold .user-card, body.theme-gold .revendedor-card, body.theme-gold .server-card, body.theme-gold .g-card, body.theme-gold .stats-card, body.theme-gold .profile-card, body.theme-gold .login-card, body.theme-gold .modal-content-custom, body.theme-gold .modal-box, body.theme-gold .app-card, body.theme-gold .ad-card, body.theme-gold .video-card, body.theme-gold .pay-card, body.theme-gold .cat-card, body.theme-gold .log-card, body.theme-gold .plano-card, body.theme-gold .filters-card, body.theme-gold .links-card, body.theme-gold .form-card, body.theme-gold .action-card, body.theme-gold .limite-card, body.theme-gold .swal2-popup, body.theme-gold .swal2-modal, body.theme-gold .modal-content, body.theme-gold .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #d9770640 !important;
   border-radius: 24px !important;
@@ -883,7 +883,7 @@ body.theme-copper {
   --scr: #b45309 !important;
   background: radial-gradient(ellipse at 50% 0%, #b4530926 0%, #0f172a 70%) !important;
 }
-body.theme-copper .modern-card, body.theme-copper .dash-card, body.theme-copper .user-card, body.theme-copper .revendedor-card, body.theme-copper .server-card, body.theme-copper .g-card, body.theme-copper .stats-card, body.theme-copper .profile-card, body.theme-copper .login-card, body.theme-copper .modal-content-custom, body.theme-copper .modal-box, body.theme-copper .app-card, body.theme-copper .ad-card, body.theme-copper .video-card, body.theme-copper .pay-card, body.theme-copper .cat-card, body.theme-copper .log-card, body.theme-copper .plano-card, body.theme-copper .filters-card, body.theme-copper .links-card, body.theme-copper .form-card, body.theme-copper .action-card, body.theme-copper .swal2-popup, body.theme-copper .swal2-modal, body.theme-copper .modal-content, body.theme-copper .modal-dialog {
+body.theme-copper .modern-card, body.theme-copper .dash-card, body.theme-copper .user-card, body.theme-copper .revendedor-card, body.theme-copper .server-card, body.theme-copper .g-card, body.theme-copper .stats-card, body.theme-copper .profile-card, body.theme-copper .login-card, body.theme-copper .modal-content-custom, body.theme-copper .modal-box, body.theme-copper .app-card, body.theme-copper .ad-card, body.theme-copper .video-card, body.theme-copper .pay-card, body.theme-copper .cat-card, body.theme-copper .log-card, body.theme-copper .plano-card, body.theme-copper .filters-card, body.theme-copper .links-card, body.theme-copper .form-card, body.theme-copper .action-card, body.theme-copper .limite-card, body.theme-copper .swal2-popup, body.theme-copper .swal2-modal, body.theme-copper .modal-content, body.theme-copper .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #b4530940 !important;
   border-radius: 0 !important;
@@ -935,7 +935,7 @@ body.theme-primavera {
   --scr: #f472b6 !important;
   background: radial-gradient(ellipse at 50% 0%, #f472b626 0%, #0f172a 70%) !important;
 }
-body.theme-primavera .modern-card, body.theme-primavera .dash-card, body.theme-primavera .user-card, body.theme-primavera .revendedor-card, body.theme-primavera .server-card, body.theme-primavera .g-card, body.theme-primavera .stats-card, body.theme-primavera .profile-card, body.theme-primavera .login-card, body.theme-primavera .modal-content-custom, body.theme-primavera .modal-box, body.theme-primavera .app-card, body.theme-primavera .ad-card, body.theme-primavera .video-card, body.theme-primavera .pay-card, body.theme-primavera .cat-card, body.theme-primavera .log-card, body.theme-primavera .plano-card, body.theme-primavera .filters-card, body.theme-primavera .links-card, body.theme-primavera .form-card, body.theme-primavera .action-card, body.theme-primavera .swal2-popup, body.theme-primavera .swal2-modal, body.theme-primavera .modal-content, body.theme-primavera .modal-dialog {
+body.theme-primavera .modern-card, body.theme-primavera .dash-card, body.theme-primavera .user-card, body.theme-primavera .revendedor-card, body.theme-primavera .server-card, body.theme-primavera .g-card, body.theme-primavera .stats-card, body.theme-primavera .profile-card, body.theme-primavera .login-card, body.theme-primavera .modal-content-custom, body.theme-primavera .modal-box, body.theme-primavera .app-card, body.theme-primavera .ad-card, body.theme-primavera .video-card, body.theme-primavera .pay-card, body.theme-primavera .cat-card, body.theme-primavera .log-card, body.theme-primavera .plano-card, body.theme-primavera .filters-card, body.theme-primavera .links-card, body.theme-primavera .form-card, body.theme-primavera .action-card, body.theme-primavera .limite-card, body.theme-primavera .swal2-popup, body.theme-primavera .swal2-modal, body.theme-primavera .modal-content, body.theme-primavera .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #f472b640 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -984,7 +984,7 @@ body.theme-vampire {
   --scr: #991b1b !important;
   background: radial-gradient(ellipse at 50% 0%, #991b1b26 0%, #0f172a 70%) !important;
 }
-body.theme-vampire .modern-card, body.theme-vampire .dash-card, body.theme-vampire .user-card, body.theme-vampire .revendedor-card, body.theme-vampire .server-card, body.theme-vampire .g-card, body.theme-vampire .stats-card, body.theme-vampire .profile-card, body.theme-vampire .login-card, body.theme-vampire .modal-content-custom, body.theme-vampire .modal-box, body.theme-vampire .app-card, body.theme-vampire .ad-card, body.theme-vampire .video-card, body.theme-vampire .pay-card, body.theme-vampire .cat-card, body.theme-vampire .log-card, body.theme-vampire .plano-card, body.theme-vampire .filters-card, body.theme-vampire .links-card, body.theme-vampire .form-card, body.theme-vampire .action-card, body.theme-vampire .swal2-popup, body.theme-vampire .swal2-modal, body.theme-vampire .modal-content, body.theme-vampire .modal-dialog {
+body.theme-vampire .modern-card, body.theme-vampire .dash-card, body.theme-vampire .user-card, body.theme-vampire .revendedor-card, body.theme-vampire .server-card, body.theme-vampire .g-card, body.theme-vampire .stats-card, body.theme-vampire .profile-card, body.theme-vampire .login-card, body.theme-vampire .modal-content-custom, body.theme-vampire .modal-box, body.theme-vampire .app-card, body.theme-vampire .ad-card, body.theme-vampire .video-card, body.theme-vampire .pay-card, body.theme-vampire .cat-card, body.theme-vampire .log-card, body.theme-vampire .plano-card, body.theme-vampire .filters-card, body.theme-vampire .links-card, body.theme-vampire .form-card, body.theme-vampire .action-card, body.theme-vampire .limite-card, body.theme-vampire .swal2-popup, body.theme-vampire .swal2-modal, body.theme-vampire .modal-content, body.theme-vampire .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #991b1b40 !important;
   border-radius: 0 30px 30px 0 !important;
@@ -1036,7 +1036,7 @@ body.theme-naruto {
   --scr: #f97316 !important;
   background: radial-gradient(ellipse at 50% 0%, #f9731626 0%, #0f172a 70%) !important;
 }
-body.theme-naruto .modern-card, body.theme-naruto .dash-card, body.theme-naruto .user-card, body.theme-naruto .revendedor-card, body.theme-naruto .server-card, body.theme-naruto .g-card, body.theme-naruto .stats-card, body.theme-naruto .profile-card, body.theme-naruto .login-card, body.theme-naruto .modal-content-custom, body.theme-naruto .modal-box, body.theme-naruto .app-card, body.theme-naruto .ad-card, body.theme-naruto .video-card, body.theme-naruto .pay-card, body.theme-naruto .cat-card, body.theme-naruto .log-card, body.theme-naruto .plano-card, body.theme-naruto .filters-card, body.theme-naruto .links-card, body.theme-naruto .form-card, body.theme-naruto .action-card, body.theme-naruto .swal2-popup, body.theme-naruto .swal2-modal, body.theme-naruto .modal-content, body.theme-naruto .modal-dialog {
+body.theme-naruto .modern-card, body.theme-naruto .dash-card, body.theme-naruto .user-card, body.theme-naruto .revendedor-card, body.theme-naruto .server-card, body.theme-naruto .g-card, body.theme-naruto .stats-card, body.theme-naruto .profile-card, body.theme-naruto .login-card, body.theme-naruto .modal-content-custom, body.theme-naruto .modal-box, body.theme-naruto .app-card, body.theme-naruto .ad-card, body.theme-naruto .video-card, body.theme-naruto .pay-card, body.theme-naruto .cat-card, body.theme-naruto .log-card, body.theme-naruto .plano-card, body.theme-naruto .filters-card, body.theme-naruto .links-card, body.theme-naruto .form-card, body.theme-naruto .action-card, body.theme-naruto .limite-card, body.theme-naruto .swal2-popup, body.theme-naruto .swal2-modal, body.theme-naruto .modal-content, body.theme-naruto .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #f9731640 !important;
   border-radius: 24px !important;
@@ -1085,7 +1085,7 @@ body.theme-dbz {
   --scr: #f97316 !important;
   background: radial-gradient(ellipse at 50% 0%, #f9731626 0%, #0f172a 70%) !important;
 }
-body.theme-dbz .modern-card, body.theme-dbz .dash-card, body.theme-dbz .user-card, body.theme-dbz .revendedor-card, body.theme-dbz .server-card, body.theme-dbz .g-card, body.theme-dbz .stats-card, body.theme-dbz .profile-card, body.theme-dbz .login-card, body.theme-dbz .modal-content-custom, body.theme-dbz .modal-box, body.theme-dbz .app-card, body.theme-dbz .ad-card, body.theme-dbz .video-card, body.theme-dbz .pay-card, body.theme-dbz .cat-card, body.theme-dbz .log-card, body.theme-dbz .plano-card, body.theme-dbz .filters-card, body.theme-dbz .links-card, body.theme-dbz .form-card, body.theme-dbz .action-card, body.theme-dbz .swal2-popup, body.theme-dbz .swal2-modal, body.theme-dbz .modal-content, body.theme-dbz .modal-dialog {
+body.theme-dbz .modern-card, body.theme-dbz .dash-card, body.theme-dbz .user-card, body.theme-dbz .revendedor-card, body.theme-dbz .server-card, body.theme-dbz .g-card, body.theme-dbz .stats-card, body.theme-dbz .profile-card, body.theme-dbz .login-card, body.theme-dbz .modal-content-custom, body.theme-dbz .modal-box, body.theme-dbz .app-card, body.theme-dbz .ad-card, body.theme-dbz .video-card, body.theme-dbz .pay-card, body.theme-dbz .cat-card, body.theme-dbz .log-card, body.theme-dbz .plano-card, body.theme-dbz .filters-card, body.theme-dbz .links-card, body.theme-dbz .form-card, body.theme-dbz .action-card, body.theme-dbz .limite-card, body.theme-dbz .swal2-popup, body.theme-dbz .swal2-modal, body.theme-dbz .modal-content, body.theme-dbz .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #f9731640 !important;
   border-radius: 0 !important;
@@ -1137,7 +1137,7 @@ body.theme-onepiece {
   --scr: #dc2626 !important;
   background: radial-gradient(ellipse at 50% 0%, #dc262626 0%, #0f172a 70%) !important;
 }
-body.theme-onepiece .modern-card, body.theme-onepiece .dash-card, body.theme-onepiece .user-card, body.theme-onepiece .revendedor-card, body.theme-onepiece .server-card, body.theme-onepiece .g-card, body.theme-onepiece .stats-card, body.theme-onepiece .profile-card, body.theme-onepiece .login-card, body.theme-onepiece .modal-content-custom, body.theme-onepiece .modal-box, body.theme-onepiece .app-card, body.theme-onepiece .ad-card, body.theme-onepiece .video-card, body.theme-onepiece .pay-card, body.theme-onepiece .cat-card, body.theme-onepiece .log-card, body.theme-onepiece .plano-card, body.theme-onepiece .filters-card, body.theme-onepiece .links-card, body.theme-onepiece .form-card, body.theme-onepiece .action-card, body.theme-onepiece .swal2-popup, body.theme-onepiece .swal2-modal, body.theme-onepiece .modal-content, body.theme-onepiece .modal-dialog {
+body.theme-onepiece .modern-card, body.theme-onepiece .dash-card, body.theme-onepiece .user-card, body.theme-onepiece .revendedor-card, body.theme-onepiece .server-card, body.theme-onepiece .g-card, body.theme-onepiece .stats-card, body.theme-onepiece .profile-card, body.theme-onepiece .login-card, body.theme-onepiece .modal-content-custom, body.theme-onepiece .modal-box, body.theme-onepiece .app-card, body.theme-onepiece .ad-card, body.theme-onepiece .video-card, body.theme-onepiece .pay-card, body.theme-onepiece .cat-card, body.theme-onepiece .log-card, body.theme-onepiece .plano-card, body.theme-onepiece .filters-card, body.theme-onepiece .links-card, body.theme-onepiece .form-card, body.theme-onepiece .action-card, body.theme-onepiece .limite-card, body.theme-onepiece .swal2-popup, body.theme-onepiece .swal2-modal, body.theme-onepiece .modal-content, body.theme-onepiece .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #dc262640 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -1186,7 +1186,7 @@ body.theme-retrogames {
   --scr: #e94560 !important;
   background: radial-gradient(ellipse at 50% 0%, #e9456026 0%, #0f172a 70%) !important;
 }
-body.theme-retrogames .modern-card, body.theme-retrogames .dash-card, body.theme-retrogames .user-card, body.theme-retrogames .revendedor-card, body.theme-retrogames .server-card, body.theme-retrogames .g-card, body.theme-retrogames .stats-card, body.theme-retrogames .profile-card, body.theme-retrogames .login-card, body.theme-retrogames .modal-content-custom, body.theme-retrogames .modal-box, body.theme-retrogames .app-card, body.theme-retrogames .ad-card, body.theme-retrogames .video-card, body.theme-retrogames .pay-card, body.theme-retrogames .cat-card, body.theme-retrogames .log-card, body.theme-retrogames .plano-card, body.theme-retrogames .filters-card, body.theme-retrogames .links-card, body.theme-retrogames .form-card, body.theme-retrogames .action-card, body.theme-retrogames .swal2-popup, body.theme-retrogames .swal2-modal, body.theme-retrogames .modal-content, body.theme-retrogames .modal-dialog {
+body.theme-retrogames .modern-card, body.theme-retrogames .dash-card, body.theme-retrogames .user-card, body.theme-retrogames .revendedor-card, body.theme-retrogames .server-card, body.theme-retrogames .g-card, body.theme-retrogames .stats-card, body.theme-retrogames .profile-card, body.theme-retrogames .login-card, body.theme-retrogames .modal-content-custom, body.theme-retrogames .modal-box, body.theme-retrogames .app-card, body.theme-retrogames .ad-card, body.theme-retrogames .video-card, body.theme-retrogames .pay-card, body.theme-retrogames .cat-card, body.theme-retrogames .log-card, body.theme-retrogames .plano-card, body.theme-retrogames .filters-card, body.theme-retrogames .links-card, body.theme-retrogames .form-card, body.theme-retrogames .action-card, body.theme-retrogames .limite-card, body.theme-retrogames .swal2-popup, body.theme-retrogames .swal2-modal, body.theme-retrogames .modal-content, body.theme-retrogames .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #e9456040 !important;
   border-radius: 0 30px 30px 0 !important;
@@ -1238,7 +1238,7 @@ body.theme-cyberpunk {
   --scr: #ff00ff !important;
   background: radial-gradient(ellipse at 50% 0%, #ff00ff26 0%, #0f172a 70%) !important;
 }
-body.theme-cyberpunk .modern-card, body.theme-cyberpunk .dash-card, body.theme-cyberpunk .user-card, body.theme-cyberpunk .revendedor-card, body.theme-cyberpunk .server-card, body.theme-cyberpunk .g-card, body.theme-cyberpunk .stats-card, body.theme-cyberpunk .profile-card, body.theme-cyberpunk .login-card, body.theme-cyberpunk .modal-content-custom, body.theme-cyberpunk .modal-box, body.theme-cyberpunk .app-card, body.theme-cyberpunk .ad-card, body.theme-cyberpunk .video-card, body.theme-cyberpunk .pay-card, body.theme-cyberpunk .cat-card, body.theme-cyberpunk .log-card, body.theme-cyberpunk .plano-card, body.theme-cyberpunk .filters-card, body.theme-cyberpunk .links-card, body.theme-cyberpunk .form-card, body.theme-cyberpunk .action-card, body.theme-cyberpunk .swal2-popup, body.theme-cyberpunk .swal2-modal, body.theme-cyberpunk .modal-content, body.theme-cyberpunk .modal-dialog {
+body.theme-cyberpunk .modern-card, body.theme-cyberpunk .dash-card, body.theme-cyberpunk .user-card, body.theme-cyberpunk .revendedor-card, body.theme-cyberpunk .server-card, body.theme-cyberpunk .g-card, body.theme-cyberpunk .stats-card, body.theme-cyberpunk .profile-card, body.theme-cyberpunk .login-card, body.theme-cyberpunk .modal-content-custom, body.theme-cyberpunk .modal-box, body.theme-cyberpunk .app-card, body.theme-cyberpunk .ad-card, body.theme-cyberpunk .video-card, body.theme-cyberpunk .pay-card, body.theme-cyberpunk .cat-card, body.theme-cyberpunk .log-card, body.theme-cyberpunk .plano-card, body.theme-cyberpunk .filters-card, body.theme-cyberpunk .links-card, body.theme-cyberpunk .form-card, body.theme-cyberpunk .action-card, body.theme-cyberpunk .limite-card, body.theme-cyberpunk .swal2-popup, body.theme-cyberpunk .swal2-modal, body.theme-cyberpunk .modal-content, body.theme-cyberpunk .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #ff00ff40 !important;
   border-radius: 24px !important;
@@ -1287,7 +1287,7 @@ body.theme-steampunk {
   --scr: #d97706 !important;
   background: radial-gradient(ellipse at 50% 0%, #d9770626 0%, #0f172a 70%) !important;
 }
-body.theme-steampunk .modern-card, body.theme-steampunk .dash-card, body.theme-steampunk .user-card, body.theme-steampunk .revendedor-card, body.theme-steampunk .server-card, body.theme-steampunk .g-card, body.theme-steampunk .stats-card, body.theme-steampunk .profile-card, body.theme-steampunk .login-card, body.theme-steampunk .modal-content-custom, body.theme-steampunk .modal-box, body.theme-steampunk .app-card, body.theme-steampunk .ad-card, body.theme-steampunk .video-card, body.theme-steampunk .pay-card, body.theme-steampunk .cat-card, body.theme-steampunk .log-card, body.theme-steampunk .plano-card, body.theme-steampunk .filters-card, body.theme-steampunk .links-card, body.theme-steampunk .form-card, body.theme-steampunk .action-card, body.theme-steampunk .swal2-popup, body.theme-steampunk .swal2-modal, body.theme-steampunk .modal-content, body.theme-steampunk .modal-dialog {
+body.theme-steampunk .modern-card, body.theme-steampunk .dash-card, body.theme-steampunk .user-card, body.theme-steampunk .revendedor-card, body.theme-steampunk .server-card, body.theme-steampunk .g-card, body.theme-steampunk .stats-card, body.theme-steampunk .profile-card, body.theme-steampunk .login-card, body.theme-steampunk .modal-content-custom, body.theme-steampunk .modal-box, body.theme-steampunk .app-card, body.theme-steampunk .ad-card, body.theme-steampunk .video-card, body.theme-steampunk .pay-card, body.theme-steampunk .cat-card, body.theme-steampunk .log-card, body.theme-steampunk .plano-card, body.theme-steampunk .filters-card, body.theme-steampunk .links-card, body.theme-steampunk .form-card, body.theme-steampunk .action-card, body.theme-steampunk .limite-card, body.theme-steampunk .swal2-popup, body.theme-steampunk .swal2-modal, body.theme-steampunk .modal-content, body.theme-steampunk .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #d9770640 !important;
   border-radius: 0 !important;
@@ -1339,7 +1339,7 @@ body.theme-matrix {
   --scr: #00ff41 !important;
   background: radial-gradient(ellipse at 50% 0%, #00ff4126 0%, #0f172a 70%) !important;
 }
-body.theme-matrix .modern-card, body.theme-matrix .dash-card, body.theme-matrix .user-card, body.theme-matrix .revendedor-card, body.theme-matrix .server-card, body.theme-matrix .g-card, body.theme-matrix .stats-card, body.theme-matrix .profile-card, body.theme-matrix .login-card, body.theme-matrix .modal-content-custom, body.theme-matrix .modal-box, body.theme-matrix .app-card, body.theme-matrix .ad-card, body.theme-matrix .video-card, body.theme-matrix .pay-card, body.theme-matrix .cat-card, body.theme-matrix .log-card, body.theme-matrix .plano-card, body.theme-matrix .filters-card, body.theme-matrix .links-card, body.theme-matrix .form-card, body.theme-matrix .action-card, body.theme-matrix .swal2-popup, body.theme-matrix .swal2-modal, body.theme-matrix .modal-content, body.theme-matrix .modal-dialog {
+body.theme-matrix .modern-card, body.theme-matrix .dash-card, body.theme-matrix .user-card, body.theme-matrix .revendedor-card, body.theme-matrix .server-card, body.theme-matrix .g-card, body.theme-matrix .stats-card, body.theme-matrix .profile-card, body.theme-matrix .login-card, body.theme-matrix .modal-content-custom, body.theme-matrix .modal-box, body.theme-matrix .app-card, body.theme-matrix .ad-card, body.theme-matrix .video-card, body.theme-matrix .pay-card, body.theme-matrix .cat-card, body.theme-matrix .log-card, body.theme-matrix .plano-card, body.theme-matrix .filters-card, body.theme-matrix .links-card, body.theme-matrix .form-card, body.theme-matrix .action-card, body.theme-matrix .limite-card, body.theme-matrix .swal2-popup, body.theme-matrix .swal2-modal, body.theme-matrix .modal-content, body.theme-matrix .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #00ff4140 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -1388,7 +1388,7 @@ body.theme-pokemon {
   --scr: #dc2626 !important;
   background: radial-gradient(ellipse at 50% 0%, #dc262626 0%, #0f172a 70%) !important;
 }
-body.theme-pokemon .modern-card, body.theme-pokemon .dash-card, body.theme-pokemon .user-card, body.theme-pokemon .revendedor-card, body.theme-pokemon .server-card, body.theme-pokemon .g-card, body.theme-pokemon .stats-card, body.theme-pokemon .profile-card, body.theme-pokemon .login-card, body.theme-pokemon .modal-content-custom, body.theme-pokemon .modal-box, body.theme-pokemon .app-card, body.theme-pokemon .ad-card, body.theme-pokemon .video-card, body.theme-pokemon .pay-card, body.theme-pokemon .cat-card, body.theme-pokemon .log-card, body.theme-pokemon .plano-card, body.theme-pokemon .filters-card, body.theme-pokemon .links-card, body.theme-pokemon .form-card, body.theme-pokemon .action-card, body.theme-pokemon .swal2-popup, body.theme-pokemon .swal2-modal, body.theme-pokemon .modal-content, body.theme-pokemon .modal-dialog {
+body.theme-pokemon .modern-card, body.theme-pokemon .dash-card, body.theme-pokemon .user-card, body.theme-pokemon .revendedor-card, body.theme-pokemon .server-card, body.theme-pokemon .g-card, body.theme-pokemon .stats-card, body.theme-pokemon .profile-card, body.theme-pokemon .login-card, body.theme-pokemon .modal-content-custom, body.theme-pokemon .modal-box, body.theme-pokemon .app-card, body.theme-pokemon .ad-card, body.theme-pokemon .video-card, body.theme-pokemon .pay-card, body.theme-pokemon .cat-card, body.theme-pokemon .log-card, body.theme-pokemon .plano-card, body.theme-pokemon .filters-card, body.theme-pokemon .links-card, body.theme-pokemon .form-card, body.theme-pokemon .action-card, body.theme-pokemon .limite-card, body.theme-pokemon .swal2-popup, body.theme-pokemon .swal2-modal, body.theme-pokemon .modal-content, body.theme-pokemon .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #dc262640 !important;
   border-radius: 0 30px 30px 0 !important;
@@ -1440,7 +1440,7 @@ body.theme-natal {
   --scr: #22c55e !important;
   background: radial-gradient(ellipse at 50% 0%, #22c55e26 0%, #0f172a 70%) !important;
 }
-body.theme-natal .modern-card, body.theme-natal .dash-card, body.theme-natal .user-card, body.theme-natal .revendedor-card, body.theme-natal .server-card, body.theme-natal .g-card, body.theme-natal .stats-card, body.theme-natal .profile-card, body.theme-natal .login-card, body.theme-natal .modal-content-custom, body.theme-natal .modal-box, body.theme-natal .app-card, body.theme-natal .ad-card, body.theme-natal .video-card, body.theme-natal .pay-card, body.theme-natal .cat-card, body.theme-natal .log-card, body.theme-natal .plano-card, body.theme-natal .filters-card, body.theme-natal .links-card, body.theme-natal .form-card, body.theme-natal .action-card, body.theme-natal .swal2-popup, body.theme-natal .swal2-modal, body.theme-natal .modal-content, body.theme-natal .modal-dialog {
+body.theme-natal .modern-card, body.theme-natal .dash-card, body.theme-natal .user-card, body.theme-natal .revendedor-card, body.theme-natal .server-card, body.theme-natal .g-card, body.theme-natal .stats-card, body.theme-natal .profile-card, body.theme-natal .login-card, body.theme-natal .modal-content-custom, body.theme-natal .modal-box, body.theme-natal .app-card, body.theme-natal .ad-card, body.theme-natal .video-card, body.theme-natal .pay-card, body.theme-natal .cat-card, body.theme-natal .log-card, body.theme-natal .plano-card, body.theme-natal .filters-card, body.theme-natal .links-card, body.theme-natal .form-card, body.theme-natal .action-card, body.theme-natal .limite-card, body.theme-natal .swal2-popup, body.theme-natal .swal2-modal, body.theme-natal .modal-content, body.theme-natal .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #22c55e40 !important;
   border-radius: 24px !important;
@@ -1489,7 +1489,7 @@ body.theme-anonovo {
   --scr: #fbbf24 !important;
   background: radial-gradient(ellipse at 50% 0%, #fbbf2426 0%, #0f172a 70%) !important;
 }
-body.theme-anonovo .modern-card, body.theme-anonovo .dash-card, body.theme-anonovo .user-card, body.theme-anonovo .revendedor-card, body.theme-anonovo .server-card, body.theme-anonovo .g-card, body.theme-anonovo .stats-card, body.theme-anonovo .profile-card, body.theme-anonovo .login-card, body.theme-anonovo .modal-content-custom, body.theme-anonovo .modal-box, body.theme-anonovo .app-card, body.theme-anonovo .ad-card, body.theme-anonovo .video-card, body.theme-anonovo .pay-card, body.theme-anonovo .cat-card, body.theme-anonovo .log-card, body.theme-anonovo .plano-card, body.theme-anonovo .filters-card, body.theme-anonovo .links-card, body.theme-anonovo .form-card, body.theme-anonovo .action-card, body.theme-anonovo .swal2-popup, body.theme-anonovo .swal2-modal, body.theme-anonovo .modal-content, body.theme-anonovo .modal-dialog {
+body.theme-anonovo .modern-card, body.theme-anonovo .dash-card, body.theme-anonovo .user-card, body.theme-anonovo .revendedor-card, body.theme-anonovo .server-card, body.theme-anonovo .g-card, body.theme-anonovo .stats-card, body.theme-anonovo .profile-card, body.theme-anonovo .login-card, body.theme-anonovo .modal-content-custom, body.theme-anonovo .modal-box, body.theme-anonovo .app-card, body.theme-anonovo .ad-card, body.theme-anonovo .video-card, body.theme-anonovo .pay-card, body.theme-anonovo .cat-card, body.theme-anonovo .log-card, body.theme-anonovo .plano-card, body.theme-anonovo .filters-card, body.theme-anonovo .links-card, body.theme-anonovo .form-card, body.theme-anonovo .action-card, body.theme-anonovo .limite-card, body.theme-anonovo .swal2-popup, body.theme-anonovo .swal2-modal, body.theme-anonovo .modal-content, body.theme-anonovo .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #fbbf2440 !important;
   border-radius: 0 !important;
@@ -1541,7 +1541,7 @@ body.theme-halloween {
   --scr: #f97316 !important;
   background: radial-gradient(ellipse at 50% 0%, #f9731626 0%, #0f172a 70%) !important;
 }
-body.theme-halloween .modern-card, body.theme-halloween .dash-card, body.theme-halloween .user-card, body.theme-halloween .revendedor-card, body.theme-halloween .server-card, body.theme-halloween .g-card, body.theme-halloween .stats-card, body.theme-halloween .profile-card, body.theme-halloween .login-card, body.theme-halloween .modal-content-custom, body.theme-halloween .modal-box, body.theme-halloween .app-card, body.theme-halloween .ad-card, body.theme-halloween .video-card, body.theme-halloween .pay-card, body.theme-halloween .cat-card, body.theme-halloween .log-card, body.theme-halloween .plano-card, body.theme-halloween .filters-card, body.theme-halloween .links-card, body.theme-halloween .form-card, body.theme-halloween .action-card, body.theme-halloween .swal2-popup, body.theme-halloween .swal2-modal, body.theme-halloween .modal-content, body.theme-halloween .modal-dialog {
+body.theme-halloween .modern-card, body.theme-halloween .dash-card, body.theme-halloween .user-card, body.theme-halloween .revendedor-card, body.theme-halloween .server-card, body.theme-halloween .g-card, body.theme-halloween .stats-card, body.theme-halloween .profile-card, body.theme-halloween .login-card, body.theme-halloween .modal-content-custom, body.theme-halloween .modal-box, body.theme-halloween .app-card, body.theme-halloween .ad-card, body.theme-halloween .video-card, body.theme-halloween .pay-card, body.theme-halloween .cat-card, body.theme-halloween .log-card, body.theme-halloween .plano-card, body.theme-halloween .filters-card, body.theme-halloween .links-card, body.theme-halloween .form-card, body.theme-halloween .action-card, body.theme-halloween .limite-card, body.theme-halloween .swal2-popup, body.theme-halloween .swal2-modal, body.theme-halloween .modal-content, body.theme-halloween .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #f9731640 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -1590,7 +1590,7 @@ body.theme-valentine {
   --scr: #ef4444 !important;
   background: radial-gradient(ellipse at 50% 0%, #ef444426 0%, #0f172a 70%) !important;
 }
-body.theme-valentine .modern-card, body.theme-valentine .dash-card, body.theme-valentine .user-card, body.theme-valentine .revendedor-card, body.theme-valentine .server-card, body.theme-valentine .g-card, body.theme-valentine .stats-card, body.theme-valentine .profile-card, body.theme-valentine .login-card, body.theme-valentine .modal-content-custom, body.theme-valentine .modal-box, body.theme-valentine .app-card, body.theme-valentine .ad-card, body.theme-valentine .video-card, body.theme-valentine .pay-card, body.theme-valentine .cat-card, body.theme-valentine .log-card, body.theme-valentine .plano-card, body.theme-valentine .filters-card, body.theme-valentine .links-card, body.theme-valentine .form-card, body.theme-valentine .action-card, body.theme-valentine .swal2-popup, body.theme-valentine .swal2-modal, body.theme-valentine .modal-content, body.theme-valentine .modal-dialog {
+body.theme-valentine .modern-card, body.theme-valentine .dash-card, body.theme-valentine .user-card, body.theme-valentine .revendedor-card, body.theme-valentine .server-card, body.theme-valentine .g-card, body.theme-valentine .stats-card, body.theme-valentine .profile-card, body.theme-valentine .login-card, body.theme-valentine .modal-content-custom, body.theme-valentine .modal-box, body.theme-valentine .app-card, body.theme-valentine .ad-card, body.theme-valentine .video-card, body.theme-valentine .pay-card, body.theme-valentine .cat-card, body.theme-valentine .log-card, body.theme-valentine .plano-card, body.theme-valentine .filters-card, body.theme-valentine .links-card, body.theme-valentine .form-card, body.theme-valentine .action-card, body.theme-valentine .limite-card, body.theme-valentine .swal2-popup, body.theme-valentine .swal2-modal, body.theme-valentine .modal-content, body.theme-valentine .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #ef444440 !important;
   border-radius: 0 30px 30px 0 !important;
@@ -1642,7 +1642,7 @@ body.theme-natalneve {
   --scr: #dc2626 !important;
   background: radial-gradient(ellipse at 50% 0%, #dc262626 0%, #0f172a 70%) !important;
 }
-body.theme-natalneve .modern-card, body.theme-natalneve .dash-card, body.theme-natalneve .user-card, body.theme-natalneve .revendedor-card, body.theme-natalneve .server-card, body.theme-natalneve .g-card, body.theme-natalneve .stats-card, body.theme-natalneve .profile-card, body.theme-natalneve .login-card, body.theme-natalneve .modal-content-custom, body.theme-natalneve .modal-box, body.theme-natalneve .app-card, body.theme-natalneve .ad-card, body.theme-natalneve .video-card, body.theme-natalneve .pay-card, body.theme-natalneve .cat-card, body.theme-natalneve .log-card, body.theme-natalneve .plano-card, body.theme-natalneve .filters-card, body.theme-natalneve .links-card, body.theme-natalneve .form-card, body.theme-natalneve .action-card, body.theme-natalneve .swal2-popup, body.theme-natalneve .swal2-modal, body.theme-natalneve .modal-content, body.theme-natalneve .modal-dialog {
+body.theme-natalneve .modern-card, body.theme-natalneve .dash-card, body.theme-natalneve .user-card, body.theme-natalneve .revendedor-card, body.theme-natalneve .server-card, body.theme-natalneve .g-card, body.theme-natalneve .stats-card, body.theme-natalneve .profile-card, body.theme-natalneve .login-card, body.theme-natalneve .modal-content-custom, body.theme-natalneve .modal-box, body.theme-natalneve .app-card, body.theme-natalneve .ad-card, body.theme-natalneve .video-card, body.theme-natalneve .pay-card, body.theme-natalneve .cat-card, body.theme-natalneve .log-card, body.theme-natalneve .plano-card, body.theme-natalneve .filters-card, body.theme-natalneve .links-card, body.theme-natalneve .form-card, body.theme-natalneve .action-card, body.theme-natalneve .limite-card, body.theme-natalneve .swal2-popup, body.theme-natalneve .swal2-modal, body.theme-natalneve .modal-content, body.theme-natalneve .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #dc262640 !important;
   border-radius: 24px !important;
@@ -1691,7 +1691,7 @@ body.theme-carnaval {
   --scr: #fbbf24 !important;
   background: radial-gradient(ellipse at 50% 0%, #fbbf2426 0%, #0f172a 70%) !important;
 }
-body.theme-carnaval .modern-card, body.theme-carnaval .dash-card, body.theme-carnaval .user-card, body.theme-carnaval .revendedor-card, body.theme-carnaval .server-card, body.theme-carnaval .g-card, body.theme-carnaval .stats-card, body.theme-carnaval .profile-card, body.theme-carnaval .login-card, body.theme-carnaval .modal-content-custom, body.theme-carnaval .modal-box, body.theme-carnaval .app-card, body.theme-carnaval .ad-card, body.theme-carnaval .video-card, body.theme-carnaval .pay-card, body.theme-carnaval .cat-card, body.theme-carnaval .log-card, body.theme-carnaval .plano-card, body.theme-carnaval .filters-card, body.theme-carnaval .links-card, body.theme-carnaval .form-card, body.theme-carnaval .action-card, body.theme-carnaval .swal2-popup, body.theme-carnaval .swal2-modal, body.theme-carnaval .modal-content, body.theme-carnaval .modal-dialog {
+body.theme-carnaval .modern-card, body.theme-carnaval .dash-card, body.theme-carnaval .user-card, body.theme-carnaval .revendedor-card, body.theme-carnaval .server-card, body.theme-carnaval .g-card, body.theme-carnaval .stats-card, body.theme-carnaval .profile-card, body.theme-carnaval .login-card, body.theme-carnaval .modal-content-custom, body.theme-carnaval .modal-box, body.theme-carnaval .app-card, body.theme-carnaval .ad-card, body.theme-carnaval .video-card, body.theme-carnaval .pay-card, body.theme-carnaval .cat-card, body.theme-carnaval .log-card, body.theme-carnaval .plano-card, body.theme-carnaval .filters-card, body.theme-carnaval .links-card, body.theme-carnaval .form-card, body.theme-carnaval .action-card, body.theme-carnaval .limite-card, body.theme-carnaval .swal2-popup, body.theme-carnaval .swal2-modal, body.theme-carnaval .modal-content, body.theme-carnaval .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #fbbf2440 !important;
   border-radius: 0 !important;
@@ -1743,7 +1743,7 @@ body.theme-pascoa {
   --scr: #f472b6 !important;
   background: radial-gradient(ellipse at 50% 0%, #f472b626 0%, #0f172a 70%) !important;
 }
-body.theme-pascoa .modern-card, body.theme-pascoa .dash-card, body.theme-pascoa .user-card, body.theme-pascoa .revendedor-card, body.theme-pascoa .server-card, body.theme-pascoa .g-card, body.theme-pascoa .stats-card, body.theme-pascoa .profile-card, body.theme-pascoa .login-card, body.theme-pascoa .modal-content-custom, body.theme-pascoa .modal-box, body.theme-pascoa .app-card, body.theme-pascoa .ad-card, body.theme-pascoa .video-card, body.theme-pascoa .pay-card, body.theme-pascoa .cat-card, body.theme-pascoa .log-card, body.theme-pascoa .plano-card, body.theme-pascoa .filters-card, body.theme-pascoa .links-card, body.theme-pascoa .form-card, body.theme-pascoa .action-card, body.theme-pascoa .swal2-popup, body.theme-pascoa .swal2-modal, body.theme-pascoa .modal-content, body.theme-pascoa .modal-dialog {
+body.theme-pascoa .modern-card, body.theme-pascoa .dash-card, body.theme-pascoa .user-card, body.theme-pascoa .revendedor-card, body.theme-pascoa .server-card, body.theme-pascoa .g-card, body.theme-pascoa .stats-card, body.theme-pascoa .profile-card, body.theme-pascoa .login-card, body.theme-pascoa .modal-content-custom, body.theme-pascoa .modal-box, body.theme-pascoa .app-card, body.theme-pascoa .ad-card, body.theme-pascoa .video-card, body.theme-pascoa .pay-card, body.theme-pascoa .cat-card, body.theme-pascoa .log-card, body.theme-pascoa .plano-card, body.theme-pascoa .filters-card, body.theme-pascoa .links-card, body.theme-pascoa .form-card, body.theme-pascoa .action-card, body.theme-pascoa .limite-card, body.theme-pascoa .swal2-popup, body.theme-pascoa .swal2-modal, body.theme-pascoa .modal-content, body.theme-pascoa .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #f472b640 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -1792,7 +1792,7 @@ body.theme-festajunina {
   --scr: #dc2626 !important;
   background: radial-gradient(ellipse at 50% 0%, #dc262626 0%, #0f172a 70%) !important;
 }
-body.theme-festajunina .modern-card, body.theme-festajunina .dash-card, body.theme-festajunina .user-card, body.theme-festajunina .revendedor-card, body.theme-festajunina .server-card, body.theme-festajunina .g-card, body.theme-festajunina .stats-card, body.theme-festajunina .profile-card, body.theme-festajunina .login-card, body.theme-festajunina .modal-content-custom, body.theme-festajunina .modal-box, body.theme-festajunina .app-card, body.theme-festajunina .ad-card, body.theme-festajunina .video-card, body.theme-festajunina .pay-card, body.theme-festajunina .cat-card, body.theme-festajunina .log-card, body.theme-festajunina .plano-card, body.theme-festajunina .filters-card, body.theme-festajunina .links-card, body.theme-festajunina .form-card, body.theme-festajunina .action-card, body.theme-festajunina .swal2-popup, body.theme-festajunina .swal2-modal, body.theme-festajunina .modal-content, body.theme-festajunina .modal-dialog {
+body.theme-festajunina .modern-card, body.theme-festajunina .dash-card, body.theme-festajunina .user-card, body.theme-festajunina .revendedor-card, body.theme-festajunina .server-card, body.theme-festajunina .g-card, body.theme-festajunina .stats-card, body.theme-festajunina .profile-card, body.theme-festajunina .login-card, body.theme-festajunina .modal-content-custom, body.theme-festajunina .modal-box, body.theme-festajunina .app-card, body.theme-festajunina .ad-card, body.theme-festajunina .video-card, body.theme-festajunina .pay-card, body.theme-festajunina .cat-card, body.theme-festajunina .log-card, body.theme-festajunina .plano-card, body.theme-festajunina .filters-card, body.theme-festajunina .links-card, body.theme-festajunina .form-card, body.theme-festajunina .action-card, body.theme-festajunina .limite-card, body.theme-festajunina .swal2-popup, body.theme-festajunina .swal2-modal, body.theme-festajunina .modal-content, body.theme-festajunina .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #dc262640 !important;
   border-radius: 0 30px 30px 0 !important;
@@ -1844,7 +1844,7 @@ body.theme-dcriancas {
   --scr: #fbbf24 !important;
   background: radial-gradient(ellipse at 50% 0%, #fbbf2426 0%, #0f172a 70%) !important;
 }
-body.theme-dcriancas .modern-card, body.theme-dcriancas .dash-card, body.theme-dcriancas .user-card, body.theme-dcriancas .revendedor-card, body.theme-dcriancas .server-card, body.theme-dcriancas .g-card, body.theme-dcriancas .stats-card, body.theme-dcriancas .profile-card, body.theme-dcriancas .login-card, body.theme-dcriancas .modal-content-custom, body.theme-dcriancas .modal-box, body.theme-dcriancas .app-card, body.theme-dcriancas .ad-card, body.theme-dcriancas .video-card, body.theme-dcriancas .pay-card, body.theme-dcriancas .cat-card, body.theme-dcriancas .log-card, body.theme-dcriancas .plano-card, body.theme-dcriancas .filters-card, body.theme-dcriancas .links-card, body.theme-dcriancas .form-card, body.theme-dcriancas .action-card, body.theme-dcriancas .swal2-popup, body.theme-dcriancas .swal2-modal, body.theme-dcriancas .modal-content, body.theme-dcriancas .modal-dialog {
+body.theme-dcriancas .modern-card, body.theme-dcriancas .dash-card, body.theme-dcriancas .user-card, body.theme-dcriancas .revendedor-card, body.theme-dcriancas .server-card, body.theme-dcriancas .g-card, body.theme-dcriancas .stats-card, body.theme-dcriancas .profile-card, body.theme-dcriancas .login-card, body.theme-dcriancas .modal-content-custom, body.theme-dcriancas .modal-box, body.theme-dcriancas .app-card, body.theme-dcriancas .ad-card, body.theme-dcriancas .video-card, body.theme-dcriancas .pay-card, body.theme-dcriancas .cat-card, body.theme-dcriancas .log-card, body.theme-dcriancas .plano-card, body.theme-dcriancas .filters-card, body.theme-dcriancas .links-card, body.theme-dcriancas .form-card, body.theme-dcriancas .action-card, body.theme-dcriancas .limite-card, body.theme-dcriancas .swal2-popup, body.theme-dcriancas .swal2-modal, body.theme-dcriancas .modal-content, body.theme-dcriancas .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #fbbf2440 !important;
   border-radius: 24px !important;
@@ -1893,7 +1893,7 @@ body.theme-dentista {
   --scr: #3b82f6 !important;
   background: radial-gradient(ellipse at 50% 0%, #3b82f626 0%, #0f172a 70%) !important;
 }
-body.theme-dentista .modern-card, body.theme-dentista .dash-card, body.theme-dentista .user-card, body.theme-dentista .revendedor-card, body.theme-dentista .server-card, body.theme-dentista .g-card, body.theme-dentista .stats-card, body.theme-dentista .profile-card, body.theme-dentista .login-card, body.theme-dentista .modal-content-custom, body.theme-dentista .modal-box, body.theme-dentista .app-card, body.theme-dentista .ad-card, body.theme-dentista .video-card, body.theme-dentista .pay-card, body.theme-dentista .cat-card, body.theme-dentista .log-card, body.theme-dentista .plano-card, body.theme-dentista .filters-card, body.theme-dentista .links-card, body.theme-dentista .form-card, body.theme-dentista .action-card, body.theme-dentista .swal2-popup, body.theme-dentista .swal2-modal, body.theme-dentista .modal-content, body.theme-dentista .modal-dialog {
+body.theme-dentista .modern-card, body.theme-dentista .dash-card, body.theme-dentista .user-card, body.theme-dentista .revendedor-card, body.theme-dentista .server-card, body.theme-dentista .g-card, body.theme-dentista .stats-card, body.theme-dentista .profile-card, body.theme-dentista .login-card, body.theme-dentista .modal-content-custom, body.theme-dentista .modal-box, body.theme-dentista .app-card, body.theme-dentista .ad-card, body.theme-dentista .video-card, body.theme-dentista .pay-card, body.theme-dentista .cat-card, body.theme-dentista .log-card, body.theme-dentista .plano-card, body.theme-dentista .filters-card, body.theme-dentista .links-card, body.theme-dentista .form-card, body.theme-dentista .action-card, body.theme-dentista .limite-card, body.theme-dentista .swal2-popup, body.theme-dentista .swal2-modal, body.theme-dentista .modal-content, body.theme-dentista .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #3b82f640 !important;
   border-radius: 0 !important;
@@ -1945,7 +1945,7 @@ body.theme-trabalhador {
   --scr: #dc2626 !important;
   background: radial-gradient(ellipse at 50% 0%, #dc262626 0%, #0f172a 70%) !important;
 }
-body.theme-trabalhador .modern-card, body.theme-trabalhador .dash-card, body.theme-trabalhador .user-card, body.theme-trabalhador .revendedor-card, body.theme-trabalhador .server-card, body.theme-trabalhador .g-card, body.theme-trabalhador .stats-card, body.theme-trabalhador .profile-card, body.theme-trabalhador .login-card, body.theme-trabalhador .modal-content-custom, body.theme-trabalhador .modal-box, body.theme-trabalhador .app-card, body.theme-trabalhador .ad-card, body.theme-trabalhador .video-card, body.theme-trabalhador .pay-card, body.theme-trabalhador .cat-card, body.theme-trabalhador .log-card, body.theme-trabalhador .plano-card, body.theme-trabalhador .filters-card, body.theme-trabalhador .links-card, body.theme-trabalhador .form-card, body.theme-trabalhador .action-card, body.theme-trabalhador .swal2-popup, body.theme-trabalhador .swal2-modal, body.theme-trabalhador .modal-content, body.theme-trabalhador .modal-dialog {
+body.theme-trabalhador .modern-card, body.theme-trabalhador .dash-card, body.theme-trabalhador .user-card, body.theme-trabalhador .revendedor-card, body.theme-trabalhador .server-card, body.theme-trabalhador .g-card, body.theme-trabalhador .stats-card, body.theme-trabalhador .profile-card, body.theme-trabalhador .login-card, body.theme-trabalhador .modal-content-custom, body.theme-trabalhador .modal-box, body.theme-trabalhador .app-card, body.theme-trabalhador .ad-card, body.theme-trabalhador .video-card, body.theme-trabalhador .pay-card, body.theme-trabalhador .cat-card, body.theme-trabalhador .log-card, body.theme-trabalhador .plano-card, body.theme-trabalhador .filters-card, body.theme-trabalhador .links-card, body.theme-trabalhador .form-card, body.theme-trabalhador .action-card, body.theme-trabalhador .limite-card, body.theme-trabalhador .swal2-popup, body.theme-trabalhador .swal2-modal, body.theme-trabalhador .modal-content, body.theme-trabalhador .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #dc262640 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -1994,7 +1994,7 @@ body.theme-mulheres {
   --scr: #ec4899 !important;
   background: radial-gradient(ellipse at 50% 0%, #ec489926 0%, #0f172a 70%) !important;
 }
-body.theme-mulheres .modern-card, body.theme-mulheres .dash-card, body.theme-mulheres .user-card, body.theme-mulheres .revendedor-card, body.theme-mulheres .server-card, body.theme-mulheres .g-card, body.theme-mulheres .stats-card, body.theme-mulheres .profile-card, body.theme-mulheres .login-card, body.theme-mulheres .modal-content-custom, body.theme-mulheres .modal-box, body.theme-mulheres .app-card, body.theme-mulheres .ad-card, body.theme-mulheres .video-card, body.theme-mulheres .pay-card, body.theme-mulheres .cat-card, body.theme-mulheres .log-card, body.theme-mulheres .plano-card, body.theme-mulheres .filters-card, body.theme-mulheres .links-card, body.theme-mulheres .form-card, body.theme-mulheres .action-card, body.theme-mulheres .swal2-popup, body.theme-mulheres .swal2-modal, body.theme-mulheres .modal-content, body.theme-mulheres .modal-dialog {
+body.theme-mulheres .modern-card, body.theme-mulheres .dash-card, body.theme-mulheres .user-card, body.theme-mulheres .revendedor-card, body.theme-mulheres .server-card, body.theme-mulheres .g-card, body.theme-mulheres .stats-card, body.theme-mulheres .profile-card, body.theme-mulheres .login-card, body.theme-mulheres .modal-content-custom, body.theme-mulheres .modal-box, body.theme-mulheres .app-card, body.theme-mulheres .ad-card, body.theme-mulheres .video-card, body.theme-mulheres .pay-card, body.theme-mulheres .cat-card, body.theme-mulheres .log-card, body.theme-mulheres .plano-card, body.theme-mulheres .filters-card, body.theme-mulheres .links-card, body.theme-mulheres .form-card, body.theme-mulheres .action-card, body.theme-mulheres .limite-card, body.theme-mulheres .swal2-popup, body.theme-mulheres .swal2-modal, body.theme-mulheres .modal-content, body.theme-mulheres .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #ec489940 !important;
   border-radius: 0 30px 30px 0 !important;
@@ -2046,7 +2046,7 @@ body.theme-maes {
   --scr: #f472b6 !important;
   background: radial-gradient(ellipse at 50% 0%, #f472b626 0%, #0f172a 70%) !important;
 }
-body.theme-maes .modern-card, body.theme-maes .dash-card, body.theme-maes .user-card, body.theme-maes .revendedor-card, body.theme-maes .server-card, body.theme-maes .g-card, body.theme-maes .stats-card, body.theme-maes .profile-card, body.theme-maes .login-card, body.theme-maes .modal-content-custom, body.theme-maes .modal-box, body.theme-maes .app-card, body.theme-maes .ad-card, body.theme-maes .video-card, body.theme-maes .pay-card, body.theme-maes .cat-card, body.theme-maes .log-card, body.theme-maes .plano-card, body.theme-maes .filters-card, body.theme-maes .links-card, body.theme-maes .form-card, body.theme-maes .action-card, body.theme-maes .swal2-popup, body.theme-maes .swal2-modal, body.theme-maes .modal-content, body.theme-maes .modal-dialog {
+body.theme-maes .modern-card, body.theme-maes .dash-card, body.theme-maes .user-card, body.theme-maes .revendedor-card, body.theme-maes .server-card, body.theme-maes .g-card, body.theme-maes .stats-card, body.theme-maes .profile-card, body.theme-maes .login-card, body.theme-maes .modal-content-custom, body.theme-maes .modal-box, body.theme-maes .app-card, body.theme-maes .ad-card, body.theme-maes .video-card, body.theme-maes .pay-card, body.theme-maes .cat-card, body.theme-maes .log-card, body.theme-maes .plano-card, body.theme-maes .filters-card, body.theme-maes .links-card, body.theme-maes .form-card, body.theme-maes .action-card, body.theme-maes .limite-card, body.theme-maes .swal2-popup, body.theme-maes .swal2-modal, body.theme-maes .modal-content, body.theme-maes .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #f472b640 !important;
   border-radius: 24px !important;
@@ -2095,7 +2095,7 @@ body.theme-pais {
   --scr: #3b82f6 !important;
   background: radial-gradient(ellipse at 50% 0%, #3b82f626 0%, #0f172a 70%) !important;
 }
-body.theme-pais .modern-card, body.theme-pais .dash-card, body.theme-pais .user-card, body.theme-pais .revendedor-card, body.theme-pais .server-card, body.theme-pais .g-card, body.theme-pais .stats-card, body.theme-pais .profile-card, body.theme-pais .login-card, body.theme-pais .modal-content-custom, body.theme-pais .modal-box, body.theme-pais .app-card, body.theme-pais .ad-card, body.theme-pais .video-card, body.theme-pais .pay-card, body.theme-pais .cat-card, body.theme-pais .log-card, body.theme-pais .plano-card, body.theme-pais .filters-card, body.theme-pais .links-card, body.theme-pais .form-card, body.theme-pais .action-card, body.theme-pais .swal2-popup, body.theme-pais .swal2-modal, body.theme-pais .modal-content, body.theme-pais .modal-dialog {
+body.theme-pais .modern-card, body.theme-pais .dash-card, body.theme-pais .user-card, body.theme-pais .revendedor-card, body.theme-pais .server-card, body.theme-pais .g-card, body.theme-pais .stats-card, body.theme-pais .profile-card, body.theme-pais .login-card, body.theme-pais .modal-content-custom, body.theme-pais .modal-box, body.theme-pais .app-card, body.theme-pais .ad-card, body.theme-pais .video-card, body.theme-pais .pay-card, body.theme-pais .cat-card, body.theme-pais .log-card, body.theme-pais .plano-card, body.theme-pais .filters-card, body.theme-pais .links-card, body.theme-pais .form-card, body.theme-pais .action-card, body.theme-pais .limite-card, body.theme-pais .swal2-popup, body.theme-pais .swal2-modal, body.theme-pais .modal-content, body.theme-pais .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #3b82f640 !important;
   border-radius: 0 !important;
@@ -2147,7 +2147,7 @@ body.theme-anonovo-fogo {
   --scr: #fbbf24 !important;
   background: radial-gradient(ellipse at 50% 0%, #fbbf2426 0%, #0f172a 70%) !important;
 }
-body.theme-anonovo-fogo .modern-card, body.theme-anonovo-fogo .dash-card, body.theme-anonovo-fogo .user-card, body.theme-anonovo-fogo .revendedor-card, body.theme-anonovo-fogo .server-card, body.theme-anonovo-fogo .g-card, body.theme-anonovo-fogo .stats-card, body.theme-anonovo-fogo .profile-card, body.theme-anonovo-fogo .login-card, body.theme-anonovo-fogo .modal-content-custom, body.theme-anonovo-fogo .modal-box, body.theme-anonovo-fogo .app-card, body.theme-anonovo-fogo .ad-card, body.theme-anonovo-fogo .video-card, body.theme-anonovo-fogo .pay-card, body.theme-anonovo-fogo .cat-card, body.theme-anonovo-fogo .log-card, body.theme-anonovo-fogo .plano-card, body.theme-anonovo-fogo .filters-card, body.theme-anonovo-fogo .links-card, body.theme-anonovo-fogo .form-card, body.theme-anonovo-fogo .action-card, body.theme-anonovo-fogo .swal2-popup, body.theme-anonovo-fogo .swal2-modal, body.theme-anonovo-fogo .modal-content, body.theme-anonovo-fogo .modal-dialog {
+body.theme-anonovo-fogo .modern-card, body.theme-anonovo-fogo .dash-card, body.theme-anonovo-fogo .user-card, body.theme-anonovo-fogo .revendedor-card, body.theme-anonovo-fogo .server-card, body.theme-anonovo-fogo .g-card, body.theme-anonovo-fogo .stats-card, body.theme-anonovo-fogo .profile-card, body.theme-anonovo-fogo .login-card, body.theme-anonovo-fogo .modal-content-custom, body.theme-anonovo-fogo .modal-box, body.theme-anonovo-fogo .app-card, body.theme-anonovo-fogo .ad-card, body.theme-anonovo-fogo .video-card, body.theme-anonovo-fogo .pay-card, body.theme-anonovo-fogo .cat-card, body.theme-anonovo-fogo .log-card, body.theme-anonovo-fogo .plano-card, body.theme-anonovo-fogo .filters-card, body.theme-anonovo-fogo .links-card, body.theme-anonovo-fogo .form-card, body.theme-anonovo-fogo .action-card, body.theme-anonovo-fogo .limite-card, body.theme-anonovo-fogo .swal2-popup, body.theme-anonovo-fogo .swal2-modal, body.theme-anonovo-fogo .modal-content, body.theme-anonovo-fogo .modal-dialog {
   background: rgba(15,23,42,0.7) !important;
   border: 1px solid #fbbf2440 !important;
   border-radius: 30px 0 30px 0 !important;
@@ -2183,4 +2183,87 @@ body.theme-anonovo-fogo i, body.theme-anonovo-fogo .bx, body.theme-anonovo-fogo 
 }
 body.theme-anonovo-fogo input, body.theme-anonovo-fogo select, body.theme-anonovo-fogo textarea, body.theme-anonovo-fogo .form-control {
   background: #fbbf2414 !important; border: 1px solid #fbbf2440 !important; border-radius: 12px !important; color: #fff !important;
+}
+
+/* ============================================================
+ *  GENERIC THEME OVERRIDES — Sidebar, Top Header, Nav Icons
+ *  These rules use CSS variables defined by each theme above.
+ * ============================================================ */
+
+/* Sidebar Menu: glassmorphism matching the active theme */
+body[class*="theme-"] .side-menu {
+  background: rgba(15,23,42,0.85) !important;
+  border-right: 1px solid var(--bdr) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.3) !important;
+}
+
+/* Top Header: glassmorphism matching the active theme */
+body[class*="theme-"] .top-header {
+  background: rgba(15,23,42,0.85) !important;
+  border: 1px solid var(--bdr) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+}
+
+/* Content wrapper & main-wrap: transparent so body theme background shows */
+body[class*="theme-"] .content-wrapper-new,
+body[class*="theme-"] .main-wrap {
+  background: transparent !important;
+}
+
+/* Nav icon containers: restore colored square backgrounds (undo gradient text clip) */
+body[class*="theme-"] .nav-icon,
+body[class*="theme-"] .sub-icon,
+body[class*="theme-"] .stat-icon,
+body[class*="theme-"] .dci {
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+}
+
+/* Nav icon containers: use theme accent color for background */
+body[class*="theme-"] .nav-icon {
+  background: var(--bdr) !important;
+}
+body[class*="theme-"] .sub-icon {
+  background: var(--bdr) !important;
+}
+
+/* Icons inside nav containers: keep gradient text */
+body[class*="theme-"] .nav-icon i,
+body[class*="theme-"] .nav-icon .bx,
+body[class*="theme-"] .sub-icon i,
+body[class*="theme-"] .sub-icon .bx {
+  background: var(--grad) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* Stat icons and dash-card icons: keep their original gradient backgrounds */
+body[class*="theme-"] .dci[class*="ic-"] {
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+}
+body[class*="theme-"] .stat-icon {
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+}
+
+/* Active nav link: use theme accent */
+body[class*="theme-"] .nav-link-main.active {
+  background: var(--bdr) !important;
+}
+
+/* Sidebar border accents */
+body[class*="theme-"] .side-menu-logo {
+  border-bottom: 1px solid var(--bdr) !important;
+}
+body[class*="theme-"] .side-menu-user {
+  border-bottom: 1px solid var(--bdr) !important;
 }
