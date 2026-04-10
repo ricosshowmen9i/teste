@@ -1,0 +1,244 @@
+[2026-04-01 11:55:23] === INÍCIO DO PROCESSO DE SUSPENSÃO ===
+[2026-04-01 11:55:23] Usuário logado: admin
+[2026-04-01 11:55:23] Conectou ao banco de dados
+[2026-04-01 11:55:23] ID recebido: 288
+[2026-04-01 11:55:23] Usuário encontrado: Login=mega557, Categoria=1, UUID=, Status=
+[2026-04-01 11:55:23] Encontrados 2 servidores para categoria 1
+[2026-04-01 11:55:23] Processando servidor: 209.14.84.173 (ID: 7)
+[2026-04-01 11:55:23] Conexão OK com 209.14.84.173
+[2026-04-01 11:55:23] Buscando token para servidor ID: 7
+[2026-04-01 11:55:23] Token encontrado para servidor 7
+[2026-04-01 11:55:23] Comando: sudo /etc/xis/atlassuspend.sh 'mega557'
+[2026-04-01 11:55:23] Processando servidor: 45.232.231.199 (ID: 9)
+[2026-04-01 11:55:23] Conexão OK com 45.232.231.199
+[2026-04-01 11:55:23] Buscando token para servidor ID: 9
+[2026-04-01 11:55:23] Token encontrado para servidor 9
+[2026-04-01 11:55:23] Comando: sudo /etc/xis/atlassuspend.sh 'mega557'
+[2026-04-01 11:55:23] Executando loop de timers...
+[2026-04-01 11:55:23] Enviando comando para 209.14.84.173...
+[2026-04-01 11:55:24] Resposta de 209.14.84.173 - HTTP Code: 200
+[2026-04-01 11:55:24] Output: 1
+
+[2026-04-01 11:55:24] Enviando comando para 45.232.231.199...
+[2026-04-01 11:55:25] Resposta de 45.232.231.199 - HTTP Code: 200
+[2026-04-01 11:55:25] Output: 1
+
+[2026-04-01 11:55:25] Loop finalizado
+[2026-04-01 11:55:25] Servidores com sucesso: 2
+[2026-04-01 11:55:25] Servidores com erro: 0
+[2026-04-01 11:55:25] SUCESSO, atualizando banco...
+[2026-04-01 11:55:25] Banco atualizado
+[2026-04-01 11:55:25] CONCLUÍDO COM SUCESSO
+[2026-04-01 15:01:38] === INÍCIO DO PROCESSO DE SUSPENSÃO ===
+[2026-04-01 15:01:38] Usuário logado: admin
+[2026-04-01 15:01:38] Conectou ao banco de dados
+[2026-04-01 15:01:38] ID recebido: 274
+[2026-04-01 15:01:38] Usuário encontrado: Login=mega20, Categoria=1, UUID=, Status=Vencido
+[2026-04-01 15:01:38] Encontrados 2 servidores para categoria 1
+[2026-04-01 15:01:38] Processando servidor: 209.14.84.173 (ID: 7)
+[2026-04-01 15:01:38] Conexão OK com 209.14.84.173
+[2026-04-01 15:01:38] Buscando token para servidor ID: 7
+[2026-04-01 15:01:38] Token encontrado para servidor 7
+[2026-04-01 15:01:38] Comando: sudo /etc/xis/atlassuspend.sh 'mega20'
+[2026-04-01 15:01:38] Processando servidor: 45.232.231.199 (ID: 9)
+[2026-04-01 15:01:38] Conexão OK com 45.232.231.199
+[2026-04-01 15:01:38] Buscando token para servidor ID: 9
+[2026-04-01 15:01:38] Token encontrado para servidor 9
+[2026-04-01 15:01:38] Comando: sudo /etc/xis/atlassuspend.sh 'mega20'
+[2026-04-01 15:01:38] Executando loop de timers...
+[2026-04-01 15:01:38] Enviando comando para 209.14.84.173...
+[2026-04-01 15:01:38] Resposta de 209.14.84.173 - HTTP Code: 200
+[2026-04-01 15:01:38] Output: Erro ao executar comando
+[2026-04-01 15:01:38] Enviando comando para 45.232.231.199...
+[2026-04-01 15:01:38] Resposta de 45.232.231.199 - HTTP Code: 200
+[2026-04-01 15:01:38] Output: Erro ao executar comando
+[2026-04-01 15:01:38] Loop finalizado
+[2026-04-01 15:01:38] Servidores com sucesso: 2
+[2026-04-01 15:01:38] Servidores com erro: 0
+[2026-04-01 15:01:38] SUCESSO, atualizando banco...
+[2026-04-01 15:01:38] Banco atualizado
+[2026-04-01 15:01:38] CONCLUÍDO COM SUCESSO
+[2026-04-01 16:25:40] === INÍCIO DO PROCESSO DE SUSPENSÃO ===
+[2026-04-01 16:25:40] Usuário logado: admin
+[2026-04-01 16:25:40] Conectou ao banco de dados
+[2026-04-01 16:25:40] ID recebido: 238
+[2026-04-01 16:25:40] Usuário encontrado: Login=User5446, Categoria=1, UUID=, Status=NULL
+[2026-04-01 16:25:40] Encontrados 2 servidores para categoria 1
+[2026-04-01 16:25:40] Processando servidor: 209.14.84.173 (ID: 7)
+[2026-04-01 16:25:40] Conexão OK com 209.14.84.173
+[2026-04-01 16:25:40] Buscando token para servidor ID: 7
+[2026-04-01 16:25:40] Token encontrado para servidor 7
+[2026-04-01 16:25:40] Comando: sudo /etc/xis/atlassuspend.sh 'User5446'
+[2026-04-01 16:25:40] Processando servidor: 45.232.231.199 (ID: 9)
+[2026-04-01 16:25:40] Conexão OK com 45.232.231.199
+[2026-04-01 16:25:40] Buscando token para servidor ID: 9
+[2026-04-01 16:25:40] Token encontrado para servidor 9
+[2026-04-01 16:25:40] Comando: sudo /etc/xis/atlassuspend.sh 'User5446'
+[2026-04-01 16:25:40] Executando loop de timers...
+[2026-04-01 16:25:40] Enviando comando para 209.14.84.173...
+[2026-04-01 16:25:40] Resposta de 209.14.84.173 - HTTP Code: 200
+[2026-04-01 16:25:40] Output: 1
+
+[2026-04-01 16:25:40] Enviando comando para 45.232.231.199...
+[2026-04-01 16:25:40] Resposta de 45.232.231.199 - HTTP Code: 200
+[2026-04-01 16:25:40] Output: Erro ao executar comando
+[2026-04-01 16:25:40] Loop finalizado
+[2026-04-01 16:25:40] Servidores com sucesso: 2
+[2026-04-01 16:25:40] Servidores com erro: 0
+[2026-04-01 16:25:40] SUCESSO, atualizando banco...
+[2026-04-01 16:25:40] Banco atualizado
+[2026-04-01 16:25:40] CONCLUÍDO COM SUCESSO
+[2026-04-01 16:25:49] === INÍCIO DO PROCESSO DE SUSPENSÃO ===
+[2026-04-01 16:25:49] Usuário logado: admin
+[2026-04-01 16:25:49] Conectou ao banco de dados
+[2026-04-01 16:25:49] ID recebido: 234
+[2026-04-01 16:25:49] Usuário encontrado: Login=User5582, Categoria=1, UUID=, Status=
+[2026-04-01 16:25:49] Encontrados 2 servidores para categoria 1
+[2026-04-01 16:25:49] Processando servidor: 209.14.84.173 (ID: 7)
+[2026-04-01 16:25:49] Conexão OK com 209.14.84.173
+[2026-04-01 16:25:49] Buscando token para servidor ID: 7
+[2026-04-01 16:25:49] Token encontrado para servidor 7
+[2026-04-01 16:25:49] Comando: sudo /etc/xis/atlassuspend.sh 'User5582'
+[2026-04-01 16:25:49] Processando servidor: 45.232.231.199 (ID: 9)
+[2026-04-01 16:25:49] Conexão OK com 45.232.231.199
+[2026-04-01 16:25:49] Buscando token para servidor ID: 9
+[2026-04-01 16:25:49] Token encontrado para servidor 9
+[2026-04-01 16:25:49] Comando: sudo /etc/xis/atlassuspend.sh 'User5582'
+[2026-04-01 16:25:49] Executando loop de timers...
+[2026-04-01 16:25:49] Enviando comando para 209.14.84.173...
+[2026-04-01 16:25:50] Resposta de 209.14.84.173 - HTTP Code: 200
+[2026-04-01 16:25:50] Output: 1
+
+[2026-04-01 16:25:50] Enviando comando para 45.232.231.199...
+[2026-04-01 16:25:50] Resposta de 45.232.231.199 - HTTP Code: 200
+[2026-04-01 16:25:50] Output: 1
+
+[2026-04-01 16:25:50] Loop finalizado
+[2026-04-01 16:25:50] Servidores com sucesso: 2
+[2026-04-01 16:25:50] Servidores com erro: 0
+[2026-04-01 16:25:50] SUCESSO, atualizando banco...
+[2026-04-01 16:25:50] Banco atualizado
+[2026-04-01 16:25:50] CONCLUÍDO COM SUCESSO
+[2026-04-01 16:42:15] === INÍCIO DO PROCESSO DE SUSPENSÃO ===
+[2026-04-01 16:42:15] Usuário logado: admin
+[2026-04-01 16:42:15] Conectou ao banco de dados
+[2026-04-01 16:42:15] ID recebido: 239
+[2026-04-01 16:42:15] Usuário encontrado: Login=User4490, Categoria=1, UUID=, Status=NULL
+[2026-04-01 16:42:15] Encontrados 2 servidores para categoria 1
+[2026-04-01 16:42:15] Processando servidor: 209.14.84.173 (ID: 7)
+[2026-04-01 16:42:15] Conexão OK com 209.14.84.173
+[2026-04-01 16:42:15] Buscando token para servidor ID: 7
+[2026-04-01 16:42:15] Token encontrado para servidor 7
+[2026-04-01 16:42:15] Comando: sudo /etc/xis/atlassuspend.sh 'User4490'
+[2026-04-01 16:42:15] Processando servidor: 45.232.231.199 (ID: 9)
+[2026-04-01 16:42:15] Conexão OK com 45.232.231.199
+[2026-04-01 16:42:15] Buscando token para servidor ID: 9
+[2026-04-01 16:42:15] Token encontrado para servidor 9
+[2026-04-01 16:42:15] Comando: sudo /etc/xis/atlassuspend.sh 'User4490'
+[2026-04-01 16:42:15] Executando loop de timers...
+[2026-04-01 16:42:15] Enviando comando para 209.14.84.173...
+[2026-04-01 16:42:16] Resposta de 209.14.84.173 - HTTP Code: 200
+[2026-04-01 16:42:16] Output: 1
+
+[2026-04-01 16:42:16] Enviando comando para 45.232.231.199...
+[2026-04-01 16:42:16] Resposta de 45.232.231.199 - HTTP Code: 200
+[2026-04-01 16:42:16] Output: Erro ao executar comando
+[2026-04-01 16:42:16] Loop finalizado
+[2026-04-01 16:42:16] Servidores com sucesso: 2
+[2026-04-01 16:42:16] Servidores com erro: 0
+[2026-04-01 16:42:16] SUCESSO, atualizando banco...
+[2026-04-01 16:42:16] Banco atualizado
+[2026-04-01 16:42:16] CONCLUÍDO COM SUCESSO
+[2026-04-02 03:23:40] === INÍCIO DO PROCESSO DE SUSPENSÃO ===
+[2026-04-02 03:23:40] Usuário logado: admin
+[2026-04-02 03:23:40] Conectou ao banco de dados
+[2026-04-02 03:23:40] ID recebido: 300
+[2026-04-02 03:23:40] Usuário encontrado: Login=User69, Categoria=1, UUID=, Status=
+[2026-04-02 03:23:40] Encontrados 2 servidores para categoria 1
+[2026-04-02 03:23:40] Processando servidor: 209.14.84.173 (ID: 7)
+[2026-04-02 03:23:40] Conexão OK com 209.14.84.173
+[2026-04-02 03:23:40] Buscando token para servidor ID: 7
+[2026-04-02 03:23:40] Token encontrado para servidor 7
+[2026-04-02 03:23:40] Comando: sudo /etc/xis/atlassuspend.sh 'User69'
+[2026-04-02 03:23:40] Processando servidor: 45.232.231.199 (ID: 9)
+[2026-04-02 03:23:40] Conexão OK com 45.232.231.199
+[2026-04-02 03:23:40] Buscando token para servidor ID: 9
+[2026-04-02 03:23:40] Token encontrado para servidor 9
+[2026-04-02 03:23:40] Comando: sudo /etc/xis/atlassuspend.sh 'User69'
+[2026-04-02 03:23:40] Executando loop de timers...
+[2026-04-02 03:23:40] Enviando comando para 209.14.84.173...
+[2026-04-02 03:23:41] Resposta de 209.14.84.173 - HTTP Code: 200
+[2026-04-02 03:23:41] Output: 1
+
+[2026-04-02 03:23:41] Enviando comando para 45.232.231.199...
+[2026-04-02 03:23:42] Resposta de 45.232.231.199 - HTTP Code: 200
+[2026-04-02 03:23:42] Output: 1
+
+[2026-04-02 03:23:42] Loop finalizado
+[2026-04-02 03:23:42] Servidores com sucesso: 2
+[2026-04-02 03:23:42] Servidores com erro: 0
+[2026-04-02 03:23:42] SUCESSO, atualizando banco...
+[2026-04-02 03:23:42] Banco atualizado
+[2026-04-02 03:23:42] CONCLUÍDO COM SUCESSO
+[2026-04-02 03:23:57] === INÍCIO DO PROCESSO DE SUSPENSÃO ===
+[2026-04-02 03:23:57] Usuário logado: admin
+[2026-04-02 03:23:57] Conectou ao banco de dados
+[2026-04-02 03:23:57] ID recebido: 300
+[2026-04-02 03:23:57] Usuário encontrado: Login=User69, Categoria=1, UUID=, Status=
+[2026-04-02 03:23:57] Encontrados 2 servidores para categoria 1
+[2026-04-02 03:23:57] Processando servidor: 209.14.84.173 (ID: 7)
+[2026-04-02 03:23:57] Conexão OK com 209.14.84.173
+[2026-04-02 03:23:57] Buscando token para servidor ID: 7
+[2026-04-02 03:23:57] Token encontrado para servidor 7
+[2026-04-02 03:23:57] Comando: sudo /etc/xis/atlassuspend.sh 'User69'
+[2026-04-02 03:23:57] Processando servidor: 45.232.231.199 (ID: 9)
+[2026-04-02 03:23:57] Conexão OK com 45.232.231.199
+[2026-04-02 03:23:57] Buscando token para servidor ID: 9
+[2026-04-02 03:23:57] Token encontrado para servidor 9
+[2026-04-02 03:23:57] Comando: sudo /etc/xis/atlassuspend.sh 'User69'
+[2026-04-02 03:23:57] Executando loop de timers...
+[2026-04-02 03:23:58] Enviando comando para 209.14.84.173...
+[2026-04-02 03:23:58] Resposta de 209.14.84.173 - HTTP Code: 200
+[2026-04-02 03:23:58] Output: 1
+
+[2026-04-02 03:23:58] Enviando comando para 45.232.231.199...
+[2026-04-02 03:23:59] Resposta de 45.232.231.199 - HTTP Code: 200
+[2026-04-02 03:23:59] Output: 1
+
+[2026-04-02 03:23:59] Loop finalizado
+[2026-04-02 03:23:59] Servidores com sucesso: 2
+[2026-04-02 03:23:59] Servidores com erro: 0
+[2026-04-02 03:23:59] SUCESSO, atualizando banco...
+[2026-04-02 03:23:59] Banco atualizado
+[2026-04-02 03:23:59] CONCLUÍDO COM SUCESSO
+[2026-04-02 03:37:55] === INÍCIO DO PROCESSO DE SUSPENSÃO ===
+[2026-04-02 03:37:55] Usuário logado: admin
+[2026-04-02 03:37:55] Conectou ao banco de dados
+[2026-04-02 03:37:55] ID recebido: 301
+[2026-04-02 03:37:55] Usuário encontrado: Login=User75, Categoria=1, UUID=, Status=NULL
+[2026-04-02 03:37:55] Encontrados 2 servidores para categoria 1
+[2026-04-02 03:37:55] Processando servidor: 209.14.84.173 (ID: 7)
+[2026-04-02 03:37:55] Conexão OK com 209.14.84.173
+[2026-04-02 03:37:55] Buscando token para servidor ID: 7
+[2026-04-02 03:37:55] Token encontrado para servidor 7
+[2026-04-02 03:37:55] Comando: sudo /etc/xis/atlassuspend.sh 'User75'
+[2026-04-02 03:37:55] Processando servidor: 45.232.231.199 (ID: 9)
+[2026-04-02 03:37:55] Conexão OK com 45.232.231.199
+[2026-04-02 03:37:55] Buscando token para servidor ID: 9
+[2026-04-02 03:37:55] Token encontrado para servidor 9
+[2026-04-02 03:37:55] Comando: sudo /etc/xis/atlassuspend.sh 'User75'
+[2026-04-02 03:37:55] Executando loop de timers...
+[2026-04-02 03:37:55] Enviando comando para 209.14.84.173...
+[2026-04-02 03:37:56] Resposta de 209.14.84.173 - HTTP Code: 200
+[2026-04-02 03:37:56] Output: 1
+
+[2026-04-02 03:37:56] Enviando comando para 45.232.231.199...
+[2026-04-02 03:37:57] Resposta de 45.232.231.199 - HTTP Code: 200
+[2026-04-02 03:37:57] Output: 1
+
+[2026-04-02 03:37:57] Loop finalizado
+[2026-04-02 03:37:57] Servidores com sucesso: 2
+[2026-04-02 03:37:57] Servidores com erro: 0
+[2026-04-02 03:37:57] SUCESSO, atualizando banco...
+[2026-04-02 03:37:57] Banco atualizado
+[2026-04-02 03:37:57] CONCLUÍDO COM SUCESSO
