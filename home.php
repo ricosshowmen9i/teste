@@ -455,7 +455,7 @@ if (
                             <img src="<?php echo $avatar_url; ?>" style="width:50px;height:50px;border-radius:12px;object-fit:cover;border:2px solid rgba(255,255,255,0.2);">
                             <div style="text-align:left;">
                                 <div style="font-size:16px;font-weight:700;"><?php echo htmlspecialchars($nome_usuario); ?></div>
-                                <div style="font-size:12px;color:rgba(255,255,255,0.5);">ID: <?php echo $_SESSION['iduser']; ?></div>
+                                <div style="font-size:12px;color:rgba(255,255,255,0.5);">ID: <?php echo htmlspecialchars($_SESSION['iduser']); ?></div>
                             </div>
                         </div>
                         <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(255,255,255,0.05);font-size:13px;">
@@ -581,7 +581,7 @@ function verificarPagBloq() {
                 statusDiv.style.color = '#10b981';
                 document.getElementById('modalPagHeader').style.background = 'linear-gradient(135deg,#10b981,#059669)';
                 document.getElementById('modalPagTitulo').innerText = 'Pagamento Aprovado!';
-                setTimeout(function() { window.location.href = 'home.php'; }, 3000);
+                setTimeout(function() { window.location.reload(); }, 3000);
             } else if (data.status === 'error') {
                 statusDiv.innerHTML = '<i class="bx bx-error-circle"></i> ⚠️ ' + data.message;
                 statusDiv.style.background = 'rgba(220,38,38,0.15)';
