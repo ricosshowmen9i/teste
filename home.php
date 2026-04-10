@@ -399,6 +399,8 @@ if (
                     <?php elseif ($motivo_bloqueio == 'revendedor_vencido'): ?>
                         <a href="AegisCore/renovacao.php?tipo=revendedor&id=<?php echo $revendedor_id; ?>" class="btn btn-warning"><i class='bx bx-refresh'></i> Renovar Revenda</a>
                         <a href="AegisCore/pagamento.php" class="btn btn-primary"><i class='bx bx-help-circle'></i> Ajuda</a>
+                    <?php elseif ($motivo_bloqueio == 'suspenso_admin'): ?>
+                        <a href="AegisCore/renovar_plano.php" class="btn btn-warning"><i class='bx bx-credit-card'></i> Pagamento</a>
                     <?php endif; ?>
                     <a href="logout.php" class="btn btn-danger"><i class='bx bx-log-out'></i> Sair do Sistema</a>
                 </div>
