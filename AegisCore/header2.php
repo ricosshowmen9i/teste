@@ -22,7 +22,7 @@ if (!file_exists('../admin/suspenderrev.php')) {
     include_once '../admin/suspenderrev.php';
 }
 
-if (!$_h2_session_expired && $_h2_token_modal_js === '' && (!isset($_SESSION['sgdfsr43erfggfd4rgs3rsdfsdfsadfe']) || !isset($_SESSION['token']) || $_SESSION['tokenatual'] != $_SESSION['token'] || isset($_SESSION['token_invalido_']) && $_SESSION['token_invalido_'] === true)) {
+if (!$_h2_session_expired && $_h2_token_modal_js === '' && (!isset($_SESSION['sgdfsr43erfggfd4rgs3rsdfsdfsadfe']) || !isset($_SESSION['token']) || $_SESSION['tokenatual'] != $_SESSION['token'] || (isset($_SESSION['token_invalido_']) && $_SESSION['token_invalido_'] === true))) {
     if (function_exists('security')) {
         security();
     } else {
