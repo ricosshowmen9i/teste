@@ -202,6 +202,7 @@ if ($session_expired) {
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 <link rel="stylesheet" href="AegisCore/temas_visual.css">
+    <?php echo getFundoPersonalizadoCSS($conn, $temaLogin); ?>
 <style>
 :root {
     --bg1  : <?= $tBg1  ?>;
@@ -409,7 +410,6 @@ body[class] .login-card {
     .btn-login{font-size:15px;padding:13px}
 }
 </style>
-<?php echo getFundoPersonalizadoCSS($conn, $temaLogin); ?>
 </head>
 <body class="<?= htmlspecialchars($tClasse) ?>">
 
