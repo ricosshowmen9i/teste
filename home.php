@@ -197,7 +197,7 @@ $context = stream_context_create($contextOptions);
 $dataVenc = @file_get_contents($url, false, $context);
 $_SESSION['datavencimentotoken'] = $dataVenc;
 
-if (!file_exists('suspenderrev.php')) {
+if (!file_exists('admin/suspenderrev.php')) {
     echo "<script>
     document.addEventListener('DOMContentLoaded',function(){
         showTokenModal('ausente');
@@ -205,7 +205,7 @@ if (!file_exists('suspenderrev.php')) {
     </script>";
     // Não usa exit() para não quebrar o HTML — o modal avisa o usuário
 } else {
-    include_once 'suspenderrev.php';
+    include_once 'admin/suspenderrev.php';
 }
 
 // Validação de segurança reforçada
@@ -537,6 +537,7 @@ if (
     <?php
     include_once("AegisCore/temas.php");
     $temaHome = initTemas($conn);
+    echo getFundoPersonalizadoCSS($conn, $temaHome);
     ?>
     <style>
         <?php echo $csspersonali; ?>
@@ -615,7 +616,7 @@ if (
         .si-10 { background:rgba(6,182,212,0.2);  color:#22d3ee; }
 
         /* ========== CONTEÚDO ========== */
-        .main-wrap { margin-left: 220px; min-height: 100vh; background: #0f172a; }
+        .main-wrap { margin-left: 220px; min-height: 100vh; background: transparent; }
         .top-header { position: sticky; top: 0; z-index: 900; background: rgba(26,31,58,0.97); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.07); border-radius: 0 0 18px 18px; margin: 0 12px; padding: 0 18px; height: 54px; display: flex; align-items: center; justify-content: space-between; }
         .header-left { display: flex; align-items: center; gap: 8px; }
         .membro-desde { position: absolute; left: 50%; transform: translateX(-50%); font-size: 11px; color: rgba(255,255,255,0.35); display: flex; align-items: center; gap: 5px; white-space: nowrap; }
