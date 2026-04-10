@@ -53,6 +53,20 @@ if (isset($_POST['criar_pagamento_bloqueado']) || isset($_POST['verificar_pagame
     $limite_atual = $atribuicao['limite'];
     $expira_atual = $atribuicao['expira'];
 
+    // Se valor da atribuição é 0, tentar buscar do plano
+    if ($valor_revenda <= 0 && !empty($atribuicao['id_plano'])) {
+        $sql_plano_val = $conn->prepare("SELECT valor FROM planos_pagamento WHERE id=? LIMIT 1");
+        if ($sql_plano_val) {
+            $sql_plano_val->bind_param('i', $atribuicao['id_plano']);
+            $sql_plano_val->execute();
+            $res_plano_val = $sql_plano_val->get_result();
+            if ($res_plano_val && $res_plano_val->num_rows > 0) {
+                $row_plano_val = $res_plano_val->fetch_assoc();
+                $valor_revenda = floatval($row_plano_val['valor']);
+            }
+        }
+    }
+
     // Dados da conta do revendedor
     $sql_acc = $conn->prepare("SELECT login, senha, whatsapp, contato, email FROM accounts WHERE id=? LIMIT 1");
     $sql_acc->bind_param('i', $user_id);
@@ -354,22 +368,45 @@ if (isset($_POST['submit'])) {
                             $bloq_byid = intval($ar['byid']);
                             $bloq_valor_renovacao = floatval($ar['valor'] ?? 0);
                             $bloq_mp_disponivel = false;
+                            $bloq_mp_nao_configurado = false;
                             $bloq_valor_formatado = '0,00';
                             $bloq_data_vencimento = $ar['expira'] ?? '';
 
-                            if ($bloq_valor_renovacao > 0) {
-                                $sql_pai_mp = $conn->prepare("SELECT mp_access_token, mp_active FROM accounts WHERE id=? LIMIT 1");
-                                if ($sql_pai_mp) {
-                                    $sql_pai_mp->bind_param('i', $bloq_byid);
-                                    $sql_pai_mp->execute();
-                                    $res_pai_mp = $sql_pai_mp->get_result();
-                                    if ($res_pai_mp && $res_pai_mp->num_rows > 0) {
-                                        $pai_mp = $res_pai_mp->fetch_assoc();
-                                        if ($pai_mp['mp_active'] == 1 && !empty($pai_mp['mp_access_token'])) {
-                                            $bloq_mp_disponivel = true;
-                                        }
+                            // Se valor da atribuição é 0, tentar buscar do plano
+                            if ($bloq_valor_renovacao <= 0 && !empty($ar['id_plano'])) {
+                                $sql_plano_val = $conn->prepare("SELECT valor FROM planos_pagamento WHERE id=? LIMIT 1");
+                                if ($sql_plano_val) {
+                                    $sql_plano_val->bind_param('i', $ar['id_plano']);
+                                    $sql_plano_val->execute();
+                                    $res_plano_val = $sql_plano_val->get_result();
+                                    if ($res_plano_val && $res_plano_val->num_rows > 0) {
+                                        $row_plano_val = $res_plano_val->fetch_assoc();
+                                        $bloq_valor_renovacao = floatval($row_plano_val['valor']);
                                     }
                                 }
+                            }
+
+                            // Verificar configuração do Mercado Pago do pai
+                            $sql_pai_mp = $conn->prepare("SELECT mp_access_token, mp_active FROM accounts WHERE id=? LIMIT 1");
+                            if ($sql_pai_mp) {
+                                $sql_pai_mp->bind_param('i', $bloq_byid);
+                                $sql_pai_mp->execute();
+                                $res_pai_mp = $sql_pai_mp->get_result();
+                                if ($res_pai_mp && $res_pai_mp->num_rows > 0) {
+                                    $pai_mp = $res_pai_mp->fetch_assoc();
+                                    if ($pai_mp['mp_active'] == 1 && !empty($pai_mp['mp_access_token'])) {
+                                        if ($bloq_valor_renovacao > 0) {
+                                            $bloq_mp_disponivel = true;
+                                        }
+                                    } else {
+                                        $bloq_mp_nao_configurado = true;
+                                    }
+                                } else {
+                                    $bloq_mp_nao_configurado = true;
+                                }
+                            }
+
+                            if ($bloq_valor_renovacao > 0) {
                                 $bloq_valor_formatado = number_format($bloq_valor_renovacao, 2, ',', '.');
                             }
                         }
@@ -1082,11 +1119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         buttons:<?php echo (isset($bloq_mp_disponivel) && $bloq_mp_disponivel) ? "['OK', '💳 Pagamento - R$ " . $bloq_valor_formatado . "']" : "['OK', '💳 Pagamento']"; ?>,
         dangerMode:true
     }).then(function(v){
-        <?php if (isset($bloq_mp_disponivel) && $bloq_mp_disponivel): ?>
         if(v) abrirModalPagBloq();
-        <?php else: ?>
-        if(v) window.location.href='home.php';
-        <?php endif; ?>
     });
 });
 <?php elseif ($show_modal && $alert_type == 'vencido'): ?>
@@ -1098,11 +1131,7 @@ document.addEventListener('DOMContentLoaded', function() {
         buttons:<?php echo (isset($bloq_mp_disponivel) && $bloq_mp_disponivel) ? "['OK', '💳 Pagamento - R$ " . $bloq_valor_formatado . "']" : "['OK', '💳 Pagamento']"; ?>,
         dangerMode:false
     }).then(function(v){
-        <?php if (isset($bloq_mp_disponivel) && $bloq_mp_disponivel): ?>
         if(v) abrirModalPagBloq();
-        <?php else: ?>
-        if(v) window.location.href='home.php';
-        <?php endif; ?>
     });
 });
 <?php endif; ?>
@@ -1126,18 +1155,19 @@ document.addEventListener('DOMContentLoaded', function() {
 fetch('admin/notific.php', { method: 'POST' }).then(function(){}).catch(function(){});
 </script>
 
-<?php if (isset($bloq_mp_disponivel) && $bloq_mp_disponivel): ?>
+<?php if ($show_modal && ($alert_type == 'suspended' || $alert_type == 'vencido')): ?>
 <!-- Modal de Pagamento PIX para revendedor bloqueado -->
 <div id="modalPagBloqLogin" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:99999;backdrop-filter:blur(8px);">
     <div style="animation:modalPagBloqIn 0.4s cubic-bezier(0.34,1.2,0.64,1);max-width:500px;width:90%;">
         <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,0.15);box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
-            <div id="modalPagBloqHeader" style="background:linear-gradient(135deg,#10b981,#059669);color:white;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);">
+            <div id="modalPagBloqHeader" style="background:linear-gradient(135deg,<?php echo (isset($bloq_mp_disponivel) && $bloq_mp_disponivel) ? '#10b981,#059669' : '#f59e0b,#f97316'; ?>);color:white;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);">
                 <h5 style="margin:0;display:flex;align-items:center;gap:10px;font-size:18px;font-weight:600;">
-                    <i class='bx bx-credit-card'></i> <span id="modalPagBloqTitulo">Pagamento PIX</span>
+                    <i class='bx <?php echo (isset($bloq_mp_disponivel) && $bloq_mp_disponivel) ? 'bx-credit-card' : 'bx-error-circle'; ?>'></i> <span id="modalPagBloqTitulo"><?php echo (isset($bloq_mp_disponivel) && $bloq_mp_disponivel) ? 'Pagamento PIX' : 'Pagamento Indisponível'; ?></span>
                 </h5>
                 <button onclick="fecharModalPagBloq()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;opacity:.8;"><i class='bx bx-x'></i></button>
             </div>
             <div style="padding:24px;color:white;max-height:75vh;overflow-y:auto;text-align:center;">
+                <?php if (isset($bloq_mp_disponivel) && $bloq_mp_disponivel): ?>
                 <!-- Etapa 1: Informações do pagamento -->
                 <div id="etapaPagBloqInfo">
                     <div style="background:rgba(255,255,255,0.05);border-radius:16px;padding:20px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.08);">
@@ -1191,6 +1221,40 @@ fetch('admin/notific.php', { method: 'POST' }).then(function(){}).catch(function
                         <i class='bx bx-refresh'></i> Verificar Status
                     </button>
                 </div>
+                <?php else: ?>
+                <!-- Pagamento não disponível -->
+                <div style="padding:20px 0;">
+                    <div style="width:80px;height:80px;border-radius:50%;background:rgba(245,158,11,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                        <i class='bx bx-error-circle' style="font-size:48px;color:#f59e0b;"></i>
+                    </div>
+                    <h3 style="font-size:20px;font-weight:700;margin-bottom:12px;color:white;">Pagamento Indisponível</h3>
+                    <?php if (isset($bloq_mp_nao_configurado) && $bloq_mp_nao_configurado): ?>
+                    <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;margin-bottom:20px;">
+                        O pagamento via PIX não está configurado pelo seu administrador no momento.
+                    </p>
+                    <?php elseif (isset($bloq_valor_renovacao) && $bloq_valor_renovacao <= 0): ?>
+                    <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;margin-bottom:20px;">
+                        O valor de renovação ainda não foi definido para sua conta.
+                    </p>
+                    <?php else: ?>
+                    <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;margin-bottom:20px;">
+                        O pagamento automático não está disponível no momento.
+                    </p>
+                    <?php endif; ?>
+                    <div style="background:rgba(59,130,246,0.1);border-left:3px solid #3b82f6;padding:16px;border-radius:8px;margin-bottom:24px;text-align:left;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                            <i class='bx bx-support' style="color:#3b82f6;font-size:18px;"></i>
+                            <span style="font-weight:600;font-size:13px;">Entre em contato com o suporte</span>
+                        </div>
+                        <small style="color:rgba(255,255,255,0.5);font-size:12px;">
+                            Solicite ao seu administrador que configure o pagamento via PIX ou entre em contato para regularizar sua situação.
+                        </small>
+                    </div>
+                    <button onclick="fecharModalPagBloq()" style="width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:white;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:all 0.2s;">
+                        <i class='bx bx-check'></i> Entendido
+                    </button>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
