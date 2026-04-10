@@ -180,10 +180,10 @@ if (!$isPostCriar && !$isPostVerificar) {
 }
 
 // Verificar token
-if (!file_exists('/admin/suspenderrev.php')) {
-    error_log("suspenderrev.php nÃ£o encontrado");
+if (!file_exists('../admin/suspenderrev.php')) {
+    error_log("suspenderrev.php não encontrado");
 } else {
-    include_once '/admin/suspenderrev.php';
+    include_once '../admin/suspenderrev.php';
 }
 
 if (!isset($_SESSION['sgdfsr43erfggfd4rgs3rsdfsdfsadfe']) || !isset($_SESSION['token']) || $_SESSION['tokenatual'] != $_SESSION['token'] || isset($_SESSION['token_invalido_']) && $_SESSION['token_invalido_'] === true) {
