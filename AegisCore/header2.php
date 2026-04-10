@@ -103,9 +103,10 @@ foreach ($linhas as $linha) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="../app-assets/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="../AegisCore/temas_visual.css">
+    <link rel="stylesheet" href="../AegisCore/temas_visual.css?v=<?php echo time(); ?>">
     <?php echo getFundoPersonalizadoCSS($conn, $_h2_tema); ?>
     <style>
+        <?php echo $csspersonali; ?>
         /* Base sem filtro de cor */
 
         /* ── RESET GLOBAL ── */
