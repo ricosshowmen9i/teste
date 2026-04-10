@@ -126,18 +126,45 @@ if (isset($_POST['submit'])) {
 
     if ($res && mysqli_num_rows($res) > 0) {
         $row = mysqli_fetch_assoc($res);
-        $_SESSION['iduser'] = $row['id'];
-        $_SESSION['login']  = $row['login'];
-        $_SESSION['senha']  = $row['senha'];
-        if (!empty($_POST['remember'])) {
-            setcookie('remember_login', base64_encode($login), time()+86400*30, '/');
-            setcookie('remember_senha', base64_encode($senha), time()+86400*30, '/');
-        } else {
-            setcookie('remember_login','',time()-3600,'/');
-            setcookie('remember_senha','',time()-3600,'/');
+        $blocked = false;
+        if ($row['id'] != 1) {
+            $atrib_stmt = $conn->prepare("SELECT suspenso, expira, tipo FROM atribuidos WHERE userid=? LIMIT 1");
+            if ($atrib_stmt) {
+                $atrib_stmt->bind_param('i', $row['id']);
+                $atrib_stmt->execute();
+                $atrib_r = $atrib_stmt->get_result();
+            } else {
+                $atrib_r = false;
+            }
+            if ($atrib_r && $atrib_r->num_rows > 0) {
+                $ar = $atrib_r->fetch_assoc();
+                if ($ar['suspenso'] >= 1) {
+                    $alert_message = 'Sua conta está suspensa. Entre em contato com o suporte para regularizar sua situação.';
+                    $alert_type    = 'suspended';
+                    $show_modal    = true;
+                    $blocked       = true;
+                } elseif ($ar['tipo'] != 'Credito' && !empty($ar['expira']) && $ar['expira'] < date('Y-m-d H:i:s')) {
+                    $alert_message = 'Sua conta está vencida. Realize o pagamento para reativar o acesso.';
+                    $alert_type    = 'vencido';
+                    $show_modal    = true;
+                    $blocked       = true;
+                }
+            }
         }
-        $dest = ($row['id']==1) ? 'admin/home.php' : 'home.php';
-        echo "<script>window.location.href='$dest';</script>"; exit;
+        if (!$blocked) {
+            $_SESSION['iduser'] = $row['id'];
+            $_SESSION['login']  = $row['login'];
+            $_SESSION['senha']  = $row['senha'];
+            if (!empty($_POST['remember'])) {
+                setcookie('remember_login', base64_encode($login), time()+86400*30, '/');
+                setcookie('remember_senha', base64_encode($senha), time()+86400*30, '/');
+            } else {
+                setcookie('remember_login','',time()-3600,'/');
+                setcookie('remember_senha','',time()-3600,'/');
+            }
+            $dest = ($row['id']==1) ? 'admin/home.php' : 'home.php';
+            echo "<script>window.location.href='$dest';</script>"; exit;
+        }
     }
 
     // ssh_accounts (usuário comum)
@@ -364,9 +391,9 @@ body[class] .login-card {
 .modal-overlay.show{display:flex}
 .modal-box{
     max-width:400px;width:90%;
-    background:linear-gradient(145deg,#1e293b,#0f172a);
-    border-radius:20px;overflow:hidden;
-    border:1px solid rgba(255,255,255,.1);
+    background:var(--bg2,#1e293b);
+    border-radius:var(--shape,20px);overflow:hidden;
+    border:1px solid var(--bdr,rgba(255,255,255,.1));
     box-shadow:0 25px 55px rgba(0,0,0,.55);
     animation:mIn .3s ease;
 }
@@ -383,6 +410,8 @@ body[class] .login-card {
 @keyframes icp{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
 .mico .bx-error-circle{color:#dc2626}
 .mico .bx-time-five{color:#f59e0b}
+.mico .bx-lock-alt{color:#dc2626}
+.mico .bx-calendar-x{color:#f59e0b}
 .mttl{
     font-size:20px;font-weight:700;margin-bottom:8px;
     background:var(--grad);
@@ -482,6 +511,42 @@ body[class] .login-card {
   </div>
 </div>
 
+<!-- MODAL CONTA SUSPENSA -->
+<div id="mSuspenso" class="modal-overlay <?= ($show_modal&&$alert_type==='suspended')?'show':'' ?>">
+  <div class="modal-box">
+    <div class="mhdr err">
+      <h5><i class='bx bx-lock-alt'></i> Acesso Bloqueado</h5>
+      <button class="mx" onclick="closeM('mSuspenso')"><i class='bx bx-x'></i></button>
+    </div>
+    <div class="mbdy">
+      <div class="mico"><i class='bx bx-lock-alt'></i></div>
+      <div class="mttl">Conta Suspensa!</div>
+      <p class="mmsg"><?= htmlspecialchars($alert_message) ?></p>
+    </div>
+    <div class="mftr">
+      <button class="btnm red" onclick="closeM('mSuspenso')"><i class='bx bx-x'></i> Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONTA VENCIDA -->
+<div id="mVencido" class="modal-overlay <?= ($show_modal&&$alert_type==='vencido')?'show':'' ?>">
+  <div class="modal-box">
+    <div class="mhdr warn">
+      <h5><i class='bx bx-calendar-x'></i> Conta Vencida</h5>
+      <button class="mx" onclick="closeM('mVencido')"><i class='bx bx-x'></i></button>
+    </div>
+    <div class="mbdy">
+      <div class="mico"><i class='bx bx-calendar-x'></i></div>
+      <div class="mttl">Conta Vencida!</div>
+      <p class="mmsg"><?= htmlspecialchars($alert_message) ?></p>
+    </div>
+    <div class="mftr">
+      <button class="btnm yel" onclick="closeM('mVencido')"><i class='bx bx-x'></i> Fechar</button>
+    </div>
+  </div>
+</div>
+
 
 <script>
 function closeM(id){
@@ -494,7 +559,7 @@ document.querySelectorAll('.modal-overlay').forEach(function(m){
 });
 document.addEventListener('keydown',function(e){
     if(e.key==='Escape'){
-        ['mErro','mExp'].forEach(function(id){
+        ['mErro','mExp','mSuspenso','mVencido'].forEach(function(id){
             var el=document.getElementById(id);
             if(el&&el.classList.contains('show'))closeM(id);
         });

@@ -157,7 +157,6 @@ function aleatorio653751($input) {
     // ============================================================
     require_once 'vendor/autoload.php';
     $telegram = new \Telegram\Bot\Api('6163337935:AAE8uxSRfSkXHthlZtRr-tjpUPxzzxaiUcQ');
-$telegram = new Api('6163337935:AAE8uxSRfSkXHthlZtRr-tjpUPxzzxaiUcQ');
 $dominio = $_SERVER['HTTP_HOST'];
 
 $token = $_SESSION['token'] ?? '';
