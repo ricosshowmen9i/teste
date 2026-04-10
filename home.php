@@ -81,6 +81,7 @@ function aleatorio653751($input) {
     $valor_plano_revenda = '0.00';
     $nome_plano_revenda = '';
     $id_plano_atual = null;
+    $valor_revenda_renovacao = 0;
     
     while ($row1 = mysqli_fetch_assoc($result1)) {
         $_SESSION['expira']  = date('d/m/Y', strtotime($row1['expira']));
@@ -93,6 +94,7 @@ function aleatorio653751($input) {
         $limite_total        = $row1['limite'];
         $valor_plano_revenda = $row1['valormensal'] ?? '0.00';
         $id_plano_atual      = $row1['id_plano'] ?? null;
+        $valor_revenda_renovacao = floatval($row1['valor'] ?? 0);
     }
 
     if ($id_plano_atual) {
@@ -160,7 +162,23 @@ function aleatorio653751($input) {
         $row_data = mysqli_fetch_assoc($result_data);
         $data_vencimento_exibicao = $row_data['expira'] ?? $validade_conta;
         
-        
+        // ============================================================
+        // DADOS PARA MODAL DE PAGAMENTO (suspenso/vencido)
+        // ============================================================
+        $mp_pag_disponivel = false;
+        $valor_renovacao_formatado = '0,00';
+        if (($motivo_bloqueio == 'vencido' || $motivo_bloqueio == 'suspenso_admin') && $valor_revenda_renovacao > 0) {
+            $byid_pag = intval($_SESSION['byid']);
+            $sql_pai_mp = "SELECT mp_access_token, mp_active FROM accounts WHERE id = '$byid_pag'";
+            $result_pai_mp = mysqli_query($conn, $sql_pai_mp);
+            if ($result_pai_mp) {
+                $pai_mp = mysqli_fetch_assoc($result_pai_mp);
+                if ($pai_mp && $pai_mp['mp_active'] == 1 && !empty($pai_mp['mp_access_token'])) {
+                    $mp_pag_disponivel = true;
+                }
+            }
+            $valor_renovacao_formatado = number_format($valor_revenda_renovacao, 2, ',', '.');
+        }
         
 
     // ============================================================
@@ -395,18 +413,215 @@ if (
                 </div>
                 <div class="btn-group">
                     <?php if ($motivo_bloqueio == 'vencido'): ?>
-                        <a href="AegisCore/renovar_plano.php" class="btn btn-warning"><i class='bx bx-refresh'></i> Renovar Plano</a>
+                        <?php if ($mp_pag_disponivel): ?>
+                            <button type="button" class="btn btn-warning" onclick="abrirModalPagamento()"><i class='bx bx-refresh'></i> Renovar Plano - R$ <?php echo $valor_renovacao_formatado; ?></button>
+                        <?php else: ?>
+                            <a href="AegisCore/renovar_plano.php" class="btn btn-warning"><i class='bx bx-refresh'></i> Renovar Plano</a>
+                        <?php endif; ?>
                     <?php elseif ($motivo_bloqueio == 'revendedor_vencido'): ?>
                         <a href="AegisCore/renovacao.php?tipo=revendedor&id=<?php echo $revendedor_id; ?>" class="btn btn-warning"><i class='bx bx-refresh'></i> Renovar Revenda</a>
                         <a href="AegisCore/pagamento.php" class="btn btn-primary"><i class='bx bx-help-circle'></i> Ajuda</a>
                     <?php elseif ($motivo_bloqueio == 'suspenso_admin'): ?>
-                        <a href="AegisCore/renovar_plano.php" class="btn btn-warning"><i class='bx bx-credit-card'></i> Pagamento</a>
+                        <?php if ($mp_pag_disponivel): ?>
+                            <button type="button" class="btn btn-warning" onclick="abrirModalPagamento()"><i class='bx bx-credit-card'></i> Pagamento - R$ <?php echo $valor_renovacao_formatado; ?></button>
+                        <?php else: ?>
+                            <a href="AegisCore/renovar_plano.php" class="btn btn-warning"><i class='bx bx-credit-card'></i> Pagamento</a>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <a href="logout.php" class="btn btn-danger"><i class='bx bx-log-out'></i> Sair do Sistema</a>
                 </div>
             </div>
         </div>
     </div>
+
+<?php if ($mp_pag_disponivel): ?>
+<!-- Modal de Pagamento PIX -->
+<div id="modalPagBloq" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(8px);">
+    <div style="animation:modalBloqIn 0.4s cubic-bezier(0.34,1.2,0.64,1);max-width:500px;width:90%;">
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,0.15);box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
+            <!-- Header do modal -->
+            <div id="modalPagHeader" style="background:linear-gradient(135deg,#10b981,#059669);color:white;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);">
+                <h5 style="margin:0;display:flex;align-items:center;gap:10px;font-size:18px;font-weight:600;">
+                    <i class='bx bx-credit-card'></i> <span id="modalPagTitulo">Pagamento PIX</span>
+                </h5>
+                <button onclick="fecharModalPag()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;opacity:.8;"><i class='bx bx-x'></i></button>
+            </div>
+            <!-- Body do modal -->
+            <div style="padding:24px;color:white;max-height:75vh;overflow-y:auto;text-align:center;">
+                <!-- Etapa 1: Informações do pagamento (antes de gerar PIX) -->
+                <div id="etapaPagInfo">
+                    <div style="background:rgba(255,255,255,0.05);border-radius:16px;padding:20px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.08);">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                            <img src="<?php echo $avatar_url; ?>" style="width:50px;height:50px;border-radius:12px;object-fit:cover;border:2px solid rgba(255,255,255,0.2);">
+                            <div style="text-align:left;">
+                                <div style="font-size:16px;font-weight:700;"><?php echo htmlspecialchars($nome_usuario); ?></div>
+                                <div style="font-size:12px;color:rgba(255,255,255,0.5);">ID: <?php echo htmlspecialchars($_SESSION['iduser']); ?></div>
+                            </div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(255,255,255,0.05);font-size:13px;">
+                            <span style="color:rgba(255,255,255,0.6);"><i class='bx bx-calendar' style="color:#fbbf24;"></i> Vencimento</span>
+                            <span style="font-weight:600;"><?php echo date('d/m/Y', strtotime($data_vencimento_exibicao)); ?></span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(255,255,255,0.05);font-size:13px;">
+                            <span style="color:rgba(255,255,255,0.6);"><i class='bx bx-dollar' style="color:#10b981;"></i> Valor</span>
+                            <span style="font-weight:700;color:#f59e0b;font-size:20px;">R$ <?php echo $valor_renovacao_formatado; ?></span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(255,255,255,0.05);font-size:13px;">
+                            <span style="color:rgba(255,255,255,0.6);"><i class='bx bx-time' style="color:#3b82f6;"></i> Período</span>
+                            <span style="font-weight:600;">30 dias</span>
+                        </div>
+                    </div>
+                    <div style="background:rgba(59,130,246,0.1);border-left:3px solid #3b82f6;padding:12px;border-radius:8px;margin-bottom:20px;text-align:left;">
+                        <small style="color:rgba(255,255,255,0.6);font-size:11px;"><i class='bx bx-info-circle' style="color:#3b82f6;"></i> Após o pagamento, seu plano será renovado por mais 30 dias e o acesso será liberado automaticamente.</small>
+                    </div>
+                    <button id="btnGerarPix" onclick="gerarPixBloq()" style="width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#10b981,#059669);color:white;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:all 0.2s;">
+                        <i class='bx bx-qr'></i> Gerar QR Code PIX
+                    </button>
+                </div>
+
+                <!-- Etapa 2: QR Code gerado -->
+                <div id="etapaPagQR" style="display:none;">
+                    <div style="background:white;border-radius:16px;padding:20px;display:inline-block;margin-bottom:20px;">
+                        <img id="modalBloqQrCode" src="" alt="QR Code PIX" style="width:200px;height:200px;">
+                    </div>
+                    <div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:12px;margin:16px 0;text-align:left;">
+                        <div style="font-size:11px;color:#94a3b8;margin-bottom:8px;">CÓDIGO PIX COPIA E COLA:</div>
+                        <div id="modalBloqPixCode" style="font-family:monospace;font-size:10px;color:#60a5fa;word-break:break-all;"></div>
+                    </div>
+                    <button onclick="copiarPixBloq()" style="width:100%;padding:12px;border-radius:12px;color:white;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;border:none;background:linear-gradient(135deg,#3b82f6,#2563eb);font-family:inherit;">
+                        <i class='bx bx-copy'></i> Copiar Código PIX
+                    </button>
+                    <div id="modalBloqStatus" style="background:rgba(245,158,11,0.15);border-radius:12px;padding:12px;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:10px;color:#fbbf24;font-size:13px;">
+                        <i class='bx bx-time'></i> Aguardando Pagamento...
+                    </div>
+                    <button onclick="verificarPagBloq()" style="width:100%;padding:12px;border-radius:12px;color:white;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;border:none;background:linear-gradient(135deg,#f59e0b,#f97316);font-family:inherit;">
+                        <i class='bx bx-refresh'></i> Verificar Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    @keyframes modalBloqIn { from { opacity:0; transform: scale(0.9) translateY(-30px); } to { opacity:1; transform: scale(1) translateY(0); } }
+    @keyframes spinBloq { to { transform: rotate(360deg); } }
+    .spinner-bloq { display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spinBloq 0.8s linear infinite; }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+let verificacaoBloqInterval = null;
+let currentPaymentIdBloq = '';
+let pagamentoConfirmadoBloq = false;
+
+function abrirModalPagamento() {
+    document.getElementById('modalPagBloq').style.display = 'flex';
+    document.getElementById('etapaPagInfo').style.display = 'block';
+    document.getElementById('etapaPagQR').style.display = 'none';
+}
+
+function fecharModalPag() {
+    document.getElementById('modalPagBloq').style.display = 'none';
+    if (verificacaoBloqInterval) clearInterval(verificacaoBloqInterval);
+}
+
+function gerarPixBloq() {
+    if (pagamentoConfirmadoBloq) return;
+    const btn = document.getElementById('btnGerarPix');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<div class="spinner-bloq"></div> Gerando...';
+    btn.disabled = true;
+    $.ajax({
+        url: 'AegisCore/renovar_plano.php',
+        type: 'POST',
+        data: { criar_pagamento: 1 },
+        dataType: 'json',
+        success: function(data) {
+            if (data.status === 'success') {
+                currentPaymentIdBloq = data.payment_id;
+                document.getElementById('modalBloqQrCode').src = 'data:image/png;base64,' + data.qr_code_base64;
+                document.getElementById('modalBloqPixCode').innerText = data.qr_code;
+                document.getElementById('etapaPagInfo').style.display = 'none';
+                document.getElementById('etapaPagQR').style.display = 'block';
+                document.getElementById('modalPagTitulo').innerText = 'Pagamento PIX Gerado!';
+                iniciarVerificacaoBloq();
+            } else {
+                alert('Erro: ' + data.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Erro ao conectar: ' + error);
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    });
+}
+
+function iniciarVerificacaoBloq() {
+    if (verificacaoBloqInterval) clearInterval(verificacaoBloqInterval);
+    verificacaoBloqInterval = setInterval(verificarPagBloq, 5000);
+}
+
+function verificarPagBloq() {
+    if (!currentPaymentIdBloq || pagamentoConfirmadoBloq) return;
+    const statusDiv = document.getElementById('modalBloqStatus');
+    statusDiv.innerHTML = '<div class="spinner-bloq"></div> Verificando pagamento...';
+    $.ajax({
+        url: 'AegisCore/renovar_plano.php',
+        type: 'POST',
+        data: { verificar_pagamento: 1, payment_id: currentPaymentIdBloq },
+        dataType: 'json',
+        success: function(data) {
+            if (data.status === 'approved') {
+                pagamentoConfirmadoBloq = true;
+                if (verificacaoBloqInterval) clearInterval(verificacaoBloqInterval);
+                statusDiv.innerHTML = '<i class="bx bx-check-circle"></i> ✅ ' + data.message + '<br>📅 Nova validade: ' + data.nova_validade;
+                statusDiv.style.background = 'rgba(16,185,129,0.15)';
+                statusDiv.style.color = '#10b981';
+                document.getElementById('modalPagHeader').style.background = 'linear-gradient(135deg,#10b981,#059669)';
+                document.getElementById('modalPagTitulo').innerText = 'Pagamento Aprovado!';
+                setTimeout(function() { window.location.reload(); }, 3000);
+            } else if (data.status === 'error') {
+                statusDiv.innerHTML = '<i class="bx bx-error-circle"></i> ⚠️ ' + data.message;
+                statusDiv.style.background = 'rgba(220,38,38,0.15)';
+                statusDiv.style.color = '#f87171';
+            } else {
+                statusDiv.innerHTML = '<i class="bx bx-time"></i> ⏳ ' + data.message;
+            }
+        },
+        error: function() {
+            statusDiv.innerHTML = '<i class="bx bx-time"></i> ⏳ Aguardando pagamento...';
+        }
+    });
+}
+
+function copiarPixBloq() {
+    const texto = document.getElementById('modalBloqPixCode').innerText;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(texto).then(function() {
+            alert('✅ Código PIX copiado!');
+        }).catch(function() {
+            copiarPixFallback(texto);
+        });
+    } else {
+        copiarPixFallback(texto);
+    }
+}
+
+function copiarPixFallback(texto) {
+    var ta = document.createElement('textarea');
+    ta.value = texto;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); alert('✅ Código PIX copiado!'); }
+    catch(e) { alert('Não foi possível copiar. Selecione o código manualmente.'); }
+    document.body.removeChild(ta);
+}
+</script>
+<?php endif; ?>
 </body>
 </html>
 <?php
