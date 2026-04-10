@@ -1,531 +1,1118 @@
 <?php
-ini_set('display_errors', 0);
 error_reporting(0);
 
-if (session_status() === PHP_SESSION_NONE) session_start();
+session_start();
 
-// ── Cookies lembrar-me ────────────────────────────────────────────────────
-$saved_login = isset($_COOKIE['remember_login']) ? base64_decode($_COOKIE['remember_login']) : '';
-$saved_senha = isset($_COOKIE['remember_senha']) ? base64_decode($_COOKIE['remember_senha']) : '';
-
-// ── Conexão ───────────────────────────────────────────────────────────────
-if (!file_exists('AegisCore/conexao.php')) { header('Location: install.php'); exit; }
-include 'AegisCore/conexao.php';
-$conn = @mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-if (!$conn) { header('Location: install.php'); exit; }
-
-// ── Sessão expirada ───────────────────��───────────────────────────────────
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 1200)) {
-    session_unset(); session_destroy();
-    header('Location: index.php?expired=1'); exit;
-}
-$_SESSION['last_activity'] = time();
-
-// ── Telegram (opcional, não quebra se falhar) ─────────────────────────────
-if (file_exists('vendor/autoload.php')) {
-    try {
-        require_once 'vendor/autoload.php';
-        $dominio = $_SERVER['HTTP_HOST'] ?? '';
-        $path    = $_SERVER['PHP_SELF']  ?? '';
-        if ($path !== '/index.php') {
-            $tg = new \Telegram\Bot\Api('5997467208:AAHFCOmoL1tWoTpPwHZfxTv4DUWL3nJvdOk');
-            $tg->sendMessage(['chat_id'=>'2017803306','text'=>"O dominio $dominio Esta Usando Outra Pasta $path"]);
-        }
-    } catch (\Throwable $e) {}
+// Verificar cookies "Lembrar-me"
+$saved_login = '';
+$saved_senha = '';
+if (isset($_COOKIE['remember_login']) && isset($_COOKIE['remember_senha'])) {
+    $saved_login = base64_decode($_COOKIE['remember_login']);
+    $saved_senha = base64_decode($_COOKIE['remember_senha']);
 }
 
-// ── Dados do painel ───────────────────────────────────────────────────────
-$nomepainel = 'Painel'; $logo = ''; $icon = '';
-$rCfg = $conn->query("SELECT nomepainel,logo,icon FROM configs LIMIT 1");
-if ($rCfg && $rCfg->num_rows > 0) {
-    $cfg = $rCfg->fetch_assoc();
-    $nomepainel = $cfg['nomepainel'] ?? 'Painel';
-    $logo       = $cfg['logo']       ?? '';
-    $icon       = $cfg['icon']       ?? '';
-}
-
-// ── TEMAS — Carrega do banco (tema definido pelo admin) ──────────────────
-include_once 'AegisCore/temas.php';
-$_temaGlobal = initTemas($conn);
-// Usar tema global ativo (mesmo das outras páginas) para manter consistência
-if (is_array($_temaGlobal) && isset($_temaGlobal['classe'])) {
-    $temaLogin = $_temaGlobal;
+#verifica se o arquivo existe   
+if (file_exists('AegisCore/conexao.php')) {
+    include("AegisCore/conexao.php");
 } else {
-    $temaLogin = getTemaLogin($conn);
+    header('Location: install.php');
+    exit;
 }
-$tClasse   = $temaLogin['classe'] ?? 'theme-dark';
-$tPreview  = $temaLogin['preview'] ?? '#6366f1';
-$tDesativado = empty($tClasse); // Modo sem tema
+try {
+    $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+} 
+catch (mysqli_sql_exception $e) {
+    header('Location: install.php');
+    exit;
+}
 
-// Mapa de cores por tema (para CSS inline do login)
-$temasMap = [
-  'theme-dark'        => ['#0d0d1a','#1a1a2e','#6366f1','#818cf8','linear-gradient(135deg,#6366f1,#4f46e5)','rgba(99,102,241,.25)','rgba(129,140,248,.7)','border-radius:22px'],
-  'theme-neon-roxo'   => ['#0d0015','#1a0030','#a855f7','#06b6d4','linear-gradient(135deg,#a855f7,#06b6d4)','rgba(168,85,247,.25)','rgba(6,182,212,.7)','border-radius:22px'],
-  'theme-cyber'       => ['#0a0800','#14100a','#facc15','#fde047','linear-gradient(135deg,#facc15,#eab308)','rgba(250,204,21,.3)','rgba(234,179,8,.8)','border-radius:4px'],
-  'theme-arctic'      => ['#020d1a','#041525','#38bdf8','#7dd3fc','linear-gradient(135deg,#38bdf8,#0284c7)','rgba(56,189,248,.25)','rgba(56,189,248,.7)','border-radius:20px'],
-  'theme-ocean'       => ['#020d1a','#041525','#0ea5e9','#38bdf8','linear-gradient(135deg,#0ea5e9,#0284c7)','rgba(14,165,233,.25)','rgba(56,189,248,.7)','border-radius:28px 8px 28px 8px'],
-  'theme-sunset'      => ['#0f0800','#1a0f00','#f97316','#fb923c','linear-gradient(135deg,#f97316,#ea580c)','rgba(249,115,22,.25)','rgba(234,88,12,.7)','border-radius:4px 24px 4px 24px'],
-  'theme-emerald'     => ['#020f0a','#04150e','#10b981','#34d399','linear-gradient(135deg,#10b981,#059669)','rgba(16,185,129,.25)','rgba(5,150,105,.7)','border-radius:16px'],
-  'theme-sakura'      => ['#0f0015','#1a0020','#ec4899','#f472b6','linear-gradient(135deg,#ec4899,#db2777)','rgba(236,72,153,.25)','rgba(219,39,119,.7)','border-radius:32px'],
-  'theme-galaxy'      => ['#04000f','#0a0019','#8b5cf6','#c084fc','linear-gradient(135deg,#8b5cf6,#a855f7)','rgba(139,92,246,.3)','rgba(168,85,247,.8)','border-radius:40px 12px 40px 12px'],
-  'theme-rose'        => ['#1a0010','#200015','#f43f5e','#fb7185','linear-gradient(135deg,#f43f5e,#e11d48)','rgba(244,63,94,.25)','rgba(225,29,72,.7)','border-radius:0 28px 0 28px'],
-  'theme-violet'      => ['#0d0020','#150030','#7c3aed','#a78bfa','linear-gradient(135deg,#7c3aed,#6d28d9)','rgba(124,58,237,.25)','rgba(109,40,217,.7)','border-radius:16px'],
-  'theme-mint'        => ['#001a18','#00251f','#14b8a6','#2dd4bf','linear-gradient(135deg,#14b8a6,#0d9488)','rgba(20,184,166,.25)','rgba(13,148,136,.7)','border-radius:50px 12px 50px 12px'],
-  'theme-lavender'    => ['#150020','#200030','#9333ea','#e879f9','linear-gradient(135deg,#9333ea,#c084fc)','rgba(147,51,234,.28)','rgba(200,80,192,.8)','border-radius:36px 36px 20px 20px'],
-  'theme-aqua'        => ['#001820','#002530','#0891b2','#67e8f9','linear-gradient(135deg,#0891b2,#06b6d4)','rgba(8,145,178,.25)','rgba(6,182,212,.7)','border-radius:8px 40px 8px 40px'],
-  'theme-gold'        => ['#0f0900','#1a1000','#d97706','#fde68a','linear-gradient(135deg,#d97706,#f59e0b)','rgba(217,119,6,.28)','rgba(245,158,11,.8)','border-radius:12px'],
-  'theme-copper'      => ['#0f0800','#1a1000','#b45309','#fb923c','linear-gradient(135deg,#b45309,#ea580c)','rgba(180,83,9,.28)','rgba(234,88,12,.8)','border-radius:16px'],
-  'theme-inferno'     => ['#1a0a0a','#0f0505','#dc2626','#f97316','linear-gradient(135deg,#dc2626,#f97316)','rgba(220,38,38,.3)','rgba(249,115,22,.8)','border-radius:16px'],
-  'theme-caramel'     => ['#0f0800','#1a0f00','#d97706','#fbbf24','linear-gradient(135deg,#d97706,#f59e0b)','rgba(217,119,6,.25)','rgba(251,191,36,.7)','border-radius:16px'],
-  'theme-matrix'      => ['#060a06','#0a100a','#00ff41','#00cc33','linear-gradient(135deg,#00ff41,#00cc33)','rgba(0,255,65,.25)','rgba(0,255,65,.8)','border-radius:2px'],
-  'theme-naruto'      => ['#0f0a05','#1a1208','#f97316','#fbbf24','linear-gradient(135deg,#f97316,#fbbf24)','rgba(249,115,22,.25)','rgba(251,191,36,.7)','border-radius:8px'],
-  'theme-dbz'         => ['#0a0502','#150a05','#f97316','#fbbf24','linear-gradient(135deg,#f97316,#3b82f6)','rgba(249,115,22,.25)','rgba(59,130,246,.7)','border-radius:16px'],
-  'theme-onepiece'    => ['#0f0a0a','#1a1010','#dc2626','#fbbf24','linear-gradient(135deg,#dc2626,#fbbf24)','rgba(220,38,38,.25)','rgba(251,191,36,.7)','border-radius:12px'],
-  'theme-cyberpunk'   => ['#0a0a0f','#11111a','#ff00ff','#00ffff','linear-gradient(135deg,#ff00ff,#00ffff)','rgba(255,0,255,.3)','rgba(0,255,255,.8)','border-radius:4px'],
-  'theme-retrogames'  => ['#0f0f23','#16213e','#e94560','#fbbf24','linear-gradient(135deg,#e94560,#0f0f23)','rgba(233,69,96,.3)','rgba(233,69,96,.9)','border-radius:0'],
-  'theme-steampunk'   => ['#0f0800','#1a1000','#d97706','#b45309','linear-gradient(135deg,#d97706,#b45309)','rgba(217,119,6,.28)','rgba(180,83,9,.8)','border-radius:12px'],
-  'theme-pokemon'     => ['#1a0a0a','#1f1010','#dc2626','#fbbf24','linear-gradient(135deg,#dc2626,#fbbf24)','rgba(220,38,38,.25)','rgba(251,191,36,.7)','border-radius:20px'],
-  'theme-primavera'   => ['#1a1520','#1f1a25','#f472b6','#34d399','linear-gradient(135deg,#f472b6,#34d399)','rgba(244,114,182,.25)','rgba(52,211,153,.7)','border-radius:20px'],
-  'theme-vampire'     => ['#0f0505','#1a0a0a','#991b1b','#dc2626','linear-gradient(135deg,#991b1b,#7f1d1d)','rgba(153,27,27,.3)','rgba(220,38,38,.7)','border-radius:16px'],
-  'theme-halloween'   => ['#1a1010','#1f1515','#f97316','#8b5cf6','linear-gradient(135deg,#f97316,#8b5cf6)','rgba(249,115,22,.25)','rgba(139,92,246,.7)','border-radius:20px'],
-  'theme-natal'       => ['#04150e','#020f08','#22c55e','#dc2626','linear-gradient(135deg,#22c55e,#dc2626)','rgba(34,197,94,.25)','rgba(220,38,38,.7)','border-radius:20px'],
-  'theme-natalneve'   => ['#0f1a25','#162030','#dc2626','#f8fafc','linear-gradient(135deg,#dc2626,#22c55e)','rgba(220,38,38,.25)','rgba(34,197,94,.7)','border-radius:20px'],
-  'theme-anonovo'     => ['#18150a','#0a0800','#f59e0b','#3b82f6','linear-gradient(135deg,#f59e0b,#3b82f6)','rgba(245,158,11,.25)','rgba(59,130,246,.7)','border-radius:20px'],
-  'theme-anonovo-fogo'=> ['#1a1a2e','#1f1f38','#fbbf24','#ef4444','linear-gradient(135deg,#fbbf24,#ef4444)','rgba(251,191,36,.25)','rgba(239,68,68,.7)','border-radius:20px'],
-  'theme-valentine'   => ['#1a0f1a','#100a10','#ef4444','#ec4899','linear-gradient(135deg,#ef4444,#ec4899)','rgba(239,68,68,.25)','rgba(236,72,153,.7)','border-radius:24px'],
-  'theme-carnaval'    => ['#1a1010','#1f1515','#fbbf24','#ec4899','linear-gradient(135deg,#fbbf24,#ec4899)','rgba(251,191,36,.25)','rgba(236,72,153,.7)','border-radius:20px'],
-  'theme-pascoa'      => ['#1a1520','#0f0a15','#f472b6','#60a5fa','linear-gradient(135deg,#f472b6,#60a5fa)','rgba(244,114,182,.25)','rgba(96,165,250,.7)','border-radius:20px'],
-  'theme-festajunina' => ['#1a0a0a','#1f1010','#dc2626','#fbbf24','linear-gradient(135deg,#dc2626,#fbbf24)','rgba(220,38,38,.25)','rgba(251,191,36,.7)','border-radius:20px'],
-  'theme-dcriancas'   => ['#1a1525','#1f1a2a','#fbbf24','#60a5fa','linear-gradient(135deg,#fbbf24,#60a5fa)','rgba(251,191,36,.25)','rgba(96,165,250,.7)','border-radius:20px'],
-  'theme-dentista'    => ['#0a0f1a','#111827','#3b82f6','#22d3ee','linear-gradient(135deg,#3b82f6,#22d3ee)','rgba(59,130,246,.25)','rgba(34,211,238,.7)','border-radius:20px'],
-  'theme-trabalhador' => ['#1a1a1a','#1f1f1f','#dc2626','#fbbf24','linear-gradient(135deg,#dc2626,#fbbf24)','rgba(220,38,38,.25)','rgba(251,191,36,.7)','border-radius:20px'],
-  'theme-mulheres'    => ['#1a0a1a','#1f1020','#ec4899','#a855f7','linear-gradient(135deg,#ec4899,#a855f7)','rgba(236,72,153,.25)','rgba(168,85,247,.7)','border-radius:20px'],
-  'theme-maes'        => ['#1a1520','#1f1a25','#f472b6','#ef4444','linear-gradient(135deg,#f472b6,#ef4444)','rgba(244,114,182,.25)','rgba(239,68,68,.7)','border-radius:20px'],
-  'theme-pais'        => ['#1a1a2e','#1f1f38','#3b82f6','#60a5fa','linear-gradient(135deg,#3b82f6,#1d4ed8)','rgba(59,130,246,.25)','rgba(96,165,250,.7)','border-radius:20px'],
-];
+// Verifica e atualiza a atividade da sessão
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 1200)) {
+    $_SESSION['session_expired'] = true;
+    session_unset();
+    session_destroy(); 
+    header('Location: index.php?expired=1');
+    exit();
+}
 
-// Obter cores do tema ativo pelo nome da classe
-$tCores = $temasMap[$tClasse] ?? $temasMap['theme-dark'];
-[$tBg1,$tBg2,$tAcc1,$tAcc2,$tGrad,$tBdr,$tBdrH,$tShape] = $tCores;
+$_SESSION['last_activity'] = time();
+require("vendor/autoload.php");
+use Telegram\Bot\Api;
+$dominio = $_SERVER['HTTP_HOST'];
+$telegram = new Api('5997467208:AAHFCOmoL1tWoTpPwHZfxTv4DUWL3nJvdOk');
 
-// ── Limpar zips ───────────────────────────────────────────────────────────
-foreach (glob(__DIR__ . '/*.zip') ?: [] as $zip) { @unlink($zip); }
+$path = $_SERVER['PHP_SELF'];
+if ($path == '/index.php') {
+} else {
+    $telegram->sendMessage([
+        'chat_id' => '2017803306',
+        'text' => "O dominio $dominio Esta Usando Outra Pasta $path"
+    ]);
+}
 
-// ── Processamento do login ────────────────────────────────────────────────
-$alert_message = ''; $alert_type = ''; $show_modal = false;
+$sql = "SELECT * FROM configs";
+$result = $conn -> query($sql);
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $nomepainel = $row["nomepainel"];
+        $logo = $row["logo"];
+        $icon = $row["icon"];
+        $csspersonali = $row["corfundologo"];
+    }
+}
+
+include_once("AegisCore/temas.php");
+$temaLogin = getTemaLogin($conn);
+
+function removeZipFiles($directory) {
+    if (is_dir($directory)) {
+        if ($handle = opendir($directory)) {
+            while (false !== ($file = readdir($handle))) {
+                if ($file != "." && $file != "..") {
+                    $filePath = $directory . '/' . $file;
+                    if (is_file($filePath) && pathinfo($filePath, PATHINFO_EXTENSION) === 'zip') {
+                        unlink($filePath);
+                    }
+                }
+            }
+            closedir($handle);
+        }
+    }
+}
+
+removeZipFiles(__DIR__);
+
+// Processamento do formulário
+$alert_message = '';
+$alert_type = '';
+$show_modal = false;
 
 if (isset($_POST['submit'])) {
-    $login = mysqli_real_escape_string($conn, trim($_POST['login'] ?? ''));
-    $senha = mysqli_real_escape_string($conn, trim($_POST['senha'] ?? ''));
-
-    // accounts (admin / revendedor)
-    $st = mysqli_prepare($conn, "SELECT * FROM accounts WHERE login=? AND senha=? LIMIT 1");
-    mysqli_stmt_bind_param($st, 'ss', $login, $senha);
-    mysqli_stmt_execute($st);
-    $res = mysqli_stmt_get_result($st);
-
-    if ($res && mysqli_num_rows($res) > 0) {
-        $row = mysqli_fetch_assoc($res);
-        $_SESSION['iduser'] = $row['id'];
-        $_SESSION['login']  = $row['login'];
-        $_SESSION['senha']  = $row['senha'];
-        if (!empty($_POST['remember'])) {
-            setcookie('remember_login', base64_encode($login), time()+86400*30, '/');
-            setcookie('remember_senha', base64_encode($senha), time()+86400*30, '/');
+    $login = mysqli_real_escape_string($conn, $_POST['login']);
+    $senha = mysqli_real_escape_string($conn, $_POST['senha']);
+    
+    // Verificações de segurança
+    if (strpos($login, "'") !== false || strpos($senha, "'") !== false) {
+        $alert_message = 'Caracteres inválidos detectados.';
+        $alert_type = 'error';
+        $show_modal = true;
+    } else {
+        // PRIMEIRO: Verificar na tabela accounts (revendedores e admin)
+        $sql = "SELECT * FROM accounts WHERE login = ? AND senha = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "ss", $login, $senha);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $_SESSION['iduser'] = $row['id'];
+            $_SESSION['login'] = $row['login'];
+            $_SESSION['senha'] = $row['senha'];
+            
+            // Processar "Lembrar-me"
+            if (isset($_POST['remember']) && $_POST['remember'] == 'on') {
+                setcookie('remember_login', base64_encode($login), time() + (86400 * 30), "/");
+                setcookie('remember_senha', base64_encode($senha), time() + (86400 * 30), "/");
+            } else {
+                setcookie('remember_login', '', time() - 3600, "/");
+                setcookie('remember_senha', '', time() - 3600, "/");
+            }
+            
+            if ($row['id'] == 1) {
+                // ADMINISTRADOR vai para pasta admin
+                echo "<script>window.location.href='admin/home.php';</script>";
+            } else {
+                // REVENDEDOR - vai para pasta revendedor (home.php)
+                echo "<script>window.location.href='home.php';</script>";
+            }
+            exit;
+        }
+        
+        // SEGUNDO: Verificar na tabela ssh_accounts (usuários comuns)
+        $sql_user = "SELECT * FROM ssh_accounts WHERE login = ? AND senha = ?";
+        $stmt_user = mysqli_prepare($conn, $sql_user);
+        mysqli_stmt_bind_param($stmt_user, "ss", $login, $senha);
+        mysqli_stmt_execute($stmt_user);
+        $result_user = mysqli_stmt_get_result($stmt_user);
+        
+        if (mysqli_num_rows($result_user) > 0) {
+            $row_user = mysqli_fetch_assoc($result_user);
+            
+            // ✅ CORREÇÃO: Usuário SUSPENSO ou EXPIRADO ainda pode acessar para renovar
+            // Apenas verificar se o login/senha estão corretos, não bloquear por suspensão ou expiração
+            
+            // Usuário comum - criar sessão (mesmo se suspenso ou expirado)
+            $_SESSION['usuario_id'] = $row_user['id'];
+            $_SESSION['usuario_login'] = $row_user['login'];
+            $_SESSION['usuario_senha'] = $row_user['senha'];
+            $_SESSION['usuario_limite'] = $row_user['limite'];
+            $_SESSION['usuario_expira'] = $row_user['expira'];
+            $_SESSION['usuario_byid'] = $row_user['byid'];
+            $_SESSION['usuario_valor_proprio'] = floatval($row_user['valormensal'] ?? 0);
+            $_SESSION['usuario_suspenso'] = $row_user['mainid'] ?? '';
+            $_SESSION['usuario_renovacao'] = true;
+            
+            // Buscar dados do revendedor (byid)
+            $sql_rev = "SELECT * FROM accounts WHERE id = '{$row_user['byid']}'";
+            $result_rev = $conn->query($sql_rev);
+            if ($result_rev && $result_rev->num_rows > 0) {
+                $rev_data = $result_rev->fetch_assoc();
+                $_SESSION['revendedor_id'] = $rev_data['id'];
+                $_SESSION['revendedor_nome'] = $rev_data['nome'];
+                $_SESSION['revendedor_email'] = $rev_data['contato'];
+                $_SESSION['revendedor_mp_token'] = $rev_data['mp_access_token'] ?? '';
+                $_SESSION['revendedor_mp_public_key'] = $rev_data['mp_public_key'] ?? '';
+                $_SESSION['valor_padrao'] = floatval($rev_data['valorusuario'] ?? 0);
+            }
+            
+            // ✅ Definir valor de renovação: se usuário tem valor próprio >0 usa ele, senão usa valor padrão
+            $valor_renovacao = ($_SESSION['usuario_valor_proprio'] > 0) ? $_SESSION['usuario_valor_proprio'] : $_SESSION['valor_padrao'];
+            $_SESSION['valor_renovacao'] = $valor_renovacao;
+            
+            // Processar "Lembrar-me"
+            if (isset($_POST['remember']) && $_POST['remember'] == 'on') {
+                setcookie('remember_login', base64_encode($login), time() + (86400 * 30), "/");
+                setcookie('remember_senha', base64_encode($senha), time() + (86400 * 30), "/");
+            } else {
+                setcookie('remember_login', '', time() - 3600, "/");
+                setcookie('remember_senha', '', time() - 3600, "/");
+            }
+            
+            // USUÁRIO COMUM - vai para pasta usuario/index.php (mesmo se suspenso ou expirado)
+            echo "<script>window.location.href='usuario/index.php';</script>";
+            exit;
         } else {
-            setcookie('remember_login','',time()-3600,'/');
-            setcookie('remember_senha','',time()-3600,'/');
+            $alert_message = 'Login ou Senha Incorretos!';
+            $alert_type = 'error';
+            $show_modal = true;
         }
-        $dest = ($row['id']==1) ? 'admin/home.php' : 'home.php';
-        echo "<script>window.location.href='$dest';</script>"; exit;
     }
-
-    // ssh_accounts (usuário comum)
-    $st2 = mysqli_prepare($conn, "SELECT * FROM ssh_accounts WHERE login=? AND senha=? LIMIT 1");
-    mysqli_stmt_bind_param($st2, 'ss', $login, $senha);
-    mysqli_stmt_execute($st2);
-    $res2 = mysqli_stmt_get_result($st2);
-
-    if ($res2 && mysqli_num_rows($res2) > 0) {
-        $ru = mysqli_fetch_assoc($res2);
-        $_SESSION['usuario_id']           = $ru['id'];
-        $_SESSION['usuario_login']         = $ru['login'];
-        $_SESSION['usuario_senha']         = $ru['senha'];
-        $_SESSION['usuario_limite']        = $ru['limite'];
-        $_SESSION['usuario_expira']        = $ru['expira'];
-        $_SESSION['usuario_byid']          = $ru['byid'];
-        $_SESSION['usuario_valor_proprio'] = floatval($ru['valormensal'] ?? 0);
-        $_SESSION['usuario_suspenso']      = $ru['mainid'] ?? '';
-        $_SESSION['usuario_renovacao']     = true;
-        $rRev = $conn->query("SELECT * FROM accounts WHERE id=".intval($ru['byid'])." LIMIT 1");
-        if ($rRev && $rRev->num_rows > 0) {
-            $rev = $rRev->fetch_assoc();
-            $_SESSION['revendedor_id']           = $rev['id'];
-            $_SESSION['revendedor_nome']          = $rev['nome'];
-            $_SESSION['revendedor_email']         = $rev['contato'];
-            $_SESSION['revendedor_mp_token']      = $rev['mp_access_token'] ?? '';
-            $_SESSION['revendedor_mp_public_key'] = $rev['mp_public_key'] ?? '';
-            $_SESSION['valor_padrao']             = floatval($rev['valorusuario'] ?? 0);
-        }
-        $_SESSION['valor_renovacao'] = ($_SESSION['usuario_valor_proprio'] > 0)
-            ? $_SESSION['usuario_valor_proprio'] : ($_SESSION['valor_padrao'] ?? 0);
-        if (!empty($_POST['remember'])) {
-            setcookie('remember_login', base64_encode($login), time()+86400*30, '/');
-            setcookie('remember_senha', base64_encode($senha), time()+86400*30, '/');
-        } else {
-            setcookie('remember_login','',time()-3600,'/');
-            setcookie('remember_senha','',time()-3600,'/');
-        }
-        echo "<script>window.location.href='usuario/index.php';</script>"; exit;
-    }
-
-    $alert_message = 'Login ou Senha Incorretos!';
-    $alert_type    = 'error';
-    $show_modal    = true;
 }
 
-$session_expired = !empty($_GET['expired']);
+// Verificar se a sessão expirou
+$session_expired = isset($_GET['expired']) && $_GET['expired'] == 1;
 if ($session_expired) {
-    $alert_message = 'Sua sessão expirou por inatividade. Faça login novamente.';
-    $alert_type    = 'expired';
-    $show_modal    = true;
+    $alert_message = 'Sua sessão expirou por inatividade! Por favor, faça login novamente.';
+    $alert_type = 'expired';
+    $show_modal = true;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-<title><?= htmlspecialchars($nomepainel) ?> - Login</title>
-<link rel="shortcut icon" href="<?= htmlspecialchars($icon) ?>">
-<link rel="apple-touch-icon" href="<?= htmlspecialchars($icon) ?>">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-<link rel="stylesheet" href="AegisCore/temas_visual.css">
-    <?php echo getFundoPersonalizadoCSS($conn, $temaLogin); ?>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="author" content="Thomas">
+    <title><?php echo $nomepainel; ?> - Login</title>
+    <link rel="apple-touch-icon" href="<?php echo $icon; ?>">
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo $icon; ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="AegisCore/temas_visual.css">
 <style>
-:root {
-    --bg1  : <?= $tBg1  ?>;
-    --bg2  : <?= $tBg2  ?>;
-    --acc1 : <?= $tAcc1 ?>;
-    --acc2 : <?= $tAcc2 ?>;
-    --grad : <?= $tGrad ?>;
-    --bdr  : <?= $tBdr  ?>;
-    --bdrh : <?= $tBdrH ?>;
-    --bdr-h: <?= $tBdrH ?>;
-    --shape: <?= preg_replace('/^border-radius:\s*/', '', $tShape) ?>;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
 body {
-    font-family:'Poppins',sans-serif;
-    min-height:100vh;
-    display:flex;align-items:center;justify-content:center;
-    padding:20px;
-    background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.15) 0%, #0f172a 70%);
-    /* temas_visual.css sobrescreve com body.theme-* { background: ... !important } */
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f172a, #1e1b4b);
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
 }
 
-.login-container{width:100%;max-width:440px;animation:fadeUp .55s ease both;position:relative;z-index:1}
-@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 30%, rgba(16,185,129,0.1) 0%, transparent 50%);
+    pointer-events: none;
+    animation: pulseGlow 4s ease-in-out infinite;
+}
 
-/* ── CARD ─────────────────────────────────────────────────────────────── */
+body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 80% 70%, rgba(5,150,105,0.1) 0%, transparent 50%);
+    pointer-events: none;
+    animation: pulseGlow 4s ease-in-out infinite reverse;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.login-container {
+    width: 100%;
+    max-width: 450px;
+    animation: fadeInUp 0.6s ease;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .login-card {
-    padding:48px 38px 40px;
-    position:relative;overflow:hidden;
-}
-/* Fundo SÓLIDO — especificidade body[class] .login-card = (0,2,1)
-   igual a body.theme-* .login-card do temas_visual.css.
-   Como este <style> vem DEPOIS do <link> temas_visual.css,
-   ganha pelo cascade order quando ambos usam !important. */
-body[class] .login-card {
-    background: var(--bg2, #1a1a2e) !important;
-    border: 1px solid var(--bdr, rgba(99,102,241,.25)) !important;
-    border-radius: var(--shape, 22px) !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,.4) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-}
-.login-card::before{
-    content:'';position:absolute;top:0;left:0;right:0;height:4px;
-    background:var(--grad);z-index:3;
-}
-.login-card::after{
-    content:'';position:absolute;
-    top:-60px;right:-60px;
-    width:180px;height:180px;
-    background:radial-gradient(circle,var(--bdr) 0%,transparent 70%);
-    pointer-events:none;z-index:0;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    padding: 50px 40px;
+    border-radius: 25px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
 }
 
-/* ── LOGO ─────────────────────────────────────────────────────────────── */
-.logo-login{
-    display:block;max-width:155px;height:auto;
-    margin:0 auto 24px;position:relative;z-index:1;
-    animation:floatL 3s ease-in-out infinite;
-    filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));
-}
-@keyframes floatL{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-
-/* ── TÍTULOS ──────────────────────────────────────────────────────────── */
-.login-title{
-    text-align:center;font-size:26px;font-weight:700;margin-bottom:6px;
-    background:var(--grad);
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-    position:relative;z-index:1;
-}
-.login-subtitle{
-    text-align:center;color:rgba(255,255,255,.4);
-    font-size:13px;margin-bottom:28px;position:relative;z-index:1;
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(16,185,129,0.03) 0%, transparent 70%);
+    pointer-events: none;
 }
 
-/* ── INPUTS ───────────────────────────────────────────────────────────── */
-.input-group{position:relative;margin-bottom:20px;z-index:1}
-.input-icon{
-    position:absolute;left:0;top:50%;transform:translateY(-50%);
-    width:46px;height:46px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    font-size:19px;z-index:2;transition:transform .25s;
-    box-shadow:0 4px 10px rgba(0,0,0,.25);
-}
-.icon-user{background:var(--grad);color:#fff}
-.icon-password{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}
-.input-group:focus-within .input-icon{transform:translateY(-50%) scale(1.1)}
-
-.input-group input{
-    width:100%;padding:14px 16px 14px 60px;
-    background:rgba(255,255,255,.05);
-    border:1.5px solid var(--bdr);border-radius:50px;
-    font-size:15px;font-family:'Poppins',sans-serif;color:#fff;
-    transition:all .25s;
-}
-.input-group input::placeholder{color:rgba(255,255,255,.28)}
-.input-group input:focus{
-    outline:none;border-color:var(--bdr-h, var(--bdrh));
-    background:rgba(255,255,255,.08);
-    box-shadow:0 0 0 3px var(--bdr);
+.logo-login {
+    display: block;
+    max-width: 180px;
+    height: auto;
+    margin: 0 auto 30px;
+    animation: logoFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
 }
 
-/* ── LEMBRAR ──────────────────────────────────────────────────────────── */
-.remember-me{
-    display:flex;align-items:center;gap:10px;
-    margin-bottom:22px;padding-left:4px;position:relative;z-index:1;
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
 }
-.remember-me input[type=checkbox]{width:17px;height:17px;cursor:pointer;accent-color:var(--acc1)}
-.remember-me label{color:rgba(255,255,255,.55);font-size:13px;cursor:pointer;transition:color .2s}
-.remember-me label:hover{color:rgba(255,255,255,.9)}
 
-/* ── BOTÃO LOGIN ──────────────────────────────────────────────────────── */
-.btn-login{
-    width:100%;padding:14px;background:var(--grad);
-    border:none;border-radius:50px;
-    color:#fff;font-size:16px;font-weight:600;font-family:'Poppins',sans-serif;
-    cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;
-    position:relative;overflow:hidden;z-index:1;
-    transition:transform .25s,box-shadow .25s,filter .25s;
-    box-shadow:0 8px 22px rgba(0,0,0,.35);
+.login-title {
+    text-align: center;
+    background: linear-gradient(135deg, #fff, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
 }
-.btn-login::before{
-    content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
-    transition:left .5s;z-index:0;
-}
-.btn-login:hover::before{left:100%}
-.btn-login:hover{transform:translateY(-3px);filter:brightness(1.1);box-shadow:0 14px 30px rgba(0,0,0,.45)}
-.btn-login:active{transform:translateY(1px) scale(.98)}
-.btn-login .btn-text,.btn-login .btn-icon{position:relative;z-index:1}
-.btn-login .btn-icon{font-size:19px;transition:transform .25s}
-.btn-login:hover .btn-icon{transform:translateX(4px)}
 
-.ripple{
-    position:absolute;border-radius:50%;
-    background:rgba(255,255,255,.55);
-    transform:scale(0);animation:ripA .6s linear;
-    pointer-events:none;z-index:2;
+.login-subtitle {
+    text-align: center;
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    margin-bottom: 35px;
 }
-@keyframes ripA{to{transform:scale(4);opacity:0}}
 
-.btn-login.loading{pointer-events:none}
-.btn-login.loading .btn-text,.btn-login.loading .btn-icon{opacity:0}
-.btn-login.loading::after{
-    content:'';position:absolute;
-    width:22px;height:22px;top:50%;left:50%;margin:-11px 0 0 -11px;
-    border:3px solid rgba(255,255,255,.3);border-top-color:#fff;
-    border-radius:50%;animation:spin .8s linear infinite;z-index:3;
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
 }
-@keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── MODAIS ───────────────────────────────────────────────────────────── */
-.modal-overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,.82);
-    display:none;align-items:center;justify-content:center;
-    z-index:9999;backdrop-filter:blur(8px);
+.input-icon {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    z-index: 2;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-.modal-overlay.show{display:flex}
-.modal-box{
-    max-width:400px;width:90%;
-    background:linear-gradient(145deg,#1e293b,#0f172a);
-    border-radius:20px;overflow:hidden;
-    border:1px solid rgba(255,255,255,.1);
-    box-shadow:0 25px 55px rgba(0,0,0,.55);
-    animation:mIn .3s ease;
-}
-@keyframes mIn{from{opacity:0;transform:translateY(-18px) scale(.96)}to{opacity:1;transform:none}}
-.mhdr{padding:16px 22px;display:flex;align-items:center;justify-content:space-between}
-.mhdr.err{background:linear-gradient(135deg,#dc2626,#b91c1c)}
-.mhdr.warn{background:linear-gradient(135deg,#f59e0b,#d97706)}
-.mhdr h5{margin:0;color:#fff;font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
-.mx{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;opacity:.75;
-    width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:.2s}
-.mx:hover{opacity:1;background:rgba(255,255,255,.15)}
-.mbdy{padding:26px 22px;color:#fff;text-align:center}
-.mico i{font-size:62px;animation:icp .4s ease;margin-bottom:12px;display:block}
-@keyframes icp{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
-.mico .bx-error-circle{color:#dc2626}
-.mico .bx-time-five{color:#f59e0b}
-.mttl{
-    font-size:20px;font-weight:700;margin-bottom:8px;
-    background:var(--grad);
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.mmsg{color:rgba(255,255,255,.6);font-size:13px;line-height:1.6}
-.mftr{border-top:1px solid rgba(255,255,255,.08);padding:12px 22px;display:flex;justify-content:center}
-.btnm{
-    padding:9px 24px;border:none;border-radius:50px;
-    font-weight:600;font-size:13px;cursor:pointer;
-    display:inline-flex;align-items:center;gap:7px;
-    font-family:inherit;transition:all .2s;
-}
-.btnm.red{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
-.btnm.red:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(220,38,38,.35)}
-.btnm.yel{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}
-.btnm.yel:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(245,158,11,.35)}
 
-@media(max-width:480px){
-    .login-card{padding:30px 20px}
-    .login-title{font-size:22px}
-    .logo-login{max-width:120px}
-    .input-group input{font-size:14px;padding:12px 15px 12px 56px}
-    .input-icon{width:42px;height:42px;font-size:17px}
-    .btn-login{font-size:15px;padding:13px}
+.icon-user {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
 }
+
+.icon-password {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.input-group:hover .input-icon {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.icon-user:hover {
+    background: linear-gradient(135deg, #60a5fa, #3b82f6);
+}
+
+.icon-password:hover {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 20px 15px 65px;
+    border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: 50px;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.06);
+    color: white;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: rgba(16,185,129,0.6);
+    background: rgba(255,255,255,0.09);
+    box-shadow: 0 0 0 4px rgba(16,185,129,0.1);
+}
+
+.input-group input:focus + .input-icon {
+    transform: translateY(-50%) scale(1.05);
+}
+
+.input-group input::placeholder {
+    color: rgba(255,255,255,0.3);
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    padding-left: 5px;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #10b981;
+}
+
+.remember-me label {
+    color: rgba(255,255,255,0.6);
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.3s;
+}
+
+.remember-me label:hover {
+    color: rgba(255,255,255,0.9);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 10px 25px rgba(16,185,129,0.3);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-login .btn-text {
+    position: relative;
+    z-index: 2;
+}
+
+.btn-login .btn-icon {
+    font-size: 20px;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+    z-index: 1;
+}
+
+.btn-login:hover::before {
+    left: 100%;
+}
+
+.btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(16,185,129,0.5);
+    background: linear-gradient(135deg, #34d399, #10b981);
+}
+
+.btn-login:hover .btn-icon {
+    transform: translateX(5px);
+}
+
+.btn-login:active {
+    transform: translateY(2px) scale(0.97);
+    box-shadow: 0 5px 15px rgba(16,185,129,0.4);
+    transition: all 0.05s linear;
+}
+
+.btn-login .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    transform: scale(0);
+    animation: rippleAnimation 0.6s linear;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes rippleAnimation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(8px);
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-container {
+    animation: modalFadeIn 0.4s ease;
+    max-width: 420px;
+    width: 90%;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-content-custom {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+}
+
+.modal-header-custom {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header-custom.error {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.modal-header-custom.success {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.modal-header-custom.warning {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.modal-header-custom h5 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.2s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.modal-close:hover {
+    opacity: 1;
+    background: rgba(255,255,255,0.1);
+    transform: scale(1.1);
+}
+
+.modal-body-custom {
+    padding: 32px 24px;
+    color: white;
+    text-align: center;
+}
+
+.modal-icon {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-icon i {
+    font-size: 72px;
+    display: inline-block;
+    animation: iconPulse 0.5s ease;
+}
+
+@keyframes iconPulse {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-icon .bx-error-circle {
+    color: #dc2626;
+    filter: drop-shadow(0 0 10px rgba(220,38,38,0.5));
+}
+
+.modal-icon .bx-check-circle {
+    color: #10b981;
+    filter: drop-shadow(0 0 10px rgba(16,185,129,0.5));
+}
+
+.modal-icon .bx-time-five {
+    color: #f59e0b;
+    filter: drop-shadow(0 0 10px rgba(245,158,11,0.5));
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.modal-message {
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.modal-footer-custom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.btn-modal {
+    padding: 10px 28px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+}
+
+.btn-modal-danger {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: white;
+    box-shadow: 0 4px 12px rgba(220,38,38,0.3);
+}
+
+.btn-modal-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(220,38,38,0.4);
+}
+
+.btn-modal-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+}
+
+.btn-modal-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16,185,129,0.4);
+}
+
+.btn-modal-warning {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    box-shadow: 0 4px 12px rgba(245,158,11,0.3);
+}
+
+.btn-modal-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245,158,11,0.4);
+}
+
+.btn-login.loading {
+    pointer-events: none;
+    opacity: 0.9;
+    transform: scale(0.98);
+}
+
+.btn-login.loading .btn-text {
+    opacity: 0;
+}
+
+.btn-login.loading .btn-icon {
+    opacity: 0;
+}
+
+.btn-login.loading::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    left: 50%;
+    margin-left: -12px;
+    margin-top: -12px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spinner 0.8s linear infinite;
+    z-index: 2;
+}
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
+}
+
+.btn-login.success {
+    background: linear-gradient(135deg, #059669, #047857);
+    animation: successPulse 0.5s ease;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(16,185,129,0.8); }
+    100% { transform: scale(1); }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 35px 25px;
+    }
+    
+    .login-title {
+        font-size: 24px;
+    }
+    
+    .logo-login {
+        max-width: 140px;
+    }
+    
+    .input-group input {
+        font-size: 14px;
+        padding: 13px 18px 13px 60px;
+    }
+    
+    .input-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+    
+    .btn-login {
+        font-size: 16px;
+        padding: 14px;
+    }
+    
+    .modal-title {
+        font-size: 20px;
+    }
+    
+    .modal-icon i {
+        font-size: 56px;
+    }
+    
+    .modal-body-custom {
+    }
+}
+<?php echo getCSSVariables($temaLogin); ?>
 </style>
+
 </head>
-<body class="<?= htmlspecialchars($tClasse) ?>">
+<body class="<?php echo htmlspecialchars($temaLogin['classe'] ?? 'theme-dark'); ?>">
 
 <div class="login-container">
-  <div class="login-card">
-    <?php if(!empty($logo)): ?>
-    <img src="<?= htmlspecialchars($logo) ?>" alt="<?= htmlspecialchars($nomepainel) ?>" class="logo-login">
-    <?php endif; ?>
-    <h2 class="login-title">Bem-vindo!</h2>
-    <p class="login-subtitle">Entre com suas credenciais para acessar</p>
-
-    <form method="POST" action="index.php" id="loginForm">
-      <div class="input-group">
-        <div class="input-icon icon-user"><i class='bx bx-user'></i></div>
-        <input type="text" name="login" placeholder="Usuário" required
-               value="<?= htmlspecialchars($saved_login) ?>" autocomplete="username">
-      </div>
-      <div class="input-group">
-        <div class="input-icon icon-password"><i class='bx bx-lock-alt'></i></div>
-        <input type="password" name="senha" placeholder="Senha" required
-               value="<?= htmlspecialchars($saved_senha) ?>" autocomplete="current-password">
-      </div>
-      <div class="remember-me">
-        <input type="checkbox" name="remember" id="remember"
-               <?= !empty($_COOKIE['remember_login']) ? 'checked':'' ?>>
-        <label for="remember">Lembrar-me neste dispositivo</label>
-      </div>
-      <button type="submit" name="submit" class="btn-login" id="btnLogin">
-        <i class='bx bx-log-in-circle btn-icon'></i>
-        <span class="btn-text">Entrar no Painel</span>
-      </button>
-    </form>
-  </div>
+    <div class="login-card">
+        <img src="<?php echo $logo; ?>" alt="<?php echo $nomepainel; ?>" class="logo-login">
+        
+        <h2 class="login-title">Bem-vindo!</h2>
+        <p class="login-subtitle">Entre com suas credenciais</p>
+        
+        <form action="index.php" method="POST" id="loginForm">
+            <div class="input-group">
+                <div class="input-icon icon-user">
+                    <i class='bx bx-user'></i>
+                </div>
+                <input 
+                    type="text" 
+                    name="login" 
+                    placeholder="Digite seu usuário" 
+                    required
+                    value="<?php echo htmlspecialchars($saved_login); ?>"
+                    autocomplete="username"
+                >
+            </div>
+            
+            <div class="input-group">
+                <div class="input-icon icon-password">
+                    <i class='bx bx-lock-alt'></i>
+                </div>
+                <input 
+                    type="password" 
+                    name="senha" 
+                    placeholder="Digite sua senha" 
+                    required
+                    value="<?php echo htmlspecialchars($saved_senha); ?>"
+                    autocomplete="current-password"
+                >
+            </div>
+            
+            <div class="remember-me">
+                <input 
+                    type="checkbox" 
+                    name="remember" 
+                    id="remember"
+                    <?php echo (isset($_COOKIE['remember_login']) ? 'checked' : ''); ?>
+                >
+                <label for="remember">Lembrar-me</label>
+            </div>
+            
+            <button type="submit" name="submit" class="btn-login" id="btnLogin">
+                <i class='bx bx-log-in-circle btn-icon'></i>
+                <span class="btn-text">Entrar no Painel</span>
+            </button>
+        </form>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button type="button" class="theme-btn-float" onclick="openThemeModal()">
+                <i class='bx bx-palette'></i> Trocar Tema
+            </button>
+        </div>
+    </div>
 </div>
 
-<!-- MODAL ERRO -->
-<div id="mErro" class="modal-overlay <?= ($show_modal&&$alert_type==='error')?'show':'' ?>">
-  <div class="modal-box">
-    <div class="mhdr err">
-      <h5><i class='bx bx-error-circle'></i> Autenticação</h5>
-      <button class="mx" onclick="closeM('mErro')"><i class='bx bx-x'></i></button>
+<style>
+.theme-btn-float {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+}
+.theme-btn-float:hover {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    transform: translateY(-2px);
+}
+</style>
+
+<!-- Modal de Erro (Login incorreto) -->
+<div id="errorModal" class="modal-overlay <?php echo ($show_modal && $alert_type == 'error') ? 'show' : ''; ?>">
+    <div class="modal-container">
+        <div class="modal-content-custom">
+            <div class="modal-header-custom error">
+                <h5>
+                    <i class='bx bx-error-circle'></i>
+                    Erro de Autenticação
+                </h5>
+                <button class="modal-close" onclick="fecharModal('errorModal')">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body-custom">
+                <div class="modal-icon">
+                    <i class='bx bx-error-circle'></i>
+                </div>
+                <h3 class="modal-title">Falha no Login!</h3>
+                <p class="modal-message"><?php echo $alert_message; ?></p>
+            </div>
+            <div class="modal-footer-custom">
+                <button class="btn-modal btn-modal-danger" onclick="fecharModal('errorModal')">
+                    <i class='bx bx-check'></i> Tentar Novamente
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="mbdy">
-      <div class="mico"><i class='bx bx-error-circle'></i></div>
-      <div class="mttl">Falha no Login!</div>
-      <p class="mmsg"><?= htmlspecialchars($alert_message) ?></p>
-    </div>
-    <div class="mftr">
-      <button class="btnm red" onclick="closeM('mErro')"><i class='bx bx-refresh'></i> Tentar novamente</button>
-    </div>
-  </div>
 </div>
 
-<!-- MODAL EXPIRADO -->
-<div id="mExp" class="modal-overlay <?= ($show_modal&&$alert_type==='expired')?'show':'' ?>">
-  <div class="modal-box">
-    <div class="mhdr warn">
-      <h5><i class='bx bx-time-five'></i> Sessão Expirada</h5>
-      <button class="mx" onclick="closeM('mExp')"><i class='bx bx-x'></i></button>
+<!-- Modal de Sessão Expirada -->
+<div id="expiredModal" class="modal-overlay <?php echo ($show_modal && $alert_type == 'expired') ? 'show' : ''; ?>">
+    <div class="modal-container">
+        <div class="modal-content-custom">
+            <div class="modal-header-custom warning">
+                <h5>
+                    <i class='bx bx-time-five'></i>
+                    Sessão Expirada
+                </h5>
+                <button class="modal-close" onclick="fecharModal('expiredModal')">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body-custom">
+                <div class="modal-icon">
+                    <i class='bx bx-time-five'></i>
+                </div>
+                <h3 class="modal-title">Sessão Expirada!</h3>
+                <p class="modal-message"><?php echo $alert_message; ?></p>
+                <p class="modal-message" style="font-size: 12px; margin-top: 10px;">
+                    <i class='bx bx-info-circle'></i> Por segurança, sua sessão expirou após 20 minutos de inatividade.
+                </p>
+            </div>
+            <div class="modal-footer-custom">
+                <button class="btn-modal btn-modal-warning" onclick="fecharModal('expiredModal')">
+                    <i class='bx bx-log-in'></i> Fazer Login Novamente
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="mbdy">
-      <div class="mico"><i class='bx bx-time-five'></i></div>
-      <div class="mttl">Sessão Expirada!</div>
-      <p class="mmsg"><?= htmlspecialchars($alert_message) ?></p>
-      <p class="mmsg" style="font-size:11px;margin-top:6px;opacity:.55">Encerrada após 20 min de inatividade.</p>
-    </div>
-    <div class="mftr">
-      <button class="btnm yel" onclick="closeM('mExp')"><i class='bx bx-log-in'></i> Entrar</button>
-    </div>
-  </div>
 </div>
-
 
 <script>
-function closeM(id){
-    document.getElementById(id).classList.remove('show');
-    if(window.history&&window.history.replaceState)
-        window.history.replaceState({},'',location.pathname);
+function createRipple(event, element) {
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    
+    const rect = element.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    let x, y;
+    
+    if (event.type === 'click') {
+        x = event.clientX - rect.left - size / 2;
+        y = event.clientY - rect.top - size / 2;
+    } else {
+        x = rect.width / 2 - size / 2;
+        y = rect.height / 2 - size / 2;
+    }
+    
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    
+    element.appendChild(ripple);
+    
+    setTimeout(() => {
+        ripple.remove();
+    }, 600);
 }
-document.querySelectorAll('.modal-overlay').forEach(function(m){
-    m.addEventListener('click',function(e){if(e.target===this)closeM(this.id);});
+
+function addClickEffect(button) {
+    button.classList.add('click-effect');
+    setTimeout(() => {
+        button.classList.remove('click-effect');
+    }, 300);
+}
+
+function fecharModal(modalId) {
+    document.getElementById(modalId).classList.remove('show');
+    
+    if (modalId === 'expiredModal') {
+        if (window.history && window.history.replaceState) {
+            var url = window.location.href.split('?')[0];
+            window.history.replaceState({}, document.title, url);
+        }
+        document.querySelector('input[name="login"]').focus();
+    }
+    
+    if (modalId === 'errorModal' && window.history && window.history.replaceState) {
+        var url = window.location.href.split('?')[0];
+        window.history.replaceState({}, document.title, url);
+    }
+}
+
+const btnLogin = document.getElementById('btnLogin');
+
+btnLogin.addEventListener('click', function(e) {
+    createRipple(e, this);
+    addClickEffect(this);
 });
-document.addEventListener('keydown',function(e){
-    if(e.key==='Escape'){
-        ['mErro','mExp'].forEach(function(id){
-            var el=document.getElementById(id);
-            if(el&&el.classList.contains('show'))closeM(id);
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    const btn = document.getElementById('btnLogin');
+    const btnText = btn.querySelector('.btn-text');
+    const btnIcon = btn.querySelector('.btn-icon');
+    
+    const rect = btn.getBoundingClientRect();
+    const centerEvent = {
+        type: 'click',
+        clientX: rect.left + rect.width / 2,
+        clientY: rect.top + rect.height / 2
+    };
+    createRipple(centerEvent, btn);
+    addClickEffect(btn);
+    
+    btn.classList.add('loading');
+    btnText.style.opacity = '0';
+    btnIcon.style.opacity = '0';
+    
+    setTimeout(() => {
+        if (!btn.classList.contains('loading')) return;
+        btn.classList.add('success');
+        btn.classList.remove('loading');
+        btnText.style.opacity = '1';
+        btnIcon.style.opacity = '1';
+        btnText.textContent = '✓ Entrando...';
+        btnIcon.className = 'bx bx-loader-circle btn-icon';
+        btnIcon.style.animation = 'spin 1s linear infinite';
+    }, 300);
+});
+
+const inputs = document.querySelectorAll('.input-group input');
+inputs.forEach(input => {
+    input.addEventListener('focus', function() {
+        this.parentElement.querySelector('.input-icon').style.transform = 'translateY(-50%) scale(1.1)';
+    });
+    
+    input.addEventListener('blur', function() {
+        this.parentElement.querySelector('.input-icon').style.transform = 'translateY(-50%) scale(1)';
+    });
+});
+
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal-overlay')) {
+        const modalId = event.target.id;
+        fecharModal(modalId);
+    }
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        const modals = ['errorModal', 'expiredModal', 'successModal'];
+        modals.forEach(modalId => {
+            const modal = document.getElementById(modalId);
+            if (modal && modal.classList.contains('show')) {
+                fecharModal(modalId);
+            }
         });
     }
 });
 
-var btnL=document.getElementById('btnLogin');
-btnL.addEventListener('click',function(e){
-    var r=document.createElement('span');
-    r.className='ripple';
-    var rect=this.getBoundingClientRect();
-    var s=Math.max(rect.width,rect.height);
-    r.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(e.clientX-rect.left-s/2)+'px;top:'+(e.clientY-rect.top-s/2)+'px';
-    this.appendChild(r);
-    setTimeout(function(){r.remove();},650);
-});
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
 
-var sub=false;
-document.getElementById('loginForm').addEventListener('submit',function(e){
-    if(sub){e.preventDefault();return;}
-    sub=true;
-    btnL.classList.add('loading');
-});
-
-<?php if($session_expired): ?>
-document.addEventListener('DOMContentLoaded',function(){
-    document.getElementById('mExp').classList.add('show');
+<?php if ($session_expired): ?>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('expiredModal');
+    if (modal) {
+        modal.classList.add('show');
+        const closeBtn = modal.querySelector('.modal-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                document.querySelector('input[name="login"]').focus();
+            });
+        }
+    }
 });
 <?php endif; ?>
 
-fetch('admin/notific.php',{method:'POST'}).catch(function(){});
+let isSubmitting = false;
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    if (isSubmitting) {
+        e.preventDefault();
+        return false;
+    }
+    isSubmitting = true;
+});
+
+fetch('admin/notific.php', {
+    method: 'POST', 
+})
+.then(response => {})
+.catch(error => {});
 </script>
+
+
+
+
 </body>
 </html>
