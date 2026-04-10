@@ -2,34 +2,36 @@
 error_reporting(0);
 session_start();
 
+$_h2_token_modal_js = '';
+$_h2_session_expired = false;
+
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 1200)) {
-    echo "<script>alert('Sessão expirada por inatividade!');</script>";
+    $_h2_token_modal_js = '<script>document.addEventListener("DOMContentLoaded",function(){showTokenModal("sessao");});<\/script>';
+    $_h2_session_expired = true;
     session_unset();
     session_destroy();
-    echo "<script>setTimeout(function(){ window.location.href='../index.php'; }, 500);</script>";
-    exit();
 }
-$_SESSION['last_activity'] = time();
+if (!$_h2_session_expired) {
+    $_SESSION['last_activity'] = time();
+}
 date_default_timezone_set('America/Sao_Paulo');
 
 if (!file_exists('../admin/suspenderrev.php')) {
-    exit("<script>alert('Token Invalido!');</script>");
+    $_h2_token_modal_js = '<script>document.addEventListener("DOMContentLoaded",function(){showTokenModal("ausente");});<\/script>';
 } else {
     include_once '../admin/suspenderrev.php';
 }
 
-if (!isset($_SESSION['sgdfsr43erfggfd4rgs3rsdfsdfsadfe']) || !isset($_SESSION['token']) || $_SESSION['tokenatual'] != $_SESSION['token'] || isset($_SESSION['token_invalido_']) && $_SESSION['token_invalido_'] === true) {
+if (!$_h2_session_expired && $_h2_token_modal_js === '' && (!isset($_SESSION['sgdfsr43erfggfd4rgs3rsdfsdfsadfe']) || !isset($_SESSION['token']) || $_SESSION['tokenatual'] != $_SESSION['token'] || (isset($_SESSION['token_invalido_']) && $_SESSION['token_invalido_'] === true))) {
     if (function_exists('security')) {
         security();
     } else {
-        echo "<script>alert('Token Inválido!');</script>";
-        echo "<script>location.href='../index.php';</script>";
+        $_h2_token_modal_js = '<script>document.addEventListener("DOMContentLoaded",function(){showTokenModal("invalido");});<\/script>';
         $_SESSION['token_invalido_'] = true;
-        exit;
     }
 }
 
-if (!isset($_SESSION['login'])) {
+if (!$_h2_session_expired && !isset($_SESSION['login'])) {
     header('Location: ../index.php');
     exit();
 }
@@ -50,12 +52,12 @@ while ($row = $result->fetch_assoc()) {
     $csspersonali = $row['corfundologo'];
 }
 
-if ($_SESSION['login'] == 'admin') {
+if (!$_h2_session_expired && $_SESSION['login'] == 'admin') {
     header('Location: ../admin/home.php');
     exit();
 }
 
-if (!isset($_SESSION['login']) && !isset($_SESSION['senha'])) {
+if (!$_h2_session_expired && !isset($_SESSION['login']) && !isset($_SESSION['senha'])) {
     session_destroy();
     header('location: ../index.php');
     exit();
@@ -115,6 +117,10 @@ foreach ($linhas as $linha) {
             color: white !important;
             min-height: 100vh;
         }
+
+        /* ── ANIMAÇÕES DO MODAL ── */
+        @keyframes fadeInOv { from{opacity:0} to{opacity:1} }
+        @keyframes slideUpM { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
 /* Barra de rolagem invisível — scroll funciona normalmente */
 .side-menu {
     scrollbar-width: none;
@@ -410,5 +416,85 @@ window.addEventListener('DOMContentLoaded', function(){
     }
     p(document.getElementById('inicialeditor'));
 });
+
+// ============================================================
+// MODAL CENTRALIZADO — respeita temas visuais
+// ============================================================
+function showModal(opts){
+    var icon=opts.icon||'info',title=opts.title||'',text=opts.text||'',timer=opts.timer||0,
+        buttons=(opts.buttons!==false)?opts.buttons:false,onConfirm=opts.onConfirm||null,isDanger=opts.dangerMode||false;
+    var iconMap={
+        success:{bg:'rgba(16,185,129,.15)',html:'<i class="bx bx-check-circle" style="font-size:54px;color:#10b981;"></i>'},
+        error:  {bg:'rgba(239,68,68,.15)', html:'<i class="bx bx-x-circle" style="font-size:54px;color:#ef4444;"></i>'},
+        warning:{bg:'rgba(245,158,11,.15)',html:'<i class="bx bx-error" style="font-size:54px;color:#f59e0b;"></i>'},
+        info:   {bg:'rgba(59,130,246,.15)',html:'<i class="bx bx-info-circle" style="font-size:54px;color:#3b82f6;"></i>'},
+        token:  {bg:'rgba(239,68,68,.15)', html:'<i class="bx bx-lock-alt" style="font-size:54px;color:#ef4444;"></i>'},
+    };
+    var ic=iconMap[icon]||iconMap.info;
+    // Usar variáveis CSS do tema ativo se disponíveis
+    var cs=getComputedStyle(document.body);
+    var themeGrad=cs.getPropertyValue('--grad').trim();
+    var themeAcc1=cs.getPropertyValue('--acc1').trim();
+    var ov=document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;display:flex;align-items:center;justify-content:center;animation:fadeInOv .2s ease;';
+    var bx=document.createElement('div');
+    bx.className='modal-box';
+    bx.style.cssText='background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:28px;padding:36px 32px;max-width:440px;width:90%;border:1px solid rgba(255,255,255,.1);box-shadow:0 25px 60px rgba(0,0,0,.6);text-align:center;animation:slideUpM .25s ease;font-family:Inter,sans-serif;';
+    var id=document.createElement('div');
+    id.style.cssText='width:80px;height:80px;border-radius:50%;background:'+ic.bg+';display:flex;align-items:center;justify-content:center;margin:0 auto 18px;';
+    id.innerHTML=ic.html;
+    var te=document.createElement('h3');te.style.cssText='color:#fff;font-size:20px;font-weight:700;margin:0 0 10px;';te.textContent=title;
+    var tx=document.createElement('p');tx.style.cssText='color:rgba(255,255,255,.6);font-size:14px;margin:0 0 24px;line-height:1.6;';tx.innerHTML=text;
+    bx.appendChild(id);bx.appendChild(te);bx.appendChild(tx);
+    var cb=null,kb=null;
+    if(buttons!==false){
+        var br=document.createElement('div');br.style.cssText='display:flex;gap:10px;justify-content:center;flex-wrap:wrap;';
+        cb=document.createElement('button');
+        var cl=(Array.isArray(buttons)&&buttons[1])?buttons[1]:'OK';
+        cb.textContent=cl;
+        var bg=isDanger?'linear-gradient(135deg,#dc2626,#b91c1c)':(themeGrad||'linear-gradient(135deg,#4158D0,#6366f1)');
+        cb.style.cssText='padding:11px 28px;border:none;border-radius:14px;background:'+bg+';color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;';
+        cb.onmouseover=function(){this.style.filter='brightness(1.1)';this.style.transform='translateY(-1px)';};
+        cb.onmouseout=function(){this.style.filter='';this.style.transform='';};
+        br.appendChild(cb);
+        if(Array.isArray(buttons)&&buttons[0]){
+            kb=document.createElement('button');kb.textContent=buttons[0];
+            kb.style.cssText='padding:11px 28px;border:1px solid rgba(255,255,255,.15);border-radius:14px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;';
+            kb.onmouseover=function(){this.style.background='rgba(255,255,255,.12)';};
+            kb.onmouseout=function(){this.style.background='rgba(255,255,255,.06)';};
+            br.appendChild(kb);
+        }
+        bx.appendChild(br);
+    }
+    ov.appendChild(bx);document.body.appendChild(ov);
+    var res=[],result={then:function(fn){res.push(fn);return this;}};
+    function resolve(v){if(document.body.contains(ov))document.body.removeChild(ov);res.forEach(function(fn){fn(v);});if(onConfirm)onConfirm(v);}
+    if(cb)cb.onclick=function(){resolve(true);};
+    if(kb)kb.onclick=function(){resolve(false);};
+    if(timer>0)setTimeout(function(){resolve(true);},timer);
+    return result;
+}
+window.swal=function(o,t,i){
+    if(typeof o==='string')return showModal({title:o,text:t||'',icon:i||'info',buttons:true});
+    return showModal(o);
+};
+
+function showTokenModal(motivo){
+    var msgs={
+        sessao:     {title:'Sessão Expirada!',               text:'Sua sessão expirou por inatividade.<br><br><b style="color:#fbbf24;">Faça login novamente</b> para continuar.<br><br><small style="color:rgba(255,255,255,.3);">Por segurança, sessões expiram após 20 minutos de inatividade.</small>'},
+        bypass:     {title:'Bypass Detectado!',              text:'Tentativa de burlar a segurança foi identificada.<br><br><b style="color:#f87171;">Entre em contato com o suporte</b> para regularizar sua situação.'},
+        ausente:    {title:'Arquivo de Segurança Ausente!',  text:'O arquivo de validação não foi encontrado.<br><br><b style="color:#f87171;">Entre em contato com o suporte</b> para corrigir.'},
+        invalido:   {title:'Token Inválido!',                text:'Seu token é inválido ou expirou.<br><br><b style="color:#fbbf24;">Entre em contato com o administrador</b> para renovar.'},
+        integridade:{title:'Erro de Integridade!',           text:'Falha na verificação de integridade de segurança.<br><br><b style="color:#f87171;">Entre em contato com o suporte</b> imediatamente.'},
+    };
+    var m=msgs[motivo]||msgs.invalido;
+    showModal({
+        title:m.title,
+        text:m.text+'<br><br><small style="color:rgba(255,255,255,.3);">Domínio: '+window.location.hostname+'</small>',
+        icon:'token',buttons:['Fechar','Ir para Login'],
+        onConfirm:function(c){if(c)window.location.href='../index.php';}
+    });
+}
 </script>
+<?php echo $_h2_token_modal_js; ?>
 <!-- Temas: revendedores usam tema global definido pelo admin -->
