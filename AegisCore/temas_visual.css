@@ -57,7 +57,7 @@ body.theme-dark .btn-danger, body.theme-dark .swal2-cancel, body.theme-dark .btn
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-dark i, body.theme-dark .bx, body.theme-dark [class*='ni-'] {
+body.theme-dark i, body.theme-dark .bx {
   color: #6366f1 !important; background: linear-gradient(135deg, #6366f1, #818cf8) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-dark input, body.theme-dark select, body.theme-dark textarea, body.theme-dark .form-control {
@@ -109,7 +109,7 @@ body.theme-neon-roxo .btn-danger, body.theme-neon-roxo .swal2-cancel, body.theme
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-neon-roxo i, body.theme-neon-roxo .bx, body.theme-neon-roxo [class*='ni-'] {
+body.theme-neon-roxo i, body.theme-neon-roxo .bx {
   color: #a855f7 !important; background: linear-gradient(135deg, #a855f7, #d946ef) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-neon-roxo input, body.theme-neon-roxo select, body.theme-neon-roxo textarea, body.theme-neon-roxo .form-control {
@@ -158,7 +158,7 @@ body.theme-cyber .btn-danger, body.theme-cyber .swal2-cancel, body.theme-cyber .
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-cyber i, body.theme-cyber .bx, body.theme-cyber [class*='ni-'] {
+body.theme-cyber i, body.theme-cyber .bx {
   color: #facc15 !important; background: linear-gradient(135deg, #facc15, #eab308) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-cyber input, body.theme-cyber select, body.theme-cyber textarea, body.theme-cyber .form-control {
@@ -210,7 +210,7 @@ body.theme-arctic .btn-danger, body.theme-arctic .swal2-cancel, body.theme-arcti
   border: none !important; border-radius: 0 30px 30px 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-arctic i, body.theme-arctic .bx, body.theme-arctic [class*='ni-'] {
+body.theme-arctic i, body.theme-arctic .bx {
   color: #38bdf8 !important; background: linear-gradient(135deg, #38bdf8, #7dd3fc) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-arctic input, body.theme-arctic select, body.theme-arctic textarea, body.theme-arctic .form-control {
@@ -259,7 +259,7 @@ body.theme-violet .btn-danger, body.theme-violet .swal2-cancel, body.theme-viole
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-violet i, body.theme-violet .bx, body.theme-violet [class*='ni-'] {
+body.theme-violet i, body.theme-violet .bx {
   color: #7c3aed !important; background: linear-gradient(135deg, #7c3aed, #a78bfa) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-violet input, body.theme-violet select, body.theme-violet textarea, body.theme-violet .form-control {
@@ -311,7 +311,7 @@ body.theme-inferno .btn-danger, body.theme-inferno .swal2-cancel, body.theme-inf
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-inferno i, body.theme-inferno .bx, body.theme-inferno [class*='ni-'] {
+body.theme-inferno i, body.theme-inferno .bx {
   color: #dc2626 !important; background: linear-gradient(135deg, #dc2626, #f97316) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-inferno input, body.theme-inferno select, body.theme-inferno textarea, body.theme-inferno .form-control {
@@ -360,7 +360,7 @@ body.theme-ocean .btn-danger, body.theme-ocean .swal2-cancel, body.theme-ocean .
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-ocean i, body.theme-ocean .bx, body.theme-ocean [class*='ni-'] {
+body.theme-ocean i, body.theme-ocean .bx {
   color: #0ea5e9 !important; background: linear-gradient(135deg, #0ea5e9, #38bdf8) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-ocean input, body.theme-ocean select, body.theme-ocean textarea, body.theme-ocean .form-control {
@@ -412,7 +412,7 @@ body.theme-sunset .btn-danger, body.theme-sunset .swal2-cancel, body.theme-sunse
   border: none !important; border-radius: 0 30px 30px 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-sunset i, body.theme-sunset .bx, body.theme-sunset [class*='ni-'] {
+body.theme-sunset i, body.theme-sunset .bx {
   color: #f97316 !important; background: linear-gradient(135deg, #f97316, #fbbf24) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-sunset input, body.theme-sunset select, body.theme-sunset textarea, body.theme-sunset .form-control {
@@ -461,7 +461,7 @@ body.theme-emerald .btn-danger, body.theme-emerald .swal2-cancel, body.theme-eme
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-emerald i, body.theme-emerald .bx, body.theme-emerald [class*='ni-'] {
+body.theme-emerald i, body.theme-emerald .bx {
   color: #10b981 !important; background: linear-gradient(135deg, #10b981, #34d399) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-emerald input, body.theme-emerald select, body.theme-emerald textarea, body.theme-emerald .form-control {
@@ -513,7 +513,7 @@ body.theme-sakura .btn-danger, body.theme-sakura .swal2-cancel, body.theme-sakur
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-sakura i, body.theme-sakura .bx, body.theme-sakura [class*='ni-'] {
+body.theme-sakura i, body.theme-sakura .bx {
   color: #ec4899 !important; background: linear-gradient(135deg, #ec4899, #f472b6) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-sakura input, body.theme-sakura select, body.theme-sakura textarea, body.theme-sakura .form-control {
@@ -562,7 +562,7 @@ body.theme-caramel .btn-danger, body.theme-caramel .swal2-cancel, body.theme-car
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-caramel i, body.theme-caramel .bx, body.theme-caramel [class*='ni-'] {
+body.theme-caramel i, body.theme-caramel .bx {
   color: #d97706 !important; background: linear-gradient(135deg, #d97706, #fbbf24) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-caramel input, body.theme-caramel select, body.theme-caramel textarea, body.theme-caramel .form-control {
@@ -614,7 +614,7 @@ body.theme-galaxy .btn-danger, body.theme-galaxy .swal2-cancel, body.theme-galax
   border: none !important; border-radius: 0 30px 30px 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-galaxy i, body.theme-galaxy .bx, body.theme-galaxy [class*='ni-'] {
+body.theme-galaxy i, body.theme-galaxy .bx {
   color: #8b5cf6 !important; background: linear-gradient(135deg, #8b5cf6, #c084fc) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-galaxy input, body.theme-galaxy select, body.theme-galaxy textarea, body.theme-galaxy .form-control {
@@ -663,7 +663,7 @@ body.theme-rose .btn-danger, body.theme-rose .swal2-cancel, body.theme-rose .btn
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-rose i, body.theme-rose .bx, body.theme-rose [class*='ni-'] {
+body.theme-rose i, body.theme-rose .bx {
   color: #f43f5e !important; background: linear-gradient(135deg, #f43f5e, #fb7185) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-rose input, body.theme-rose select, body.theme-rose textarea, body.theme-rose .form-control {
@@ -715,7 +715,7 @@ body.theme-mint .btn-danger, body.theme-mint .swal2-cancel, body.theme-mint .btn
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-mint i, body.theme-mint .bx, body.theme-mint [class*='ni-'] {
+body.theme-mint i, body.theme-mint .bx {
   color: #14b8a6 !important; background: linear-gradient(135deg, #14b8a6, #5eead4) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-mint input, body.theme-mint select, body.theme-mint textarea, body.theme-mint .form-control {
@@ -764,7 +764,7 @@ body.theme-lavender .btn-danger, body.theme-lavender .swal2-cancel, body.theme-l
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-lavender i, body.theme-lavender .bx, body.theme-lavender [class*='ni-'] {
+body.theme-lavender i, body.theme-lavender .bx {
   color: #9333ea !important; background: linear-gradient(135deg, #9333ea, #c084fc) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-lavender input, body.theme-lavender select, body.theme-lavender textarea, body.theme-lavender .form-control {
@@ -816,7 +816,7 @@ body.theme-aqua .btn-danger, body.theme-aqua .swal2-cancel, body.theme-aqua .btn
   border: none !important; border-radius: 0 30px 30px 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-aqua i, body.theme-aqua .bx, body.theme-aqua [class*='ni-'] {
+body.theme-aqua i, body.theme-aqua .bx {
   color: #0891b2 !important; background: linear-gradient(135deg, #0891b2, #22d3ee) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-aqua input, body.theme-aqua select, body.theme-aqua textarea, body.theme-aqua .form-control {
@@ -865,7 +865,7 @@ body.theme-gold .btn-danger, body.theme-gold .swal2-cancel, body.theme-gold .btn
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-gold i, body.theme-gold .bx, body.theme-gold [class*='ni-'] {
+body.theme-gold i, body.theme-gold .bx {
   color: #d97706 !important; background: linear-gradient(135deg, #d97706, #fbbf24) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-gold input, body.theme-gold select, body.theme-gold textarea, body.theme-gold .form-control {
@@ -917,7 +917,7 @@ body.theme-copper .btn-danger, body.theme-copper .swal2-cancel, body.theme-coppe
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-copper i, body.theme-copper .bx, body.theme-copper [class*='ni-'] {
+body.theme-copper i, body.theme-copper .bx {
   color: #b45309 !important; background: linear-gradient(135deg, #b45309, #d97706) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-copper input, body.theme-copper select, body.theme-copper textarea, body.theme-copper .form-control {
@@ -966,7 +966,7 @@ body.theme-primavera .btn-danger, body.theme-primavera .swal2-cancel, body.theme
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-primavera i, body.theme-primavera .bx, body.theme-primavera [class*='ni-'] {
+body.theme-primavera i, body.theme-primavera .bx {
   color: #f472b6 !important; background: linear-gradient(135deg, #f472b6, #fb7185) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-primavera input, body.theme-primavera select, body.theme-primavera textarea, body.theme-primavera .form-control {
@@ -1018,7 +1018,7 @@ body.theme-vampire .btn-danger, body.theme-vampire .swal2-cancel, body.theme-vam
   border: none !important; border-radius: 0 30px 30px 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-vampire i, body.theme-vampire .bx, body.theme-vampire [class*='ni-'] {
+body.theme-vampire i, body.theme-vampire .bx {
   color: #991b1b !important; background: linear-gradient(135deg, #991b1b, #7f1d1d) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-vampire input, body.theme-vampire select, body.theme-vampire textarea, body.theme-vampire .form-control {
@@ -1067,7 +1067,7 @@ body.theme-naruto .btn-danger, body.theme-naruto .swal2-cancel, body.theme-narut
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-naruto i, body.theme-naruto .bx, body.theme-naruto [class*='ni-'] {
+body.theme-naruto i, body.theme-naruto .bx {
   color: #f97316 !important; background: linear-gradient(135deg, #f97316, #ea580c) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-naruto input, body.theme-naruto select, body.theme-naruto textarea, body.theme-naruto .form-control {
@@ -1119,7 +1119,7 @@ body.theme-dbz .btn-danger, body.theme-dbz .swal2-cancel, body.theme-dbz .btn-ca
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-dbz i, body.theme-dbz .bx, body.theme-dbz [class*='ni-'] {
+body.theme-dbz i, body.theme-dbz .bx {
   color: #f97316 !important; background: linear-gradient(135deg, #f97316, #fbbf24) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-dbz input, body.theme-dbz select, body.theme-dbz textarea, body.theme-dbz .form-control {
@@ -1168,7 +1168,7 @@ body.theme-onepiece .btn-danger, body.theme-onepiece .swal2-cancel, body.theme-o
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-onepiece i, body.theme-onepiece .bx, body.theme-onepiece [class*='ni-'] {
+body.theme-onepiece i, body.theme-onepiece .bx {
   color: #dc2626 !important; background: linear-gradient(135deg, #dc2626, #ef4444) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-onepiece input, body.theme-onepiece select, body.theme-onepiece textarea, body.theme-onepiece .form-control {
@@ -1220,7 +1220,7 @@ body.theme-retrogames .btn-danger, body.theme-retrogames .swal2-cancel, body.the
   border: none !important; border-radius: 0 30px 30px 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-retrogames i, body.theme-retrogames .bx, body.theme-retrogames [class*='ni-'] {
+body.theme-retrogames i, body.theme-retrogames .bx {
   color: #e94560 !important; background: linear-gradient(135deg, #e94560, #0f3460) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-retrogames input, body.theme-retrogames select, body.theme-retrogames textarea, body.theme-retrogames .form-control {
@@ -1269,7 +1269,7 @@ body.theme-cyberpunk .btn-danger, body.theme-cyberpunk .swal2-cancel, body.theme
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-cyberpunk i, body.theme-cyberpunk .bx, body.theme-cyberpunk [class*='ni-'] {
+body.theme-cyberpunk i, body.theme-cyberpunk .bx {
   color: #ff00ff !important; background: linear-gradient(135deg, #ff00ff, #00ffff) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-cyberpunk input, body.theme-cyberpunk select, body.theme-cyberpunk textarea, body.theme-cyberpunk .form-control {
@@ -1321,7 +1321,7 @@ body.theme-steampunk .btn-danger, body.theme-steampunk .swal2-cancel, body.theme
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-steampunk i, body.theme-steampunk .bx, body.theme-steampunk [class*='ni-'] {
+body.theme-steampunk i, body.theme-steampunk .bx {
   color: #d97706 !important; background: linear-gradient(135deg, #d97706, #b45309) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-steampunk input, body.theme-steampunk select, body.theme-steampunk textarea, body.theme-steampunk .form-control {
@@ -1370,7 +1370,7 @@ body.theme-matrix .btn-danger, body.theme-matrix .swal2-cancel, body.theme-matri
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-matrix i, body.theme-matrix .bx, body.theme-matrix [class*='ni-'] {
+body.theme-matrix i, body.theme-matrix .bx {
   color: #00ff41 !important; background: linear-gradient(135deg, #00ff41, #008f11) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-matrix input, body.theme-matrix select, body.theme-matrix textarea, body.theme-matrix .form-control {
@@ -1422,7 +1422,7 @@ body.theme-pokemon .btn-danger, body.theme-pokemon .swal2-cancel, body.theme-pok
   border: none !important; border-radius: 0 30px 30px 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-pokemon i, body.theme-pokemon .bx, body.theme-pokemon [class*='ni-'] {
+body.theme-pokemon i, body.theme-pokemon .bx {
   color: #dc2626 !important; background: linear-gradient(135deg, #dc2626, #fbbf24) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-pokemon input, body.theme-pokemon select, body.theme-pokemon textarea, body.theme-pokemon .form-control {
@@ -1471,7 +1471,7 @@ body.theme-natal .btn-danger, body.theme-natal .swal2-cancel, body.theme-natal .
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-natal i, body.theme-natal .bx, body.theme-natal [class*='ni-'] {
+body.theme-natal i, body.theme-natal .bx {
   color: #22c55e !important; background: linear-gradient(135deg, #22c55e, #dc2626) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-natal input, body.theme-natal select, body.theme-natal textarea, body.theme-natal .form-control {
@@ -1523,7 +1523,7 @@ body.theme-anonovo .btn-danger, body.theme-anonovo .swal2-cancel, body.theme-ano
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-anonovo i, body.theme-anonovo .bx, body.theme-anonovo [class*='ni-'] {
+body.theme-anonovo i, body.theme-anonovo .bx {
   color: #fbbf24 !important; background: linear-gradient(135deg, #fbbf24, #f59e0b) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-anonovo input, body.theme-anonovo select, body.theme-anonovo textarea, body.theme-anonovo .form-control {
@@ -1572,7 +1572,7 @@ body.theme-halloween .btn-danger, body.theme-halloween .swal2-cancel, body.theme
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-halloween i, body.theme-halloween .bx, body.theme-halloween [class*='ni-'] {
+body.theme-halloween i, body.theme-halloween .bx {
   color: #f97316 !important; background: linear-gradient(135deg, #f97316, #9333ea) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-halloween input, body.theme-halloween select, body.theme-halloween textarea, body.theme-halloween .form-control {
@@ -1624,7 +1624,7 @@ body.theme-valentine .btn-danger, body.theme-valentine .swal2-cancel, body.theme
   border: none !important; border-radius: 0 30px 30px 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-valentine i, body.theme-valentine .bx, body.theme-valentine [class*='ni-'] {
+body.theme-valentine i, body.theme-valentine .bx {
   color: #ef4444 !important; background: linear-gradient(135deg, #ef4444, #f472b6) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-valentine input, body.theme-valentine select, body.theme-valentine textarea, body.theme-valentine .form-control {
@@ -1673,7 +1673,7 @@ body.theme-natalneve .btn-danger, body.theme-natalneve .swal2-cancel, body.theme
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-natalneve i, body.theme-natalneve .bx, body.theme-natalneve [class*='ni-'] {
+body.theme-natalneve i, body.theme-natalneve .bx {
   color: #dc2626 !important; background: linear-gradient(135deg, #dc2626, #ffffff) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-natalneve input, body.theme-natalneve select, body.theme-natalneve textarea, body.theme-natalneve .form-control {
@@ -1725,7 +1725,7 @@ body.theme-carnaval .btn-danger, body.theme-carnaval .swal2-cancel, body.theme-c
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-carnaval i, body.theme-carnaval .bx, body.theme-carnaval [class*='ni-'] {
+body.theme-carnaval i, body.theme-carnaval .bx {
   color: #fbbf24 !important; background: linear-gradient(135deg, #fbbf24, #a855f7) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-carnaval input, body.theme-carnaval select, body.theme-carnaval textarea, body.theme-carnaval .form-control {
@@ -1774,7 +1774,7 @@ body.theme-pascoa .btn-danger, body.theme-pascoa .swal2-cancel, body.theme-pasco
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-pascoa i, body.theme-pascoa .bx, body.theme-pascoa [class*='ni-'] {
+body.theme-pascoa i, body.theme-pascoa .bx {
   color: #f472b6 !important; background: linear-gradient(135deg, #f472b6, #fbbf24) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-pascoa input, body.theme-pascoa select, body.theme-pascoa textarea, body.theme-pascoa .form-control {
@@ -1826,7 +1826,7 @@ body.theme-festajunina .btn-danger, body.theme-festajunina .swal2-cancel, body.t
   border: none !important; border-radius: 0 30px 30px 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-festajunina i, body.theme-festajunina .bx, body.theme-festajunina [class*='ni-'] {
+body.theme-festajunina i, body.theme-festajunina .bx {
   color: #dc2626 !important; background: linear-gradient(135deg, #dc2626, #fbbf24) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-festajunina input, body.theme-festajunina select, body.theme-festajunina textarea, body.theme-festajunina .form-control {
@@ -1875,7 +1875,7 @@ body.theme-dcriancas .btn-danger, body.theme-dcriancas .swal2-cancel, body.theme
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-dcriancas i, body.theme-dcriancas .bx, body.theme-dcriancas [class*='ni-'] {
+body.theme-dcriancas i, body.theme-dcriancas .bx {
   color: #fbbf24 !important; background: linear-gradient(135deg, #fbbf24, #3b82f6) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-dcriancas input, body.theme-dcriancas select, body.theme-dcriancas textarea, body.theme-dcriancas .form-control {
@@ -1927,7 +1927,7 @@ body.theme-dentista .btn-danger, body.theme-dentista .swal2-cancel, body.theme-d
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-dentista i, body.theme-dentista .bx, body.theme-dentista [class*='ni-'] {
+body.theme-dentista i, body.theme-dentista .bx {
   color: #3b82f6 !important; background: linear-gradient(135deg, #3b82f6, #60a5fa) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-dentista input, body.theme-dentista select, body.theme-dentista textarea, body.theme-dentista .form-control {
@@ -1976,7 +1976,7 @@ body.theme-trabalhador .btn-danger, body.theme-trabalhador .swal2-cancel, body.t
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-trabalhador i, body.theme-trabalhador .bx, body.theme-trabalhador [class*='ni-'] {
+body.theme-trabalhador i, body.theme-trabalhador .bx {
   color: #dc2626 !important; background: linear-gradient(135deg, #dc2626, #1e293b) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-trabalhador input, body.theme-trabalhador select, body.theme-trabalhador textarea, body.theme-trabalhador .form-control {
@@ -2028,7 +2028,7 @@ body.theme-mulheres .btn-danger, body.theme-mulheres .swal2-cancel, body.theme-m
   border: none !important; border-radius: 0 30px 30px 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-mulheres i, body.theme-mulheres .bx, body.theme-mulheres [class*='ni-'] {
+body.theme-mulheres i, body.theme-mulheres .bx {
   color: #ec4899 !important; background: linear-gradient(135deg, #ec4899, #f472b6) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-mulheres input, body.theme-mulheres select, body.theme-mulheres textarea, body.theme-mulheres .form-control {
@@ -2077,7 +2077,7 @@ body.theme-maes .btn-danger, body.theme-maes .swal2-cancel, body.theme-maes .btn
   background: #dc2626 !important;
   border: none !important; border-radius: 24px !important; color: #fff !important;
 }
-body.theme-maes i, body.theme-maes .bx, body.theme-maes [class*='ni-'] {
+body.theme-maes i, body.theme-maes .bx {
   color: #f472b6 !important; background: linear-gradient(135deg, #f472b6, #ec4899) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-maes input, body.theme-maes select, body.theme-maes textarea, body.theme-maes .form-control {
@@ -2129,7 +2129,7 @@ body.theme-pais .btn-danger, body.theme-pais .swal2-cancel, body.theme-pais .btn
   border: none !important; border-radius: 0 !important; color: #fff !important;
   clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px) !important;
 }
-body.theme-pais i, body.theme-pais .bx, body.theme-pais [class*='ni-'] {
+body.theme-pais i, body.theme-pais .bx {
   color: #3b82f6 !important; background: linear-gradient(135deg, #3b82f6, #1e293b) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-pais input, body.theme-pais select, body.theme-pais textarea, body.theme-pais .form-control {
@@ -2178,7 +2178,7 @@ body.theme-anonovo-fogo .btn-danger, body.theme-anonovo-fogo .swal2-cancel, body
   background: #dc2626 !important;
   border: none !important; border-radius: 30px 0 30px 0 !important; color: #fff !important;
 }
-body.theme-anonovo-fogo i, body.theme-anonovo-fogo .bx, body.theme-anonovo-fogo [class*='ni-'] {
+body.theme-anonovo-fogo i, body.theme-anonovo-fogo .bx {
   color: #fbbf24 !important; background: linear-gradient(135deg, #fbbf24, #f97316) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
 }
 body.theme-anonovo-fogo input, body.theme-anonovo-fogo select, body.theme-anonovo-fogo textarea, body.theme-anonovo-fogo .form-control {
@@ -2190,22 +2190,23 @@ body.theme-anonovo-fogo input, body.theme-anonovo-fogo select, body.theme-anonov
  *  These rules use CSS variables defined by each theme above.
  * ============================================================ */
 
-/* Sidebar Menu: glassmorphism matching the active theme */
+/* Sidebar Menu: glassmorphism matching the active theme (card-like) */
 body[class*="theme-"] .side-menu {
-  background: rgba(15,23,42,0.85) !important;
-  border-right: 1px solid var(--bdr) !important;
+  background: rgba(15,23,42,0.7) !important;
+  border: 1px solid var(--bdr) !important;
+  border-left: none !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  box-shadow: 4px 0 24px rgba(0,0,0,0.3) !important;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.5), inset 0 0 40px var(--bdr) !important;
 }
 
-/* Top Header: glassmorphism matching the active theme */
+/* Top Header: glassmorphism matching the active theme (card-like) */
 body[class*="theme-"] .top-header {
-  background: rgba(15,23,42,0.85) !important;
+  background: rgba(15,23,42,0.7) !important;
   border: 1px solid var(--bdr) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 0 40px var(--bdr) !important;
 }
 
 /* Content wrapper & main-wrap: transparent so body theme background shows */
@@ -2224,23 +2225,18 @@ body[class*="theme-"] .dci {
   background-clip: unset !important;
 }
 
-/* Nav icon containers: use theme accent color for background */
-body[class*="theme-"] .nav-icon {
-  background: var(--bdr) !important;
-}
-body[class*="theme-"] .sub-icon {
-  background: var(--bdr) !important;
-}
+/* Nav icon containers: keep their original colored backgrounds (ni-/si- classes) */
 
-/* Icons inside nav containers: keep gradient text */
+/* Icons inside nav containers: keep their original colors from ni-/si- classes */
 body[class*="theme-"] .nav-icon i,
 body[class*="theme-"] .nav-icon .bx,
 body[class*="theme-"] .sub-icon i,
 body[class*="theme-"] .sub-icon .bx {
-  background: var(--grad) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+  color: inherit !important;
 }
 
 /* Stat icons and dash-card icons: keep their original gradient backgrounds */
@@ -2253,6 +2249,16 @@ body[class*="theme-"] .stat-icon {
   -webkit-background-clip: unset !important;
   -webkit-text-fill-color: unset !important;
   background-clip: unset !important;
+}
+body[class*="theme-"] .stat-icon i,
+body[class*="theme-"] .stat-icon .bx,
+body[class*="theme-"] .dci i,
+body[class*="theme-"] .dci .bx {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+  color: inherit !important;
 }
 
 /* Active nav link: use theme accent */

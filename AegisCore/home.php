@@ -531,9 +531,11 @@ if (
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="AegisCore/temas_visual.css?v=<?php echo time(); ?>">
     <?php
     include_once("AegisCore/temas.php");
     $temaHome = initTemas($conn);
+    echo getFundoPersonalizadoCSS($conn, $temaHome);
     ?>
     <style>
         <?php echo $csspersonali; ?>
