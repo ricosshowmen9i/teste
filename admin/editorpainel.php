@@ -356,9 +356,16 @@ $categorias = [
             <div class="tc-desc"><i class='bx bx-info-circle'></i> <?php echo htmlspecialchars($t['desc']); ?> • <code style="font-size:9px;color:rgba(255,255,255,.3)"><?php echo $t['classe']; ?></code></div>
             <!-- Fundo -->
             <?php if ($hasFundo): ?>
+            <?php
+                $fundoCaminho = $fundos[$tid]['caminho'] ?? '';
+                // Only allow paths strictly within the uploads/fundos/ directory
+                $fundoSrc = (strpos($fundoCaminho, 'uploads/fundos/') === 0 && strpos($fundoCaminho, '..') === false)
+                    ? '../' . htmlspecialchars($fundoCaminho, ENT_QUOTES, 'UTF-8')
+                    : '';
+            ?>
             <div class="tc-fundo">
                 <div class="tc-fundo-info"><i class='bx bx-image'></i>
-                    <img src="../<?php echo htmlspecialchars($fundos[$tid]['caminho'] ?? ''); ?>" alt="Fundo" style="width:48px;height:32px;object-fit:cover;border-radius:5px;border:1px solid rgba(255,255,255,.12);flex-shrink:0">
+                    <?php if ($fundoSrc): ?><img src="<?php echo $fundoSrc; ?>" alt="Fundo" style="width:48px;height:32px;object-fit:cover;border-radius:5px;border:1px solid rgba(255,255,255,.12);flex-shrink:0"><?php endif; ?>
                     <span class="tc-fundo-name"><?php echo htmlspecialchars($fundos[$tid]['original_name'] ?? 'fundo'); ?></span>
                 </div>
                 <form method="POST" style="margin:0" onsubmit="return confirm('Remover fundo e voltar ao visual padrão do tema?')">
