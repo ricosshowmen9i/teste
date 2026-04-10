@@ -261,6 +261,8 @@ body {
     padding: 20px;
     position: relative;
     overflow-x: hidden;
+    background: linear-gradient(135deg, #0f0c29, #1e1b4b, #0f172a);
+    color: #fff;
 }
 
 .login-container {
