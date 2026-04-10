@@ -1,0 +1,1 @@
+<?php  $dbname = 'sql_teste'; $dbuser = 'sql_teste'; $dbpass = '283bd22aa15188'; $dbhost = 'localhost'; $_SESSION['token'] = 'Mm8voNuEILO4IFc'; ?>

@@ -1,0 +1,240 @@
+2026-03-29 02:44:25
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:44:31
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:44:36
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:44:41
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:44:46
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:44:51
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:44:56
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:45:01
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:47:36
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:51:51
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:02
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:04
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:11
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:16
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:21
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:26
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:31
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:36
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:41
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:46
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:51
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:52:56
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:53:01
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:53:21
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:54:21
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:55:21
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:55:36
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:57:00
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:57:15
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:57:16
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:58:13
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 02:58:14
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:17:08
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:17:18
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:17:24
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:17:29
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:17:34
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:17:39
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:17:44
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:17:49
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:17:54
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:17:59
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:18:04
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:18:09
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:18:14
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:18:19
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:18:24
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43
+2026-03-29 03:18:29
+SESSION usuario_id: 209
+SESSION id: 209
+SESSION login: teste43
+SESSION usuario_login: teste43

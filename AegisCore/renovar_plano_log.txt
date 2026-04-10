@@ -1,0 +1,400 @@
+[2026-03-28 18:54:35] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:54:35] POST: []
+[2026-03-28 18:54:35] SESSION iduser: 97
+[2026-03-28 18:54:38] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:54:38] POST: {"criar_pagamento":"1"}
+[2026-03-28 18:54:38] SESSION iduser: 97
+[2026-03-28 18:54:38] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-28 18:54:38] Valor a pagar: 2
+[2026-03-28 18:54:39] API MP Response: HTTP 201
+[2026-03-28 18:54:39] Pagamento criado: 151595094939
+[2026-03-28 18:54:45] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:54:45] POST: {"verificar_pagamento":"1","payment_id":"151595094939"}
+[2026-03-28 18:54:45] SESSION iduser: 97
+[2026-03-28 18:54:45] === VERIFICANDO PAGAMENTO: 151595094939 ===
+[2026-03-28 18:54:45] Pagamento não encontrado: 151595094939
+[2026-03-28 18:54:50] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:54:50] POST: {"verificar_pagamento":"1","payment_id":"151595094939"}
+[2026-03-28 18:54:50] SESSION iduser: 97
+[2026-03-28 18:54:50] === VERIFICANDO PAGAMENTO: 151595094939 ===
+[2026-03-28 18:54:50] Pagamento não encontrado: 151595094939
+[2026-03-28 18:54:55] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:54:55] POST: {"verificar_pagamento":"1","payment_id":"151595094939"}
+[2026-03-28 18:54:55] SESSION iduser: 97
+[2026-03-28 18:54:55] === VERIFICANDO PAGAMENTO: 151595094939 ===
+[2026-03-28 18:54:55] Pagamento não encontrado: 151595094939
+[2026-03-28 18:55:00] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:55:00] POST: {"verificar_pagamento":"1","payment_id":"151595094939"}
+[2026-03-28 18:55:00] SESSION iduser: 97
+[2026-03-28 18:55:00] === VERIFICANDO PAGAMENTO: 151595094939 ===
+[2026-03-28 18:55:00] Pagamento não encontrado: 151595094939
+[2026-03-28 18:55:05] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:55:05] POST: {"verificar_pagamento":"1","payment_id":"151595094939"}
+[2026-03-28 18:55:05] SESSION iduser: 97
+[2026-03-28 18:55:05] === VERIFICANDO PAGAMENTO: 151595094939 ===
+[2026-03-28 18:55:05] Pagamento não encontrado: 151595094939
+[2026-03-28 18:55:10] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:55:10] POST: {"verificar_pagamento":"1","payment_id":"151595094939"}
+[2026-03-28 18:55:10] SESSION iduser: 97
+[2026-03-28 18:55:10] === VERIFICANDO PAGAMENTO: 151595094939 ===
+[2026-03-28 18:55:10] Pagamento não encontrado: 151595094939
+[2026-03-28 18:55:15] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:55:15] POST: {"verificar_pagamento":"1","payment_id":"151595094939"}
+[2026-03-28 18:55:15] SESSION iduser: 97
+[2026-03-28 18:55:15] === VERIFICANDO PAGAMENTO: 151595094939 ===
+[2026-03-28 18:55:15] Pagamento não encontrado: 151595094939
+[2026-03-28 18:55:20] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:55:20] POST: {"verificar_pagamento":"1","payment_id":"151595094939"}
+[2026-03-28 18:55:20] SESSION iduser: 97
+[2026-03-28 18:55:20] === VERIFICANDO PAGAMENTO: 151595094939 ===
+[2026-03-28 18:55:20] Pagamento não encontrado: 151595094939
+[2026-03-28 18:56:43] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:56:43] POST: []
+[2026-03-28 18:56:43] SESSION iduser: 97
+[2026-03-28 18:56:44] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:56:44] POST: {"criar_pagamento":"1"}
+[2026-03-28 18:56:44] SESSION iduser: 97
+[2026-03-28 18:56:44] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-28 18:56:44] Valor a pagar: 2
+[2026-03-28 18:56:46] API MP Response: HTTP 201
+[2026-03-28 18:56:46] Pagamento criado: 152329740978
+[2026-03-28 18:56:52] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:56:52] POST: {"verificar_pagamento":"1","payment_id":"152329740978"}
+[2026-03-28 18:56:52] SESSION iduser: 97
+[2026-03-28 18:56:52] === VERIFICANDO PAGAMENTO: 152329740978 ===
+[2026-03-28 18:56:52] Pagamento não encontrado: 152329740978
+[2026-03-28 18:56:57] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:56:57] POST: {"verificar_pagamento":"1","payment_id":"152329740978"}
+[2026-03-28 18:56:57] SESSION iduser: 97
+[2026-03-28 18:56:57] === VERIFICANDO PAGAMENTO: 152329740978 ===
+[2026-03-28 18:56:57] Pagamento não encontrado: 152329740978
+[2026-03-28 18:59:29] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:59:29] POST: []
+[2026-03-28 18:59:29] SESSION iduser: 97
+[2026-03-28 18:59:35] === INICIANDO RENOVAR PLANO ===
+[2026-03-28 18:59:35] POST: {"verificar_pagamento":"1","payment_id":"151595914839"}
+[2026-03-28 18:59:35] SESSION iduser: 97
+[2026-03-28 18:59:35] === VERIFICANDO PAGAMENTO: 151595914839 ===
+[2026-03-28 18:59:35] Pagamento não encontrado: 151595914839
+[2026-03-28 19:05:15] Verificando pagamento: 151595914839
+[2026-03-28 19:05:16] Status MP: pending
+[2026-03-28 19:05:20] Verificando pagamento: 151595914839
+[2026-03-28 19:05:21] Status MP: pending
+[2026-03-28 19:05:48] Criar pagamento: HTTP 201
+[2026-03-28 19:05:48] salvarUnificado: payment_id=152331842416 status=pending ok=SIM
+[2026-03-28 19:05:48] Pagamento PENDING salvo: payment_id=152331842416 user=mega10 valor=2
+[2026-03-28 19:05:54] Verificando pagamento: 152331842416
+[2026-03-28 19:05:54] Status MP: pending
+[2026-03-28 19:05:59] Verificando pagamento: 152331842416
+[2026-03-28 19:05:59] Status MP: pending
+[2026-03-28 19:06:04] Verificando pagamento: 152331842416
+[2026-03-28 19:06:04] Status MP: pending
+[2026-03-28 19:06:09] Verificando pagamento: 152331842416
+[2026-03-28 19:06:10] Status MP: pending
+[2026-03-28 19:06:14] Verificando pagamento: 152331842416
+[2026-03-28 19:06:15] Status MP: pending
+[2026-03-28 19:06:19] Verificando pagamento: 152331842416
+[2026-03-28 19:06:20] Status MP: pending
+[2026-03-28 19:06:24] Verificando pagamento: 152331842416
+[2026-03-28 19:06:25] Status MP: pending
+[2026-03-31 02:10:18] Criar pagamento: HTTP 201
+[2026-03-31 02:10:18] salvarUnificado: payment_id=152620474894 status=pending ok=SIM
+[2026-03-31 02:10:18] Pagamento PENDING salvo: payment_id=152620474894 user=mega10 valor=1
+[2026-03-31 02:10:23] Verificando pagamento: 152620474894
+[2026-03-31 02:10:24] Status MP: pending
+[2026-03-31 02:10:28] Verificando pagamento: 152620474894
+[2026-03-31 02:10:29] Status MP: pending
+[2026-03-31 02:10:33] Verificando pagamento: 152620474894
+[2026-03-31 02:10:34] Status MP: pending
+[2026-03-31 02:10:38] Verificando pagamento: 152620474894
+[2026-03-31 02:10:39] Status MP: pending
+[2026-03-31 02:10:43] Verificando pagamento: 152620474894
+[2026-03-31 02:10:44] Status MP: pending
+[2026-03-31 02:10:48] Verificando pagamento: 152620474894
+[2026-03-31 02:10:49] Status MP: pending
+[2026-03-31 02:10:53] Verificando pagamento: 152620474894
+[2026-03-31 02:10:54] Status MP: pending
+[2026-03-31 02:10:58] Verificando pagamento: 152620474894
+[2026-03-31 02:10:59] Status MP: pending
+[2026-03-31 02:11:03] Verificando pagamento: 152620474894
+[2026-03-31 02:11:04] Status MP: pending
+[2026-03-31 02:11:08] Verificando pagamento: 152620474894
+[2026-03-31 02:11:09] Status MP: pending
+[2026-03-31 02:11:13] Verificando pagamento: 152620474894
+[2026-03-31 02:11:14] Status MP: pending
+[2026-03-31 02:11:18] Verificando pagamento: 152620474894
+[2026-03-31 02:11:19] Status MP: pending
+[2026-03-31 02:11:23] Verificando pagamento: 152620474894
+[2026-03-31 02:11:24] Status MP: approved
+[2026-03-31 02:11:24] Validade atualizada: 2026-09-21 10:48:11 → 2026-10-21 10:48:11
+[2026-03-31 02:11:24] WhatsApp enviado para 61992510181 - renovação confirmada
+[2026-03-31 02:11:24] Renovação aprovada! Nova validade: 2026-10-21 10:48:11
+[2026-03-31 04:15:33] Criar pagamento: HTTP 201
+[2026-03-31 04:15:33] salvarUnificado: payment_id=151889007083 status=pending ok=SIM
+[2026-03-31 04:15:33] Pagamento PENDING salvo: payment_id=151889007083 user=mega10 valor=1
+[2026-03-31 04:15:38] Verificando pagamento: 151889007083
+[2026-03-31 04:15:39] Status MP: pending
+[2026-03-31 04:15:43] Verificando pagamento: 151889007083
+[2026-03-31 04:15:44] Status MP: pending
+[2026-03-31 04:15:48] Verificando pagamento: 151889007083
+[2026-03-31 04:15:49] Status MP: pending
+[2026-03-31 04:15:53] Verificando pagamento: 151889007083
+[2026-03-31 04:15:54] Status MP: pending
+[2026-03-31 04:15:58] Verificando pagamento: 151889007083
+[2026-03-31 04:15:59] Status MP: pending
+[2026-03-31 04:16:03] Verificando pagamento: 151889007083
+[2026-03-31 04:16:04] Status MP: pending
+[2026-03-31 04:16:08] Verificando pagamento: 151889007083
+[2026-03-31 04:16:09] Status MP: approved
+[2026-03-31 04:16:09] Validade atualizada: 2026-10-21 10:48:11 → 2026-11-20 10:48:11
+[2026-03-31 04:16:09] WhatsApp enviado para 61992510181 - renovação confirmada
+[2026-03-31 04:16:09] Renovação aprovada! Nova validade: 2026-11-20 10:48:11
+[2026-03-31 05:23:37] Criar pagamento: HTTP 201
+[2026-03-31 05:23:37] salvarUnificado: payment_id=152632914106 status=pending ok=SIM
+[2026-03-31 05:23:37] Pagamento PENDING salvo: payment_id=152632914106 user=mega10 valor=1
+[2026-03-31 05:23:42] Verificando pagamento: 152632914106
+[2026-03-31 05:23:42] Status MP: pending
+[2026-03-31 05:23:47] Verificando pagamento: 152632914106
+[2026-03-31 05:23:47] Status MP: pending
+[2026-03-31 05:23:52] Verificando pagamento: 152632914106
+[2026-03-31 05:23:52] Status MP: pending
+[2026-03-31 05:23:57] Verificando pagamento: 152632914106
+[2026-03-31 05:23:57] Status MP: pending
+[2026-03-31 05:24:02] Verificando pagamento: 152632914106
+[2026-03-31 05:24:02] Status MP: pending
+[2026-03-31 05:24:07] Verificando pagamento: 152632914106
+[2026-03-31 05:24:07] Status MP: approved
+[2026-03-31 05:24:07] Validade atualizada: 2026-11-20 10:48:11 → 2026-12-20 10:48:11
+[2026-03-31 05:24:07] WhatsApp enviado para revendedor mega10 (61992510181)
+[2026-03-31 05:24:07] Renovação aprovada! Nova validade: 2026-12-20 10:48:11
+[2026-03-31 05:32:22] Criar pagamento: HTTP 201
+[2026-03-31 05:32:22] salvarUnificado: payment_id=152632612310 status=pending ok=SIM
+[2026-03-31 05:32:22] Pagamento PENDING salvo: payment_id=152632612310 user=mega10 valor=1
+[2026-03-31 05:32:27] Verificando pagamento: 152632612310
+[2026-03-31 05:32:27] Status MP: pending
+[2026-03-31 05:32:32] Verificando pagamento: 152632612310
+[2026-03-31 05:32:32] Status MP: pending
+[2026-03-31 05:32:37] Verificando pagamento: 152632612310
+[2026-03-31 05:32:37] Status MP: pending
+[2026-03-31 05:32:42] Verificando pagamento: 152632612310
+[2026-03-31 05:32:42] Status MP: pending
+[2026-03-31 05:32:47] Verificando pagamento: 152632612310
+[2026-03-31 05:32:47] Status MP: approved
+[2026-03-31 05:32:47] Validade atualizada: 2026-12-20 10:48:11 → 2027-01-19 10:48:11
+[2026-03-31 05:32:47] WhatsApp enviado para revendedor mega10 (61992510181)
+[2026-03-31 05:32:47] Renovação aprovada! Nova validade: 2027-01-19 10:48:11
+[2026-03-31 05:37:09] Criar pagamento: HTTP 201
+[2026-03-31 05:37:09] salvarUnificado: payment_id=152632948330 status=pending ok=SIM
+[2026-03-31 05:37:09] Pagamento PENDING salvo: payment_id=152632948330 user=mega10 valor=1
+[2026-03-31 05:37:14] Verificando pagamento: 152632948330
+[2026-03-31 05:37:14] Status MP: pending
+[2026-03-31 05:37:19] Verificando pagamento: 152632948330
+[2026-03-31 05:37:19] Status MP: pending
+[2026-03-31 05:37:24] Verificando pagamento: 152632948330
+[2026-03-31 05:37:24] Status MP: pending
+[2026-03-31 05:37:29] Verificando pagamento: 152632948330
+[2026-03-31 05:37:29] Status MP: pending
+[2026-03-31 05:37:34] Verificando pagamento: 152632948330
+[2026-03-31 05:37:34] Status MP: pending
+[2026-03-31 05:37:39] Verificando pagamento: 152632948330
+[2026-03-31 05:37:39] Status MP: pending
+[2026-03-31 05:37:44] Verificando pagamento: 152632948330
+[2026-03-31 05:37:44] Status MP: approved
+[2026-03-31 05:37:44] Validade atualizada: 2027-01-19 10:48:11 → 2027-02-18 10:48:11
+[2026-03-31 05:37:44] WhatsApp enviado para revendedor mega10 (61992510181)
+[2026-03-31 05:37:44] Renovação aprovada! Nova validade: 2027-02-18 10:48:11
+[2026-03-31 05:53:28] Criar pagamento: HTTP 201
+[2026-03-31 05:53:28] salvarUnificado: payment_id=152633418560 status=pending ok=SIM
+[2026-03-31 05:53:28] Pagamento PENDING salvo: payment_id=152633418560 user=mega10 valor=1
+[2026-03-31 05:53:33] Verificando pagamento: 152633418560
+[2026-03-31 05:53:33] Status MP: pending
+[2026-03-31 05:53:38] Verificando pagamento: 152633418560
+[2026-03-31 05:53:38] Status MP: pending
+[2026-03-31 05:53:43] Verificando pagamento: 152633418560
+[2026-03-31 05:53:43] Status MP: pending
+[2026-03-31 05:53:48] Verificando pagamento: 152633418560
+[2026-03-31 05:53:48] Status MP: approved
+[2026-03-31 05:53:48] Validade atualizada: 2027-02-18 10:48:11 → 2027-03-20 10:48:11
+[2026-03-31 05:53:48] WhatsApp enviado para revendedor mega10 (61992510181)
+[2026-03-31 05:53:48] Renovação aprovada! Nova validade: 2027-03-20 10:48:11
+[2026-03-31 06:06:50] verificar_pagamento id=152632172862 user=97
+[2026-03-31 06:06:51] MP status HTTP=200 resp={"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"bank_info":{"is_same_bank_account_owner":true},"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.149.0-rc-1","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-31T04:54:25.000-04:00","external_charge_id":"01KN1HKTRTE5VJGRPMAFHTZZEX","id":"152632172862-001","last_updated":"2026-03-31T04:54:25.000-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-31T04:54:25.315-04:00","execution_id":"01KN1HKTQV5NCPC7CSPSQYBXRP"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":"2026-03-31T04:54:56.000-04:00","date_created":"2026-03-31T04:54:25.000-04:00","date_last_updated":"2026-03-31T04:55:03.000-04:00","date_of_expiration":"2026-04-01T04:54:25.000-04:00","deduction_schema":null,"description":"Compra de Plano de Revenda - 1","differential_pricing_id":null,"external_reference":"compra_revenda_97_62_1774947264","fee_details":[{"amount":0.01,"fee_payer":"collector","type":"mercadopago_fee"}],"financing_group":null,"id":152632172862,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":"2026-03-31T04:54:56.000-04:00","money_release_schema":null,"money_release_status":"released","notification_url":"http://teste.painelcontrole.xyz/api/webhooks/mercadopago.php","operation_type":"regular_payment","order":{},"payer":{"email":"XXXXXXXXXXX","entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":"99999999999","type":"CPF"},"last_name":null,"operator_id":null,"phone":{"number":null,"extension":null,"area_code":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"sub_type":"INTER_PSP","transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":57597948393,"long_name":"MERCADO PAGO INSTITUIÇÃO DE PAGAMENTO LTDA.","transfer_account_id":null},"is_same_bank_account_owner":true,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":93197136,"branch":"1","external_account_id":null,"id":null,"identification":{},"long_name":"PICPAY INSTITUIçãO DE PAGAMENTO S.A."}},"bank_transfer_id":123343966746,"e2e_id":null,"financial_institution":1,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter1526321728626304D2B7","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/152632172862/ticket?caller_id=1616344520&hash=4d03d8bd-7346-4c2c-aa68-660b55b0f0db","transaction_id":"PIXE22896431202603310854iR86kN2BFGF"},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"approved","status_detail":"accredited","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":123343966746,"external_resource_url":null,"financial_institution":"1","installment_amount":0,"net_received_amount":0.99,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":"PIXE22896431202603310854iR86kN2BFGF"}}
+[2026-03-31 06:06:51] status_mp=approved
+[2026-03-31 06:06:51] WhatsApp para 61992510181 byid=74 resultado=FALHOU
+[2026-03-31 06:06:51] Renovação APROVADA! Nova validade=2027-04-19 10:48:11
+[2026-03-31 06:07:08] criar_pagamento HTTP=201 curl_err=
+[2026-03-31 06:07:13] verificar_pagamento id=152633374426 user=97
+[2026-03-31 06:07:13] MP status HTTP=200 resp={"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.150.0-rc-6","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-31T05:07:08.000-04:00","external_charge_id":"01KN1JB435TPJ3W7NCGP15FMYJ","id":"152633374426-001","last_updated":"2026-03-31T05:07:08.000-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-31T05:07:08.528-04:00","execution_id":"01KN1JB422PTZP0RTX6XJ715VV"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-31T05:07:08.000-04:00","date_last_updated":"2026-03-31T05:07:08.000-04:00","date_of_expiration":"2026-04-01T05:07:08.000-04:00","deduction_schema":null,"description":"Renovação de Revenda - mega10","differential_pricing_id":null,"external_reference":"renovacao_revenda_97_1774948027","fee_details":[],"financing_group":null,"id":152633374426,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":null,"operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"number":null,"extension":null,"area_code":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15263337442663048973","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/152633374426/ticket?caller_id=1616344520&hash=08c0e81b-3361-4f40-a4b3-919e7ee4fe44","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-31 06:07:13] status_mp=pending
+[2026-03-31 06:07:17] verificar_pagamento id=152633374426 user=97
+[2026-03-31 06:07:17] MP status HTTP=200 resp={"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.150.0-rc-6","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-31T05:07:08.000-04:00","external_charge_id":"01KN1JB435TPJ3W7NCGP15FMYJ","id":"152633374426-001","last_updated":"2026-03-31T05:07:08.000-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-31T05:07:08.528-04:00","execution_id":"01KN1JB422PTZP0RTX6XJ715VV"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-31T05:07:08.000-04:00","date_last_updated":"2026-03-31T05:07:10.000-04:00","date_of_expiration":"2026-04-01T05:07:08.000-04:00","deduction_schema":null,"description":"Renovação de Revenda - mega10","differential_pricing_id":null,"external_reference":"renovacao_revenda_97_1774948027","fee_details":[],"financing_group":null,"id":152633374426,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":null,"operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"number":null,"extension":null,"area_code":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15263337442663048973","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/152633374426/ticket?caller_id=1616344520&hash=08c0e81b-3361-4f40-a4b3-919e7ee4fe44","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-31 06:07:17] status_mp=pending
+[2026-03-31 06:07:21] verificar_pagamento id=152633374426 user=97
+[2026-03-31 06:07:21] MP status HTTP=200 resp={"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.150.0-rc-6","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-31T05:07:08.000-04:00","external_charge_id":"01KN1JB435TPJ3W7NCGP15FMYJ","id":"152633374426-001","last_updated":"2026-03-31T05:07:08.000-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-31T05:07:08.528-04:00","execution_id":"01KN1JB422PTZP0RTX6XJ715VV"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-31T05:07:08.000-04:00","date_last_updated":"2026-03-31T05:07:10.000-04:00","date_of_expiration":"2026-04-01T05:07:08.000-04:00","deduction_schema":null,"description":"Renovação de Revenda - mega10","differential_pricing_id":null,"external_reference":"renovacao_revenda_97_1774948027","fee_details":[],"financing_group":null,"id":152633374426,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":null,"operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"number":null,"extension":null,"area_code":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15263337442663048973","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/152633374426/ticket?caller_id=1616344520&hash=08c0e81b-3361-4f40-a4b3-919e7ee4fe44","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-31 06:07:21] status_mp=pending
+[2026-03-31 06:07:25] verificar_pagamento id=152633374426 user=97
+[2026-03-31 06:07:25] MP status HTTP=200 resp={"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.150.0-rc-6","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-31T05:07:08.000-04:00","external_charge_id":"01KN1JB435TPJ3W7NCGP15FMYJ","id":"152633374426-001","last_updated":"2026-03-31T05:07:08.000-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-31T05:07:08.528-04:00","execution_id":"01KN1JB422PTZP0RTX6XJ715VV"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-31T05:07:08.000-04:00","date_last_updated":"2026-03-31T05:07:10.000-04:00","date_of_expiration":"2026-04-01T05:07:08.000-04:00","deduction_schema":null,"description":"Renovação de Revenda - mega10","differential_pricing_id":null,"external_reference":"renovacao_revenda_97_1774948027","fee_details":[],"financing_group":null,"id":152633374426,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":null,"operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"number":null,"extension":null,"area_code":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15263337442663048973","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/152633374426/ticket?caller_id=1616344520&hash=08c0e81b-3361-4f40-a4b3-919e7ee4fe44","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-31 06:07:25] status_mp=pending
+[2026-03-31 06:07:29] verificar_pagamento id=152633374426 user=97
+[2026-03-31 06:07:29] MP status HTTP=200 resp={"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.150.0-rc-6","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-31T05:07:08.000-04:00","external_charge_id":"01KN1JB435TPJ3W7NCGP15FMYJ","id":"152633374426-001","last_updated":"2026-03-31T05:07:08.000-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-31T05:07:08.528-04:00","execution_id":"01KN1JB422PTZP0RTX6XJ715VV"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-31T05:07:08.000-04:00","date_last_updated":"2026-03-31T05:07:10.000-04:00","date_of_expiration":"2026-04-01T05:07:08.000-04:00","deduction_schema":null,"description":"Renovação de Revenda - mega10","differential_pricing_id":null,"external_reference":"renovacao_revenda_97_1774948027","fee_details":[],"financing_group":null,"id":152633374426,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":null,"operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"number":null,"extension":null,"area_code":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15263337442663048973","qr_code_base64":"iVBORw0KGgoAAAANSUhEUgAABRQAAAUUAQMAAACUKAyrAAAABlBMVEX///8AAABVwtN+AAAIrklEQVR42uzdQXLiShIG4CJYsOQIHIWj4aP5KByBJQsCTUzbhTKrSgbPc3dPPH3/5kWokfTJu3xZlVVERERERERERERERERERERERERERERERERERERERP5Psp/6nAe/O3z+272Ubf5dvXZNv9+E572Xcvrvf2/1jedSjoP3vjEyMjIyMjIyMjIyMjIyjo2ZtAuPGN+yHX/LLrytu+fU/hGO7Y+OjIyMjIyMjIyMjIyMjH/PWB9xq8Yyl6VdgXvL10Kdekk3bnNZWp8ejPFGRkZGRkZGRkZGRkZGRsbvGcMd8bFdf/b0+apb+9xNQIdifReuMTIyMjIyMjIyMjIyMjL+Q2N+7OGzTN7UH10GPd+P9cF5zfB5/t0tt4IZGRkZGRkZGRkZGRkZGb9h7NY1l7l0vqbe8D3cmNcw7+qr8u8O8+/iptgfWHvNyMjIyMjIyMjIyMjIuB7jaFbT8XMp8j3U179GLj3mMu3b3vAulMl1XXO4cco3/sA8KUZGRkZGRkZGRkZGRsYfMC7k2G5lre6+75pr19pjfRjLvAd2CsYfCCMjIyMjIyMjIyMjI+N6jIfPkripr8Oa4YWZwud2zXCorz+WCO/bzbOjIU8f7ndGRkZGRkZGRkZGRkZGxq9ySiOE87VYEne94ZptO2e4T/i4ui92k4cWvzEyMjIyMjIyMjIyMjIyfpXRnOFqLGF5cugNH+YyuVnXHNz5YVO6seQ9sIWRkZGRkZGRkZGRkZGRcZB92+K9zjOF457cMqivu5J4n24s+ePyG4/zQKddGlDMyMjIyMjIyMjIyMjI+KeN+VX57NTuGJn7+ONu+Vvq6/f19XVW0xTmN4UPeWWGLyMjIyMjIyMjIyMjI+O6jaMjY4LxUp8SPFNbS8fzZ2pLNd845fNnumuFkZGRkZGRkZGRkZGRkfEV40Kn9pD2rl7DtbA+eHlWUz479ZBesMvziBkZGRkZGRkZGRkZGRkZF/Kk2u3Od+3cU+oDl3xGzikV5h/uMGf4694wIyMjIyMjIyMjIyMj47qNj3HB9UjWKdXXo95w8yG5XzwyHgeF+fv8xuuzOcOMjIyMjIyMjIyMjIyMv9XY/WuY13vPR8aEmU6XuSaN9Wye4XtJ17Zh8+xxvFGWkZGRkZGRkZGRkZGRkXGhvg6vmtKZqKWdM9yUyXmm8H7wIWF9cKyl31NFf3mh78rIyMjIyMjIyMjIyMi4VuPjVeEph7Y3HOYMN6kDnZqzU/MI4dBDvqYdth/1dXnWG2ZkZGRkZGRkZGRkZGRct/FRX3ee8vQUmzCrqbTrmjf19XlAcflH/w+AkZGRkZGRkZGRkZGRca3GXCbHdc3PF0TnAcX5fNdt7Q1P8+zha9oFPHWFOSMjIyMjIyMjIyMjI+OfN57bHusjv65d29p1G16VG7ELxvfPa/HQ1Sntdx2deMPIyMjIyMjIyMjIyMjIGHNKndE8GnhKo5Q2eStr13cNH9c8LH9cSRX9K2FkZGRkZGRkZGRkZGRcsfGQHrtLY4DvoQgfLf3NN+Y9sM2+2MWzU/PmWUZGRkZGRkZGRkZGRkbG5TQlcV2K3J3v+liKvLDfNWyU3afNs1O7oXbz8jwpRkZGRkZGRkZGRkZGxnUbD9MwnfFXD/kePOfB4OFw4y0X5mEldZfLa71hRkZGRkZGRkZGRkZGxlUauzuuYa1znj0c9uR2ZfJoM+8t/wXGb+yayoyMjIyMjIyMjIyMjIx/2nhOrdK8bTXWqSHxWu7FLiw2fkt91/Ah8TxVRkZGRkZGRkZGRkZGRsbl1PNwPqYpjUric9t3/Vgz/Na6Fxq24UeX+QX3ML/plTnDjIyMjIyMjIyMjIyMjCs21mxDH3ga9oY3oZbubpzqwbCjNcNhN209N+f7s5oYGRkZGRkZGRkZGRkZV2gcrWsOG2DvbX3dz2oKZfIjob4+tI3mbvBTqRcYGRkZGRkZGRkZGRkZGZ8Y74MW7z1cqCXxrV3XfM+vr9e2uXTubiypWGdkZGRkZGRkZGRkZGT8K8ZcbnaV5CbPZTpN/dmpeb9rl8N48+wxHVzDyMjIyMjIyMjIyMjIyPi9c0nzcafXsMz3NDdnS93vWuvr7uNug1lN18Eq5euzvisjIyMjIyMjIyMjIyPj6o1l7tQ2Z+R0veHT3PMNs5piv/h9HvwUi/DaG35cC43m8tqcYUZGRkZGRkZGRkZGRsYVGxdeVUozTem97Q2f0yGwcVxwqLkXznd9b7vRX4eRkZGRkZGRkZGRkZFxxcZc2Y7OyOnOd33U192C6HzUzTbMahr3hr+1b5iRkZGRkZGRkZGRkZHxdxhLOgJ1m86aKdV4GT/21aW/9dq2XZx87z6YkZGRkZGRkZGRkZGRkXHBGOYMl1QS30MRnlf1jgrzfXvjl33X75zvysjIyMjIyMjIyMjIyLhi4759xGjNcGzx5pymPm9zvzgOIw5Pz7m2TWVGRkZGRkZGRkZGRkZGxhdybGvpj35xPsv1MP6409z2vYQBxaEI/1/Pd2VkZGRkZGRkZGRkZGRcpXE/KHgfZ7mO27lxXXOd1dS8Kj+vzm+65Q9+ec4wIyMjIyMjIyMjIyMj4281ntOF3VynTqFOXahnT6l2zcZbuwC5+SNk49e9YUZGRkZGRkZGRkZGRsbVG+vS39vA2PViH3OZDtNSwmLjMj9sO/7x9VkTmJGRkZGRkZGRkZGRkZFx0ZgfcUxPDmfk3MNy4NoHbnrDp9kYFhu/vmaYkZGRkZGRkZGRkZGRkbE1lrl72+VW//HQ9oE746Utwke19C4MeWJkZGRkZGRkZGRkZGRk/Ma65u48nDqGKW6jnea5TPF816/OyCl1flMpJdTcR0ZGRkZGRkZGRkZGRsa/ZFyY1VTSq/J+11393emLGb55+O8LYWRkZGRkZGRkZGRkZGQUERERERERERERERERERERERERERERERERERERkX9//hMAAP//7uMJzZZDsekAAAAASUVORK5CYII=","ticket_url":"https://www.mercadopago.com.br/payments/152633374426/ticket?caller_id=1616344520&hash=08c0e81b-3361-4f40-a4b3-919e7ee4fe44","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-31 06:07:29] status_mp=pending
+[2026-03-31 06:07:33] verificar_pagamento id=152633374426 user=97
+[2026-03-31 06:07:33] MP status HTTP=200 resp={"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.150.0-rc-6","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-31T05:07:08.000-04:00","external_charge_id":"01KN1JB435TPJ3W7NCGP15FMYJ","id":"152633374426-001","last_updated":"2026-03-31T05:07:08.000-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-31T05:07:08.528-04:00","execution_id":"01KN1JB422PTZP0RTX6XJ715VV"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-31T05:07:08.000-04:00","date_last_updated":"2026-03-31T05:07:10.000-04:00","date_of_expiration":"2026-04-01T05:07:08.000-04:00","deduction_schema":null,"description":"Renovação de Revenda - mega10","differential_pricing_id":null,"external_reference":"renovacao_revenda_97_1774948027","fee_details":[],"financing_group":null,"id":152633374426,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":null,"operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"number":null,"extension":null,"area_code":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15263337442663048973","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/152633374426/ticket?caller_id=1616344520&hash=08c0e81b-3361-4f40-a4b3-919e7ee4fe44","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-31 06:07:33] status_mp=pending
+[2026-03-31 06:07:37] verificar_pagamento id=152633374426 user=97
+[2026-03-31 06:07:37] MP status HTTP=200 resp={"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"bank_info":{"is_same_bank_account_owner":true},"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.150.0-rc-6","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-31T05:07:08.000-04:00","external_charge_id":"01KN1JB435TPJ3W7NCGP15FMYJ","id":"152633374426-001","last_updated":"2026-03-31T05:07:08.000-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-31T05:07:08.528-04:00","execution_id":"01KN1JB422PTZP0RTX6XJ715VV"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":"2026-03-31T05:07:34.000-04:00","date_created":"2026-03-31T05:07:08.000-04:00","date_last_updated":"2026-03-31T05:07:34.000-04:00","date_of_expiration":"2026-04-01T05:07:08.000-04:00","deduction_schema":null,"description":"Renovação de Revenda - mega10","differential_pricing_id":null,"external_reference":"renovacao_revenda_97_1774948027","fee_details":[{"amount":0.01,"fee_payer":"collector","type":"mercadopago_fee"}],"financing_group":null,"id":152633374426,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":"2026-03-31T05:07:34.000-04:00","money_release_schema":null,"money_release_status":"released","notification_url":null,"operation_type":"regular_payment","order":{},"payer":{"email":"XXXXXXXXXXX","entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":"99999999999","type":"CPF"},"last_name":null,"operator_id":null,"phone":{"number":null,"extension":null,"area_code":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"sub_type":"INTER_PSP","transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":57597948393,"long_name":"MERCADO PAGO INSTITUIÇÃO DE PAGAMENTO LTDA.","transfer_account_id":null},"is_same_bank_account_owner":true,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":93197136,"branch":"1","external_account_id":null,"id":null,"identification":{},"long_name":"PICPAY INSTITUIçãO DE PAGAMENTO S.A."}},"bank_transfer_id":123344009722,"e2e_id":null,"financial_institution":1,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15263337442663048973","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/152633374426/ticket?caller_id=1616344520&hash=08c0e81b-3361-4f40-a4b3-919e7ee4fe44","transaction_id":"PIXE22896431202603310907Q6ddhJYWJmu"},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"approved","status_detail":"accredited","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":123344009722,"external_resource_url":null,"financial_institution":"1","installment_amount":0,"net_received_amount":0.99,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":"PIXE22896431202603310907Q6ddhJYWJmu"}}
+[2026-03-31 06:07:37] status_mp=approved
+[2026-03-31 06:07:37] WhatsApp para 61992510181 byid=74 resultado=FALHOU
+[2026-03-31 06:07:37] Renovação APROVADA! Nova validade=2027-05-19 10:48:11
+[2026-03-31 06:18:50] criar_pagamento HTTP=201 curl_err=
+[2026-03-31 06:18:50] PIX gerado payment_id=152633374620 valor=1
+[2026-03-31 06:18:54] verificar_pagamento id=152633374620 user=97
+[2026-03-31 06:18:55] MP API verificar HTTP=200 curl_err=
+[2026-03-31 06:18:55] status_mp=pending payment_id=152633374620
+[2026-03-31 06:18:55] Status ainda: pending
+[2026-03-31 06:18:58] verificar_pagamento id=152633374620 user=97
+[2026-03-31 06:18:59] MP API verificar HTTP=200 curl_err=
+[2026-03-31 06:18:59] status_mp=pending payment_id=152633374620
+[2026-03-31 06:18:59] Status ainda: pending
+[2026-03-31 06:19:02] verificar_pagamento id=152633374620 user=97
+[2026-03-31 06:19:03] MP API verificar HTTP=200 curl_err=
+[2026-03-31 06:19:03] status_mp=pending payment_id=152633374620
+[2026-03-31 06:19:03] Status ainda: pending
+[2026-03-31 06:19:06] verificar_pagamento id=152633374620 user=97
+[2026-03-31 06:19:07] MP API verificar HTTP=200 curl_err=
+[2026-03-31 06:19:07] status_mp=pending payment_id=152633374620
+[2026-03-31 06:19:07] Status ainda: pending
+[2026-03-31 06:19:10] verificar_pagamento id=152633374620 user=97
+[2026-03-31 06:19:11] MP API verificar HTTP=200 curl_err=
+[2026-03-31 06:19:11] status_mp=pending payment_id=152633374620
+[2026-03-31 06:19:11] Status ainda: pending
+[2026-03-31 06:19:14] verificar_pagamento id=152633374620 user=97
+[2026-03-31 06:19:15] MP API verificar HTTP=200 curl_err=
+[2026-03-31 06:19:15] status_mp=pending payment_id=152633374620
+[2026-03-31 06:19:15] Status ainda: pending
+[2026-03-31 06:19:18] verificar_pagamento id=152633374620 user=97
+[2026-03-31 06:19:19] MP API verificar HTTP=200 curl_err=
+[2026-03-31 06:19:19] status_mp=approved payment_id=152633374620
+[2026-03-31 06:19:19] atribuidos atualizado nova_validade=2027-06-18 10:48:11
+[2026-03-31 06:19:19] WPP: numero_revendedor=61992510181 byid=74
+[2026-03-31 06:19:19] WPP: dados incompletos api= tok= inst=54356
+[2026-03-31 06:19:19] WPP resultado=FALHOU para=61992510181 byid=74
+[2026-03-31 06:19:19] Renovação APROVADA! nova_validade=2027-06-18 10:48:11
+[2026-03-31 07:13:08] criar_pagamento HTTP=201 curl_err=
+[2026-03-31 07:13:08] PIX gerado payment_id=151902822311 valor=1
+[2026-03-31 07:13:08] salvarUnificado: payment_id=151902822311 status=pending ok=SIM
+[2026-03-31 07:13:13] verificar_pagamento id=151902822311 user=97
+[2026-03-31 07:13:14] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:13:14] status_mp=pending payment_id=151902822311
+[2026-03-31 07:13:14] Status ainda: pending
+[2026-03-31 07:13:18] verificar_pagamento id=151902822311 user=97
+[2026-03-31 07:13:19] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:13:19] status_mp=pending payment_id=151902822311
+[2026-03-31 07:13:19] Status ainda: pending
+[2026-03-31 07:13:23] verificar_pagamento id=151902822311 user=97
+[2026-03-31 07:13:24] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:13:24] status_mp=pending payment_id=151902822311
+[2026-03-31 07:13:24] Status ainda: pending
+[2026-03-31 07:13:28] verificar_pagamento id=151902822311 user=97
+[2026-03-31 07:13:29] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:13:29] status_mp=approved payment_id=151902822311
+[2026-03-31 07:13:29] atribuidos atualizado nova_validade=2027-07-18 10:48:11
+[2026-03-31 07:13:29] WPP: numero_revendedor=61992510181 byid=97
+[2026-03-31 07:13:29] WPP: revendedor byid=97 sem sessao cadastrada
+[2026-03-31 07:13:29] WPP: config não encontrada para byid=97
+[2026-03-31 07:13:29] WPP resultado=FALHOU para=61992510181 byid=97
+[2026-03-31 07:13:29] Renovação APROVADA! nova_validade=2027-07-18 10:48:11
+[2026-03-31 07:16:36] criar_pagamento HTTP=201 curl_err=
+[2026-03-31 07:16:36] PIX gerado payment_id=151902550587 valor=1
+[2026-03-31 07:16:36] salvarUnificado: payment_id=151902550587 status=pending ok=SIM
+[2026-03-31 07:16:41] verificar_pagamento id=151902550587 user=97
+[2026-03-31 07:16:42] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:16:42] status_mp=pending payment_id=151902550587
+[2026-03-31 07:16:42] Status ainda: pending
+[2026-03-31 07:16:46] verificar_pagamento id=151902550587 user=97
+[2026-03-31 07:16:47] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:16:47] status_mp=pending payment_id=151902550587
+[2026-03-31 07:16:47] Status ainda: pending
+[2026-03-31 07:16:51] verificar_pagamento id=151902550587 user=97
+[2026-03-31 07:16:52] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:16:52] status_mp=pending payment_id=151902550587
+[2026-03-31 07:16:52] Status ainda: pending
+[2026-03-31 07:16:56] verificar_pagamento id=151902550587 user=97
+[2026-03-31 07:16:57] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:16:57] status_mp=pending payment_id=151902550587
+[2026-03-31 07:16:57] Status ainda: pending
+[2026-03-31 07:17:01] verificar_pagamento id=151902550587 user=97
+[2026-03-31 07:17:02] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:17:02] status_mp=pending payment_id=151902550587
+[2026-03-31 07:17:02] Status ainda: pending
+[2026-03-31 07:17:06] verificar_pagamento id=151902550587 user=97
+[2026-03-31 07:17:07] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:17:07] status_mp=pending payment_id=151902550587
+[2026-03-31 07:17:07] Status ainda: pending
+[2026-03-31 07:17:11] verificar_pagamento id=151902550587 user=97
+[2026-03-31 07:17:12] MP API verificar HTTP=200 curl_err=
+[2026-03-31 07:17:12] status_mp=approved payment_id=151902550587
+[2026-03-31 07:17:12] atribuidos atualizado nova_validade=2027-08-17 10:48:11
+[2026-03-31 07:17:12] WPP: numero_revendedor=61992510181 byid=97
+[2026-03-31 07:17:12] WPP: revendedor byid=97 sem sessao cadastrada
+[2026-03-31 07:17:12] WPP: config não encontrada para byid=97
+[2026-03-31 07:17:12] WPP resultado=FALHOU para=61992510181 byid=97
+[2026-03-31 07:17:12] Renovação APROVADA! nova_validade=2027-08-17 10:48:11
+[2026-03-31 07:38:29] Criar pagamento: HTTP 201 | Response: {"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.150.0-rc-6","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-31T06:38:28.760-04:00","external_charge_id":"01KN1Q
+[2026-03-31 07:38:29] salvarUnificado: payment_id=151902823659 status=pending ok=SIM
+[2026-03-31 07:38:29] Pagamento PENDING salvo: payment_id=151902823659 user=mega10 valor=1
+[2026-03-31 07:38:34] Verificando pagamento: 151902823659
+[2026-03-31 07:38:34] Status MP: pending
+[2026-03-31 07:38:39] Verificando pagamento: 151902823659
+[2026-03-31 07:38:39] Status MP: pending
+[2026-03-31 07:38:44] Verificando pagamento: 151902823659
+[2026-03-31 07:38:44] Status MP: pending
+[2026-03-31 07:38:49] Verificando pagamento: 151902823659
+[2026-03-31 07:38:49] Status MP: pending
+[2026-03-31 07:38:54] Verificando pagamento: 151902823659
+[2026-03-31 07:38:54] Status MP: pending
+[2026-03-31 07:38:59] Verificando pagamento: 151902823659
+[2026-03-31 07:38:59] Status MP: approved
+[2026-03-31 07:38:59] Validade atualizada: 2027-08-17 10:48:11 → 2027-09-16 10:48:11
+[2026-03-31 07:38:59] WhatsApp renovação para 61992510181: FALHOU
+[2026-03-31 07:38:59] Renovação aprovada! Nova validade: 2027-09-16 10:48:11
+[2026-03-31 12:24:43] Criar pagamento: HTTP 201
+[2026-03-31 12:24:43] salvarUnificado: payment_id=152675922086 status=pending ok=SIM
+[2026-03-31 12:24:43] Pagamento PENDING salvo: payment_id=152675922086 user=mega10 valor=1
+[2026-03-31 12:24:48] Verificando pagamento: 152675922086
+[2026-03-31 12:24:48] Status MP: pending
+[2026-03-31 12:24:53] Verificando pagamento: 152675922086
+[2026-03-31 12:24:53] Status MP: pending
+[2026-03-31 12:24:58] Verificando pagamento: 152675922086
+[2026-03-31 12:24:58] Status MP: pending
+[2026-03-31 12:25:03] Verificando pagamento: 152675922086
+[2026-03-31 12:25:03] Status MP: pending
+[2026-03-31 12:25:08] Verificando pagamento: 152675922086
+[2026-03-31 12:25:08] Status MP: pending
+[2026-03-31 12:25:13] Verificando pagamento: 152675922086
+[2026-03-31 12:25:13] Status MP: pending
+[2026-03-31 12:25:18] Verificando pagamento: 152675922086
+[2026-03-31 12:25:18] Status MP: approved
+[2026-03-31 12:25:18] Validade atualizada: 2027-09-16 10:48:11 → 2027-10-16 10:48:11
+[2026-03-31 12:25:19] WhatsApp enviado para 5561992510181 via instância SuperNet
+[2026-03-31 12:25:19] WhatsApp renovação: ENVIADO para 61992510181
+[2026-03-31 12:25:19] Renovação aprovada! Nova validade: 2027-10-16 10:48:11
+[2026-03-31 12:29:04] Criar pagamento: HTTP 201
+[2026-03-31 12:29:04] salvarUnificado: payment_id=151942036531 status=pending ok=SIM
+[2026-03-31 12:29:04] Pagamento PENDING salvo: payment_id=151942036531 user=mega10 valor=1
+[2026-03-31 12:29:09] Verificando pagamento: 151942036531
+[2026-03-31 12:29:09] Status MP: pending
+[2026-03-31 12:29:14] Verificando pagamento: 151942036531
+[2026-03-31 12:29:14] Status MP: pending
+[2026-03-31 12:29:19] Verificando pagamento: 151942036531
+[2026-03-31 12:29:19] Status MP: pending
+[2026-03-31 12:29:24] Verificando pagamento: 151942036531
+[2026-03-31 12:29:24] Status MP: pending
+[2026-03-31 12:29:29] Verificando pagamento: 151942036531
+[2026-03-31 12:29:29] Status MP: pending
+[2026-03-31 12:29:34] Verificando pagamento: 151942036531
+[2026-03-31 12:29:34] Status MP: approved
+[2026-03-31 12:29:34] Validade atualizada: 2027-10-16 10:48:11 → 2027-11-15 10:48:11
+[2026-03-31 12:29:35] WhatsApp enviado para 5561992510181 via instância fgdfg
+[2026-03-31 12:29:35] WhatsApp renovação: ENVIADO para 61992510181
+[2026-03-31 12:29:35] Renovação aprovada! Nova validade: 2027-11-15 10:48:11

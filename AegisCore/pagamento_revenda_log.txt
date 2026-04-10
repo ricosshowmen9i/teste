@@ -1,0 +1,10 @@
+[2026-03-31 23:29:56] === INICIANDO PAGAMENTO_REVENDA ===
+[2026-03-31 23:29:56] SESSION login: mega10
+[2026-03-31 23:29:56] SESSION iduser: 97
+[2026-03-31 12:29:56] Plano carregado: ID=62, valor=1, limite=3, vendedor=74
+[2026-03-31 12:29:56] Vendedor: limite_total=29, tem_suficiente=SIM
+[2026-03-31 23:30:03] === INICIANDO PAGAMENTO_REVENDA ===
+[2026-03-31 23:30:03] SESSION login: mega10
+[2026-03-31 23:30:03] SESSION iduser: 97
+[2026-03-31 12:30:03] Plano carregado: ID=62, valor=1, limite=3, vendedor=74
+[2026-03-31 12:30:03] Vendedor: limite_total=29, tem_suficiente=SIM

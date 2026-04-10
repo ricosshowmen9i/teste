@@ -1,0 +1,2076 @@
+[2026-03-28 14:20:44] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:20:44] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:20:44] GET: []
+[2026-03-28 14:20:44] SESSION id: 209
+[2026-03-28 14:20:44] SESSION login: teste43
+[2026-03-28 14:20:44] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:20:44] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:20:44] Usuário: teste43, ID: 209
+[2026-03-28 14:20:44] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:20:44] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:20:44] Payment ID: 152243029552
+[2026-03-28 14:20:44] API MP Response: HTTP 200
+[2026-03-28 14:20:44] Status MP: pending
+[2026-03-28 14:20:47] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:20:47] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:20:47] GET: []
+[2026-03-28 14:20:47] SESSION id: 209
+[2026-03-28 14:20:47] SESSION login: teste43
+[2026-03-28 14:20:47] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:20:47] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:20:47] Usuário: teste43, ID: 209
+[2026-03-28 14:20:47] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:20:47] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:20:47] Payment ID: 152243029552
+[2026-03-28 14:20:47] API MP Response: HTTP 200
+[2026-03-28 14:20:47] Status MP: pending
+[2026-03-28 14:20:50] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:20:50] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:20:50] GET: []
+[2026-03-28 14:20:50] SESSION id: 209
+[2026-03-28 14:20:50] SESSION login: teste43
+[2026-03-28 14:20:50] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:20:50] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:20:50] Usuário: teste43, ID: 209
+[2026-03-28 14:20:50] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:20:50] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:20:50] Payment ID: 152243029552
+[2026-03-28 14:20:50] API MP Response: HTTP 200
+[2026-03-28 14:20:50] Status MP: pending
+[2026-03-28 14:20:53] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:20:53] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:20:53] GET: []
+[2026-03-28 14:20:53] SESSION id: 209
+[2026-03-28 14:20:53] SESSION login: teste43
+[2026-03-28 14:20:53] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:20:53] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:20:53] Usuário: teste43, ID: 209
+[2026-03-28 14:20:53] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:20:53] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:20:53] Payment ID: 152243029552
+[2026-03-28 14:20:53] API MP Response: HTTP 200
+[2026-03-28 14:20:53] Status MP: pending
+[2026-03-28 14:20:56] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:20:56] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:20:56] GET: []
+[2026-03-28 14:20:56] SESSION id: 209
+[2026-03-28 14:20:56] SESSION login: teste43
+[2026-03-28 14:20:56] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:20:56] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:20:56] Usuário: teste43, ID: 209
+[2026-03-28 14:20:56] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:20:56] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:20:56] Payment ID: 152243029552
+[2026-03-28 14:20:56] API MP Response: HTTP 200
+[2026-03-28 14:20:56] Status MP: pending
+[2026-03-28 14:20:59] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:20:59] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:20:59] GET: []
+[2026-03-28 14:20:59] SESSION id: 209
+[2026-03-28 14:20:59] SESSION login: teste43
+[2026-03-28 14:20:59] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:20:59] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:20:59] Usuário: teste43, ID: 209
+[2026-03-28 14:20:59] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:20:59] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:20:59] Payment ID: 152243029552
+[2026-03-28 14:20:59] API MP Response: HTTP 200
+[2026-03-28 14:20:59] Status MP: pending
+[2026-03-28 14:21:02] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:02] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:02] GET: []
+[2026-03-28 14:21:02] SESSION id: 209
+[2026-03-28 14:21:02] SESSION login: teste43
+[2026-03-28 14:21:02] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:02] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:02] Usuário: teste43, ID: 209
+[2026-03-28 14:21:02] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:02] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:02] Payment ID: 152243029552
+[2026-03-28 14:21:02] API MP Response: HTTP 200
+[2026-03-28 14:21:02] Status MP: pending
+[2026-03-28 14:21:05] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:05] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:05] GET: []
+[2026-03-28 14:21:05] SESSION id: 209
+[2026-03-28 14:21:05] SESSION login: teste43
+[2026-03-28 14:21:05] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:05] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:05] Usuário: teste43, ID: 209
+[2026-03-28 14:21:05] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:05] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:05] Payment ID: 152243029552
+[2026-03-28 14:21:05] API MP Response: HTTP 200
+[2026-03-28 14:21:05] Status MP: pending
+[2026-03-28 14:21:07] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:07] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:07] GET: []
+[2026-03-28 14:21:07] SESSION id: 209
+[2026-03-28 14:21:07] SESSION login: teste43
+[2026-03-28 14:21:07] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:07] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:07] Usuário: teste43, ID: 209
+[2026-03-28 14:21:07] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:07] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:07] Payment ID: 152243029552
+[2026-03-28 14:21:08] API MP Response: HTTP 200
+[2026-03-28 14:21:08] Status MP: pending
+[2026-03-28 14:21:10] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:10] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:10] GET: []
+[2026-03-28 14:21:10] SESSION id: 209
+[2026-03-28 14:21:10] SESSION login: teste43
+[2026-03-28 14:21:10] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:10] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:10] Usuário: teste43, ID: 209
+[2026-03-28 14:21:10] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:10] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:10] Payment ID: 152243029552
+[2026-03-28 14:21:11] API MP Response: HTTP 200
+[2026-03-28 14:21:11] Status MP: pending
+[2026-03-28 14:21:14] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:14] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:14] GET: []
+[2026-03-28 14:21:14] SESSION id: 209
+[2026-03-28 14:21:14] SESSION login: teste43
+[2026-03-28 14:21:14] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:14] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:14] Usuário: teste43, ID: 209
+[2026-03-28 14:21:14] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:14] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:14] Payment ID: 152243029552
+[2026-03-28 14:21:14] API MP Response: HTTP 200
+[2026-03-28 14:21:14] Status MP: pending
+[2026-03-28 14:21:17] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:17] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:17] GET: []
+[2026-03-28 14:21:17] SESSION id: 209
+[2026-03-28 14:21:17] SESSION login: teste43
+[2026-03-28 14:21:17] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:17] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:17] Usuário: teste43, ID: 209
+[2026-03-28 14:21:17] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:17] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:17] Payment ID: 152243029552
+[2026-03-28 14:21:17] API MP Response: HTTP 200
+[2026-03-28 14:21:17] Status MP: pending
+[2026-03-28 14:21:20] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:20] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:20] GET: []
+[2026-03-28 14:21:20] SESSION id: 209
+[2026-03-28 14:21:20] SESSION login: teste43
+[2026-03-28 14:21:20] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:20] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:20] Usuário: teste43, ID: 209
+[2026-03-28 14:21:20] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:20] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:20] Payment ID: 152243029552
+[2026-03-28 14:21:20] API MP Response: HTTP 200
+[2026-03-28 14:21:20] Status MP: pending
+[2026-03-28 14:21:23] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:23] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:23] GET: []
+[2026-03-28 14:21:23] SESSION id: 209
+[2026-03-28 14:21:23] SESSION login: teste43
+[2026-03-28 14:21:23] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:23] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:23] Usuário: teste43, ID: 209
+[2026-03-28 14:21:23] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:23] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:23] Payment ID: 152243029552
+[2026-03-28 14:21:23] API MP Response: HTTP 200
+[2026-03-28 14:21:23] Status MP: pending
+[2026-03-28 14:21:26] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:26] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:26] GET: []
+[2026-03-28 14:21:26] SESSION id: 209
+[2026-03-28 14:21:26] SESSION login: teste43
+[2026-03-28 14:21:26] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:26] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:26] Usuário: teste43, ID: 209
+[2026-03-28 14:21:26] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:26] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:26] Payment ID: 152243029552
+[2026-03-28 14:21:26] API MP Response: HTTP 200
+[2026-03-28 14:21:26] Status MP: pending
+[2026-03-28 14:21:29] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:29] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:29] GET: []
+[2026-03-28 14:21:29] SESSION id: 209
+[2026-03-28 14:21:29] SESSION login: teste43
+[2026-03-28 14:21:29] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:29] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:29] Usuário: teste43, ID: 209
+[2026-03-28 14:21:29] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:29] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:29] Payment ID: 152243029552
+[2026-03-28 14:21:29] API MP Response: HTTP 200
+[2026-03-28 14:21:29] Status MP: pending
+[2026-03-28 14:21:32] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:32] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:32] GET: []
+[2026-03-28 14:21:32] SESSION id: 209
+[2026-03-28 14:21:32] SESSION login: teste43
+[2026-03-28 14:21:32] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:32] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:32] Usuário: teste43, ID: 209
+[2026-03-28 14:21:32] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:32] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:32] Payment ID: 152243029552
+[2026-03-28 14:21:32] API MP Response: HTTP 200
+[2026-03-28 14:21:32] Status MP: pending
+[2026-03-28 14:21:35] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:35] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:35] GET: []
+[2026-03-28 14:21:35] SESSION id: 209
+[2026-03-28 14:21:35] SESSION login: teste43
+[2026-03-28 14:21:35] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:35] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:35] Usuário: teste43, ID: 209
+[2026-03-28 14:21:35] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:35] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:35] Payment ID: 152243029552
+[2026-03-28 14:21:35] API MP Response: HTTP 200
+[2026-03-28 14:21:35] Status MP: pending
+[2026-03-28 14:21:38] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:38] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:38] GET: []
+[2026-03-28 14:21:38] SESSION id: 209
+[2026-03-28 14:21:38] SESSION login: teste43
+[2026-03-28 14:21:38] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:38] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:38] Usuário: teste43, ID: 209
+[2026-03-28 14:21:38] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:38] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:38] Payment ID: 152243029552
+[2026-03-28 14:21:38] API MP Response: HTTP 200
+[2026-03-28 14:21:38] Status MP: pending
+[2026-03-28 14:21:41] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:41] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:41] GET: []
+[2026-03-28 14:21:41] SESSION id: 209
+[2026-03-28 14:21:41] SESSION login: teste43
+[2026-03-28 14:21:41] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:41] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:41] Usuário: teste43, ID: 209
+[2026-03-28 14:21:41] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:41] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:41] Payment ID: 152243029552
+[2026-03-28 14:21:41] API MP Response: HTTP 200
+[2026-03-28 14:21:41] Status MP: pending
+[2026-03-28 14:21:44] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:44] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:44] GET: []
+[2026-03-28 14:21:44] SESSION id: 209
+[2026-03-28 14:21:44] SESSION login: teste43
+[2026-03-28 14:21:44] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:44] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:44] Usuário: teste43, ID: 209
+[2026-03-28 14:21:44] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:44] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:44] Payment ID: 152243029552
+[2026-03-28 14:21:44] API MP Response: HTTP 200
+[2026-03-28 14:21:44] Status MP: pending
+[2026-03-28 14:21:47] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:47] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:47] GET: []
+[2026-03-28 14:21:47] SESSION id: 209
+[2026-03-28 14:21:47] SESSION login: teste43
+[2026-03-28 14:21:47] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:47] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:47] Usuário: teste43, ID: 209
+[2026-03-28 14:21:47] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:47] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:47] Payment ID: 152243029552
+[2026-03-28 14:21:47] API MP Response: HTTP 200
+[2026-03-28 14:21:47] Status MP: pending
+[2026-03-28 14:21:50] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:50] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:50] GET: []
+[2026-03-28 14:21:50] SESSION id: 209
+[2026-03-28 14:21:50] SESSION login: teste43
+[2026-03-28 14:21:50] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:50] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:50] Usuário: teste43, ID: 209
+[2026-03-28 14:21:50] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:50] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:50] Payment ID: 152243029552
+[2026-03-28 14:21:50] API MP Response: HTTP 200
+[2026-03-28 14:21:50] Status MP: pending
+[2026-03-28 14:21:53] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:53] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:53] GET: []
+[2026-03-28 14:21:53] SESSION id: 209
+[2026-03-28 14:21:53] SESSION login: teste43
+[2026-03-28 14:21:53] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:53] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:53] Usuário: teste43, ID: 209
+[2026-03-28 14:21:53] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:53] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:53] Payment ID: 152243029552
+[2026-03-28 14:21:54] API MP Response: HTTP 200
+[2026-03-28 14:21:54] Status MP: pending
+[2026-03-28 14:21:56] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:56] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:56] GET: []
+[2026-03-28 14:21:56] SESSION id: 209
+[2026-03-28 14:21:56] SESSION login: teste43
+[2026-03-28 14:21:56] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:56] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:56] Usuário: teste43, ID: 209
+[2026-03-28 14:21:56] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:56] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:56] Payment ID: 152243029552
+[2026-03-28 14:21:56] API MP Response: HTTP 200
+[2026-03-28 14:21:56] Status MP: pending
+[2026-03-28 14:21:59] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:21:59] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:21:59] GET: []
+[2026-03-28 14:21:59] SESSION id: 209
+[2026-03-28 14:21:59] SESSION login: teste43
+[2026-03-28 14:21:59] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:21:59] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:21:59] Usuário: teste43, ID: 209
+[2026-03-28 14:21:59] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:21:59] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:21:59] Payment ID: 152243029552
+[2026-03-28 14:21:59] API MP Response: HTTP 200
+[2026-03-28 14:21:59] Status MP: pending
+[2026-03-28 14:22:02] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:22:02] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:22:02] GET: []
+[2026-03-28 14:22:02] SESSION id: 209
+[2026-03-28 14:22:02] SESSION login: teste43
+[2026-03-28 14:22:02] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:22:02] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:22:02] Usuário: teste43, ID: 209
+[2026-03-28 14:22:02] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:22:02] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:22:02] Payment ID: 152243029552
+[2026-03-28 14:22:02] API MP Response: HTTP 200
+[2026-03-28 14:22:02] Status MP: pending
+[2026-03-28 14:22:05] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:22:05] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:22:05] GET: []
+[2026-03-28 14:22:05] SESSION id: 209
+[2026-03-28 14:22:05] SESSION login: teste43
+[2026-03-28 14:22:05] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:22:05] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:22:05] Usuário: teste43, ID: 209
+[2026-03-28 14:22:05] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:22:05] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:22:05] Payment ID: 152243029552
+[2026-03-28 14:22:05] API MP Response: HTTP 200
+[2026-03-28 14:22:05] Status MP: pending
+[2026-03-28 14:22:08] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:22:08] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:22:08] GET: []
+[2026-03-28 14:22:08] SESSION id: 209
+[2026-03-28 14:22:08] SESSION login: teste43
+[2026-03-28 14:22:08] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:22:08] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:22:08] Usuário: teste43, ID: 209
+[2026-03-28 14:22:08] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:22:08] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:22:08] Payment ID: 152243029552
+[2026-03-28 14:22:08] API MP Response: HTTP 200
+[2026-03-28 14:22:08] Status MP: pending
+[2026-03-28 14:22:11] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:22:11] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:22:11] GET: []
+[2026-03-28 14:22:11] SESSION id: 209
+[2026-03-28 14:22:11] SESSION login: teste43
+[2026-03-28 14:22:11] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:22:11] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:22:11] Usuário: teste43, ID: 209
+[2026-03-28 14:22:11] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:22:11] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:22:11] Payment ID: 152243029552
+[2026-03-28 14:22:11] API MP Response: HTTP 200
+[2026-03-28 14:22:11] Status MP: pending
+[2026-03-28 14:22:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:22:21] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:22:21] GET: []
+[2026-03-28 14:22:21] SESSION id: 209
+[2026-03-28 14:22:21] SESSION login: teste43
+[2026-03-28 14:22:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:22:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:22:21] Usuário: teste43, ID: 209
+[2026-03-28 14:22:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:22:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:22:21] Payment ID: 152243029552
+[2026-03-28 14:22:21] API MP Response: HTTP 200
+[2026-03-28 14:22:21] Status MP: pending
+[2026-03-28 14:23:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:23:21] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:23:21] GET: []
+[2026-03-28 14:23:21] SESSION id: 209
+[2026-03-28 14:23:21] SESSION login: teste43
+[2026-03-28 14:23:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:23:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:23:21] Usuário: teste43, ID: 209
+[2026-03-28 14:23:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:23:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:23:21] Payment ID: 152243029552
+[2026-03-28 14:23:21] API MP Response: HTTP 200
+[2026-03-28 14:23:21] Status MP: pending
+[2026-03-28 14:24:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:24:21] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:24:21] GET: []
+[2026-03-28 14:24:21] SESSION id: 209
+[2026-03-28 14:24:21] SESSION login: teste43
+[2026-03-28 14:24:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:24:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:24:21] Usuário: teste43, ID: 209
+[2026-03-28 14:24:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:24:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:24:21] Payment ID: 152243029552
+[2026-03-28 14:24:21] API MP Response: HTTP 200
+[2026-03-28 14:24:21] Status MP: pending
+[2026-03-28 14:25:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:25:21] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:25:21] GET: []
+[2026-03-28 14:25:21] SESSION id: 209
+[2026-03-28 14:25:21] SESSION login: teste43
+[2026-03-28 14:25:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:25:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:25:21] Usuário: teste43, ID: 209
+[2026-03-28 14:25:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:25:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:25:21] Payment ID: 152243029552
+[2026-03-28 14:25:21] API MP Response: HTTP 200
+[2026-03-28 14:25:21] Status MP: pending
+[2026-03-28 14:26:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:26:21] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:26:21] GET: []
+[2026-03-28 14:26:21] SESSION id: 209
+[2026-03-28 14:26:21] SESSION login: teste43
+[2026-03-28 14:26:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:26:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:26:21] Usuário: teste43, ID: 209
+[2026-03-28 14:26:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:26:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:26:21] Payment ID: 152243029552
+[2026-03-28 14:26:21] API MP Response: HTTP 200
+[2026-03-28 14:26:21] Status MP: pending
+[2026-03-28 14:27:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:27:21] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:27:21] GET: []
+[2026-03-28 14:27:21] SESSION id: 209
+[2026-03-28 14:27:21] SESSION login: teste43
+[2026-03-28 14:27:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:27:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:27:21] Usuário: teste43, ID: 209
+[2026-03-28 14:27:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:27:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:27:21] Payment ID: 152243029552
+[2026-03-28 14:27:21] API MP Response: HTTP 200
+[2026-03-28 14:27:21] Status MP: pending
+[2026-03-28 14:28:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:28:21] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:28:21] GET: []
+[2026-03-28 14:28:21] SESSION id: 209
+[2026-03-28 14:28:21] SESSION login: teste43
+[2026-03-28 14:28:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:28:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:28:21] Usuário: teste43, ID: 209
+[2026-03-28 14:28:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:28:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:28:21] Payment ID: 152243029552
+[2026-03-28 14:28:21] API MP Response: HTTP 200
+[2026-03-28 14:28:21] Status MP: pending
+[2026-03-28 14:29:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:29:21] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:29:21] GET: []
+[2026-03-28 14:29:21] SESSION id: 209
+[2026-03-28 14:29:21] SESSION login: teste43
+[2026-03-28 14:29:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:29:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:29:21] Usuário: teste43, ID: 209
+[2026-03-28 14:29:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:29:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:29:21] Payment ID: 152243029552
+[2026-03-28 14:29:21] API MP Response: HTTP 200
+[2026-03-28 14:29:21] Status MP: pending
+[2026-03-28 14:30:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:30:21] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:30:21] GET: []
+[2026-03-28 14:30:21] SESSION id: 209
+[2026-03-28 14:30:21] SESSION login: teste43
+[2026-03-28 14:30:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:30:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:30:21] Usuário: teste43, ID: 209
+[2026-03-28 14:30:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:30:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:30:21] Payment ID: 152243029552
+[2026-03-28 14:30:21] API MP Response: HTTP 200
+[2026-03-28 14:30:21] Status MP: pending
+[2026-03-28 14:31:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:31:21] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:31:21] GET: []
+[2026-03-28 14:31:21] SESSION id: 209
+[2026-03-28 14:31:21] SESSION login: teste43
+[2026-03-28 14:31:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:31:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:31:21] Usuário: teste43, ID: 209
+[2026-03-28 14:31:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:31:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:31:21] Payment ID: 152243029552
+[2026-03-28 14:31:21] API MP Response: HTTP 200
+[2026-03-28 14:31:21] Status MP: pending
+[2026-03-28 14:32:19] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:32:19] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:32:19] GET: []
+[2026-03-28 14:32:19] SESSION id: 209
+[2026-03-28 14:32:19] SESSION login: teste43
+[2026-03-28 14:32:19] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:32:19] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:32:19] Usuário: teste43, ID: 209
+[2026-03-28 14:32:19] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:32:19] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:32:19] Payment ID: 152243029552
+[2026-03-28 14:32:19] API MP Response: HTTP 200
+[2026-03-28 14:32:19] Status MP: pending
+[2026-03-28 14:32:19] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:32:19] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:32:19] GET: []
+[2026-03-28 14:32:19] SESSION id: 209
+[2026-03-28 14:32:19] SESSION login: teste43
+[2026-03-28 14:32:19] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:32:19] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:32:19] Usuário: teste43, ID: 209
+[2026-03-28 14:32:19] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:32:19] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:32:19] Payment ID: 152243029552
+[2026-03-28 14:32:20] API MP Response: HTTP 200
+[2026-03-28 14:32:20] Status MP: pending
+[2026-03-28 14:32:22] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:32:22] POST: {"plano_id":"50","plano_nome":"Vip Plano","plano_valor":"1.00","plano_dias":"30","plano_limite":"2"}
+[2026-03-28 14:32:22] GET: []
+[2026-03-28 14:32:22] SESSION id: 209
+[2026-03-28 14:32:22] SESSION login: teste43
+[2026-03-28 14:32:22] Dados do plano salvos na sessão: {"id":50,"nome":"Vip Plano","valor":1,"dias":30,"limite":2}
+[2026-03-28 14:32:22] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:32:22] Usuário: teste43, ID: 209
+[2026-03-28 14:32:22] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:32:27] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:32:27] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:32:27] GET: []
+[2026-03-28 14:32:27] SESSION id: 209
+[2026-03-28 14:32:27] SESSION login: teste43
+[2026-03-28 14:32:27] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:32:27] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:32:27] Usuário: teste43, ID: 209
+[2026-03-28 14:32:27] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:32:27] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:32:27] Payment ID: 152243029552
+[2026-03-28 14:32:28] API MP Response: HTTP 200
+[2026-03-28 14:32:28] Status MP: pending
+[2026-03-28 14:32:32] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:32:32] POST: {"verificar_pagamento":"1","payment_id":"152243029552"}
+[2026-03-28 14:32:32] GET: []
+[2026-03-28 14:32:32] SESSION id: 209
+[2026-03-28 14:32:32] SESSION login: teste43
+[2026-03-28 14:32:32] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:32:32] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:32:32] Usuário: teste43, ID: 209
+[2026-03-28 14:32:32] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:32:32] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:32:32] Payment ID: 152243029552
+[2026-03-28 14:32:33] API MP Response: HTTP 200
+[2026-03-28 14:32:33] Status MP: pending
+[2026-03-28 14:34:44] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:34:44] POST: {"plano_id":"50","plano_nome":"Vip Plano","plano_valor":"1.00","plano_dias":"30","plano_limite":"2"}
+[2026-03-28 14:34:44] GET: []
+[2026-03-28 14:34:44] SESSION id: 209
+[2026-03-28 14:34:44] SESSION login: teste43
+[2026-03-28 14:34:44] Criando sessões do usuário para o plano...
+[2026-03-28 14:34:44] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-28 14:34:44] Dados do plano salvos na sessão: {"id":50,"nome":"Vip Plano","valor":1,"dias":30,"limite":2}
+[2026-03-28 14:34:44] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:34:44] Usuário: teste43, ID: 209
+[2026-03-28 14:34:44] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:34:51] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:34:51] POST: {"criar_pagamento":"1"}
+[2026-03-28 14:34:51] GET: []
+[2026-03-28 14:34:51] SESSION id: 209
+[2026-03-28 14:34:51] SESSION login: teste43
+[2026-03-28 14:34:51] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:34:51] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:34:51] Usuário: teste43, ID: 209
+[2026-03-28 14:34:51] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:34:51] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-28 14:34:51] Valor a pagar: 1
+[2026-03-28 14:34:51] Enviando requisição para Mercado Pago...
+[2026-03-28 14:34:52] API MP Response: HTTP 201
+[2026-03-28 14:34:52] Pagamento registrado: user_id=209, plano=Vip Plano
+[2026-03-28 14:34:57] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:34:57] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:34:57] GET: []
+[2026-03-28 14:34:57] SESSION id: 209
+[2026-03-28 14:34:57] SESSION login: teste43
+[2026-03-28 14:34:57] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:34:57] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:34:57] Usuário: teste43, ID: 209
+[2026-03-28 14:34:57] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:34:57] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:34:57] Payment ID: 152243059740
+[2026-03-28 14:34:58] API MP Response: HTTP 200
+[2026-03-28 14:34:58] Status MP: pending
+[2026-03-28 14:35:02] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:02] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:02] GET: []
+[2026-03-28 14:35:02] SESSION id: 209
+[2026-03-28 14:35:02] SESSION login: teste43
+[2026-03-28 14:35:02] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:02] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:02] Usuário: teste43, ID: 209
+[2026-03-28 14:35:02] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:02] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:02] Payment ID: 152243059740
+[2026-03-28 14:35:03] API MP Response: HTTP 200
+[2026-03-28 14:35:03] Status MP: pending
+[2026-03-28 14:35:07] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:07] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:07] GET: []
+[2026-03-28 14:35:07] SESSION id: 209
+[2026-03-28 14:35:07] SESSION login: teste43
+[2026-03-28 14:35:07] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:07] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:07] Usuário: teste43, ID: 209
+[2026-03-28 14:35:07] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:07] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:07] Payment ID: 152243059740
+[2026-03-28 14:35:08] API MP Response: HTTP 200
+[2026-03-28 14:35:08] Status MP: pending
+[2026-03-28 14:35:12] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:12] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:12] GET: []
+[2026-03-28 14:35:12] SESSION id: 209
+[2026-03-28 14:35:12] SESSION login: teste43
+[2026-03-28 14:35:12] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:12] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:12] Usuário: teste43, ID: 209
+[2026-03-28 14:35:12] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:12] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:12] Payment ID: 152243059740
+[2026-03-28 14:35:13] API MP Response: HTTP 200
+[2026-03-28 14:35:13] Status MP: pending
+[2026-03-28 14:35:17] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:17] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:17] GET: []
+[2026-03-28 14:35:17] SESSION id: 209
+[2026-03-28 14:35:17] SESSION login: teste43
+[2026-03-28 14:35:17] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:17] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:17] Usuário: teste43, ID: 209
+[2026-03-28 14:35:17] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:17] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:17] Payment ID: 152243059740
+[2026-03-28 14:35:18] API MP Response: HTTP 200
+[2026-03-28 14:35:18] Status MP: pending
+[2026-03-28 14:35:22] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:22] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:22] GET: []
+[2026-03-28 14:35:22] SESSION id: 209
+[2026-03-28 14:35:22] SESSION login: teste43
+[2026-03-28 14:35:22] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:22] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:22] Usuário: teste43, ID: 209
+[2026-03-28 14:35:22] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:22] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:22] Payment ID: 152243059740
+[2026-03-28 14:35:23] API MP Response: HTTP 200
+[2026-03-28 14:35:23] Status MP: pending
+[2026-03-28 14:35:27] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:27] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:27] GET: []
+[2026-03-28 14:35:27] SESSION id: 209
+[2026-03-28 14:35:27] SESSION login: teste43
+[2026-03-28 14:35:27] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:27] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:27] Usuário: teste43, ID: 209
+[2026-03-28 14:35:27] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:27] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:27] Payment ID: 152243059740
+[2026-03-28 14:35:28] API MP Response: HTTP 200
+[2026-03-28 14:35:28] Status MP: pending
+[2026-03-28 14:35:32] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:32] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:32] GET: []
+[2026-03-28 14:35:32] SESSION id: 209
+[2026-03-28 14:35:32] SESSION login: teste43
+[2026-03-28 14:35:32] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:32] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:32] Usuário: teste43, ID: 209
+[2026-03-28 14:35:32] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:32] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:32] Payment ID: 152243059740
+[2026-03-28 14:35:33] API MP Response: HTTP 200
+[2026-03-28 14:35:33] Status MP: pending
+[2026-03-28 14:35:37] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:37] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:37] GET: []
+[2026-03-28 14:35:37] SESSION id: 209
+[2026-03-28 14:35:37] SESSION login: teste43
+[2026-03-28 14:35:37] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:37] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:37] Usuário: teste43, ID: 209
+[2026-03-28 14:35:37] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:37] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:37] Payment ID: 152243059740
+[2026-03-28 14:35:38] API MP Response: HTTP 200
+[2026-03-28 14:35:38] Status MP: pending
+[2026-03-28 14:35:42] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:42] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:42] GET: []
+[2026-03-28 14:35:42] SESSION id: 209
+[2026-03-28 14:35:42] SESSION login: teste43
+[2026-03-28 14:35:42] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:42] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:42] Usuário: teste43, ID: 209
+[2026-03-28 14:35:42] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:42] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:42] Payment ID: 152243059740
+[2026-03-28 14:35:43] API MP Response: HTTP 200
+[2026-03-28 14:35:43] Status MP: pending
+[2026-03-28 14:35:47] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:47] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:47] GET: []
+[2026-03-28 14:35:47] SESSION id: 209
+[2026-03-28 14:35:47] SESSION login: teste43
+[2026-03-28 14:35:47] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:47] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:47] Usuário: teste43, ID: 209
+[2026-03-28 14:35:47] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:47] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:47] Payment ID: 152243059740
+[2026-03-28 14:35:48] API MP Response: HTTP 200
+[2026-03-28 14:35:48] Status MP: pending
+[2026-03-28 14:35:52] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:52] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:52] GET: []
+[2026-03-28 14:35:52] SESSION id: 209
+[2026-03-28 14:35:52] SESSION login: teste43
+[2026-03-28 14:35:52] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:52] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:52] Usuário: teste43, ID: 209
+[2026-03-28 14:35:52] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:52] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:52] Payment ID: 152243059740
+[2026-03-28 14:35:53] API MP Response: HTTP 200
+[2026-03-28 14:35:53] Status MP: pending
+[2026-03-28 14:35:57] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:35:57] POST: {"verificar_pagamento":"1","payment_id":"152243059740"}
+[2026-03-28 14:35:57] GET: []
+[2026-03-28 14:35:57] SESSION id: 209
+[2026-03-28 14:35:57] SESSION login: teste43
+[2026-03-28 14:35:57] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:35:57] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:35:57] Usuário: teste43, ID: 209
+[2026-03-28 14:35:57] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:35:57] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:35:57] Payment ID: 152243059740
+[2026-03-28 14:35:58] API MP Response: HTTP 200
+[2026-03-28 14:35:58] Status MP: approved
+[2026-03-28 14:35:58] UPDATE pagamento: rows afetadas = -1
+[2026-03-28 14:35:58] === INICIANDO ATUALIZAÇÃO DE PLANO ===
+[2026-03-28 14:35:58] Usuario: teste43, ID: 209, Novo Limite: 2, Novos Dias: 30
+[2026-03-28 03:35:58] Validade atual: 2026-03-29 03:34:27
+[2026-03-28 03:35:58] Nova validade: 2026-04-28 03:34:27 (+30 dias)
+[2026-03-28 03:35:58] Diferença de limite: 1 (antigo: 1, novo: 2)
+[2026-03-28 03:35:58] Revendedor ID 74: limite ajustado de 30 para 29
+[2026-03-28 03:35:58] Banco atualizado: nova validade = 2026-04-28 03:34:27, novo limite = 2
+[2026-03-28 03:35:58] Plano ativado com sucesso! Nova validade: 28/04/2026 03:34:27
+[2026-03-28 14:39:20] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:39:20] POST: {"plano_id":"50","plano_nome":"Vip Plano","plano_valor":"1.00","plano_dias":"30","plano_limite":"2"}
+[2026-03-28 14:39:20] GET: []
+[2026-03-28 14:39:20] SESSION id: 209
+[2026-03-28 14:39:20] SESSION login: teste43
+[2026-03-28 14:39:20] Criando sessões do usuário para o plano...
+[2026-03-28 14:39:20] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-28 14:39:20] Dados do plano salvos na sessão: {"id":50,"nome":"Vip Plano","valor":1,"dias":30,"limite":2}
+[2026-03-28 14:39:20] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:39:20] Usuário: teste43, ID: 209
+[2026-03-28 14:39:20] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:39:41] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:39:41] POST: {"plano_id":"50","plano_nome":"Vip Plano","plano_valor":"1.00","plano_dias":"30","plano_limite":"2"}
+[2026-03-28 14:39:41] GET: []
+[2026-03-28 14:39:41] SESSION id: 209
+[2026-03-28 14:39:41] SESSION login: teste43
+[2026-03-28 14:39:41] Dados do plano salvos na sessão: {"id":50,"nome":"Vip Plano","valor":1,"dias":30,"limite":2}
+[2026-03-28 14:39:41] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:39:41] Usuário: teste43, ID: 209
+[2026-03-28 14:39:41] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:39:43] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:39:43] POST: {"criar_pagamento":"1"}
+[2026-03-28 14:39:43] GET: []
+[2026-03-28 14:39:43] SESSION id: 209
+[2026-03-28 14:39:43] SESSION login: teste43
+[2026-03-28 14:39:43] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:39:43] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:39:43] Usuário: teste43, ID: 209
+[2026-03-28 14:39:43] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:39:43] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-28 14:39:49] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:39:49] POST: {"verificar_pagamento":"1","payment_id":"152244292954"}
+[2026-03-28 14:39:49] GET: []
+[2026-03-28 14:39:49] SESSION id: 209
+[2026-03-28 14:39:49] SESSION login: teste43
+[2026-03-28 14:39:49] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:39:49] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:39:49] Usuário: teste43, ID: 209
+[2026-03-28 14:39:49] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:39:49] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:39:49] Payment ID: 152244292954
+[2026-03-28 14:39:50] API MP Response: HTTP 200
+[2026-03-28 14:39:50] Status MP: pending
+[2026-03-28 14:41:59] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:41:59] POST: {"plano_id":"50","plano_nome":"Vip Plano","plano_valor":"1.00","plano_dias":"30","plano_limite":"2"}
+[2026-03-28 14:41:59] GET: []
+[2026-03-28 14:41:59] SESSION id: 209
+[2026-03-28 14:41:59] SESSION login: teste43
+[2026-03-28 14:41:59] Criando sessões do usuário para o plano...
+[2026-03-28 14:41:59] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-28 14:41:59] Dados do plano salvos na sessão: {"id":50,"nome":"Vip Plano","valor":1,"dias":30,"limite":2}
+[2026-03-28 14:41:59] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:41:59] Usuário: teste43, ID: 209
+[2026-03-28 14:41:59] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:42:26] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:42:26] POST: {"criar_pagamento":"1"}
+[2026-03-28 14:42:26] GET: []
+[2026-03-28 14:42:26] SESSION id: 209
+[2026-03-28 14:42:26] SESSION login: teste43
+[2026-03-28 14:42:26] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:42:26] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:42:26] Usuário: teste43, ID: 209
+[2026-03-28 14:42:26] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:42:26] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-28 14:42:26] Valor a pagar: 1
+[2026-03-28 14:42:26] Enviando requisição para Mercado Pago...
+[2026-03-28 14:42:27] API MP Response: HTTP 201
+[2026-03-28 14:42:27] Pagamento registrado: user_id=209, plano=Vip Plano
+[2026-03-28 14:42:32] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:42:32] POST: {"verificar_pagamento":"1","payment_id":"151511140211"}
+[2026-03-28 14:42:32] GET: []
+[2026-03-28 14:42:32] SESSION id: 209
+[2026-03-28 14:42:32] SESSION login: teste43
+[2026-03-28 14:42:32] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:42:32] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:42:32] Usuário: teste43, ID: 209
+[2026-03-28 14:42:32] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:42:32] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:42:32] Payment ID: 151511140211
+[2026-03-28 14:42:33] API MP Response: HTTP 200
+[2026-03-28 14:42:33] Status MP: pending
+[2026-03-28 14:42:37] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:42:37] POST: {"verificar_pagamento":"1","payment_id":"151511140211"}
+[2026-03-28 14:42:37] GET: []
+[2026-03-28 14:42:37] SESSION id: 209
+[2026-03-28 14:42:37] SESSION login: teste43
+[2026-03-28 14:42:37] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:42:37] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:42:37] Usuário: teste43, ID: 209
+[2026-03-28 14:42:37] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:42:37] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:42:37] Payment ID: 151511140211
+[2026-03-28 14:42:38] API MP Response: HTTP 200
+[2026-03-28 14:42:38] Status MP: pending
+[2026-03-28 14:42:42] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:42:42] POST: {"verificar_pagamento":"1","payment_id":"151511140211"}
+[2026-03-28 14:42:42] GET: []
+[2026-03-28 14:42:42] SESSION id: 209
+[2026-03-28 14:42:42] SESSION login: teste43
+[2026-03-28 14:42:42] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:42:42] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:42:42] Usuário: teste43, ID: 209
+[2026-03-28 14:42:42] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:42:42] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:42:42] Payment ID: 151511140211
+[2026-03-28 14:42:43] API MP Response: HTTP 200
+[2026-03-28 14:42:43] Status MP: pending
+[2026-03-28 14:42:47] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:42:47] POST: {"verificar_pagamento":"1","payment_id":"151511140211"}
+[2026-03-28 14:42:47] GET: []
+[2026-03-28 14:42:47] SESSION id: 209
+[2026-03-28 14:42:47] SESSION login: teste43
+[2026-03-28 14:42:47] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:42:47] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:42:47] Usuário: teste43, ID: 209
+[2026-03-28 14:42:47] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:42:47] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:42:47] Payment ID: 151511140211
+[2026-03-28 14:42:48] API MP Response: HTTP 200
+[2026-03-28 14:42:48] Status MP: pending
+[2026-03-28 14:42:52] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:42:52] POST: {"verificar_pagamento":"1","payment_id":"151511140211"}
+[2026-03-28 14:42:52] GET: []
+[2026-03-28 14:42:52] SESSION id: 209
+[2026-03-28 14:42:52] SESSION login: teste43
+[2026-03-28 14:42:52] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:42:52] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:42:52] Usuário: teste43, ID: 209
+[2026-03-28 14:42:52] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:42:52] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:42:52] Payment ID: 151511140211
+[2026-03-28 14:42:53] API MP Response: HTTP 200
+[2026-03-28 14:42:53] Status MP: pending
+[2026-03-28 14:42:57] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:42:57] POST: {"verificar_pagamento":"1","payment_id":"151511140211"}
+[2026-03-28 14:42:57] GET: []
+[2026-03-28 14:42:57] SESSION id: 209
+[2026-03-28 14:42:57] SESSION login: teste43
+[2026-03-28 14:42:57] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:42:57] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:42:57] Usuário: teste43, ID: 209
+[2026-03-28 14:42:57] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:42:57] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:42:57] Payment ID: 151511140211
+[2026-03-28 14:42:58] API MP Response: HTTP 200
+[2026-03-28 14:42:58] Status MP: pending
+[2026-03-28 14:43:02] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:43:02] POST: {"verificar_pagamento":"1","payment_id":"151511140211"}
+[2026-03-28 14:43:02] GET: []
+[2026-03-28 14:43:02] SESSION id: 209
+[2026-03-28 14:43:02] SESSION login: teste43
+[2026-03-28 14:43:02] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:43:02] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:43:02] Usuário: teste43, ID: 209
+[2026-03-28 14:43:02] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:43:02] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:43:02] Payment ID: 151511140211
+[2026-03-28 14:43:03] API MP Response: HTTP 200
+[2026-03-28 14:43:03] Status MP: approved
+[2026-03-28 14:43:03] UPDATE pagamento: rows afetadas = -1
+[2026-03-28 14:43:03] === INICIANDO ATUALIZAÇÃO DE PLANO ===
+[2026-03-28 14:43:03] Usuario: teste43, ID: 209, Novo Limite: 2, Novos Dias: 30
+[2026-03-28 03:43:03] Validade atual: 2026-03-29 03:41:40
+[2026-03-28 03:43:03] Nova validade: 2026-04-28 03:41:40 (+30 dias)
+[2026-03-28 03:43:03] Banco atualizado: nova validade = 2026-04-28 03:41:40, novo limite = 2
+[2026-03-28 03:43:03] Plano ativado com sucesso! Nova validade: 28/04/2026 03:41:40
+[2026-03-28 14:50:09] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:50:09] POST: {"plano_id":"50","plano_nome":"Vip Plano","plano_valor":"1.00","plano_dias":"30","plano_limite":"2"}
+[2026-03-28 14:50:09] GET: []
+[2026-03-28 14:50:09] SESSION id: 209
+[2026-03-28 14:50:09] SESSION login: teste43
+[2026-03-28 14:50:09] Criando sessões do usuário para o plano...
+[2026-03-28 14:50:09] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-28 14:50:09] Dados do plano salvos na sessão: {"id":50,"nome":"Vip Plano","valor":1,"dias":30,"limite":2}
+[2026-03-28 14:50:09] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:50:09] Usuário: teste43, ID: 209
+[2026-03-28 14:50:09] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:50:10] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:50:10] POST: {"criar_pagamento":"1"}
+[2026-03-28 14:50:10] GET: []
+[2026-03-28 14:50:10] SESSION id: 209
+[2026-03-28 14:50:10] SESSION login: teste43
+[2026-03-28 14:50:10] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:50:10] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:50:10] Usuário: teste43, ID: 209
+[2026-03-28 14:50:10] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:50:10] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-28 14:50:10] Valor a pagar: 1
+[2026-03-28 14:50:10] Enviando requisição para Mercado Pago...
+[2026-03-28 14:50:12] API MP Response: HTTP 201
+[2026-03-28 14:50:12] Pagamento registrado: user_id=209, plano=Vip Plano
+[2026-03-28 14:50:17] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:50:17] POST: {"verificar_pagamento":"1","payment_id":"151511342189"}
+[2026-03-28 14:50:17] GET: []
+[2026-03-28 14:50:17] SESSION id: 209
+[2026-03-28 14:50:17] SESSION login: teste43
+[2026-03-28 14:50:17] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:50:17] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:50:17] Usuário: teste43, ID: 209
+[2026-03-28 14:50:17] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:50:17] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:50:17] Payment ID: 151511342189
+[2026-03-28 14:50:17] API MP Response: HTTP 200
+[2026-03-28 14:50:17] Status MP: pending
+[2026-03-28 14:50:22] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:50:22] POST: {"verificar_pagamento":"1","payment_id":"151511342189"}
+[2026-03-28 14:50:22] GET: []
+[2026-03-28 14:50:22] SESSION id: 209
+[2026-03-28 14:50:22] SESSION login: teste43
+[2026-03-28 14:50:22] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:50:22] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:50:22] Usuário: teste43, ID: 209
+[2026-03-28 14:50:22] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:50:22] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:50:22] Payment ID: 151511342189
+[2026-03-28 14:50:22] API MP Response: HTTP 200
+[2026-03-28 14:50:22] Status MP: pending
+[2026-03-28 14:50:27] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:50:27] POST: {"verificar_pagamento":"1","payment_id":"151511342189"}
+[2026-03-28 14:50:27] GET: []
+[2026-03-28 14:50:27] SESSION id: 209
+[2026-03-28 14:50:27] SESSION login: teste43
+[2026-03-28 14:50:27] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:50:27] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:50:27] Usuário: teste43, ID: 209
+[2026-03-28 14:50:27] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:50:27] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:50:27] Payment ID: 151511342189
+[2026-03-28 14:50:27] API MP Response: HTTP 200
+[2026-03-28 14:50:27] Status MP: pending
+[2026-03-28 14:50:32] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:50:32] POST: {"verificar_pagamento":"1","payment_id":"151511342189"}
+[2026-03-28 14:50:32] GET: []
+[2026-03-28 14:50:32] SESSION id: 209
+[2026-03-28 14:50:32] SESSION login: teste43
+[2026-03-28 14:50:32] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:50:32] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:50:32] Usuário: teste43, ID: 209
+[2026-03-28 14:50:32] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:50:32] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:50:32] Payment ID: 151511342189
+[2026-03-28 14:50:32] API MP Response: HTTP 200
+[2026-03-28 14:50:32] Status MP: pending
+[2026-03-28 14:50:37] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:50:37] POST: {"verificar_pagamento":"1","payment_id":"151511342189"}
+[2026-03-28 14:50:37] GET: []
+[2026-03-28 14:50:37] SESSION id: 209
+[2026-03-28 14:50:37] SESSION login: teste43
+[2026-03-28 14:50:37] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:50:37] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:50:37] Usuário: teste43, ID: 209
+[2026-03-28 14:50:37] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:50:37] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:50:37] Payment ID: 151511342189
+[2026-03-28 14:50:37] API MP Response: HTTP 200
+[2026-03-28 14:50:37] Status MP: approved
+[2026-03-28 14:50:37] UPDATE pagamento: rows afetadas = -1
+[2026-03-28 14:50:37] === INICIANDO ATUALIZAÇÃO DE PLANO ===
+[2026-03-28 14:50:37] Usuario: teste43, ID: 209, Novo Limite: 2, Novos Dias: 30
+[2026-03-28 03:50:37] Validade atual: 2026-04-28 03:43:55
+[2026-03-28 03:50:37] Nova validade: 2026-05-28 03:43:55 (+30 dias)
+[2026-03-28 03:50:37] Banco atualizado: nova validade = 2026-05-28 03:43:55, novo limite = 2
+[2026-03-28 03:50:37] Plano ativado com sucesso! Nova validade: 28/05/2026 03:43:55 | Sessões sincronizadas do banco.
+[2026-03-28 14:53:51] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:53:51] POST: {"plano_id":"50","plano_nome":"Vip Plano","plano_valor":"1.00","plano_dias":"30","plano_limite":"2"}
+[2026-03-28 14:53:51] GET: []
+[2026-03-28 14:53:51] SESSION id: 209
+[2026-03-28 14:53:51] SESSION login: teste43
+[2026-03-28 14:53:51] Criando sessões do usuário para o plano...
+[2026-03-28 14:53:51] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-28 14:53:51] Dados do plano salvos na sessão: {"id":50,"nome":"Vip Plano","valor":1,"dias":30,"limite":2}
+[2026-03-28 14:53:51] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:53:51] Usuário: teste43, ID: 209
+[2026-03-28 14:53:51] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:53:55] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:53:55] POST: {"criar_pagamento":"1"}
+[2026-03-28 14:53:55] GET: []
+[2026-03-28 14:53:55] SESSION id: 209
+[2026-03-28 14:53:55] SESSION login: teste43
+[2026-03-28 14:53:55] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:53:55] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:53:55] Usuário: teste43, ID: 209
+[2026-03-28 14:53:55] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:53:55] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-28 14:53:55] Valor a pagar: 1
+[2026-03-28 14:53:55] Enviando requisição para Mercado Pago...
+[2026-03-28 14:53:56] API MP Response: HTTP 201
+[2026-03-28 14:53:56] Pagamento registrado: user_id=209, plano=Vip Plano
+[2026-03-28 14:54:01] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:54:01] POST: {"verificar_pagamento":"1","payment_id":"152243459744"}
+[2026-03-28 14:54:01] GET: []
+[2026-03-28 14:54:01] SESSION id: 209
+[2026-03-28 14:54:01] SESSION login: teste43
+[2026-03-28 14:54:01] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:54:01] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:54:01] Usuário: teste43, ID: 209
+[2026-03-28 14:54:01] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:54:01] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:54:01] Payment ID: 152243459744
+[2026-03-28 14:54:02] API MP Response: HTTP 200
+[2026-03-28 14:54:02] Status MP: pending
+[2026-03-28 14:54:06] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:54:06] POST: {"verificar_pagamento":"1","payment_id":"152243459744"}
+[2026-03-28 14:54:06] GET: []
+[2026-03-28 14:54:06] SESSION id: 209
+[2026-03-28 14:54:06] SESSION login: teste43
+[2026-03-28 14:54:06] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:54:06] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:54:06] Usuário: teste43, ID: 209
+[2026-03-28 14:54:06] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:54:06] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:54:06] Payment ID: 152243459744
+[2026-03-28 14:54:07] API MP Response: HTTP 200
+[2026-03-28 14:54:07] Status MP: pending
+[2026-03-28 14:54:11] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:54:11] POST: {"verificar_pagamento":"1","payment_id":"152243459744"}
+[2026-03-28 14:54:11] GET: []
+[2026-03-28 14:54:11] SESSION id: 209
+[2026-03-28 14:54:11] SESSION login: teste43
+[2026-03-28 14:54:11] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:54:11] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:54:11] Usuário: teste43, ID: 209
+[2026-03-28 14:54:11] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:54:11] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:54:11] Payment ID: 152243459744
+[2026-03-28 14:54:12] API MP Response: HTTP 200
+[2026-03-28 14:54:12] Status MP: pending
+[2026-03-28 14:54:16] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:54:16] POST: {"verificar_pagamento":"1","payment_id":"152243459744"}
+[2026-03-28 14:54:16] GET: []
+[2026-03-28 14:54:16] SESSION id: 209
+[2026-03-28 14:54:16] SESSION login: teste43
+[2026-03-28 14:54:16] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:54:16] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:54:16] Usuário: teste43, ID: 209
+[2026-03-28 14:54:16] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:54:16] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:54:16] Payment ID: 152243459744
+[2026-03-28 14:54:17] API MP Response: HTTP 200
+[2026-03-28 14:54:17] Status MP: pending
+[2026-03-28 14:54:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:54:21] POST: {"verificar_pagamento":"1","payment_id":"152243459744"}
+[2026-03-28 14:54:21] GET: []
+[2026-03-28 14:54:21] SESSION id: 209
+[2026-03-28 14:54:21] SESSION login: teste43
+[2026-03-28 14:54:21] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:54:21] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:54:21] Usuário: teste43, ID: 209
+[2026-03-28 14:54:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:54:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:54:21] Payment ID: 152243459744
+[2026-03-28 14:54:22] API MP Response: HTTP 200
+[2026-03-28 14:54:22] Status MP: pending
+[2026-03-28 14:54:26] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:54:26] POST: {"verificar_pagamento":"1","payment_id":"152243459744"}
+[2026-03-28 14:54:26] GET: []
+[2026-03-28 14:54:26] SESSION id: 209
+[2026-03-28 14:54:26] SESSION login: teste43
+[2026-03-28 14:54:26] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:54:26] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:54:26] Usuário: teste43, ID: 209
+[2026-03-28 14:54:26] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:54:26] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:54:26] Payment ID: 152243459744
+[2026-03-28 14:54:27] API MP Response: HTTP 200
+[2026-03-28 14:54:27] Status MP: pending
+[2026-03-28 14:54:31] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:54:31] POST: {"verificar_pagamento":"1","payment_id":"152243459744"}
+[2026-03-28 14:54:31] GET: []
+[2026-03-28 14:54:31] SESSION id: 209
+[2026-03-28 14:54:31] SESSION login: teste43
+[2026-03-28 14:54:31] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:54:31] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:54:31] Usuário: teste43, ID: 209
+[2026-03-28 14:54:31] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:54:31] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:54:31] Payment ID: 152243459744
+[2026-03-28 14:54:32] API MP Response: HTTP 200
+[2026-03-28 14:54:32] Status MP: pending
+[2026-03-28 14:54:36] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:54:36] POST: {"verificar_pagamento":"1","payment_id":"152243459744"}
+[2026-03-28 14:54:36] GET: []
+[2026-03-28 14:54:36] SESSION id: 209
+[2026-03-28 14:54:36] SESSION login: teste43
+[2026-03-28 14:54:36] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:54:36] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:54:36] Usuário: teste43, ID: 209
+[2026-03-28 14:54:36] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:54:36] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:54:36] Payment ID: 152243459744
+[2026-03-28 14:54:37] API MP Response: HTTP 200
+[2026-03-28 14:54:37] Status MP: pending
+[2026-03-28 14:54:41] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:54:41] POST: {"verificar_pagamento":"1","payment_id":"152243459744"}
+[2026-03-28 14:54:41] GET: []
+[2026-03-28 14:54:41] SESSION id: 209
+[2026-03-28 14:54:41] SESSION login: teste43
+[2026-03-28 14:54:41] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:54:41] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:54:41] Usuário: teste43, ID: 209
+[2026-03-28 14:54:41] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:54:41] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:54:41] Payment ID: 152243459744
+[2026-03-28 14:54:42] API MP Response: HTTP 200
+[2026-03-28 14:54:42] Status MP: pending
+[2026-03-28 14:54:46] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:54:46] POST: {"verificar_pagamento":"1","payment_id":"152243459744"}
+[2026-03-28 14:54:46] GET: []
+[2026-03-28 14:54:46] SESSION id: 209
+[2026-03-28 14:54:46] SESSION login: teste43
+[2026-03-28 14:54:46] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:54:46] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:54:46] Usuário: teste43, ID: 209
+[2026-03-28 14:54:46] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:54:46] === VERIFICANDO PAGAMENTO ===
+[2026-03-28 14:54:46] Payment ID: 152243459744
+[2026-03-28 14:54:47] API MP Response: HTTP 200
+[2026-03-28 14:54:47] Status MP: approved
+[2026-03-28 14:54:47] UPDATE pagamento: rows afetadas = -1
+[2026-03-28 14:54:47] === INICIANDO ATUALIZAÇÃO DE PLANO ===
+[2026-03-28 14:54:47] Usuario: teste43, ID: 209, Novo Limite: 2, Novos Dias: 30
+[2026-03-28 03:54:47] Validade atual: 2026-05-28 03:43:55
+[2026-03-28 03:54:47] Nova validade: 2026-06-27 03:43:55 (+30 dias)
+[2026-03-28 03:54:47] Banco atualizado: nova validade = 2026-06-27 03:43:55, novo limite = 2
+[2026-03-28 03:54:47] Plano ativado com sucesso! Nova validade: 27/06/2026 03:43:55 | Sessões sincronizadas do banco.
+[2026-03-28 14:58:35] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:58:35] POST: {"plano_id":"50","plano_nome":"Vip Plano","plano_valor":"1.00","plano_dias":"30","plano_limite":"2"}
+[2026-03-28 14:58:35] GET: []
+[2026-03-28 14:58:35] SESSION id: 209
+[2026-03-28 14:58:35] SESSION login: teste43
+[2026-03-28 14:58:35] Criando sessões do usuário para o plano...
+[2026-03-28 14:58:35] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-28 14:58:35] Dados do plano salvos na sessão: {"id":50,"nome":"Vip Plano","valor":1,"dias":30,"limite":2}
+[2026-03-28 14:58:35] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:58:35] Usuário: teste43, ID: 209
+[2026-03-28 14:58:35] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:58:36] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-28 14:58:36] POST: {"criar_pagamento":"1"}
+[2026-03-28 14:58:36] GET: []
+[2026-03-28 14:58:36] SESSION id: 209
+[2026-03-28 14:58:36] SESSION login: teste43
+[2026-03-28 14:58:36] Dados do plano carregados da sessão: ID=50, Nome=Vip Plano
+[2026-03-28 14:58:36] Plano: Vip Plano, Valor: 1, Dias: 30, Limite: 2
+[2026-03-28 14:58:36] Usuário: teste43, ID: 209
+[2026-03-28 14:58:36] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-28 14:58:36] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-28 14:58:36] Valor a pagar: 1
+[2026-03-28 14:58:36] Enviando requisição para Mercado Pago...
+[2026-03-28 14:58:38] API MP Response: HTTP 201
+[2026-03-28 14:58:38] Pagamento registrado: user_id=209, plano=Vip Plano
+[2026-03-29 02:12:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:12:21] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:12:21] GET: []
+[2026-03-29 02:12:21] SESSION id: 209
+[2026-03-29 02:12:21] SESSION login: teste43
+[2026-03-29 02:12:21] Criando sessões do usuário para o plano...
+[2026-03-29 02:12:21] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-29 02:12:21] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:12:21] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:12:21] Usuário: teste43, ID: 209
+[2026-03-29 02:12:21] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-29 02:12:23] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:12:23] POST: {"criar_pagamento":"1"}
+[2026-03-29 02:12:23] GET: []
+[2026-03-29 02:12:23] SESSION id: 209
+[2026-03-29 02:12:23] SESSION login: teste43
+[2026-03-29 02:12:23] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:12:23] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:12:23] Usuário: teste43, ID: 209
+[2026-03-29 02:12:23] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-29 02:12:23] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-29 02:12:23] Valor a pagar: 1
+[2026-03-29 02:12:24] API MP Response: HTTP 201
+[2026-03-29 02:12:24] Pagamento registrado em pagamentos_unificado: user_id=209, plano=342
+[2026-03-29 02:18:18] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:18:18] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:18:18] GET: []
+[2026-03-29 02:18:18] SESSION id: 209
+[2026-03-29 02:18:18] SESSION login: teste43
+[2026-03-29 02:18:18] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:18:18] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:18:18] Usuário: teste43, ID: 209
+[2026-03-29 02:18:18] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-29 02:18:28] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:18:28] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:18:28] GET: []
+[2026-03-29 02:18:28] SESSION id: 209
+[2026-03-29 02:18:28] SESSION login: teste43
+[2026-03-29 02:18:28] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:18:28] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:18:28] Usuário: teste43, ID: 209
+[2026-03-29 02:18:28] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-29 02:29:25] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:29:25] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:29:25] GET: []
+[2026-03-29 02:29:25] SESSION id: 209
+[2026-03-29 02:29:25] SESSION login: teste43
+[2026-03-29 02:29:25] Criando sessões do usuário para o plano...
+[2026-03-29 02:29:25] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-29 02:29:25] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:29:25] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:29:25] Usuário: teste43, ID: 209
+[2026-03-29 02:29:25] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-29 02:29:31] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:29:31] POST: {"verificar_pagamento":"1","payment_id":"152302601496"}
+[2026-03-29 02:29:31] GET: []
+[2026-03-29 02:29:31] SESSION id: 209
+[2026-03-29 02:29:31] SESSION login: teste43
+[2026-03-29 02:29:31] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:29:31] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:29:31] Usuário: teste43, ID: 209
+[2026-03-29 02:29:31] Revendedor: ID=74, Email=sinimegaju@gmail.com
+[2026-03-29 02:29:31] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:29:31] Payment ID: 152302601496
+[2026-03-29 02:29:32] API MP Response: HTTP 200
+[2026-03-29 02:29:32] Status MP: pending
+[2026-03-29 02:37:42] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:37:42] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:37:42] GET: []
+[2026-03-29 02:37:42] SESSION id: 209
+[2026-03-29 02:37:42] SESSION login: teste43
+[2026-03-29 02:37:42] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:37:42] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:37:55] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:37:55] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:37:55] GET: []
+[2026-03-29 02:37:55] SESSION id: 209
+[2026-03-29 02:37:55] SESSION login: teste43
+[2026-03-29 02:37:55] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:37:55] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:38:06] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:38:06] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:38:06] GET: []
+[2026-03-29 02:38:06] SESSION id: 209
+[2026-03-29 02:38:06] SESSION login: teste43
+[2026-03-29 02:38:06] Criando sessões do usuário para o plano...
+[2026-03-29 02:38:06] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-29 02:38:06] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:38:06] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:38:08] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:38:08] POST: {"criar_pagamento":"1"}
+[2026-03-29 02:38:08] GET: []
+[2026-03-29 02:38:08] SESSION id: 209
+[2026-03-29 02:38:08] SESSION login: teste43
+[2026-03-29 02:38:08] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:38:08] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:38:08] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-29 02:38:10] API MP Response: HTTP 201 | {"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.149.0-rc-1","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-28T14:38:09.794-04:00","external_charge_id":"01KMTVTHB61C8BFDFBP4KKGYCD","id":"151570722477-001","last_updated":"2026-03-28T14:38:09.794-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-28T14:38:09.776-04:00","execution_id":"01KMTVTHA5YQAP6X6BYQ04VR5S"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-28T14:38:09.792-04:00","date_last_updated":"2026-03-28T14:38:09.792-04:00","date_of_expiration":"2026-03-29T14:38:09.483-04:00","deduction_schema":null,"description":"Plano: 342 - Usuário: teste43","differential_pricing_id":null,"external_reference":"plano_59_209_1774723088","fee_details":[],"financing_group":null,"id":151570722477,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":"http://teste.painelcontrole.xyz/api/webhooks/mercadopago.php","operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"area_code":null,"extension":null,"number":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15157072247763040D39","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/151570722477/ticket?caller_id=1616344520\u0026hash=0924f96b-d01e-4033-baec-7207f5bcad55","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-29 02:38:10] salvarUnificado: payment_id=151570722477 status=pending ok=NAO - Unknown column 'descricao' in 'field list'
+[2026-03-29 02:38:10] Pagamento PENDING salvo: user_id=209 plano=342 payment_id=151570722477
+[2026-03-29 02:39:09] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:39:09] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:39:09] GET: []
+[2026-03-29 02:39:09] SESSION id: 209
+[2026-03-29 02:39:09] SESSION login: teste43
+[2026-03-29 02:39:09] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:39:09] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:39:15] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:39:15] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:39:15] GET: []
+[2026-03-29 02:39:15] SESSION id: 209
+[2026-03-29 02:39:15] SESSION login: teste43
+[2026-03-29 02:39:15] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:39:15] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:39:15] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:39:16] Status MP: pending
+[2026-03-29 02:39:20] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:39:20] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:39:20] GET: []
+[2026-03-29 02:39:20] SESSION id: 209
+[2026-03-29 02:39:20] SESSION login: teste43
+[2026-03-29 02:39:20] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:39:20] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:39:20] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:39:21] Status MP: pending
+[2026-03-29 02:39:25] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:39:25] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:39:25] GET: []
+[2026-03-29 02:39:25] SESSION id: 209
+[2026-03-29 02:39:25] SESSION login: teste43
+[2026-03-29 02:39:25] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:39:25] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:39:25] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:39:26] Status MP: pending
+[2026-03-29 02:39:30] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:39:30] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:39:30] GET: []
+[2026-03-29 02:39:30] SESSION id: 209
+[2026-03-29 02:39:30] SESSION login: teste43
+[2026-03-29 02:39:30] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:39:30] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:39:30] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:39:31] Status MP: pending
+[2026-03-29 02:39:35] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:39:35] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:39:35] GET: []
+[2026-03-29 02:39:35] SESSION id: 209
+[2026-03-29 02:39:35] SESSION login: teste43
+[2026-03-29 02:39:35] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:39:35] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:39:35] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:39:36] Status MP: pending
+[2026-03-29 02:39:40] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:39:40] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:39:40] GET: []
+[2026-03-29 02:39:40] SESSION id: 209
+[2026-03-29 02:39:40] SESSION login: teste43
+[2026-03-29 02:39:40] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:39:40] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:39:40] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:39:41] Status MP: pending
+[2026-03-29 02:39:45] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:39:45] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:39:45] GET: []
+[2026-03-29 02:39:45] SESSION id: 209
+[2026-03-29 02:39:45] SESSION login: teste43
+[2026-03-29 02:39:45] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:39:45] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:39:45] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:39:46] Status MP: pending
+[2026-03-29 02:39:50] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:39:50] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:39:50] GET: []
+[2026-03-29 02:39:50] SESSION id: 209
+[2026-03-29 02:39:50] SESSION login: teste43
+[2026-03-29 02:39:50] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:39:50] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:39:50] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:39:51] Status MP: pending
+[2026-03-29 02:39:55] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:39:55] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:39:55] GET: []
+[2026-03-29 02:39:55] SESSION id: 209
+[2026-03-29 02:39:55] SESSION login: teste43
+[2026-03-29 02:39:55] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:39:55] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:39:55] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:39:56] Status MP: pending
+[2026-03-29 02:40:00] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:40:00] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:40:00] GET: []
+[2026-03-29 02:40:00] SESSION id: 209
+[2026-03-29 02:40:00] SESSION login: teste43
+[2026-03-29 02:40:00] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:40:00] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:40:00] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:40:01] Status MP: pending
+[2026-03-29 02:40:05] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:40:05] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:40:05] GET: []
+[2026-03-29 02:40:05] SESSION id: 209
+[2026-03-29 02:40:05] SESSION login: teste43
+[2026-03-29 02:40:05] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:40:05] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:40:05] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:40:06] Status MP: pending
+[2026-03-29 02:40:10] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:40:10] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:40:10] GET: []
+[2026-03-29 02:40:10] SESSION id: 209
+[2026-03-29 02:40:10] SESSION login: teste43
+[2026-03-29 02:40:10] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:40:10] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:40:10] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:40:11] Status MP: pending
+[2026-03-29 02:40:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:40:21] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:40:21] GET: []
+[2026-03-29 02:40:21] SESSION id: 209
+[2026-03-29 02:40:21] SESSION login: teste43
+[2026-03-29 02:40:21] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:40:21] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:40:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:40:22] Status MP: pending
+[2026-03-29 02:40:45] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:40:45] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:40:45] GET: []
+[2026-03-29 02:40:45] SESSION id: 209
+[2026-03-29 02:40:45] SESSION login: teste43
+[2026-03-29 02:40:45] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:40:45] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:40:45] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:40:46] Status MP: pending
+[2026-03-29 02:40:48] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:40:48] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:40:48] GET: []
+[2026-03-29 02:40:48] SESSION id: 209
+[2026-03-29 02:40:48] SESSION login: teste43
+[2026-03-29 02:40:48] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:40:48] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:40:54] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:40:54] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:40:54] GET: []
+[2026-03-29 02:40:54] SESSION id: 209
+[2026-03-29 02:40:54] SESSION login: teste43
+[2026-03-29 02:40:54] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:40:54] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:40:54] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:40:55] Status MP: pending
+[2026-03-29 02:40:59] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:40:59] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:40:59] GET: []
+[2026-03-29 02:40:59] SESSION id: 209
+[2026-03-29 02:40:59] SESSION login: teste43
+[2026-03-29 02:40:59] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:40:59] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:40:59] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:00] Status MP: pending
+[2026-03-29 02:41:04] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:41:04] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:41:04] GET: []
+[2026-03-29 02:41:04] SESSION id: 209
+[2026-03-29 02:41:04] SESSION login: teste43
+[2026-03-29 02:41:04] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:41:04] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:41:04] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:05] Status MP: pending
+[2026-03-29 02:41:09] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:41:09] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:41:09] GET: []
+[2026-03-29 02:41:09] SESSION id: 209
+[2026-03-29 02:41:09] SESSION login: teste43
+[2026-03-29 02:41:09] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:41:09] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:41:09] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:10] Status MP: pending
+[2026-03-29 02:41:14] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:41:14] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:41:14] GET: []
+[2026-03-29 02:41:14] SESSION id: 209
+[2026-03-29 02:41:14] SESSION login: teste43
+[2026-03-29 02:41:14] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:41:14] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:41:14] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:15] Status MP: pending
+[2026-03-29 02:41:19] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:41:19] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:41:19] GET: []
+[2026-03-29 02:41:19] SESSION id: 209
+[2026-03-29 02:41:19] SESSION login: teste43
+[2026-03-29 02:41:19] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:41:19] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:41:19] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:20] Status MP: pending
+[2026-03-29 02:41:24] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:41:24] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:41:24] GET: []
+[2026-03-29 02:41:24] SESSION id: 209
+[2026-03-29 02:41:24] SESSION login: teste43
+[2026-03-29 02:41:24] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:41:24] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:41:24] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:25] Status MP: pending
+[2026-03-29 02:41:29] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:41:29] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:41:29] GET: []
+[2026-03-29 02:41:29] SESSION id: 209
+[2026-03-29 02:41:29] SESSION login: teste43
+[2026-03-29 02:41:29] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:41:29] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:41:29] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:30] Status MP: pending
+[2026-03-29 02:41:34] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:41:34] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:41:34] GET: []
+[2026-03-29 02:41:34] SESSION id: 209
+[2026-03-29 02:41:34] SESSION login: teste43
+[2026-03-29 02:41:34] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:41:34] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:41:34] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:35] Status MP: pending
+[2026-03-29 02:41:39] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:41:39] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:41:39] GET: []
+[2026-03-29 02:41:39] SESSION id: 209
+[2026-03-29 02:41:39] SESSION login: teste43
+[2026-03-29 02:41:39] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:41:39] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:41:39] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:40] Status MP: pending
+[2026-03-29 02:41:44] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:41:44] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:41:44] GET: []
+[2026-03-29 02:41:44] SESSION id: 209
+[2026-03-29 02:41:44] SESSION login: teste43
+[2026-03-29 02:41:44] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:41:44] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:41:44] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:45] Status MP: pending
+[2026-03-29 02:41:49] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:41:49] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:41:49] GET: []
+[2026-03-29 02:41:49] SESSION id: 209
+[2026-03-29 02:41:49] SESSION login: teste43
+[2026-03-29 02:41:49] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:41:49] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:41:49] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:41:50] Status MP: pending
+[2026-03-29 02:42:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:42:21] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:42:21] GET: []
+[2026-03-29 02:42:21] SESSION id: 209
+[2026-03-29 02:42:21] SESSION login: teste43
+[2026-03-29 02:42:21] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:42:21] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:42:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:42:22] Status MP: pending
+[2026-03-29 02:42:35] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:42:35] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:42:35] GET: []
+[2026-03-29 02:42:35] SESSION id: 209
+[2026-03-29 02:42:35] SESSION login: teste43
+[2026-03-29 02:42:35] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:42:35] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:42:35] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:42:36] Status MP: pending
+[2026-03-29 02:42:40] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:42:40] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:42:40] GET: []
+[2026-03-29 02:42:40] SESSION id: 209
+[2026-03-29 02:42:40] SESSION login: teste43
+[2026-03-29 02:42:40] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:42:40] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:42:50] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:42:50] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:42:50] GET: []
+[2026-03-29 02:42:50] SESSION id: 209
+[2026-03-29 02:42:50] SESSION login: teste43
+[2026-03-29 02:42:50] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:42:50] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:44:25] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:44:25] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:44:25] GET: []
+[2026-03-29 02:44:25] SESSION id: 209
+[2026-03-29 02:44:25] SESSION login: teste43
+[2026-03-29 02:44:25] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:44:25] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:44:31] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:44:31] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:44:31] GET: []
+[2026-03-29 02:44:31] SESSION id: 209
+[2026-03-29 02:44:31] SESSION login: teste43
+[2026-03-29 02:44:31] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:44:31] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:44:31] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:44:32] Status MP: pending
+[2026-03-29 02:44:36] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:44:36] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:44:36] GET: []
+[2026-03-29 02:44:36] SESSION id: 209
+[2026-03-29 02:44:36] SESSION login: teste43
+[2026-03-29 02:44:36] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:44:36] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:44:36] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:44:37] Status MP: pending
+[2026-03-29 02:44:41] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:44:41] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:44:41] GET: []
+[2026-03-29 02:44:41] SESSION id: 209
+[2026-03-29 02:44:41] SESSION login: teste43
+[2026-03-29 02:44:41] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:44:41] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:44:41] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:44:42] Status MP: pending
+[2026-03-29 02:44:46] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:44:46] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:44:46] GET: []
+[2026-03-29 02:44:46] SESSION id: 209
+[2026-03-29 02:44:46] SESSION login: teste43
+[2026-03-29 02:44:46] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:44:46] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:44:46] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:44:47] Status MP: pending
+[2026-03-29 02:44:51] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:44:51] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:44:51] GET: []
+[2026-03-29 02:44:51] SESSION id: 209
+[2026-03-29 02:44:51] SESSION login: teste43
+[2026-03-29 02:44:51] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:44:51] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:44:51] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:44:52] Status MP: pending
+[2026-03-29 02:44:56] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:44:56] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:44:56] GET: []
+[2026-03-29 02:44:56] SESSION id: 209
+[2026-03-29 02:44:56] SESSION login: teste43
+[2026-03-29 02:44:56] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:44:56] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:44:56] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:44:57] Status MP: pending
+[2026-03-29 02:45:01] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:45:01] POST: {"verificar_pagamento":"1","payment_id":"151570722477"}
+[2026-03-29 02:45:01] GET: []
+[2026-03-29 02:45:01] SESSION id: 209
+[2026-03-29 02:45:01] SESSION login: teste43
+[2026-03-29 02:45:01] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:45:01] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:45:01] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:45:02] Status MP: pending
+[2026-03-29 02:47:36] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:47:36] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:47:36] GET: []
+[2026-03-29 02:47:36] SESSION id: 209
+[2026-03-29 02:47:36] SESSION login: teste43
+[2026-03-29 02:47:36] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:47:36] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:51:51] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:51:51] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:51:51] GET: []
+[2026-03-29 02:51:51] SESSION id: 209
+[2026-03-29 02:51:51] SESSION login: teste43
+[2026-03-29 02:51:51] Criando sessões do usuário para o plano...
+[2026-03-29 02:51:51] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-29 02:51:51] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:51:51] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:02] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:02] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:52:02] GET: []
+[2026-03-29 02:52:02] SESSION id: 209
+[2026-03-29 02:52:02] SESSION login: teste43
+[2026-03-29 02:52:02] Criando sessões do usuário para o plano...
+[2026-03-29 02:52:02] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-29 02:52:02] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:52:02] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:04] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:04] POST: {"criar_pagamento":"1"}
+[2026-03-29 02:52:04] GET: []
+[2026-03-29 02:52:04] SESSION id: 209
+[2026-03-29 02:52:04] SESSION login: teste43
+[2026-03-29 02:52:04] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:04] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:04] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-29 02:52:05] API MP Response: HTTP 201 | {"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.149.0-rc-1","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-28T14:52:04.890-04:00","external_charge_id":"01KMTWM0W1KKVZ72TQAZZ2M3HE","id":"151572014757-001","last_updated":"2026-03-28T14:52:04.890-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-28T14:52:04.874-04:00","execution_id":"01KMTWM0TQQ0SHD4191K89M949"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-28T14:52:04.888-04:00","date_last_updated":"2026-03-28T14:52:04.888-04:00","date_of_expiration":"2026-03-29T14:52:04.679-04:00","deduction_schema":null,"description":"Plano: 342 - Usuário: teste43","differential_pricing_id":null,"external_reference":"plano_59_209_1774723924","fee_details":[],"financing_group":null,"id":151572014757,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":"http://teste.painelcontrole.xyz/api/webhooks/mercadopago.php","operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"area_code":null,"extension":null,"number":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15157201475763044F3D","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/151572014757/ticket?caller_id=1616344520\u0026hash=79104e59-9a51-4acd-9136-a04465a1e28b","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-29 02:52:05] Pagamento PENDING salvo: user_id=209 plano=342 payment_id=151572014757
+[2026-03-29 02:52:11] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:11] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:52:11] GET: []
+[2026-03-29 02:52:11] SESSION id: 209
+[2026-03-29 02:52:11] SESSION login: teste43
+[2026-03-29 02:52:11] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:11] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:11] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:52:12] Status MP: pending
+[2026-03-29 02:52:16] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:16] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:52:16] GET: []
+[2026-03-29 02:52:16] SESSION id: 209
+[2026-03-29 02:52:16] SESSION login: teste43
+[2026-03-29 02:52:16] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:16] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:16] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:52:17] Status MP: pending
+[2026-03-29 02:52:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:21] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:52:21] GET: []
+[2026-03-29 02:52:21] SESSION id: 209
+[2026-03-29 02:52:21] SESSION login: teste43
+[2026-03-29 02:52:21] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:21] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:52:22] Status MP: pending
+[2026-03-29 02:52:26] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:26] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:52:26] GET: []
+[2026-03-29 02:52:26] SESSION id: 209
+[2026-03-29 02:52:26] SESSION login: teste43
+[2026-03-29 02:52:26] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:26] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:26] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:52:27] Status MP: pending
+[2026-03-29 02:52:31] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:31] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:52:31] GET: []
+[2026-03-29 02:52:31] SESSION id: 209
+[2026-03-29 02:52:31] SESSION login: teste43
+[2026-03-29 02:52:31] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:31] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:31] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:52:32] Status MP: pending
+[2026-03-29 02:52:36] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:36] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:52:36] GET: []
+[2026-03-29 02:52:36] SESSION id: 209
+[2026-03-29 02:52:36] SESSION login: teste43
+[2026-03-29 02:52:36] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:36] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:36] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:52:37] Status MP: pending
+[2026-03-29 02:52:41] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:41] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:52:41] GET: []
+[2026-03-29 02:52:41] SESSION id: 209
+[2026-03-29 02:52:41] SESSION login: teste43
+[2026-03-29 02:52:41] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:41] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:41] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:52:42] Status MP: pending
+[2026-03-29 02:52:46] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:46] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:52:46] GET: []
+[2026-03-29 02:52:46] SESSION id: 209
+[2026-03-29 02:52:46] SESSION login: teste43
+[2026-03-29 02:52:46] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:46] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:46] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:52:47] Status MP: pending
+[2026-03-29 02:52:51] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:51] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:52:51] GET: []
+[2026-03-29 02:52:51] SESSION id: 209
+[2026-03-29 02:52:51] SESSION login: teste43
+[2026-03-29 02:52:51] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:51] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:51] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:52:52] Status MP: pending
+[2026-03-29 02:52:56] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:52:56] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:52:56] GET: []
+[2026-03-29 02:52:56] SESSION id: 209
+[2026-03-29 02:52:56] SESSION login: teste43
+[2026-03-29 02:52:56] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:52:56] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:52:56] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:52:57] Status MP: pending
+[2026-03-29 02:53:01] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:53:01] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:53:01] GET: []
+[2026-03-29 02:53:01] SESSION id: 209
+[2026-03-29 02:53:01] SESSION login: teste43
+[2026-03-29 02:53:01] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:53:01] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:53:01] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:53:02] Status MP: pending
+[2026-03-29 02:53:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:53:21] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:53:21] GET: []
+[2026-03-29 02:53:21] SESSION id: 209
+[2026-03-29 02:53:21] SESSION login: teste43
+[2026-03-29 02:53:21] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:53:21] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:53:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:53:22] Status MP: pending
+[2026-03-29 02:54:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:54:21] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:54:21] GET: []
+[2026-03-29 02:54:21] SESSION id: 209
+[2026-03-29 02:54:21] SESSION login: teste43
+[2026-03-29 02:54:21] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:54:21] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:54:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:54:22] Status MP: pending
+[2026-03-29 02:55:21] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:55:21] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:55:21] GET: []
+[2026-03-29 02:55:21] SESSION id: 209
+[2026-03-29 02:55:21] SESSION login: teste43
+[2026-03-29 02:55:21] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:55:21] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:55:21] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:55:22] Status MP: pending
+[2026-03-29 02:55:36] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:55:36] POST: {"verificar_pagamento":"1","payment_id":"151572014757"}
+[2026-03-29 02:55:36] GET: []
+[2026-03-29 02:55:36] SESSION id: 209
+[2026-03-29 02:55:36] SESSION login: teste43
+[2026-03-29 02:55:36] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:55:36] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:55:36] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 02:55:37] Status MP: pending
+[2026-03-29 02:57:00] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:57:00] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:57:00] GET: []
+[2026-03-29 02:57:00] SESSION id: 209
+[2026-03-29 02:57:00] SESSION login: teste43
+[2026-03-29 02:57:00] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:57:00] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:57:15] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:57:15] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:57:15] GET: []
+[2026-03-29 02:57:15] SESSION id: 209
+[2026-03-29 02:57:15] SESSION login: teste43
+[2026-03-29 02:57:15] Criando sessões do usuário para o plano...
+[2026-03-29 02:57:15] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-29 02:57:15] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:57:15] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:57:16] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:57:16] POST: {"criar_pagamento":"1"}
+[2026-03-29 02:57:16] GET: []
+[2026-03-29 02:57:16] SESSION id: 209
+[2026-03-29 02:57:16] SESSION login: teste43
+[2026-03-29 02:57:16] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:57:16] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:57:16] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-29 02:57:18] API MP Response: HTTP 201 | {"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.149.0-rc-1","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-28T14:57:17.686-04:00","external_charge_id":"01KMTWXJAWW8733WZGHGZJE0YX","id":"151572100951-001","last_updated":"2026-03-28T14:57:17.686-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-28T14:57:17.669-04:00","execution_id":"01KMTWXJ9SWBMCMN22D4S8XXGV"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-28T14:57:17.684-04:00","date_last_updated":"2026-03-28T14:57:17.684-04:00","date_of_expiration":"2026-03-29T14:57:17.484-04:00","deduction_schema":null,"description":"Plano: 342 - Usuário: teste43","differential_pricing_id":null,"external_reference":"plano_59_209_1774724236","fee_details":[],"financing_group":null,"id":151572100951,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":"http://teste.painelcontrole.xyz/api/webhooks/mercadopago.php","operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"area_code":null,"extension":null,"number":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15157210095163043B3B","qr_code_base64":"iVBORw0KGgoAAAANSUhEUgAABRQAAAUUAQMAAACUKAyrAAAABlBMVEX///8AAABVwtN+AAAIqklEQVR42uzdQXLqSBIG4CJYeOkjcBSOBkfjKD4CSy8IaqKxJWVWlTD0vB5PNN+/6Rg9JH3yLiersoqIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIyP9J3mufj8Hvdt//di1lm383Xfu8/a99rce//rsJzzuVcvjrv5fpjR+333U5MjIyMjIyMjIyMjIyMjKOjZn0Fh4xvmU7+JZt9nT3HNo/wr790Z6RkZGRkZGRkZGRkZHx94zTIy6TsSxlaVfgXvK1UKee043bXJZOTw/GeCMjIyMjIyMjIyMjIyMj43PGcEd87Ci3V13a524COhTrb+EaIyMjIyMjIyMjIyMjI+N/acyP3X2XyZvpR+dlHXHN64NLWjP8sfSGL7kVzMjIyMjIyMjIyMjIyMj4hLFb11y+lydvbvtYQ2/42n1cuPG8FOHz73ZLHT5vii1/ZO01IyMjIyMjIyMjIyMj4+sYR7Oa9t9Lka+hlr5tt53nMgVjrLnDjdt0Y803/oF5UoyMjIyMjIyMjIyMjIx/wLiSfbuVdXJHTxnUriU1cePDbvkcVMt/N4yMjIyMjIyMjIyMjIyvY9x9l8RNfR3WDNdBc3aUXF83Z810Ff30F/hynxgZGRkZGRkZGRkZGRkZ76UricO1WBJ3veEp23bO8GimU/y4G2mThxYfGRkZGRkZGRkZGRkZGRl/rK+7WU2bsbGGWU2jdc3BHRZJ1/bGkvfAFkZGRkZGRkZGRkZGRkbGH+vrr3J6l0YzxZL4kGY1dSXxfC3Pajql9c+hX3wNNfeJkZGRkZGRkZGRkZGR8TeMKzN8R7OauvXBpT24JvRdrwEdZjXVML8pfMjfmjPMyMjIyMjIyMjIyMjI+FLGQx0eGTMV3PNTQkl8Xhq28do+tVTPy42jhzXXCiMjIyMjIyMjIyMjIyPj2Bj6wKNObTwjJwwe7pb+5llNXzV3ntU0rw/eDV7AyMjIyMjIyMjIyMjIyPhTcqd2ymbw2Ga/a85pedg2vPvQDi3epznD93vDjIyMjIyMjIyMjIyMjK9tnNc112UMU6ivN2EN80o7N6xrntcwZ2N3Y1jXPA8troyMjIyMjIyMjIyMjIy/ZOz+dZdelWc1jfa7XkNLdb80cbehwD22f5X9eKMsIyMjIyMjIyMjIyMjI+NKfX1Ia4a74U2xfZrL5DxT+L39kDpYgFzTnOFmsTEjIyMjIyMjIyMjIyMj4yi7dNzpZ1ofPG9v/UjGOcfvHzVnp44WINdhLqtVPiMjIyMjIyMjIyMjIyNjU193nvLjKTZhVlPJ65ond0n94ug5pZXUD/5/AIyMjIyMjIyMjIyMjIyvasxlclzX/POC6NqemxM+rlnXPDWVwy7g2hXmjIyMjIyMjIyMjIyMjP9740fbY50TZviG2nUbXpUbsSvGaa7vJWyerWm/a15YzMjIyMjIyMjIyMjIyMjY55A6o3k0cE2jlFbOTi2hTK7jvmv+uJIq+kfCyMjIyMjIyMjIyMjI+MLGXXrsWxoDfA1F+Gjpb75x9C116Q1fxmen5s2zjIyMjIyMjIyMjIyMjIzraUri4zJeKR/TOntW6uswq+k9bZ6t7YbazcPzpBgZGRkZGRkZGRkZGRlf27gbTwDujLce8rz/tt5f1/z1LbEwDyupu5wf6w0zMjIyMjIyMjIyMjIyvqSxu+MzrHXOs4fDntyuTB5t5r3kv8D4jXGf7pGRkZGRkZGRkZGRkZHxN4wf6cJbelWsU7sfTeOCr91+126x8XHt7NR59jAjIyMjIyMjIyMjIyMjY3kkX9OUujNy5g85JM9ueXdTJq/2U7vFxvP8plN5MIyMjIyMjIyMjIyMjIyvaTwsd3zltNYb7ucyTefhxBtHa4bDbtrp3JynZjUxMjIyMjIyMjIyMjIyvqoxdGU3YV3zqMU7naUTjeFDYpmcz3fNjeZu8FOZLjAyMjIyMjIyMjIyMjIyrhuDJ7d4r+HCVBJf2llN1+6Dx4OfLu0i6VisMzIyMjIyMjIyMjIyMv6KsSzt01EluclzmQ41np2aZ/h+toXwaFZTPju15I2yjIyMjIyMjIyMjIyMjIx31wyHhLlMm/DuUzKGG2N9fUqlczer6XO8w7YwMjIyMjIyMjIyMjIyMj4yZ3jTPWXqDZ/D/KYwhmnX1tLvgyFPuTdcwgfnGysjIyMjIyMjIyMjIyMj4711zcd2yfLoVadxb3h1v2sZ9Ibjw2pbrBdGRkZGRkZGRkZGRkZGxvvGeEZOTeuVS6qvL+35rjXX16HtO89qGveGn9o3zMjIyMjIyMjIyMjIyPhPGMvSPp3Pn/lId8Sxu8elVfrE0t/p2rad4DQfXHP+qXxlZGRkZGRkZGRkZGRkfHljTdtWd/fGBU/uOijM39se692+6zPnuzIyMjIyMjIyMjIyMjK+sLF77NvyiPkpscWbc6jDdLOaamoq17b5nJvKjIyMjIyMjIyMjIyMjIwPJLd4w6uuoV+8u/NxsdE8OlznyXXNjIyMjIyMjIyMjIyMjC9sfB8UvPNjx+3cS1jrfFhq6flVXU7tG6fzXZ+aM8zIyMjIyMjIyMjIyMj4Dxk/0oW30CoNdepKPXtItes5nZN6WV2AnGvX8kBvmJGRkZGRkZGRkZGRkfHljYe0qjcbu17sNswernfWDNfwcbdr2/GPP39qAjMyMjIyMjIyMjIyMjIyrhrzI3Lbdx4NPI0LzmenNr3hw2IMi40fXzPMyMjIyMjIyMjIyMjIyNgay9K97TKfkbNr+8Cd8TwowrvzcLqhxYyMjIyMjIyMjIyMjIyMj61rzmuY5zI5b6O95dqd79oduNOdmzMtY55r7j0jIyMjIyMjIyMjIyPjLxlXZjWV9Kq83/Vt+t1hMMP3UOdZv+/jJu7KYmNGRkZGRkZGRkZGRkZGRhERERERERERERERERERERERERERERERERERERH59+c/AQAA//+YtL+cjJ+KUQAAAABJRU5ErkJggg==","ticket_url":"https://www.mercadopago.com.br/payments/151572100951/ticket?caller_id=1616344520\u0026hash=b2beb5b3-52aa-4ca1-843f-2da627c0dbd0","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-29 02:57:18] Pagamento PENDING salvo: user_id=209 plano=342 payment_id=151572100951
+[2026-03-29 02:58:13] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:58:13] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 02:58:13] GET: []
+[2026-03-29 02:58:13] SESSION id: 209
+[2026-03-29 02:58:13] SESSION login: teste43
+[2026-03-29 02:58:13] Criando sessões do usuário para o plano...
+[2026-03-29 02:58:13] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-29 02:58:13] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 02:58:13] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:58:14] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 02:58:14] POST: {"criar_pagamento":"1"}
+[2026-03-29 02:58:14] GET: []
+[2026-03-29 02:58:14] SESSION id: 209
+[2026-03-29 02:58:14] SESSION login: teste43
+[2026-03-29 02:58:14] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 02:58:14] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 02:58:14] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-29 02:58:15] API MP Response: HTTP 201 | {"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.149.0-rc-1","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-28T14:58:15.308-04:00","external_charge_id":"01KMTWZAKECQGJ4CZT8AAAX89G","id":"151572290957-001","last_updated":"2026-03-28T14:58:15.308-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-28T14:58:15.287-04:00","execution_id":"01KMTWZAJGPK1ZJ6S2SSW8M0KN"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-28T14:58:15.305-04:00","date_last_updated":"2026-03-28T14:58:15.305-04:00","date_of_expiration":"2026-03-29T14:58:15.169-04:00","deduction_schema":null,"description":"Plano: 342 - Usuário: teste43","differential_pricing_id":null,"external_reference":"plano_59_209_1774724294","fee_details":[],"financing_group":null,"id":151572290957,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":"http://teste.painelcontrole.xyz/api/webhooks/mercadopago.php","operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"area_code":null,"extension":null,"number":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter151572290957630485AD","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/151572290957/ticket?caller_id=1616344520\u0026hash=181041b6-3952-4a00-ae67-c6ea8ae2e425","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-29 02:58:15] Pagamento PENDING salvo: user_id=209 plano=342 payment_id=151572290957
+[2026-03-29 03:17:08] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:17:08] POST: {"plano_id":"59","plano_nome":"342","plano_valor":"1.00","plano_dias":"30","plano_limite":"3"}
+[2026-03-29 03:17:08] GET: []
+[2026-03-29 03:17:08] SESSION id: 209
+[2026-03-29 03:17:08] SESSION login: teste43
+[2026-03-29 03:17:08] Criando sessões do usuário para o plano...
+[2026-03-29 03:17:08] Sessões criadas: revendedor_id=74, email=sinimegaju@gmail.com
+[2026-03-29 03:17:08] Dados do plano salvos na sessão: {"id":59,"nome":"342","valor":1,"dias":30,"limite":3}
+[2026-03-29 03:17:08] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:17:18] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:17:18] POST: {"criar_pagamento":"1"}
+[2026-03-29 03:17:18] GET: []
+[2026-03-29 03:17:18] SESSION id: 209
+[2026-03-29 03:17:18] SESSION login: teste43
+[2026-03-29 03:17:18] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:17:18] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:17:18] === PROCESSANDO CRIAÇÃO DE PAGAMENTO ===
+[2026-03-29 03:17:19] API MP Response: HTTP 201 | {"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.149.0-rc-1","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-28T15:17:19.120-04:00","external_charge_id":"01KMTY27KBA7RXSXDGW9RPJ2HJ","id":"152309298684-001","last_updated":"2026-03-28T15:17:19.120-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-28T15:17:19.092-04:00","execution_id":"01KMTY27J88NNQ2FFC2Z56YKQX"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-28T15:17:19.118-04:00","date_last_updated":"2026-03-28T15:17:19.118-04:00","date_of_expiration":"2026-03-29T15:17:18.895-04:00","deduction_schema":null,"description":"Plano: 342 - Usuário: teste43","differential_pricing_id":null,"external_reference":"plano_59_209_1774725438","fee_details":[],"financing_group":null,"id":152309298684,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":"http://teste.painelcontrole.xyz/api/webhooks/mercadopago.php","operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"area_code":null,"extension":null,"number":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter152309298684630461F8","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/152309298684/ticket?caller_id=1616344520\u0026hash=cb3ad65e-be1f-441e-ae40-119b9d085695","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-29 03:17:19] Pagamento PENDING salvo: user_id=209 plano=342 payment_id=152309298684
+[2026-03-29 03:17:24] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:17:24] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:17:24] GET: []
+[2026-03-29 03:17:24] SESSION id: 209
+[2026-03-29 03:17:24] SESSION login: teste43
+[2026-03-29 03:17:24] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:17:24] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:17:24] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:17:25] Status MP: pending
+[2026-03-29 03:17:29] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:17:29] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:17:29] GET: []
+[2026-03-29 03:17:29] SESSION id: 209
+[2026-03-29 03:17:29] SESSION login: teste43
+[2026-03-29 03:17:29] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:17:29] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:17:29] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:17:30] Status MP: pending
+[2026-03-29 03:17:34] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:17:34] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:17:34] GET: []
+[2026-03-29 03:17:34] SESSION id: 209
+[2026-03-29 03:17:34] SESSION login: teste43
+[2026-03-29 03:17:34] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:17:34] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:17:34] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:17:35] Status MP: pending
+[2026-03-29 03:17:39] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:17:39] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:17:39] GET: []
+[2026-03-29 03:17:39] SESSION id: 209
+[2026-03-29 03:17:39] SESSION login: teste43
+[2026-03-29 03:17:39] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:17:39] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:17:39] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:17:40] Status MP: pending
+[2026-03-29 03:17:44] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:17:44] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:17:44] GET: []
+[2026-03-29 03:17:44] SESSION id: 209
+[2026-03-29 03:17:44] SESSION login: teste43
+[2026-03-29 03:17:44] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:17:44] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:17:44] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:17:45] Status MP: pending
+[2026-03-29 03:17:49] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:17:49] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:17:49] GET: []
+[2026-03-29 03:17:49] SESSION id: 209
+[2026-03-29 03:17:49] SESSION login: teste43
+[2026-03-29 03:17:49] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:17:49] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:17:49] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:17:50] Status MP: pending
+[2026-03-29 03:17:54] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:17:54] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:17:54] GET: []
+[2026-03-29 03:17:54] SESSION id: 209
+[2026-03-29 03:17:54] SESSION login: teste43
+[2026-03-29 03:17:54] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:17:54] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:17:54] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:17:55] Status MP: pending
+[2026-03-29 03:17:59] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:17:59] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:17:59] GET: []
+[2026-03-29 03:17:59] SESSION id: 209
+[2026-03-29 03:17:59] SESSION login: teste43
+[2026-03-29 03:17:59] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:17:59] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:17:59] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:18:00] Status MP: pending
+[2026-03-29 03:18:04] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:18:04] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:18:04] GET: []
+[2026-03-29 03:18:04] SESSION id: 209
+[2026-03-29 03:18:04] SESSION login: teste43
+[2026-03-29 03:18:04] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:18:04] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:18:04] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:18:05] Status MP: pending
+[2026-03-29 03:18:09] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:18:09] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:18:09] GET: []
+[2026-03-29 03:18:09] SESSION id: 209
+[2026-03-29 03:18:09] SESSION login: teste43
+[2026-03-29 03:18:09] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:18:09] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:18:09] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:18:10] Status MP: pending
+[2026-03-29 03:18:14] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:18:14] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:18:14] GET: []
+[2026-03-29 03:18:14] SESSION id: 209
+[2026-03-29 03:18:14] SESSION login: teste43
+[2026-03-29 03:18:14] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:18:14] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:18:14] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:18:15] Status MP: pending
+[2026-03-29 03:18:19] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:18:19] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:18:19] GET: []
+[2026-03-29 03:18:19] SESSION id: 209
+[2026-03-29 03:18:19] SESSION login: teste43
+[2026-03-29 03:18:19] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:18:19] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:18:19] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:18:20] Status MP: pending
+[2026-03-29 03:18:24] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:18:24] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:18:24] GET: []
+[2026-03-29 03:18:24] SESSION id: 209
+[2026-03-29 03:18:24] SESSION login: teste43
+[2026-03-29 03:18:24] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:18:24] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:18:24] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:18:25] Status MP: pending
+[2026-03-29 03:18:29] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:18:29] POST: {"verificar_pagamento":"1","payment_id":"152309298684"}
+[2026-03-29 03:18:29] GET: []
+[2026-03-29 03:18:29] SESSION id: 209
+[2026-03-29 03:18:29] SESSION login: teste43
+[2026-03-29 03:18:29] Dados do plano carregados da sessão: ID=59, Nome=342
+[2026-03-29 03:18:29] Plano: 342, Valor: 1, Dias: 30, Limite: 3
+[2026-03-29 03:18:29] === VERIFICANDO PAGAMENTO ===
+[2026-03-29 03:18:30] Status MP: approved
+[2026-03-29 03:18:30] === INICIANDO ATUALIZAÇÃO DE PLANO ===
+[2026-03-28 16:18:30] Plano ativado! Nova validade: 27/05/2026 16:16:23
+[2026-03-29 03:28:57] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:29:00] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:29:02] MP criar: HTTP 201 | {"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.149.0-rc-1","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-28T15:29:01.607-04:00","external_charge_id":"01KMTYQNMDHCNXX9P6P2M00ATR","id":"151575768985-001","last_updated":"2026-03-28T15:29:01.607-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-28T15:29:01.591-04:00","execution_id":"01KMTYQNKDBM2K0T4ECXVHY7GV"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-28T15:29:01.605-04:00","date_last_updated":"2026-03-28T15:29:01.605-04:00","date_of_expiration":"2026-03-29T15:29:01.390-04:00","deduction_schema":null,"description":"Plano: 342 - teste43","differential_pricing_id":null,"external_reference":"plano_59_209_1774726140","fee_details":[],"financing_group":null,"id":151575768985,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":"http://teste.painelcontrole.xyz/api/webhooks/mercadopago.php","operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"area_code":null,"extension":null,"number":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter1515757689856304E22E","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/151575768985/ticket?caller_id=1616344520\u0026hash=d278bf12-777a-4f90-816b-1cc6043e33e8","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-29 03:29:02] salvarUnificado: payment_id=151575768985 status=pending ok=SIM
+[2026-03-29 03:29:02] Pagamento PENDING: user=209 plano=342 pid=151575768985
+[2026-03-29 03:29:07] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:29:07] Status MP: pending
+[2026-03-29 03:29:12] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:29:12] Status MP: pending
+[2026-03-29 03:29:17] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:29:17] Status MP: pending
+[2026-03-29 03:29:22] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:29:22] Status MP: pending
+[2026-03-29 03:29:27] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:29:27] Status MP: pending
+[2026-03-29 03:29:32] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 03:29:32] Status MP: approved
+[2026-03-29 03:29:32] === INICIANDO ATUALIZAÇÃO DE PLANO ===
+[2026-03-28 16:29:32] Status atual: Offline | mainid:  | UUID: 
+[2026-03-28 16:29:32] Nova validade: 2026-06-26 16:16:23 | Novo limite: 3
+[2026-03-28 16:29:32] Banco atualizado com sucesso
+[2026-03-28 16:29:33] Plano ativado! Nova validade: 26/06/2026 16:16:23
+[2026-03-29 03:38:25] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 06:54:26] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 06:54:28] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 06:54:29] MP criar: HTTP 201 | {"accounts_info":null,"acquirer_reconciliation":[],"additional_info":{"tracking_id":"platform:v1-whitelabel,so:ALL,type:N/A,security:none"},"authorization_code":null,"binary_mode":false,"brand_id":null,"build_version":"3.149.0-rc-1","call_for_authorize_id":null,"callback_url":null,"captured":true,"card":{},"charges_details":[{"accounts":{"from":"collector","to":"mp"},"amounts":{"original":0.01,"refunded":0},"client_id":0,"date_created":"2026-03-28T18:54:29.508-04:00","external_charge_id":"01KMVAFWK67AVG3MC3XPKC5E09","id":"152338740588-001","last_updated":"2026-03-28T18:54:29.508-04:00","metadata":{"reason":"","source":"proc-svc-charges","source_detail":"processing_fee_charge"},"name":"mercadopago_fee","refund_charges":[],"reserve_id":null,"type":"fee","update_charges":[]}],"charges_execution_info":{"internal_execution":{"date":"2026-03-28T18:54:29.491-04:00","execution_id":"01KMVAFWJ6SD3B1GA9YKN2EXJY"}},"collector_id":2652688037,"corporation_id":null,"counter_currency":null,"coupon_amount":0,"currency_id":"BRL","date_approved":null,"date_created":"2026-03-28T18:54:29.505-04:00","date_last_updated":"2026-03-28T18:54:29.505-04:00","date_of_expiration":"2026-03-29T18:54:29.299-04:00","deduction_schema":null,"description":"Plano: 31 - teste43","differential_pricing_id":null,"external_reference":"plano_61_209_1774738468","fee_details":[],"financing_group":null,"id":152338740588,"installments":1,"integrator_id":null,"issuer_id":"12501","live_mode":true,"marketplace_owner":null,"merchant_account_id":null,"merchant_number":null,"metadata":{},"money_release_date":null,"money_release_schema":null,"money_release_status":"released","notification_url":"http://teste.painelcontrole.xyz/api/webhooks/mercadopago.php","operation_type":"regular_payment","order":{},"payer":{"email":null,"entity_type":null,"first_name":null,"id":"1616344520","identification":{"number":null,"type":null},"last_name":null,"operator_id":null,"phone":{"area_code":null,"extension":null,"number":null},"type":null},"payment_method":{"id":"pix","issuer_id":"12501","type":"bank_transfer"},"payment_method_id":"pix","payment_type_id":"bank_transfer","platform_id":null,"point_of_interaction":{"application_data":{"name":null,"operating_system":null,"version":null},"business_info":{"branch":"Merchant Services","sub_unit":"default","unit":"online_payments"},"location":{"source":null,"state_id":null},"transaction_data":{"bank_info":{"collector":{"account_alias":null,"account_holder_name":"Siniclei Soares da Silva","account_id":null,"long_name":null,"transfer_account_id":null},"is_same_bank_account_owner":null,"origin_bank_id":null,"origin_wallet_id":null,"payer":{"account_id":null,"branch":null,"external_account_id":null,"id":null,"identification":{},"long_name":null}},"bank_transfer_id":null,"e2e_id":null,"financial_institution":null,"is_end_consumer":null,"merchant_category_code":null,"qr_code":"00020126360014br.gov.bcb.pix0114+556199251018152040000530398654041.005802BR5916DS202508281807286009Sao Paulo62250521mpqrinter15233874058863046D1E","qr_code_base64":"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","ticket_url":"https://www.mercadopago.com.br/payments/152338740588/ticket?caller_id=1616344520\u0026hash=f243b680-5710-4754-a406-6729ebd4a36a","transaction_id":null},"type":"OPENPLATFORM"},"pos_id":null,"processing_mode":"aggregator","refunds":[],"release_info":null,"shipping_amount":0,"sponsor_id":null,"statement_descriptor":null,"status":"pending","status_detail":"pending_waiting_transfer","store_id":null,"tags":null,"taxes_amount":0,"transaction_amount":1,"transaction_amount_refunded":0,"transaction_details":{"acquirer_reference":null,"bank_transfer_id":null,"external_resource_url":null,"financial_institution":null,"installment_amount":0,"net_received_amount":0,"overpaid_amount":0,"payable_deferral_period":null,"payment_method_reference_id":null,"total_paid_amount":1,"transaction_id":null}}
+[2026-03-29 06:54:29] salvarUnificado: payment_id=152338740588 status=pending ok=SIM
+[2026-03-29 06:54:29] Pagamento PENDING: user=209 plano=31 pid=152338740588
+[2026-03-29 06:54:35] === INICIANDO PAGAMENTO PLANO ===
+[2026-03-29 06:54:36] Status MP: pending

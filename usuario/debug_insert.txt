@@ -1,0 +1,40 @@
+2026-03-29 02:52:05
+SQL: INSERT INTO pagamentos_unificado
+    (tipo, user_id, login, payment_id, valor, status, data_criacao, revendedor_id, plano_id, limite_creditos, duracao_dias, descricao)
+VALUES
+    ('compra_plano_usuario', 209, 'teste43', '151572014757', 1, 'pending', '2026-03-29 02:52:05', 74, 59, 3, 30, '342')
+ON DUPLICATE KEY UPDATE id=id
+OK: NAO
+ERRO: Unknown column 'descricao' in 'field list'
+user_id=209 login=teste43 payment_id=151572014757 valor=1 revendedor=74
+
+2026-03-29 02:57:18
+SQL: INSERT INTO pagamentos_unificado
+    (tipo, user_id, login, payment_id, valor, status, data_criacao, revendedor_id, plano_id, limite_creditos, duracao_dias, descricao)
+VALUES
+    ('compra_plano_usuario', 209, 'teste43', '151572100951', 1, 'pending', '2026-03-29 02:57:18', 74, 59, 3, 30, '342')
+ON DUPLICATE KEY UPDATE id=id
+OK: SIM
+ERRO: 
+user_id=209 login=teste43 payment_id=151572100951 valor=1 revendedor=74
+
+2026-03-29 02:58:15
+SQL: INSERT INTO pagamentos_unificado
+    (tipo, user_id, login, payment_id, valor, status, data_criacao, revendedor_id, plano_id, limite_creditos, duracao_dias, descricao)
+VALUES
+    ('compra_plano_usuario', 209, 'teste43', '151572290957', 1, 'pending', '2026-03-29 02:58:15', 74, 59, 3, 30, '342')
+ON DUPLICATE KEY UPDATE id=id
+OK: SIM
+ERRO: 
+user_id=209 login=teste43 payment_id=151572290957 valor=1 revendedor=74
+
+2026-03-29 03:17:19
+SQL: INSERT INTO pagamentos_unificado
+    (tipo, user_id, login, payment_id, valor, status, data_criacao, revendedor_id, plano_id, limite_creditos, duracao_dias, descricao)
+VALUES
+    ('compra_plano_usuario', 209, 'teste43', '152309298684', 1, 'pending', '2026-03-29 03:17:19', 74, 59, 3, 30, '342')
+ON DUPLICATE KEY UPDATE id=id
+OK: SIM
+ERRO: 
+user_id=209 login=teste43 payment_id=152309298684 valor=1 revendedor=74
+
