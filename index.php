@@ -253,13 +253,19 @@ body {
 }
 
 .login-card {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    padding: 50px 40px;
-    border-radius: 25px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.08);
-    position: relative;
-    overflow: hidden;
+    padding:48px 38px 40px;
+    position:relative;overflow:hidden;
+}
+.login-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;
+    background:var(--grad);z-index:3;
+}
+.login-card::after{
+    content:'';position:absolute;
+    top:-60px;right:-60px;
+    width:180px;height:180px;
+    background:radial-gradient(circle,var(--bdr) 0%,transparent 70%);
+    pointer-events:none;z-index:0;
 }
 
 .login-card::before {
