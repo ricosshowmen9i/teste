@@ -166,9 +166,15 @@ function aleatorio653751($input) {
     // ============================================================
     // VALIDAÇÃO DE TOKEN — idêntica ao headeradmin
     // ============================================================
-    require_once 'vendor/autoload.php';
-    $telegram = new \Telegram\Bot\Api('6163337935:AAE8uxSRfSkXHthlZtRr-tjpUPxzzxaiUcQ');
-$telegram = new Api('6163337935:AAE8uxSRfSkXHthlZtRr-tjpUPxzzxaiUcQ');
+    $telegram = null;
+    if (file_exists('vendor/autoload.php')) {
+        try {
+            require_once 'vendor/autoload.php';
+            $telegram = new \Telegram\Bot\Api('6163337935:AAE8uxSRfSkXHthlZtRr-tjpUPxzzxaiUcQ');
+        } catch (\Throwable $e) {
+            $telegram = null;
+        }
+    }
 $dominio = $_SERVER['HTTP_HOST'];
 
 $token = $_SESSION['token'] ?? '';
@@ -220,10 +226,12 @@ if (
             echo "<script>document.addEventListener('DOMContentLoaded',function(){ showTokenModal('integridade'); });</script>";
         }
     } else {
-        $telegram->sendMessage([
-            'chat_id' => '2017803306',
-            'text' => "⚠️ BYPASS DETECTADO: O domínio " . $dominio_atual . " tentou burlar a segurança do token!"
-        ]);
+        if ($telegram) {
+            $telegram->sendMessage([
+                'chat_id' => '2017803306',
+                'text' => "⚠️ BYPASS DETECTADO: O domínio " . $dominio_atual . " tentou burlar a segurança do token!"
+            ]);
+        }
         $_SESSION['token_invalido_'] = true;
         echo "<script>document.addEventListener('DOMContentLoaded',function(){ showTokenModal('bypass'); });</script>";
     }
@@ -799,7 +807,6 @@ if (
             .membro-desde { display: none; }
         }
     </style>
-    <link rel="stylesheet" href="AegisCore/temas_visual.css">
 </head>
 <body class="<?php echo htmlspecialchars(getBodyClass($temaHome)); ?>">
 
