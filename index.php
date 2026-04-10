@@ -26,6 +26,225 @@ catch (mysqli_sql_exception $e) {
     exit;
 }
 
+// ========== AJAX: PAGAMENTO PARA REVENDEDOR BLOQUEADO (suspenso/vencido) ==========
+if (isset($_POST['criar_pagamento_bloqueado']) || isset($_POST['verificar_pagamento_bloqueado'])) {
+    header('Content-Type: application/json');
+
+    if (!isset($_SESSION['iduser']) || !isset($_SESSION['login'])) {
+        echo json_encode(['status' => 'error', 'message' => 'Sessão inválida. Faça login novamente.']);
+        exit();
+    }
+
+    $user_id = intval($_SESSION['iduser']);
+
+    // Buscar dados do revendedor
+    $sql_atrib = $conn->prepare("SELECT * FROM atribuidos WHERE userid=? LIMIT 1");
+    $sql_atrib->bind_param('i', $user_id);
+    $sql_atrib->execute();
+    $atribuicao = $sql_atrib->get_result()->fetch_assoc();
+
+    if (!$atribuicao) {
+        echo json_encode(['status' => 'error', 'message' => 'Revendedor não encontrado.']);
+        exit();
+    }
+
+    $byid = intval($atribuicao['byid']);
+    $valor_revenda = floatval($atribuicao['valor'] ?? 0);
+    $limite_atual = $atribuicao['limite'];
+    $expira_atual = $atribuicao['expira'];
+
+    // Dados da conta do revendedor
+    $sql_acc = $conn->prepare("SELECT login, senha, whatsapp, contato, email FROM accounts WHERE id=? LIMIT 1");
+    $sql_acc->bind_param('i', $user_id);
+    $sql_acc->execute();
+    $revendedor = $sql_acc->get_result()->fetch_assoc();
+    $usuario_login = $revendedor['login'] ?? $_SESSION['login'];
+    $usuario_senha = $revendedor['senha'] ?? '';
+    $usuario_whatsapp = $revendedor['whatsapp'] ?? '';
+
+    // Dados do PAI (quem recebe o pagamento)
+    $sql_pai = $conn->prepare("SELECT mp_access_token, mp_active, contato, email FROM accounts WHERE id=? LIMIT 1");
+    $sql_pai->bind_param('i', $byid);
+    $sql_pai->execute();
+    $pai = $sql_pai->get_result()->fetch_assoc();
+
+    $mp_access_token = $pai['mp_access_token'] ?? '';
+    $mp_active = $pai['mp_active'] ?? 0;
+    $revendedor_email = $pai['contato'] ?? $pai['email'] ?? '';
+
+    if ($mp_active != 1 || empty($mp_access_token)) {
+        echo json_encode(['status' => 'error', 'message' => 'Pagamento via PIX não está configurado.']);
+        exit();
+    }
+
+    // ===== CRIAR PAGAMENTO =====
+    if (isset($_POST['criar_pagamento_bloqueado'])) {
+        if ($valor_revenda <= 0) {
+            echo json_encode(['status' => 'error', 'message' => 'Valor inválido para gerar pagamento.']);
+            exit();
+        }
+
+        $external_id = "renovacao_revenda_" . $user_id . "_" . time();
+        $idem_key = uniqid() . '_' . $user_id . '_' . time();
+        $payment_data = [
+            'transaction_amount' => $valor_revenda,
+            'description' => "Renovação de Revenda - " . $usuario_login,
+            'payment_method_id' => 'pix',
+            'payer' => [
+                'email' => $revendedor_email,
+                'first_name' => $usuario_login,
+                'identification' => ['type' => 'CPF', 'number' => '00000000000']
+            ],
+            'external_reference' => $external_id,
+            'notification_url' => (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . '/api/webhooks/mercadopago.php'
+        ];
+
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => 'https://api.mercadopago.com/v1/payments',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => json_encode($payment_data),
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Bearer ' . $mp_access_token,
+                'Content-Type: application/json',
+                'X-Idempotency-Key: ' . $idem_key
+            ],
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT => 30
+        ]);
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curl_error = curl_error($ch);
+        curl_close($ch);
+
+        if ($curl_error) {
+            echo json_encode(['status' => 'error', 'message' => 'Erro de conexão: ' . $curl_error]);
+            exit();
+        }
+
+        if ($http_code == 200 || $http_code == 201) {
+            $result = json_decode($response, true);
+            if (isset($result['point_of_interaction']['transaction_data']['qr_code_base64'])) {
+                $payment_id = $result['id'];
+                $qr_code_base64 = $result['point_of_interaction']['transaction_data']['qr_code_base64'];
+                $qr_code = $result['point_of_interaction']['transaction_data']['qr_code'];
+                $data_criacao = date('Y-m-d H:i:s');
+                $pid = mysqli_real_escape_string($conn, $payment_id);
+
+                // Salvar na tabela pagamentos
+                mysqli_query($conn, "INSERT INTO pagamentos (payment_id, valor, status, data_criacao, tipo_conta, iduser, byid, external_reference, origem)
+                    VALUES ('$pid', '$valor_revenda', 'pending', '$data_criacao', 'revenda', '$user_id', '$byid', '$external_id', 'renovacao')");
+
+                // Salvar na tabela unificada (se existir)
+                @mysqli_query($conn, "INSERT INTO pagamentos_unificado
+                    (tipo, user_id, login, payment_id, valor, status, data_criacao, revendedor_id, limite_creditos, duracao_dias, descricao)
+                    VALUES ('renovacao_revenda', '$user_id', '" . mysqli_real_escape_string($conn, $usuario_login) . "', '$pid', '$valor_revenda', 'pending', '$data_criacao', '$byid', '$limite_atual', 30, 'Renovação de Revenda - " . mysqli_real_escape_string($conn, $usuario_login) . "')
+                    ON DUPLICATE KEY UPDATE status = IF('pending' = 'approved', 'approved', status)");
+
+                $_SESSION['payment_id_bloq'] = $payment_id;
+                $_SESSION['renovacao_wpp'] = $usuario_whatsapp;
+
+                echo json_encode([
+                    'status' => 'success',
+                    'qr_code_base64' => $qr_code_base64,
+                    'qr_code' => $qr_code,
+                    'payment_id' => $payment_id
+                ]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Erro ao gerar QR Code PIX.']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Erro na API do Mercado Pago.']);
+        }
+        exit();
+    }
+
+    // ===== VERIFICAR PAGAMENTO =====
+    if (isset($_POST['verificar_pagamento_bloqueado'])) {
+        $payment_id = isset($_POST['payment_id']) ? mysqli_real_escape_string($conn, $_POST['payment_id']) : '';
+
+        if (empty($payment_id)) {
+            echo json_encode(['status' => 'error', 'message' => 'ID do pagamento não informado.']);
+            exit();
+        }
+
+        // Checar se já foi aprovado no banco
+        $check = mysqli_query($conn, "SELECT status FROM pagamentos WHERE payment_id = '$payment_id' AND status = 'approved' LIMIT 1");
+        if ($check && mysqli_num_rows($check) > 0) {
+            $res_val = mysqli_query($conn, "SELECT expira FROM atribuidos WHERE userid = '$user_id'");
+            $row_val = mysqli_fetch_assoc($res_val);
+            $val_fmt = $row_val ? date('d/m/Y H:i:s', strtotime($row_val['expira'])) : 'N/A';
+            echo json_encode(['status' => 'approved', 'message' => 'Pagamento já aprovado! Revenda renovada!', 'nova_validade' => $val_fmt]);
+            exit();
+        }
+
+        // Consultar status no Mercado Pago
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => 'https://api.mercadopago.com/v1/payments/' . $payment_id,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Bearer ' . $mp_access_token,
+                'Content-Type: application/json'
+            ],
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT => 30
+        ]);
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($http_code != 200) {
+            echo json_encode(['status' => 'pending', 'message' => 'Aguardando pagamento...']);
+            exit();
+        }
+
+        $result = json_decode($response, true);
+        $status_mp = $result['status'] ?? 'unknown';
+
+        if ($status_mp == 'approved') {
+            $data_pagamento_now = date('Y-m-d H:i:s');
+
+            // Nova validade: +30 dias a partir de agora (ou da validade atual se ainda válida)
+            $expira_ref = (!empty($expira_atual) && $expira_atual > date('Y-m-d H:i:s')) ? $expira_atual : date('Y-m-d H:i:s');
+            $nova_validade = date('Y-m-d H:i:s', strtotime('+30 days', strtotime($expira_ref)));
+
+            // Atualizar revenda (liberar acesso)
+            mysqli_query($conn, "UPDATE atribuidos SET expira = '$nova_validade', suspenso = 0 WHERE userid = '$user_id'");
+
+            // Atualizar pagamento
+            mysqli_query($conn, "UPDATE pagamentos SET status = 'approved', data_pagamento = '$data_pagamento_now' WHERE payment_id = '$payment_id'");
+            if (mysqli_affected_rows($conn) == 0) {
+                $ext_id = "renovacao_revenda_" . $user_id . "_" . time();
+                mysqli_query($conn, "INSERT INTO pagamentos (payment_id, valor, status, data_criacao, data_pagamento, tipo_conta, iduser, byid, external_reference, origem)
+                    VALUES ('$payment_id', '$valor_revenda', 'approved', '$data_pagamento_now', '$data_pagamento_now', 'revenda', '$user_id', '$byid', '$ext_id', 'renovacao')");
+            }
+
+            // Tabela unificada
+            @mysqli_query($conn, "UPDATE pagamentos_unificado SET status = 'approved', data_pagamento = '$data_pagamento_now' WHERE payment_id = '$payment_id'");
+
+            // Log
+            $datahoje = date('d-m-Y H:i:s');
+            mysqli_query($conn, "INSERT INTO logs (revenda, validade, texto, userid)
+                VALUES ('" . mysqli_real_escape_string($conn, $usuario_login) . "', '$datahoje', 'Renovou 30 dias via Mercado Pago (login)', '$user_id')");
+
+            unset($_SESSION['payment_id_bloq'], $_SESSION['renovacao_wpp']);
+
+            echo json_encode([
+                'status' => 'approved',
+                'message' => 'Pagamento aprovado! Revenda renovada por mais 30 dias!',
+                'nova_validade' => date('d/m/Y H:i:s', strtotime($nova_validade))
+            ]);
+        } elseif ($status_mp == 'rejected' || $status_mp == 'cancelled') {
+            echo json_encode(['status' => 'error', 'message' => 'Pagamento ' . ($status_mp == 'rejected' ? 'rejeitado' : 'cancelado') . '.']);
+        } else {
+            echo json_encode(['status' => 'pending', 'message' => 'Aguardando pagamento...']);
+        }
+        exit();
+    }
+}
+
 // Verifica e atualiza a atividade da sessão
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 1200)) {
     $_SESSION['session_expired'] = true;
@@ -110,7 +329,7 @@ if (isset($_POST['submit'])) {
             // Verificar suspensão/vencimento do revendedor (não aplica ao admin)
             $blocked = false;
             if ($row['id'] != 1) {
-                $atrib_stmt = $conn->prepare("SELECT suspenso, expira, tipo FROM atribuidos WHERE userid=? LIMIT 1");
+                $atrib_stmt = $conn->prepare("SELECT suspenso, expira, tipo, byid, valor FROM atribuidos WHERE userid=? LIMIT 1");
                 if ($atrib_stmt) {
                     $atrib_stmt->bind_param('i', $row['id']);
                     $atrib_stmt->execute();
@@ -127,6 +346,32 @@ if (isset($_POST['submit'])) {
                             $alert_type    = 'vencido';
                             $show_modal    = true;
                             $blocked       = true;
+                        }
+
+                        // Dados para modal de pagamento direto na tela de login
+                        if ($blocked) {
+                            $_SESSION['byid'] = $ar['byid'];
+                            $bloq_byid = intval($ar['byid']);
+                            $bloq_valor_renovacao = floatval($ar['valor'] ?? 0);
+                            $bloq_mp_disponivel = false;
+                            $bloq_valor_formatado = '0,00';
+                            $bloq_data_vencimento = $ar['expira'] ?? '';
+
+                            if ($bloq_valor_renovacao > 0) {
+                                $sql_pai_mp = $conn->prepare("SELECT mp_access_token, mp_active FROM accounts WHERE id=? LIMIT 1");
+                                if ($sql_pai_mp) {
+                                    $sql_pai_mp->bind_param('i', $bloq_byid);
+                                    $sql_pai_mp->execute();
+                                    $res_pai_mp = $sql_pai_mp->get_result();
+                                    if ($res_pai_mp && $res_pai_mp->num_rows > 0) {
+                                        $pai_mp = $res_pai_mp->fetch_assoc();
+                                        if ($pai_mp['mp_active'] == 1 && !empty($pai_mp['mp_access_token'])) {
+                                            $bloq_mp_disponivel = true;
+                                        }
+                                    }
+                                }
+                                $bloq_valor_formatado = number_format($bloq_valor_renovacao, 2, ',', '.');
+                            }
                         }
                     }
                 }
@@ -834,10 +1079,14 @@ document.addEventListener('DOMContentLoaded', function() {
         title:'Conta Suspensa!',
         text:<?php echo json_encode($alert_message); ?>,
         icon:'token',
-        buttons:['OK', '💳 Pagamento'],
+        buttons:<?php echo (isset($bloq_mp_disponivel) && $bloq_mp_disponivel) ? "['OK', '💳 Pagamento - R$ " . $bloq_valor_formatado . "']" : "['OK', '💳 Pagamento']"; ?>,
         dangerMode:true
     }).then(function(v){
+        <?php if (isset($bloq_mp_disponivel) && $bloq_mp_disponivel): ?>
+        if(v) abrirModalPagBloq();
+        <?php else: ?>
         if(v) window.location.href='home.php';
+        <?php endif; ?>
     });
 });
 <?php elseif ($show_modal && $alert_type == 'vencido'): ?>
@@ -846,10 +1095,14 @@ document.addEventListener('DOMContentLoaded', function() {
         title:'Conta Vencida!',
         text:<?php echo json_encode($alert_message); ?>,
         icon:'warning',
-        buttons:['OK', '💳 Pagamento'],
+        buttons:<?php echo (isset($bloq_mp_disponivel) && $bloq_mp_disponivel) ? "['OK', '💳 Pagamento - R$ " . $bloq_valor_formatado . "']" : "['OK', '💳 Pagamento']"; ?>,
         dangerMode:false
     }).then(function(v){
+        <?php if (isset($bloq_mp_disponivel) && $bloq_mp_disponivel): ?>
+        if(v) abrirModalPagBloq();
+        <?php else: ?>
         if(v) window.location.href='home.php';
+        <?php endif; ?>
     });
 });
 <?php endif; ?>
@@ -872,6 +1125,196 @@ document.addEventListener('DOMContentLoaded', function() {
 
 fetch('admin/notific.php', { method: 'POST' }).then(function(){}).catch(function(){});
 </script>
+
+<?php if (isset($bloq_mp_disponivel) && $bloq_mp_disponivel): ?>
+<!-- Modal de Pagamento PIX para revendedor bloqueado -->
+<div id="modalPagBloqLogin" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:99999;backdrop-filter:blur(8px);">
+    <div style="animation:modalPagBloqIn 0.4s cubic-bezier(0.34,1.2,0.64,1);max-width:500px;width:90%;">
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,0.15);box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
+            <div id="modalPagBloqHeader" style="background:linear-gradient(135deg,#10b981,#059669);color:white;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);">
+                <h5 style="margin:0;display:flex;align-items:center;gap:10px;font-size:18px;font-weight:600;">
+                    <i class='bx bx-credit-card'></i> <span id="modalPagBloqTitulo">Pagamento PIX</span>
+                </h5>
+                <button onclick="fecharModalPagBloq()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;opacity:.8;"><i class='bx bx-x'></i></button>
+            </div>
+            <div style="padding:24px;color:white;max-height:75vh;overflow-y:auto;text-align:center;">
+                <!-- Etapa 1: Informações do pagamento -->
+                <div id="etapaPagBloqInfo">
+                    <div style="background:rgba(255,255,255,0.05);border-radius:16px;padding:20px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.08);">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                            <div style="width:50px;height:50px;border-radius:12px;background:linear-gradient(135deg,#4158D0,#6366f1);display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid rgba(255,255,255,0.2);">
+                                <i class='bx bx-user'></i>
+                            </div>
+                            <div style="text-align:left;">
+                                <div style="font-size:16px;font-weight:700;"><?php echo htmlspecialchars($_SESSION['login'] ?? ''); ?></div>
+                                <div style="font-size:12px;color:rgba(255,255,255,0.5);">ID: <?php echo htmlspecialchars($_SESSION['iduser'] ?? ''); ?></div>
+                            </div>
+                        </div>
+                        <?php if (!empty($bloq_data_vencimento)): ?>
+                        <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(255,255,255,0.05);font-size:13px;">
+                            <span style="color:rgba(255,255,255,0.6);"><i class='bx bx-calendar' style="color:#fbbf24;"></i> Vencimento</span>
+                            <span style="font-weight:600;"><?php echo date('d/m/Y', strtotime($bloq_data_vencimento)); ?></span>
+                        </div>
+                        <?php endif; ?>
+                        <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(255,255,255,0.05);font-size:13px;">
+                            <span style="color:rgba(255,255,255,0.6);"><i class='bx bx-dollar' style="color:#10b981;"></i> Valor</span>
+                            <span style="font-weight:700;color:#f59e0b;font-size:20px;">R$ <?php echo $bloq_valor_formatado; ?></span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(255,255,255,0.05);font-size:13px;">
+                            <span style="color:rgba(255,255,255,0.6);"><i class='bx bx-time' style="color:#3b82f6;"></i> Período</span>
+                            <span style="font-weight:600;">30 dias</span>
+                        </div>
+                    </div>
+                    <div style="background:rgba(59,130,246,0.1);border-left:3px solid #3b82f6;padding:12px;border-radius:8px;margin-bottom:20px;text-align:left;">
+                        <small style="color:rgba(255,255,255,0.6);font-size:11px;"><i class='bx bx-info-circle' style="color:#3b82f6;"></i> Após o pagamento, seu plano será renovado por mais 30 dias e o acesso será liberado automaticamente.</small>
+                    </div>
+                    <button id="btnGerarPixBloq" onclick="gerarPixBloqLogin()" style="width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#10b981,#059669);color:white;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:all 0.2s;">
+                        <i class='bx bx-qr'></i> Gerar QR Code PIX
+                    </button>
+                </div>
+                <!-- Etapa 2: QR Code gerado -->
+                <div id="etapaPagBloqQR" style="display:none;">
+                    <div style="background:white;border-radius:16px;padding:20px;display:inline-block;margin-bottom:20px;">
+                        <img id="bloqQrCodeImg" src="" alt="QR Code PIX" style="width:200px;height:200px;">
+                    </div>
+                    <div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:12px;margin:16px 0;text-align:left;">
+                        <div style="font-size:11px;color:#94a3b8;margin-bottom:8px;">CÓDIGO PIX COPIA E COLA:</div>
+                        <div id="bloqPixCodeText" style="font-family:monospace;font-size:10px;color:#60a5fa;word-break:break-all;"></div>
+                    </div>
+                    <button onclick="copiarPixBloqLogin()" style="width:100%;padding:12px;border-radius:12px;color:white;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;border:none;background:linear-gradient(135deg,#3b82f6,#2563eb);font-family:inherit;">
+                        <i class='bx bx-copy'></i> Copiar Código PIX
+                    </button>
+                    <div id="bloqStatusDiv" style="background:rgba(245,158,11,0.15);border-radius:12px;padding:12px;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:10px;color:#fbbf24;font-size:13px;">
+                        <i class='bx bx-time'></i> Aguardando Pagamento...
+                    </div>
+                    <button onclick="verificarPagBloqLogin()" style="width:100%;padding:12px;border-radius:12px;color:white;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;border:none;background:linear-gradient(135deg,#f59e0b,#f97316);font-family:inherit;">
+                        <i class='bx bx-refresh'></i> Verificar Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    @keyframes modalPagBloqIn { from { opacity:0; transform: scale(0.9) translateY(-30px); } to { opacity:1; transform: scale(1) translateY(0); } }
+    @keyframes spinnerBloqLogin { to { transform: rotate(360deg); } }
+    .spinner-bloq-login { display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spinnerBloqLogin 0.8s linear infinite; }
+</style>
+<script>
+var verificacaoBloqLoginInterval = null;
+var currentPaymentIdBloqLogin = '';
+var pagamentoConfirmadoBloqLogin = false;
+
+function abrirModalPagBloq() {
+    document.getElementById('modalPagBloqLogin').style.display = 'flex';
+    document.getElementById('etapaPagBloqInfo').style.display = 'block';
+    document.getElementById('etapaPagBloqQR').style.display = 'none';
+}
+
+function fecharModalPagBloq() {
+    document.getElementById('modalPagBloqLogin').style.display = 'none';
+    if (verificacaoBloqLoginInterval) clearInterval(verificacaoBloqLoginInterval);
+}
+
+function gerarPixBloqLogin() {
+    if (pagamentoConfirmadoBloqLogin) return;
+    var btn = document.getElementById('btnGerarPixBloq');
+    var originalText = btn.innerHTML;
+    btn.innerHTML = '<div class="spinner-bloq-login"></div> Gerando...';
+    btn.disabled = true;
+
+    var formData = new FormData();
+    formData.append('criar_pagamento_bloqueado', '1');
+
+    fetch('index.php', { method: 'POST', body: formData })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+        if (data.status === 'success') {
+            currentPaymentIdBloqLogin = data.payment_id;
+            document.getElementById('bloqQrCodeImg').src = 'data:image/png;base64,' + data.qr_code_base64;
+            document.getElementById('bloqPixCodeText').innerText = data.qr_code;
+            document.getElementById('etapaPagBloqInfo').style.display = 'none';
+            document.getElementById('etapaPagBloqQR').style.display = 'block';
+            document.getElementById('modalPagBloqTitulo').innerText = 'Pagamento PIX Gerado!';
+            iniciarVerificacaoBloqLogin();
+        } else {
+            alert('Erro: ' + data.message);
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    })
+    .catch(function(err) {
+        alert('Erro ao conectar: ' + err);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    });
+}
+
+function iniciarVerificacaoBloqLogin() {
+    if (verificacaoBloqLoginInterval) clearInterval(verificacaoBloqLoginInterval);
+    verificacaoBloqLoginInterval = setInterval(verificarPagBloqLogin, 5000);
+}
+
+function verificarPagBloqLogin() {
+    if (!currentPaymentIdBloqLogin || pagamentoConfirmadoBloqLogin) return;
+    var statusDiv = document.getElementById('bloqStatusDiv');
+    statusDiv.innerHTML = '<div class="spinner-bloq-login"></div> Verificando pagamento...';
+
+    var formData = new FormData();
+    formData.append('verificar_pagamento_bloqueado', '1');
+    formData.append('payment_id', currentPaymentIdBloqLogin);
+
+    fetch('index.php', { method: 'POST', body: formData })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+        if (data.status === 'approved') {
+            pagamentoConfirmadoBloqLogin = true;
+            if (verificacaoBloqLoginInterval) clearInterval(verificacaoBloqLoginInterval);
+            statusDiv.innerHTML = '<i class="bx bx-check-circle"></i> ✅ ' + data.message + '<br>📅 Nova validade: ' + data.nova_validade;
+            statusDiv.style.background = 'rgba(16,185,129,0.15)';
+            statusDiv.style.color = '#10b981';
+            document.getElementById('modalPagBloqHeader').style.background = 'linear-gradient(135deg,#10b981,#059669)';
+            document.getElementById('modalPagBloqTitulo').innerText = 'Pagamento Aprovado!';
+            setTimeout(function() { window.location.href = 'home.php'; }, 3000);
+        } else if (data.status === 'error') {
+            statusDiv.innerHTML = '<i class="bx bx-error-circle"></i> ⚠️ ' + data.message;
+            statusDiv.style.background = 'rgba(220,38,38,0.15)';
+            statusDiv.style.color = '#f87171';
+        } else {
+            statusDiv.innerHTML = '<i class="bx bx-time"></i> ⏳ ' + data.message;
+        }
+    })
+    .catch(function() {
+        statusDiv.innerHTML = '<i class="bx bx-time"></i> ⏳ Aguardando pagamento...';
+    });
+}
+
+function copiarPixBloqLogin() {
+    var texto = document.getElementById('bloqPixCodeText').innerText;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(texto).then(function() {
+            alert('✅ Código PIX copiado!');
+        }).catch(function() {
+            copiarPixBloqFallback(texto);
+        });
+    } else {
+        copiarPixBloqFallback(texto);
+    }
+}
+
+function copiarPixBloqFallback(texto) {
+    var ta = document.createElement('textarea');
+    ta.value = texto;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); alert('✅ Código PIX copiado!'); }
+    catch(e) { alert('Não foi possível copiar. Selecione o código manualmente.'); }
+    document.body.removeChild(ta);
+}
+</script>
+<?php endif; ?>
 
 </body>
 </html>
