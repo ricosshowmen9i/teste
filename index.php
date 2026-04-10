@@ -234,18 +234,6 @@ body {
     padding:48px 38px 40px;
     position:relative;overflow:hidden;
 }
-/* Fundo SÓLIDO — especificidade body[class] .login-card = (0,2,1)
-   igual a body.theme-* .login-card do temas_visual.css.
-   Como este <style> vem DEPOIS do <link> temas_visual.css,
-   ganha pelo cascade order quando ambos usam !important. */
-body[class] .login-card {
-    background: var(--bg2, #1a1a2e) !important;
-    border: 1px solid var(--bdr, rgba(99,102,241,.25)) !important;
-    border-radius: var(--shape, 22px) !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,.4) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-}
 .login-card::before{
     content:'';position:absolute;top:0;left:0;right:0;height:4px;
     background:var(--grad);z-index:3;
