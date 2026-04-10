@@ -211,7 +211,9 @@ if ($session_expired) {
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo $icon; ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="AegisCore/temas_visual.css">
+    <style>body{opacity:0;transition:opacity .15s ease;}</style>
+    <link rel="stylesheet" href="AegisCore/temas_visual.css?v=<?php echo time(); ?>" onload="document.body?document.body.style.opacity='1':document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';});">
+    <?php echo getFundoPersonalizadoCSS($conn, $temaLogin); ?>
 <style>
 
 * {
@@ -226,39 +228,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #0f172a, #1e1b4b);
     padding: 20px;
     position: relative;
     overflow-x: hidden;
-}
-
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 20% 30%, rgba(16,185,129,0.1) 0%, transparent 50%);
-    pointer-events: none;
-    animation: pulseGlow 4s ease-in-out infinite;
-}
-
-body::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 80% 70%, rgba(5,150,105,0.1) 0%, transparent 50%);
-    pointer-events: none;
-    animation: pulseGlow 4s ease-in-out infinite reverse;
-}
-
-@keyframes pulseGlow {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
 }
 
 .login-container {
@@ -515,208 +487,6 @@ body::after {
     }
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    backdrop-filter: blur(8px);
-}
-
-.modal-overlay.show {
-    display: flex;
-}
-
-.modal-container {
-    animation: modalFadeIn 0.4s ease;
-    max-width: 420px;
-    width: 90%;
-}
-
-@keyframes modalFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-30px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.modal-content-custom {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    border-radius: 24px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-}
-
-.modal-header-custom {
-    padding: 20px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.modal-header-custom.error {
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-}
-
-.modal-header-custom.success {
-    background: linear-gradient(135deg, #10b981, #059669);
-}
-
-.modal-header-custom.warning {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-}
-
-.modal-header-custom h5 {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    color: white;
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    opacity: 0.8;
-    transition: all 0.2s;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-
-.modal-close:hover {
-    opacity: 1;
-    background: rgba(255,255,255,0.1);
-    transform: scale(1.1);
-}
-
-.modal-body-custom {
-    padding: 32px 24px;
-    color: white;
-    text-align: center;
-}
-
-.modal-icon {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.modal-icon i {
-    font-size: 72px;
-    display: inline-block;
-    animation: iconPulse 0.5s ease;
-}
-
-@keyframes iconPulse {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-.modal-icon .bx-error-circle {
-    color: #dc2626;
-    filter: drop-shadow(0 0 10px rgba(220,38,38,0.5));
-}
-
-.modal-icon .bx-check-circle {
-    color: #10b981;
-    filter: drop-shadow(0 0 10px rgba(16,185,129,0.5));
-}
-
-.modal-icon .bx-time-five {
-    color: #f59e0b;
-    filter: drop-shadow(0 0 10px rgba(245,158,11,0.5));
-}
-
-.modal-title {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    background: linear-gradient(135deg, #fff, #34d399);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.modal-message {
-    color: rgba(255,255,255,0.7);
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 10px;
-}
-
-.modal-footer-custom {
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding: 16px 24px;
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-}
-
-.btn-modal {
-    padding: 10px 28px;
-    border: none;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: inherit;
-}
-
-.btn-modal-danger {
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-    color: white;
-    box-shadow: 0 4px 12px rgba(220,38,38,0.3);
-}
-
-.btn-modal-danger:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(220,38,38,0.4);
-}
-
-.btn-modal-success {
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white;
-    box-shadow: 0 4px 12px rgba(16,185,129,0.3);
-}
-
-.btn-modal-success:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(16,185,129,0.4);
-}
-
-.btn-modal-warning {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: white;
-    box-shadow: 0 4px 12px rgba(245,158,11,0.3);
-}
-
-.btn-modal-warning:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(245,158,11,0.4);
-}
 
 .btn-login.loading {
     pointer-events: none;
@@ -860,175 +630,109 @@ body::after {
                 <span class="btn-text">Entrar no Painel</span>
             </button>
         </form>
-        
-        <div style="text-align: center; margin-top: 20px;">
-            <button type="button" class="theme-btn-float" onclick="openThemeModal()">
-                <i class='bx bx-palette'></i> Trocar Tema
-            </button>
-        </div>
     </div>
 </div>
 
-<style>
-.theme-btn-float {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: rgba(255,255,255,0.7);
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: inherit;
-}
-.theme-btn-float:hover {
-    background: rgba(255,255,255,0.15);
-    color: white;
-    transform: translateY(-2px);
-}
-</style>
-
-<!-- Modal de Erro (Login incorreto) -->
-<div id="errorModal" class="modal-overlay <?php echo ($show_modal && $alert_type == 'error') ? 'show' : ''; ?>">
-    <div class="modal-container">
-        <div class="modal-content-custom">
-            <div class="modal-header-custom error">
-                <h5>
-                    <i class='bx bx-error-circle'></i>
-                    Erro de Autenticação
-                </h5>
-                <button class="modal-close" onclick="fecharModal('errorModal')">
-                    <i class='bx bx-x'></i>
-                </button>
-            </div>
-            <div class="modal-body-custom">
-                <div class="modal-icon">
-                    <i class='bx bx-error-circle'></i>
-                </div>
-                <h3 class="modal-title">Falha no Login!</h3>
-                <p class="modal-message"><?php echo $alert_message; ?></p>
-            </div>
-            <div class="modal-footer-custom">
-                <button class="btn-modal btn-modal-danger" onclick="fecharModal('errorModal')">
-                    <i class='bx bx-check'></i> Tentar Novamente
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal de Sessão Expirada -->
-<div id="expiredModal" class="modal-overlay <?php echo ($show_modal && $alert_type == 'expired') ? 'show' : ''; ?>">
-    <div class="modal-container">
-        <div class="modal-content-custom">
-            <div class="modal-header-custom warning">
-                <h5>
-                    <i class='bx bx-time-five'></i>
-                    Sessão Expirada
-                </h5>
-                <button class="modal-close" onclick="fecharModal('expiredModal')">
-                    <i class='bx bx-x'></i>
-                </button>
-            </div>
-            <div class="modal-body-custom">
-                <div class="modal-icon">
-                    <i class='bx bx-time-five'></i>
-                </div>
-                <h3 class="modal-title">Sessão Expirada!</h3>
-                <p class="modal-message"><?php echo $alert_message; ?></p>
-                <p class="modal-message" style="font-size: 12px; margin-top: 10px;">
-                    <i class='bx bx-info-circle'></i> Por segurança, sua sessão expirou após 20 minutos de inatividade.
-                </p>
-            </div>
-            <div class="modal-footer-custom">
-                <button class="btn-modal btn-modal-warning" onclick="fecharModal('expiredModal')">
-                    <i class='bx bx-log-in'></i> Fazer Login Novamente
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
+// ============================================================
+// MODAL UNIFICADO — mesmo visual dark/themed do painel
+// ============================================================
+function showModal(opts){
+    var icon=opts.icon||'info',title=opts.title||'',text=opts.text||'',timer=opts.timer||0,
+        buttons=(opts.buttons!==false)?opts.buttons:false,onConfirm=opts.onConfirm||null,isDanger=opts.dangerMode||false;
+    var iconMap={
+        success:{bg:'rgba(16,185,129,.15)',html:'<i class="bx bx-check-circle" style="font-size:54px;color:#10b981;"></i>'},
+        error:  {bg:'rgba(239,68,68,.15)', html:'<i class="bx bx-x-circle" style="font-size:54px;color:#ef4444;"></i>'},
+        warning:{bg:'rgba(245,158,11,.15)',html:'<i class="bx bx-error" style="font-size:54px;color:#f59e0b;"></i>'},
+        info:   {bg:'rgba(59,130,246,.15)',html:'<i class="bx bx-info-circle" style="font-size:54px;color:#3b82f6;"></i>'},
+        token:  {bg:'rgba(239,68,68,.15)', html:'<i class="bx bx-lock-alt" style="font-size:54px;color:#ef4444;"></i>'},
+    };
+    var ic=iconMap[icon]||iconMap.info;
+    var ov=document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;display:flex;align-items:center;justify-content:center;animation:fadeInOv .2s ease;';
+    var bx=document.createElement('div');
+    bx.style.cssText='background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:28px;padding:36px 32px;max-width:440px;width:90%;border:1px solid rgba(255,255,255,.1);box-shadow:0 25px 60px rgba(0,0,0,.6);text-align:center;animation:slideUpM .25s ease;font-family:Poppins,sans-serif;';
+    var id=document.createElement('div');
+    id.style.cssText='width:80px;height:80px;border-radius:50%;background:'+ic.bg+';display:flex;align-items:center;justify-content:center;margin:0 auto 18px;';
+    id.innerHTML=ic.html;
+    var te=document.createElement('h3');te.style.cssText='color:#fff;font-size:20px;font-weight:700;margin:0 0 10px;';te.textContent=title;
+    var tx=document.createElement('p');tx.style.cssText='color:rgba(255,255,255,.6);font-size:14px;margin:0 0 24px;line-height:1.6;';tx.innerHTML=text;
+    bx.appendChild(id);bx.appendChild(te);bx.appendChild(tx);
+    var cb=null,kb=null;
+    if(buttons!==false){
+        var br=document.createElement('div');br.style.cssText='display:flex;gap:10px;justify-content:center;flex-wrap:wrap;';
+        cb=document.createElement('button');
+        var cl=(Array.isArray(buttons)&&buttons[1])?buttons[1]:'OK';
+        cb.textContent=cl;
+        var bg=isDanger?'linear-gradient(135deg,#dc2626,#b91c1c)':'linear-gradient(135deg,#4158D0,#6366f1)';
+        cb.style.cssText='padding:11px 28px;border:none;border-radius:14px;background:'+bg+';color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;';
+        cb.onmouseover=function(){this.style.filter='brightness(1.1)';this.style.transform='translateY(-1px)';};
+        cb.onmouseout=function(){this.style.filter='';this.style.transform='';};
+        br.appendChild(cb);
+        if(Array.isArray(buttons)&&buttons[0]){
+            kb=document.createElement('button');kb.textContent=buttons[0];
+            kb.style.cssText='padding:11px 28px;border:1px solid rgba(255,255,255,.15);border-radius:14px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;';
+            kb.onmouseover=function(){this.style.background='rgba(255,255,255,.12)';};
+            kb.onmouseout=function(){this.style.background='rgba(255,255,255,.06)';};
+            br.appendChild(kb);
+        }
+        bx.appendChild(br);
+    }
+    ov.appendChild(bx);document.body.appendChild(ov);
+    var res=[],result={then:function(fn){res.push(fn);return this;}};
+    function resolve(v){if(document.body.contains(ov))document.body.removeChild(ov);res.forEach(function(fn){fn(v);});if(onConfirm)onConfirm(v);}
+    if(cb)cb.onclick=function(){resolve(true);};
+    if(kb)kb.onclick=function(){resolve(false);};
+    if(timer>0)setTimeout(function(){resolve(true);},timer);
+    ov.addEventListener('click',function(e){if(e.target===ov)resolve(false);});
+    return result;
+}
+window.swal=function(o,t,i){
+    if(typeof o==='string')return showModal({title:o,text:t||'',icon:i||'info',buttons:true});
+    return showModal(o);
+};
+(function(){
+    if(!document.getElementById('modal-anim-style')){
+        var s=document.createElement('style');
+        s.id='modal-anim-style';
+        s.textContent='@keyframes fadeInOv{from{opacity:0}to{opacity:1}}@keyframes slideUpM{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}';
+        document.head.appendChild(s);
+    }
+})();
+
 function createRipple(event, element) {
     const ripple = document.createElement('span');
     ripple.classList.add('ripple');
-    
     const rect = element.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);
-    let x, y;
-    
-    if (event.type === 'click') {
-        x = event.clientX - rect.left - size / 2;
-        y = event.clientY - rect.top - size / 2;
-    } else {
-        x = rect.width / 2 - size / 2;
-        y = rect.height / 2 - size / 2;
-    }
-    
+    let x = event.clientX - rect.left - size / 2;
+    let y = event.clientY - rect.top - size / 2;
     ripple.style.width = ripple.style.height = size + 'px';
     ripple.style.left = x + 'px';
     ripple.style.top = y + 'px';
-    
     element.appendChild(ripple);
-    
-    setTimeout(() => {
-        ripple.remove();
-    }, 600);
+    setTimeout(() => ripple.remove(), 600);
 }
 
 function addClickEffect(button) {
     button.classList.add('click-effect');
-    setTimeout(() => {
-        button.classList.remove('click-effect');
-    }, 300);
-}
-
-function fecharModal(modalId) {
-    document.getElementById(modalId).classList.remove('show');
-    
-    if (modalId === 'expiredModal') {
-        if (window.history && window.history.replaceState) {
-            var url = window.location.href.split('?')[0];
-            window.history.replaceState({}, document.title, url);
-        }
-        document.querySelector('input[name="login"]').focus();
-    }
-    
-    if (modalId === 'errorModal' && window.history && window.history.replaceState) {
-        var url = window.location.href.split('?')[0];
-        window.history.replaceState({}, document.title, url);
-    }
+    setTimeout(() => button.classList.remove('click-effect'), 300);
 }
 
 const btnLogin = document.getElementById('btnLogin');
-
-btnLogin.addEventListener('click', function(e) {
-    createRipple(e, this);
-    addClickEffect(this);
-});
+btnLogin.addEventListener('click', function(e) { createRipple(e, this); addClickEffect(this); });
 
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     const btn = document.getElementById('btnLogin');
     const btnText = btn.querySelector('.btn-text');
     const btnIcon = btn.querySelector('.btn-icon');
-    
     const rect = btn.getBoundingClientRect();
-    const centerEvent = {
-        type: 'click',
-        clientX: rect.left + rect.width / 2,
-        clientY: rect.top + rect.height / 2
-    };
-    createRipple(centerEvent, btn);
+    createRipple({type:'click',clientX:rect.left+rect.width/2,clientY:rect.top+rect.height/2}, btn);
     addClickEffect(btn);
-    
     btn.classList.add('loading');
     btnText.style.opacity = '0';
     btnIcon.style.opacity = '0';
-    
     setTimeout(() => {
         if (!btn.classList.contains('loading')) return;
         btn.classList.add('success');
@@ -1046,73 +750,59 @@ inputs.forEach(input => {
     input.addEventListener('focus', function() {
         this.parentElement.querySelector('.input-icon').style.transform = 'translateY(-50%) scale(1.1)';
     });
-    
     input.addEventListener('blur', function() {
         this.parentElement.querySelector('.input-icon').style.transform = 'translateY(-50%) scale(1)';
     });
 });
 
-document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('modal-overlay')) {
-        const modalId = event.target.id;
-        fecharModal(modalId);
-    }
-});
-
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        const modals = ['errorModal', 'expiredModal', 'successModal'];
-        modals.forEach(modalId => {
-            const modal = document.getElementById(modalId);
-            if (modal && modal.classList.contains('show')) {
-                fecharModal(modalId);
-            }
-        });
-    }
-});
-
 const style = document.createElement('style');
-style.textContent = `
-    @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-    }
-`;
+style.textContent = `@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`;
 document.head.appendChild(style);
-
-<?php if ($session_expired): ?>
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('expiredModal');
-    if (modal) {
-        modal.classList.add('show');
-        const closeBtn = modal.querySelector('.modal-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function() {
-                document.querySelector('input[name="login"]').focus();
-            });
-        }
-    }
-});
-<?php endif; ?>
 
 let isSubmitting = false;
 document.getElementById('loginForm').addEventListener('submit', function(e) {
-    if (isSubmitting) {
-        e.preventDefault();
-        return false;
-    }
+    if (isSubmitting) { e.preventDefault(); return false; }
     isSubmitting = true;
 });
 
-fetch('admin/notific.php', {
-    method: 'POST', 
-})
-.then(response => {})
-.catch(error => {});
+<?php if ($show_modal && $alert_type == 'error'): ?>
+document.addEventListener('DOMContentLoaded', function() {
+    showModal({title:'Falha no Login!', text:<?php echo json_encode($alert_message); ?>, icon:'error', buttons:true});
+});
+<?php elseif ($show_modal && $alert_type == 'expired'): ?>
+document.addEventListener('DOMContentLoaded', function() {
+    showModal({
+        title: 'Sessão Expirada!',
+        text: <?php echo json_encode($alert_message); ?> + '<br><br><small style="color:rgba(255,255,255,.4);">Por segurança, sua sessão expirou após 20 minutos de inatividade.</small>',
+        icon: 'warning',
+        buttons: true
+    }).then(function() {
+        if (window.history && window.history.replaceState) {
+            window.history.replaceState({}, document.title, window.location.href.split('?')[0]);
+        }
+        document.querySelector('input[name="login"]').focus();
+    });
+});
+<?php endif; ?>
+
+<?php if ($session_expired): ?>
+document.addEventListener('DOMContentLoaded', function() {
+    showModal({
+        title: 'Sessão Expirada!',
+        text: 'Sua sessão expirou. Faça login novamente.<br><br><small style="color:rgba(255,255,255,.4);">Por segurança, sessões expiram após 20 minutos de inatividade.</small>',
+        icon: 'warning',
+        buttons: true
+    }).then(function() {
+        if (window.history && window.history.replaceState) {
+            window.history.replaceState({}, document.title, window.location.href.split('?')[0]);
+        }
+        document.querySelector('input[name="login"]').focus();
+    });
+});
+<?php endif; ?>
+
+fetch('admin/notific.php', { method: 'POST' }).then(function(){}).catch(function(){});
 </script>
-
-
-
 
 </body>
 </html>

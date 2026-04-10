@@ -522,12 +522,14 @@ if (
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo $icon; ?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="AegisCore/temas_visual.css">
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>body{opacity:0;transition:opacity .15s ease;}</style>
+    <link rel="stylesheet" href="AegisCore/temas_visual.css?v=<?php echo time(); ?>" onload="document.body?document.body.style.opacity='1':document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';});">
     <?php
     include_once("AegisCore/temas.php");
     $temaHome = initTemas($conn);
+    echo getFundoPersonalizadoCSS($conn, $temaHome);
     ?>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <style>
         <?php echo $csspersonali; ?>
 
@@ -604,7 +606,7 @@ if (
         .si-10 { background:rgba(6,182,212,0.2);  color:#22d3ee; }
 
         /* ========== CONTEÚDO ========== */
-        .main-wrap { margin-left: 220px; min-height: 100vh; background: #0f172a; }
+        .main-wrap { margin-left: 220px; min-height: 100vh; }
         .top-header { position: sticky; top: 0; z-index: 900; background: rgba(26,31,58,0.97); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.07); border-radius: 0 0 18px 18px; margin: 0 12px; padding: 0 18px; height: 54px; display: flex; align-items: center; justify-content: space-between; }
         .header-left { display: flex; align-items: center; gap: 8px; }
         .membro-desde { position: absolute; left: 50%; transform: translateX(-50%); font-size: 11px; color: rgba(255,255,255,0.35); display: flex; align-items: center; gap: 5px; white-space: nowrap; }
