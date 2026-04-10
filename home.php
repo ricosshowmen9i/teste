@@ -533,6 +533,7 @@ if (
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="AegisCore/temas_visual.css?v=<?php echo time(); ?>">
     <?php
     include_once("AegisCore/temas.php");
     $temaHome = initTemas($conn);
@@ -541,6 +542,7 @@ if (
         <?php echo $csspersonali; ?>
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: linear-gradient(135deg, #0f0c29, #1e1b4b, #0f172a); min-height: 100vh; color: #fff; font-family: 'Inter', sans-serif; }
 
         
         .side-menu {
