@@ -132,20 +132,21 @@ if (isset($_POST['submit'])) {
                 }
             }
 
+            // Sempre setar sessão quando login/senha válidos (mesmo se suspenso/vencido)
+            $_SESSION['iduser'] = $row['id'];
+            $_SESSION['login'] = $row['login'];
+            $_SESSION['senha'] = $row['senha'];
+            
+            // Processar "Lembrar-me"
+            if (isset($_POST['remember']) && $_POST['remember'] == 'on') {
+                setcookie('remember_login', base64_encode($login), time() + (86400 * 30), "/");
+                setcookie('remember_senha', base64_encode($senha), time() + (86400 * 30), "/");
+            } else {
+                setcookie('remember_login', '', time() - 3600, "/");
+                setcookie('remember_senha', '', time() - 3600, "/");
+            }
+
             if (!$blocked) {
-                $_SESSION['iduser'] = $row['id'];
-                $_SESSION['login'] = $row['login'];
-                $_SESSION['senha'] = $row['senha'];
-                
-                // Processar "Lembrar-me"
-                if (isset($_POST['remember']) && $_POST['remember'] == 'on') {
-                    setcookie('remember_login', base64_encode($login), time() + (86400 * 30), "/");
-                    setcookie('remember_senha', base64_encode($senha), time() + (86400 * 30), "/");
-                } else {
-                    setcookie('remember_login', '', time() - 3600, "/");
-                    setcookie('remember_senha', '', time() - 3600, "/");
-                }
-                
                 if ($row['id'] == 1) {
                     // ADMINISTRADOR vai para pasta admin
                     echo "<script>window.location.href='admin/home.php';</script>";
@@ -610,6 +611,11 @@ body {
     .modal-body-custom {
     }
 }
+/* Fallback para modal-box quando tema não aplicado */
+.modal-box {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid rgba(255,255,255,.1);
+}
 <?php echo getCSSVariables($temaLogin); ?>
 </style>
 
@@ -689,7 +695,8 @@ function showModal(opts){
     var ov=document.createElement('div');
     ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;display:flex;align-items:center;justify-content:center;animation:fadeInOv .2s ease;';
     var bx=document.createElement('div');
-    bx.style.cssText='background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:28px;padding:36px 32px;max-width:440px;width:90%;border:1px solid rgba(255,255,255,.1);box-shadow:0 25px 60px rgba(0,0,0,.6);text-align:center;animation:slideUpM .25s ease;font-family:Poppins,sans-serif;';
+    bx.className='modal-box';
+    bx.style.cssText='border-radius:28px;padding:36px 32px;max-width:440px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,.6);text-align:center;animation:slideUpM .25s ease;font-family:Poppins,sans-serif;';
     var id=document.createElement('div');
     id.style.cssText='width:80px;height:80px;border-radius:50%;background:'+ic.bg+';display:flex;align-items:center;justify-content:center;margin:0 auto 18px;';
     id.innerHTML=ic.html;
@@ -822,11 +829,27 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 <?php elseif ($show_modal && $alert_type == 'suspended'): ?>
 document.addEventListener('DOMContentLoaded', function() {
-    showModal({title:'Conta Suspensa!', text:<?php echo json_encode($alert_message); ?>, icon:'token', buttons:true, dangerMode:true});
+    showModal({
+        title:'Conta Suspensa!',
+        text:<?php echo json_encode($alert_message); ?>,
+        icon:'token',
+        buttons:['OK', '💳 Pagamento'],
+        dangerMode:true
+    }).then(function(v){
+        if(v) window.location.href='home.php';
+    });
 });
 <?php elseif ($show_modal && $alert_type == 'vencido'): ?>
 document.addEventListener('DOMContentLoaded', function() {
-    showModal({title:'Conta Vencida!', text:<?php echo json_encode($alert_message); ?>, icon:'warning', buttons:true});
+    showModal({
+        title:'Conta Vencida!',
+        text:<?php echo json_encode($alert_message); ?>,
+        icon:'warning',
+        buttons:['OK', '💳 Pagamento'],
+        dangerMode:false
+    }).then(function(v){
+        if(v) window.location.href='home.php';
+    });
 });
 <?php endif; ?>
 
