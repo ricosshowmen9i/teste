@@ -267,10 +267,10 @@ $categorias = [
     </div>
 </div>
 <div class="sc-btns">
-    <form method="POST" style="display:inline"><input type="hidden" name="__resetTema" value="1">
-    <button type="submit" class="ab ab-info ab-sm"><i class='bx bx-revision'></i> Resetar Tema</button></form>
-    <form method="POST" style="display:inline" onsubmit="return confirm('Remover todos os temas visuais? As páginas voltarão ao visual padrão (sem tema algum aplicado).')"><input type="hidden" name="__desativarTemas" value="1">
-    <button type="submit" class="ab ab-del ab-sm" title="Remove todos os temas visuais. As páginas voltam ao visual padrão sem nenhum tema aplicado."><i class='bx bx-power-off'></i> Sem Tema (Padrão)</button></form>
+    <form method="POST" action="" style="display:inline"><input type="hidden" name="__resetTema" value="1">
+    <button type="submit" class="ab ab-info ab-sm"><i class='bx bx-revision'></i> Modo Auto</button></form>
+    <form method="POST" action="" style="display:inline" onsubmit="return confirm('Remover todos os temas? As paginas voltarao ao visual padrao sem nenhum tema aplicado.')"><input type="hidden" name="__desativarTemas" value="1">
+    <button type="submit" class="ab ab-del ab-sm"><i class='bx bx-power-off'></i> Sem Tema (Padrao)</button></form>
 </div>
 <div class="sc-deco"><i class='bx bx-palette'></i></div>
 </div>
@@ -478,6 +478,27 @@ $categorias = [
         </div>
     </div>
     <?php endif; ?>
+    <!-- Diagnostico Admin -->
+    <div class="cfg-row" style="margin-top:16px;border-color:rgba(100,116,139,.2);flex-direction:column;align-items:flex-start;gap:8px">
+        <div style="font-size:10px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:6px">
+            <i class='bx bx-chip' style="font-size:12px"></i> Diagnostico de Sessao
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <?php
+            $dbg = ['login'=>$_SESSION['login']??'N/A','nivel'=>$_SESSION['nivel']??'N/A','iduser'=>$_SESSION['iduser']??'N/A','isAdmin'=>isAdmin()?'TRUE':'FALSE'];
+            foreach($dbg as $k=>$v):
+                $ok = ($k==='isAdmin') ? ($v==='TRUE') : true;
+                $c  = ($k==='isAdmin' && !$ok) ? '#ef4444' : (($k==='isAdmin') ? '#10b981' : '#94a3b8');
+            ?>
+            <span style="font-size:10px;font-family:monospace;padding:2px 8px;border-radius:5px;background:rgba(255,255,255,.04);color:<?=$c?>;border:1px solid <?=$c?>33"><?=$k?>: <?=htmlspecialchars((string)$v)?></span>
+            <?php endforeach; ?>
+        </div>
+        <?php if(!isAdmin()): ?>
+        <div style="font-size:11px;color:#fca5a5;padding:6px 10px;background:rgba(239,68,68,.08);border-radius:8px;border:1px solid rgba(239,68,68,.2)">
+            <i class='bx bx-error-circle'></i> isAdmin() retornou FALSE — botoes de tema nao funcionarao. Veja os dados de sessao acima.
+        </div>
+        <?php endif; ?>
+    </div>
 </div>
 </div>
 </div>
@@ -489,21 +510,15 @@ $categorias = [
 // Verificar se o TEMA ATIVO tem fundo personalizado
 $fundoAtivoAtual = isset($fundos[$temaAtivoId]) ? $fundos[$temaAtivoId] : null;
 // Verificar se o arquivo existe fisicamente no disco
-if ($fundoAtivoAtual && !empty($fundoAtivoAtual['arquivo'])) {
-    $caminhoFisico = __DIR__ . '/../' . $fundoAtivoAtual['arquivo'];
-    if (!file_exists($caminhoFisico)) {
-        $fundoAtivoAtual = null; // Arquivo não existe, tratar como sem fundo
-    }
+if ($fundoAtivoAtual && empty($fundoAtivoAtual['arquivo'])) {
+    $fundoAtivoAtual = null;
 }
 $temaAtivoNome = isset($temas[$temaAtivoId]) ? stripEmoji($temas[$temaAtivoId]['nome']) : 'Tema Ativo';
 
-// Filtrar fundos que não existem fisicamente no disco
+// Filtrar fundos sem arquivo registrado
 foreach ($fundos as $fid => $f) {
-    if (!empty($f['arquivo'])) {
-        $caminhoFisico = __DIR__ . '/../' . $f['arquivo'];
-        if (!file_exists($caminhoFisico)) {
-            unset($fundos[$fid]); // Remover registros com arquivo inexistente
-        }
+    if (empty($f['arquivo'])) {
+        unset($fundos[$fid]);
     }
 }
 ?>

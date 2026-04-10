@@ -340,9 +340,13 @@ function setTemaConfig($conn, $dados) {
  * Verifica se o usuário atual é admin.
  */
 function isAdmin() {
-    return (!empty($_SESSION['login']) && $_SESSION['login'] === 'admin')
-        || (!empty($_SESSION['nivel']) && $_SESSION['nivel'] === 'admin')
-        || (!empty($_SESSION['iduser']) && $_SESSION['iduser'] == 1);
+    if (!empty($_SESSION['login'])  && $_SESSION['login']  === 'admin') return true;
+    if (!empty($_SESSION['nivel'])  && $_SESSION['nivel']  === 'admin') return true;
+    if (!empty($_SESSION['tipo'])   && $_SESSION['tipo']   === 'admin') return true;
+    if (!empty($_SESSION['admin'])  && $_SESSION['admin']  == 1)        return true;
+    if (!empty($_SESSION['iduser']) && $_SESSION['iduser'] == 1)        return true;
+    if (!empty($_SESSION['id'])     && $_SESSION['id']     == 1)        return true;
+    return false;
 }
 
 /**
@@ -609,11 +613,7 @@ function removerFundoPersonalizado($conn, $temaId) {
  * Lista todos os fundos personalizados.
  */
 function listarFundosPersonalizados($conn) {
-    $result = mysqli_query($conn, "SELECT f.*, t.nome as tema_nome, t.classe as tema_classe
-        FROM tema_fundos f
-        LEFT JOIN temas t ON t.id = f.tema_id
-        WHERE f.ativo=1
-        ORDER BY f.tema_id");
+    $result = mysqli_query($conn, "SELECT * FROM tema_fundos WHERE ativo=1 ORDER BY tema_id");
     $fundos = [];
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
