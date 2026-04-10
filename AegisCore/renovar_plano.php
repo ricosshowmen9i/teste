@@ -546,15 +546,6 @@ $avatar_url = !empty($revendedor['profile_image'])
 $valor_formatado          = number_format($cupom_aplicado ? $cupom_valor_com_desconto : $valor_revenda, 2, ',', '.');
 $valor_original_formatado = number_format($valor_revenda, 2, ',', '.');
 ?>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renovar Plano</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../AegisCore/temas_visual.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         :root {
             --primary: #4158D0; --secondary: #C850C0; --tertiary: #FFCC70;
@@ -643,8 +634,6 @@ $valor_original_formatado = number_format($valor_revenda, 2, ',', '.');
             .modal-container { width:95%; }
         }
     </style>
-</head>
-<body>
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="content-wrapper">
@@ -813,6 +802,7 @@ $valor_original_formatado = number_format($valor_revenda, 2, ',', '.');
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 let verificacaoInterval = null;
 let currentPaymentId    = '';
@@ -890,3 +880,4 @@ iniciarVerificacaoModal();
 <?php endif; ?>
 </script>
 </body>
+</html>
