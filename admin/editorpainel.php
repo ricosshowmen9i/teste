@@ -86,6 +86,13 @@ $modo = $config['modo'] ?? 'auto';
 $rotacaoAtiva = $config['rotacao_ativa'] ?? 1;
 $comemoAtiva = $config['comemo_ativa'] ?? 1;
 
+$rotStyle = $rotacaoAtiva
+    ? 'border-color:rgba(59,130,246,.5);background:rgba(59,130,246,.08)'
+    : 'border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.05)';
+$comemoStyle = $comemoAtiva
+    ? 'border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08)'
+    : 'border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.05)';
+
 $categorias = [
     'all' => 'Todos', 'padrao' => 'Padrão', 'moderno' => 'Moderno',
     'premium' => 'Premium', 'natureza' => 'Natureza', 'anime' => 'Anime',
@@ -135,17 +142,19 @@ $categorias = [
 .cat-btn.active{background:var(--grad,linear-gradient(135deg,#4158D0,#C850C0));color:#fff;border-color:transparent}
 
 /* Config toggles */
-.cfg-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:12px;background:rgba(15,20,40,.6);margin-bottom:8px;border:1px solid rgba(255,255,255,.08)}
-.cfg-info{display:flex;align-items:center;gap:10px}
-.cfg-ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.cfg-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:12px;background:rgba(15,20,40,.6);margin-bottom:8px;border:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:8px}
+.cfg-info{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.cfg-ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .cfg-name{font-size:12px;font-weight:600}
-.cfg-desc{font-size:10px;color:rgba(255,255,255,.4)}
+.cfg-desc{font-size:10px;color:rgba(255,255,255,.4);word-break:break-word;overflow-wrap:break-word}
 .toggle{position:relative;width:42px;height:24px;cursor:pointer;flex-shrink:0}
 .toggle input{display:none}
 .toggle-sl{position:absolute;inset:0;background:rgba(255,255,255,.12);border-radius:24px;transition:.3s}
 .toggle-sl::before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;left:3px;top:3px;transition:.3s}
 .toggle input:checked+.toggle-sl{background:var(--acc1,#10b981)}
 .toggle input:checked+.toggle-sl::before{transform:translateX(18px)}
+.toggle-blue input:checked+.toggle-sl{background:#3b82f6}
+.toggle-yellow input:checked+.toggle-sl{background:#f59e0b}
 
 /* Grid de temas */
 .tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
@@ -238,6 +247,8 @@ $categorias = [
     .tc-acts{display:grid;grid-template-columns:1fr 1fr}
     .cats{justify-content:center}
     .tabs{width:100%}.tb{flex:1;justify-content:center;font-size:9px;padding:6px 8px}
+    .cfg-row{flex-direction:column;align-items:flex-start;gap:10px}
+    .cfg-row .toggle{align-self:flex-end}
 }
 </style>
 
@@ -257,9 +268,9 @@ $categorias = [
 </div>
 <div class="sc-btns">
     <form method="POST" style="display:inline"><input type="hidden" name="__resetTema" value="1">
-    <button type="submit" class="ab ab-info ab-sm"><i class='bx bx-revision'></i> Modo Auto</button></form>
-    <form method="POST" style="display:inline" onsubmit="return confirm('Desativar todos os temas visuais? As páginas voltarão ao visual padrão sem tema.')"><input type="hidden" name="__desativarTemas" value="1">
-    <button type="submit" class="ab ab-del ab-sm"><i class='bx bx-power-off'></i> Desativar Temas</button></form>
+    <button type="submit" class="ab ab-info ab-sm"><i class='bx bx-revision'></i> Resetar Tema</button></form>
+    <form method="POST" style="display:inline" onsubmit="return confirm('Remover todos os temas visuais? As páginas voltarão ao visual padrão (sem tema algum aplicado).')"><input type="hidden" name="__desativarTemas" value="1">
+    <button type="submit" class="ab ab-del ab-sm" title="Remove todos os temas visuais. As páginas voltam ao visual padrão sem nenhum tema aplicado."><i class='bx bx-power-off'></i> Sem Tema (Padrão)</button></form>
 </div>
 <div class="sc-deco"><i class='bx bx-palette'></i></div>
 </div>
@@ -345,9 +356,19 @@ $categorias = [
             <div class="tc-desc"><i class='bx bx-info-circle'></i> <?php echo htmlspecialchars($t['desc']); ?> • <code style="font-size:9px;color:rgba(255,255,255,.3)"><?php echo $t['classe']; ?></code></div>
             <!-- Fundo -->
             <?php if ($hasFundo): ?>
+            <?php
+                $fundoCaminho = $fundos[$tid]['caminho'] ?? '';
+                // Only allow paths strictly within the uploads/fundos/ directory
+                $fundoSrc = (strpos($fundoCaminho, 'uploads/fundos/') === 0 && strpos($fundoCaminho, '..') === false)
+                    ? '../' . htmlspecialchars($fundoCaminho, ENT_QUOTES, 'UTF-8')
+                    : '';
+            ?>
             <div class="tc-fundo">
-                <div class="tc-fundo-info"><i class='bx bx-image'></i> <span class="tc-fundo-name"><?php echo htmlspecialchars($fundos[$tid]['original_name'] ?? 'fundo'); ?></span></div>
-                <form method="POST" style="margin:0" onsubmit="return confirm('Remover fundo e voltar ao padrão do tema?')">
+                <div class="tc-fundo-info"><i class='bx bx-image'></i>
+                    <?php if ($fundoSrc): ?><img src="<?php echo $fundoSrc; ?>" alt="Fundo" style="width:48px;height:32px;object-fit:cover;border-radius:5px;border:1px solid rgba(255,255,255,.12);flex-shrink:0"><?php endif; ?>
+                    <span class="tc-fundo-name"><?php echo htmlspecialchars($fundos[$tid]['original_name'] ?? 'fundo'); ?></span>
+                </div>
+                <form method="POST" style="margin:0" onsubmit="return confirm('Remover fundo e voltar ao visual padrão do tema?')">
                     <input type="hidden" name="remover_fundo_tema_id" value="<?php echo $tid; ?>">
                     <button type="submit" class="ab ab-del ab-sm" style="padding:3px 6px" title="Voltar ao fundo padrão"><i class='bx bx-revision' style="font-size:11px"></i></button>
                 </form>
@@ -384,7 +405,7 @@ $categorias = [
 </div>
 <div class="mc-b">
     <!-- Rotação automática -->
-    <div class="cfg-row">
+    <div class="cfg-row" style="<?= $rotStyle ?>">
         <div class="cfg-info">
             <div class="cfg-ic" style="background:rgba(59,130,246,.15);color:#60a5fa"><i class='bx bx-refresh'></i></div>
             <div>
@@ -392,23 +413,25 @@ $categorias = [
                 <div class="cfg-desc">Todo dia 3 troca o tema automaticamente (sem repetir)</div>
             </div>
         </div>
-        <form method="POST">
+        <form method="POST" style="display:flex;align-items:center;gap:6px">
             <input type="hidden" name="__toggleRotacao" value="1">
-            <label class="toggle"><input type="checkbox" <?php echo $rotacaoAtiva?'checked':''; ?> onchange="this.form.submit()"><span class="toggle-sl"></span></label>
+            <label class="toggle toggle-blue"><input type="checkbox" <?php echo $rotacaoAtiva?'checked':''; ?> onchange="this.form.submit()"><span class="toggle-sl"></span></label>
+            <span style="font-size:9px;font-weight:700;padding:3px 8px;border-radius:6px;background:<?= $rotacaoAtiva ? 'rgba(59,130,246,.2)' : 'rgba(239,68,68,.2)' ?>;color:<?= $rotacaoAtiva ? '#60a5fa' : '#f87171' ?>"><?= $rotacaoAtiva ? '✓ Ativo' : '✗ Inativo' ?></span>
         </form>
     </div>
     <!-- Datas comemorativas -->
-    <div class="cfg-row">
+    <div class="cfg-row" style="<?= $comemoStyle ?>">
         <div class="cfg-info">
-            <div class="cfg-ic" style="background:rgba(251,191,36,.15);color:#fbbf24"><i class='bx bx-calendar-star'></i></div>
-            <div>
+            <div class="cfg-ic" style="background:rgba(251,191,36,.15);color:#fbbf24;flex-shrink:0"><i class='bx bx-calendar-star'></i></div>
+            <div style="min-width:0">
                 <div class="cfg-name">Datas Comemorativas</div>
                 <div class="cfg-desc">Ativa temas automáticos em datas comemorativas (7 dias antes, 2 depois)</div>
             </div>
         </div>
-        <form method="POST">
+        <form method="POST" style="display:flex;align-items:center;gap:6px">
             <input type="hidden" name="__toggleComemo" value="1">
-            <label class="toggle"><input type="checkbox" <?php echo $comemoAtiva?'checked':''; ?> onchange="this.form.submit()"><span class="toggle-sl"></span></label>
+            <label class="toggle toggle-yellow"><input type="checkbox" <?php echo $comemoAtiva?'checked':''; ?> onchange="this.form.submit()"><span class="toggle-sl"></span></label>
+            <span style="font-size:9px;font-weight:700;padding:3px 8px;border-radius:6px;background:<?= $comemoAtiva ? 'rgba(251,191,36,.2)' : 'rgba(239,68,68,.2)' ?>;color:<?= $comemoAtiva ? '#fbbf24' : '#f87171' ?>"><?= $comemoAtiva ? '✓ Ativo' : '✗ Inativo' ?></span>
         </form>
     </div>
     <!-- Modo atual -->
@@ -422,7 +445,7 @@ $categorias = [
         </div>
         <?php if ($modo === 'manual' || $modo === 'desativado'): ?>
         <form method="POST"><input type="hidden" name="__resetTema" value="1">
-        <button type="submit" class="ab ab-info ab-sm"><i class='bx bx-revision'></i> Voltar p/ Auto</button></form>
+        <button type="submit" class="ab ab-info ab-sm"><i class='bx bx-revision'></i> <?= $modo === 'desativado' ? 'Reativar Auto' : 'Resetar / Sem Tema' ?></button></form>
         <?php else: ?>
         <span style="font-size:10px;color:rgba(255,255,255,.3);padding:6px 12px;border-radius:8px;background:rgba(16,185,129,.1)">✓ Ativo</span>
         <?php endif; ?>
