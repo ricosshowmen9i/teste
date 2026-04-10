@@ -106,29 +106,58 @@ if (isset($_POST['submit'])) {
         
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
-            $_SESSION['iduser'] = $row['id'];
-            $_SESSION['login'] = $row['login'];
-            $_SESSION['senha'] = $row['senha'];
-            
-            // Processar "Lembrar-me"
-            if (isset($_POST['remember']) && $_POST['remember'] == 'on') {
-                setcookie('remember_login', base64_encode($login), time() + (86400 * 30), "/");
-                setcookie('remember_senha', base64_encode($senha), time() + (86400 * 30), "/");
-            } else {
-                setcookie('remember_login', '', time() - 3600, "/");
-                setcookie('remember_senha', '', time() - 3600, "/");
+
+            // Verificar suspensão/vencimento do revendedor (não aplica ao admin)
+            $blocked = false;
+            if ($row['id'] != 1) {
+                $atrib_stmt = $conn->prepare("SELECT suspenso, expira, tipo FROM atribuidos WHERE userid=? LIMIT 1");
+                if ($atrib_stmt) {
+                    $atrib_stmt->bind_param('i', $row['id']);
+                    $atrib_stmt->execute();
+                    $atrib_r = $atrib_stmt->get_result();
+                    if ($atrib_r && $atrib_r->num_rows > 0) {
+                        $ar = $atrib_r->fetch_assoc();
+                        if ($ar['suspenso'] >= 1) {
+                            $alert_message = 'Sua conta está suspensa. Entre em contato com o suporte para regularizar sua situação.';
+                            $alert_type    = 'suspended';
+                            $show_modal    = true;
+                            $blocked       = true;
+                        } elseif ($ar['tipo'] != 'Credito' && !empty($ar['expira']) && $ar['expira'] < date('Y-m-d H:i:s')) {
+                            $alert_message = 'Sua conta está vencida. Realize o pagamento para reativar o acesso.';
+                            $alert_type    = 'vencido';
+                            $show_modal    = true;
+                            $blocked       = true;
+                        }
+                    }
+                }
             }
-            
-            if ($row['id'] == 1) {
-                // ADMINISTRADOR vai para pasta admin
-                echo "<script>window.location.href='admin/home.php';</script>";
-            } else {
-                // REVENDEDOR - vai para pasta revendedor (home.php)
-                echo "<script>window.location.href='home.php';</script>";
+
+            if (!$blocked) {
+                $_SESSION['iduser'] = $row['id'];
+                $_SESSION['login'] = $row['login'];
+                $_SESSION['senha'] = $row['senha'];
+                
+                // Processar "Lembrar-me"
+                if (isset($_POST['remember']) && $_POST['remember'] == 'on') {
+                    setcookie('remember_login', base64_encode($login), time() + (86400 * 30), "/");
+                    setcookie('remember_senha', base64_encode($senha), time() + (86400 * 30), "/");
+                } else {
+                    setcookie('remember_login', '', time() - 3600, "/");
+                    setcookie('remember_senha', '', time() - 3600, "/");
+                }
+                
+                if ($row['id'] == 1) {
+                    // ADMINISTRADOR vai para pasta admin
+                    echo "<script>window.location.href='admin/home.php';</script>";
+                } else {
+                    // REVENDEDOR - vai para pasta revendedor (home.php)
+                    echo "<script>window.location.href='home.php';</script>";
+                }
+                exit;
             }
-            exit;
         }
         
+        if (!$show_modal) {
         // SEGUNDO: Verificar na tabela ssh_accounts (usuários comuns)
         $sql_user = "SELECT * FROM ssh_accounts WHERE login = ? AND senha = ?";
         $stmt_user = mysqli_prepare($conn, $sql_user);
@@ -186,6 +215,7 @@ if (isset($_POST['submit'])) {
             $alert_message = 'Login ou Senha Incorretos!';
             $alert_type = 'error';
             $show_modal = true;
+        }
         }
     }
 }
@@ -332,6 +362,7 @@ body {
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
+.modal-overlay.show{display:flex}
 
 .icon-user {
     background: linear-gradient(135deg, #3b82f6, #2563eb);
@@ -788,6 +819,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         document.querySelector('input[name="login"]').focus();
     });
+});
+<?php elseif ($show_modal && $alert_type == 'suspended'): ?>
+document.addEventListener('DOMContentLoaded', function() {
+    showModal({title:'Conta Suspensa!', text:<?php echo json_encode($alert_message); ?>, icon:'token', buttons:true, dangerMode:true});
+});
+<?php elseif ($show_modal && $alert_type == 'vencido'): ?>
+document.addEventListener('DOMContentLoaded', function() {
+    showModal({title:'Conta Vencida!', text:<?php echo json_encode($alert_message); ?>, icon:'warning', buttons:true});
 });
 <?php endif; ?>
 
