@@ -1,8 +1,7 @@
-﻿<?php
+<?php
 error_reporting(0);
 session_start();
 
-// Configurar fuso horário para Brasília
 date_default_timezone_set('America/Sao_Paulo');
 
 include('../AegisCore/conexao.php');
@@ -44,1274 +43,372 @@ function anti_sql($input) {
     return $seg;
 }
 
-// Anti SQL injection
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+if (!$id) { echo "<script>alert('ID inválido!');history.back();</script>"; exit; }
 
-$sql = "SELECT * FROM accounts WHERE id = '$id'";
-$result2 = $conn->query($sql);
-if ($result2->num_rows > 0){
-    while ($row = $result2->fetch_assoc()){
-        $login = $row['login'];
-    }
+// ========== DADOS DO REVENDEDOR ==========
+$sql_rev = "SELECT * FROM accounts WHERE id = '$id'";
+$result_rev = $conn->query($sql_rev);
+if (!$result_rev || $result_rev->num_rows == 0) { echo "<script>alert('Revendedor não encontrado!');history.back();</script>"; exit; }
+$rev = $result_rev->fetch_assoc();
+$login = $rev['login'];
+
+$sql_atrib = "SELECT * FROM atribuidos WHERE userid = '$id'";
+$result_atrib = $conn->query($sql_atrib);
+$atrib = $result_atrib ? $result_atrib->fetch_assoc() : [];
+
+// Dono
+$dono_login = 'admin';
+if (!empty($rev['byid'])) {
+    $r_dono = $conn->query("SELECT login FROM accounts WHERE id = '".$rev['byid']."'");
+    if ($r_dono && $r_dono->num_rows > 0) { $d = $r_dono->fetch_assoc(); $dono_login = $d['login']; }
 }
 
-$sql = "SELECT * FROM ssh_accounts WHERE byid = '$id'";
-$result = $conn->query($sql);
+// Categoria
+$categoria_nome = 'N/A';
+if (!empty($atrib['categoriaid'])) {
+    $r_cat = $conn->query("SELECT nome FROM categorias WHERE subid = '".$atrib['categoriaid']."'");
+    if ($r_cat && $r_cat->num_rows > 0) { $c = $r_cat->fetch_assoc(); $categoria_nome = $c['nome']; }
+}
 
-$sql_revendas = "SELECT * FROM accounts WHERE byid = '$id'";
-$result_revendas = $conn->query($sql_revendas);
+// Status
+$suspenso = ($atrib['suspenso'] ?? 0) == 1;
+$tipo = $atrib['tipo'] ?? 'Validade';
+$limite = $atrib['limite'] ?? 0;
+$expira_raw = $atrib['expira'] ?? '';
+$expira_formatada = ($expira_raw != '') ? date('d/m/Y H:i', strtotime($expira_raw)) : 'Nunca';
+$valormensal = $atrib['valormensal'] ?? '0.00';
 
-$sql_pagamentos = "SELECT * FROM pagamentos WHERE byid = '$id'";
-$result_pagamentos = $conn->query($sql_pagamentos);
+$conta_vencida = false; $dias_restantes = 0; $horas_restantes = 0;
+if ($tipo == 'Validade' && $expira_raw != '') {
+    $diferenca = strtotime($expira_raw) - time();
+    $dias_restantes = floor($diferenca / 86400);
+    $horas_restantes = floor(($diferenca % 86400) / 3600);
+    if ($dias_restantes < 0) $conta_vencida = true;
+}
+
+// ========== ESTATÍSTICAS ==========
+$total_usuarios = 0; $r = $conn->query("SELECT COUNT(*) as t FROM ssh_accounts WHERE byid = '$id'"); if ($r) { $rr = $r->fetch_assoc(); $total_usuarios = $rr['t']; }
+$total_onlines = 0; $r = $conn->query("SELECT COUNT(*) as t FROM ssh_accounts WHERE byid = '$id' AND status = 'Online'"); if ($r) { $rr = $r->fetch_assoc(); $total_onlines = $rr['t']; }
+$total_vencidos = 0; $r = $conn->query("SELECT COUNT(*) as t FROM ssh_accounts WHERE byid = '$id' AND expira < NOW()"); if ($r) { $rr = $r->fetch_assoc(); $total_vencidos = $rr['t']; }
+$total_suspensos_user = 0; $r = $conn->query("SELECT COUNT(*) as t FROM ssh_accounts WHERE byid = '$id' AND mainid = 'Suspenso'"); if ($r) { $rr = $r->fetch_assoc(); $total_suspensos_user = $rr['t']; }
+$total_revendas = 0; $r = $conn->query("SELECT COUNT(*) as t FROM accounts WHERE byid = '$id' AND login != 'admin'"); if ($r) { $rr = $r->fetch_assoc(); $total_revendas = $rr['t']; }
+
+$limite_usado_users = 0; $r = $conn->query("SELECT COALESCE(SUM(limite),0) as t FROM ssh_accounts WHERE byid = '$id'"); if ($r) { $rr = $r->fetch_assoc(); $limite_usado_users = $rr['t']; }
+$limite_usado_revs = 0; $r = $conn->query("SELECT COALESCE(SUM(limite),0) as t FROM atribuidos WHERE byid = '$id'"); if ($r) { $rr = $r->fetch_assoc(); $limite_usado_revs = $rr['t']; }
+$limite_usado_total = $limite_usado_users + $limite_usado_revs;
+$limite_restante = $limite - $limite_usado_total;
+$pct_uso = $limite > 0 ? round(($limite_usado_total / $limite) * 100) : 0;
+
+// Total vendido
+$total_vendido = 0;
+$r = $conn->query("SELECT COALESCE(SUM(valor),0) as t FROM pagamentos WHERE byid = '$id' AND status = 'Aprovado'"); if ($r) { $rr = $r->fetch_assoc(); $total_vendido += $rr['t']; }
+$r = $conn->query("SELECT COALESCE(SUM(valor),0) as t FROM pagamentos_unificado WHERE revendedor_id = '$id' AND status = 'approved'"); if ($r) { $rr = $r->fetch_assoc(); $total_vendido += $rr['t']; }
+
+$total_pagamentos = 0;
+$r = $conn->query("SELECT COUNT(*) as t FROM pagamentos WHERE byid = '$id'"); if ($r) { $rr = $r->fetch_assoc(); $total_pagamentos += $rr['t']; }
+$r = $conn->query("SELECT COUNT(*) as t FROM pagamentos_unificado WHERE revendedor_id = '$id'"); if ($r) { $rr = $r->fetch_assoc(); $total_pagamentos += $rr['t']; }
+
+// Tabelas
+$result_users = $conn->query("SELECT * FROM ssh_accounts WHERE byid = '$id' ORDER BY FIELD(status,'Online','Offline'), login ASC");
+$result_sub_revs = $conn->query("SELECT a.*, at.limite as rev_limite, at.expira as rev_expira, at.tipo as rev_tipo, at.suspenso as rev_suspenso FROM accounts a LEFT JOIN atribuidos at ON at.userid = a.id WHERE a.byid = '$id' AND a.login != 'admin' ORDER BY a.id DESC");
+$result_pags = $conn->query("SELECT * FROM pagamentos WHERE byid = '$id' ORDER BY id DESC LIMIT 50");
+$result_pags_uni = $conn->query("SELECT * FROM pagamentos_unificado WHERE revendedor_id = '$id' ORDER BY id DESC LIMIT 50");
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Revendedor</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../AegisCore/temas_visual.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
-    <style>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Revendedor</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../AegisCore/temas_visual.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
-    <style>
-        :root {
-            --primary: #4158D0;
-            --secondary: #C850C0;
-            --tertiary: #FFCC70;
-            --success: #10b981;
-            --danger: #dc2626;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            --dark: #2c3e50;
-            --light: #f8fafc;
-            --border: #eef2f6;
-            
-            --icon-user: #4361ee;
-            --icon-lock: #f72585;
-            --icon-group: #4cc9f0;
-            --icon-calendar: #7209b7;
-            --icon-time: #b5179e;
-        }
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<style>
+@keyframes fadeTab{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+</style>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<!-- ========== STATS CARD ========== -->
+<div class="stats-card">
+    <div class="stats-card-icon"><i class='bx bx-store-alt'></i></div>
+    <div class="stats-card-content">
+        <div class="stats-card-title">Detalhes do Revendedor</div>
+        <div class="stats-card-value"><?php echo htmlspecialchars($rev['login']); ?></div>
+        <div class="stats-card-subtitle">
+            ID #<?php echo $id; ?> — Dono: <?php echo htmlspecialchars($dono_login); ?>
+            <?php if ($suspenso): ?><span class="sc-badge sc-badge-suspended"><i class='bx bx-lock'></i> Suspenso</span>
+            <?php elseif ($conta_vencida): ?><span class="sc-badge sc-badge-expired"><i class='bx bx-time'></i> Vencido</span>
+            <?php else: ?><span class="sc-badge sc-badge-active"><i class='bx bx-check-circle'></i> Ativo</span>
+            <?php endif; ?>
+            <?php if ($tipo == 'Credito'): ?><span class="sc-badge sc-badge-credit"><i class='bx bx-infinite'></i> Crédito</span>
+            <?php else: ?><span class="sc-badge sc-badge-validity"><i class='bx bx-calendar'></i> Validade</span>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="stats-card-decoration"><i class='bx bx-store-alt'></i></div>
+</div>
 
-        body {
-            font-family: 'Rubik', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0f172a, #1e1b4b);
-        }
-        
-        .app-content {
-            margin-left: 240px !important;
-            padding: 0 !important;
-        }
-        
-        .content-wrapper {
-            max-width: 1630px;
-            margin: 0 auto 0 5px !important;
-            padding: 0px !important;
-        }
-        
-        .content-body {
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        
-        .row, .match-height, [class*="col-"] {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        
-        .content-header {
-            display: none !important;
-            height: 0 !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
+<!-- ========== MINI STATS ========== -->
+<div class="mini-stats">
+    <div class="mini-stat"><div class="mini-stat-val" style="color:#818cf8;"><?php echo $total_usuarios; ?></div><div class="mini-stat-lbl">Usuários</div></div>
+    <div class="mini-stat"><div class="mini-stat-val" style="color:#34d399;"><?php echo $total_onlines; ?></div><div class="mini-stat-lbl">Onlines</div></div>
+    <div class="mini-stat"><div class="mini-stat-val" style="color:#fbbf24;"><?php echo $total_vencidos; ?></div><div class="mini-stat-lbl">Vencidos</div></div>
+    <div class="mini-stat"><div class="mini-stat-val" style="color:#f87171;"><?php echo $total_suspensos_user; ?></div><div class="mini-stat-lbl">Suspensos</div></div>
+    <div class="mini-stat"><div class="mini-stat-val" style="color:#a78bfa;"><?php echo $total_revendas; ?></div><div class="mini-stat-lbl">Sub-Revendas</div></div>
+    <div class="mini-stat"><div class="mini-stat-val" style="color:#34d399;">R$ <?php echo number_format($total_vendido, 2, ',', '.'); ?></div><div class="mini-stat-lbl">Vendido</div></div>
+</div>
 
-        .info-badge {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            background: white !important;
-            color: var(--dark) !important;
-            padding: 8px 16px !important;
-            border-radius: 30px !important;
-            font-size: 13px !important;
-            margin-top: 5px !important;
-            margin-bottom: 15px !important;
-            border-left: 4px solid var(--primary) !important;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1) !important;
-        }
+<!-- ========== AÇÕES RÁPIDAS ========== -->
+<div class="action-buttons">
+    <a href="javascript:history.back()" class="btn btn-cancel"><i class='bx bx-arrow-back'></i> Voltar</a>
+    <a href="editarrev.php?id=<?php echo $id; ?>" class="btn btn-primary"><i class='bx bx-edit'></i> Editar</a>
+    <?php if ($tipo != 'Credito'): ?>
+    <a href="renovarrevenda.php?id=<?php echo $id; ?>" class="btn btn-success"><i class='bx bx-calendar-plus'></i> Renovar</a>
+    <?php endif; ?>
+    <?php if (!$suspenso): ?>
+    <a href="suspenderrevenda.php?id=<?php echo $id; ?>" class="btn btn-warning"><i class='bx bx-pause'></i> Suspender</a>
+    <?php else: ?>
+    <a href="reativarrevenda.php?id=<?php echo $id; ?>" class="btn btn-info"><i class='bx bx-refresh'></i> Reativar</a>
+    <?php endif; ?>
+    <a href="excluirrevenda.php?id=<?php echo $id; ?>" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar?')"><i class='bx bx-trash'></i> Deletar</a>
+</div>
 
-        .info-badge i {
-            font-size: 22px;
-            color: var(--primary);
-        }
-
-        .modern-card {
-            background: linear-gradient(135deg, #1e293b, #0f172a) !important;
-            border-radius: 20px !important;
-            border: 1px solid rgba(255,255,255,0.08) !important;
-            overflow: hidden !important;
-            position: relative !important;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4) !important;
-            width: 100% !important;
-            animation: fadeIn 0.5s ease !important;
-            margin-bottom: 20px !important;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .card-bg-shapes {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .modern-card .card-header {
-            padding: 16px 20px 12px !important;
-            border-bottom: 1px solid rgba(255,255,255,0.07) !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #C850C0, #4158D0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .header-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: white;
-        }
-
-        .header-subtitle {
-            font-size: 10px;
-            color: rgba(255,255,255,0.35);
-        }
-
-        .modern-card .card-body {
-            padding: 18px 20px !important;
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-back {
-            background: linear-gradient(135deg, #f59e0b, #f97316) !important;
-            color: white !important;
-            text-decoration: none !important;
-            padding: 6px 14px !important;
-            border-radius: 30px !important;
-            font-weight: 600 !important;
-            font-size: 12px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 6px !important;
-            transition: all 0.3s !important;
-            border: 1px solid rgba(255,255,255,0.2) !important;
-            backdrop-filter: blur(5px) !important;
-            margin-left: 10px !important;
-            box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3) !important;
-        }
-
-        .btn-back:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 15px rgba(245, 158, 11, 0.5) !important;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .section-title i {
-            color: var(--tertiary);
-            font-size: 20px;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table th, table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: white;
-            font-size: 13px;
-        }
-
-        table th {
-            color: rgba(255,255,255,0.6);
-            font-weight: 600;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        table tr:hover {
-            background: rgba(255,255,255,0.03);
-        }
-
-        .badge-success {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .badge-danger {
-            background: rgba(220, 38, 38, 0.2);
-            color: #dc2626;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .badge-warning {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .dataTables_wrapper {
-            color: white;
-        }
-
-        .dataTables_wrapper .dataTables_length,
-        .dataTables_wrapper .dataTables_filter,
-        .dataTables_wrapper .dataTables_info,
-        .dataTables_wrapper .dataTables_paginate {
-            color: rgba(255,255,255,0.7);
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            color: white !important;
-            background: rgba(255,255,255,0.1);
-            border: none;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: var(--primary);
-            color: white !important;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: linear-gradient(135deg, #4158D0, #C850C0);
-            color: white !important;
-        }
-
-        .dataTables_wrapper .dataTables_filter input {
-            background: rgba(255,255,255,0.06);
-            border: 1.5px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            color: white;
-            padding: 6px 12px;
-        }
-
-        @media (max-width: 768px) {
-            .app-content {
-                margin-left: 0 !important;
-            }
-            
-            .content-wrapper {
-                margin: 0 auto !important;
-                padding: 10px !important;
-            }
-
-            table th, table td {
-                padding: 8px;
-                font-size: 11px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            
-            <div class="info-badge">
-                <i class='bx bx-store-alt'></i>
-                <span>Detalhes do Revendedor: <?php echo htmlspecialchars($login); ?></span>
+<!-- ========== DETALHES DO REVENDEDOR ========== -->
+<div class="modern-card">
+    <div class="card-header-custom primary">
+        <div class="header-icon"><i class='bx bx-id-card'></i></div>
+        <div>
+            <div class="header-title">Detalhes do Revendedor</div>
+            <div class="header-subtitle">Informações completas da conta</div>
+        </div>
+    </div>
+    <div class="card-body-custom">
+        <div class="profile-info-grid">
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bx-user' style="color:#818cf8;"></i> Login</div>
+                <div class="pi-value"><?php echo htmlspecialchars($rev['login']); ?></div>
             </div>
-
-            <!-- Card Principal -->
-            <div class="modern-card">
-                <div class="card-bg-shapes">
-                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;">
-                        <circle cx="95%" cy="6%" r="60" fill="rgba(200,80,192,0.07)"/>
-                        <circle cx="88%" cy="92%" r="45" fill="rgba(65,88,208,0.07)"/>
-                    </svg>
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bx-lock-alt' style="color:#e879f9;"></i> Senha</div>
+                <div class="pi-value"><?php echo htmlspecialchars($rev['senha']); ?></div>
+            </div>
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bx-crown' style="color:#a78bfa;"></i> Dono</div>
+                <div class="pi-value purple"><?php echo htmlspecialchars($dono_login); ?></div>
+            </div>
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bx-layer' style="color:#60a5fa;"></i> Limite Total</div>
+                <div class="pi-value info"><?php echo $limite; ?></div>
+            </div>
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bx-category' style="color:#f472b6;"></i> Categoria</div>
+                <div class="pi-value"><?php echo htmlspecialchars($categoria_nome); ?></div>
+            </div>
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bx-credit-card' style="color:#34d399;"></i> Modo</div>
+                <div class="pi-value success"><?php echo $tipo; ?></div>
+            </div>
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bx-calendar' style="color:#fbbf24;"></i> Vencimento</div>
+                <div class="pi-value <?php echo $conta_vencida ? 'danger' : 'warning'; ?>">
+                    <?php echo $tipo == 'Credito' ? 'Nunca' : $expira_formatada; ?>
                 </div>
-                <div class="card-header">
-                    <div class="header-icon">
-                        <i class='bx bx-store-alt'></i>
-                    </div>
-                    <div>
-                        <div class="header-title">Detalhes do Revendedor</div>
-                        <div class="header-subtitle">Informações completas do revendedor <?php echo htmlspecialchars($login); ?></div>
-                    </div>
-                    <a href="listarrevendedores.php" class="btn-back">
-                        <i class='bx bx-arrow-back'></i> Voltar
-                    </a>
+            </div>
+            <?php if ($tipo == 'Validade' && $expira_raw != ''): ?>
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bx-time' style="color:#fb923c;"></i> Tempo Restante</div>
+                <div class="pi-value <?php echo $conta_vencida ? 'danger' : ($dias_restantes <= 5 ? 'warning' : 'success'); ?>">
+                    <?php echo $conta_vencida ? 'Expirado há '.abs($dias_restantes).' dias' : $dias_restantes.'d '.$horas_restantes.'h'; ?>
                 </div>
-                <div class="card-body">
-                    
-                    <!-- Usuários do Revendedor -->
-                    <div class="section-title">
-                        <i class='bx bx-user'></i>
-                        Usuários do Revendedor
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tableUsuarios">
-                            <thead>
-                                <tr>
-                                    <th>Usuário</th>
-                                    <th>Senha</th>
-                                    <th>Limite</th>
-                                    <th>Vencimento</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result && $result->num_rows > 0) {
-                                    while ($user_data = mysqli_fetch_assoc($result)) {
-                                        $expira = date('d/m/Y H:i:s', strtotime($user_data['expira']));
-                                        echo "<tr>";
-                                        echo "<td>" . htmlspecialchars($user_data['login']) . "</td>";
-                                        echo "<td>" . htmlspecialchars($user_data['senha']) . "</td>";
-                                        echo "<td>" . $user_data['limite'] . "</td>";
-                                        echo "<td>" . $expira . "</td>";
-                                        if ($user_data['mainid'] == 'Suspenso') {
-                                            echo "<td><span class='badge-danger'>Suspenso</span></td>";
-                                        } else {
-                                            if($user_data['status'] == 'Online'){
-                                                echo "<td><span class='badge-success'>Online</span></td>";
-                                            } else {
-                                                echo "<td><span class='badge-danger'>Offline</span></td>";
-                                            }
-                                        }
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='5' style='text-align: center;'>Nenhum usuário encontrado</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+            </div>
+            <?php endif; ?>
+            <?php if (!empty($rev['whatsapp'])): ?>
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bxl-whatsapp' style="color:#25D366;"></i> WhatsApp</div>
+                <div class="pi-value"><?php echo htmlspecialchars($rev['whatsapp']); ?></div>
+            </div>
+            <?php endif; ?>
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bx-dollar' style="color:#34d399;"></i> Total Vendido</div>
+                <div class="pi-value success">R$ <?php echo number_format($total_vendido, 2, ',', '.'); ?></div>
+            </div>
+            <div class="pi-item">
+                <div class="pi-label"><i class='bx bx-dollar-circle' style="color:#fbbf24;"></i> Valor Mensal</div>
+                <div class="pi-value warning">R$ <?php echo number_format((float)$valormensal, 2, ',', '.'); ?></div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                    <!-- Revendedores Subordinados -->
-                    <div class="section-title" style="margin-top: 24px;">
-                        <i class='bx bx-store-alt'></i>
-                        Revendedores Subordinados
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tableRevendas">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Usuário</th>
-                                    <th>Senha</th>
-                                    <th>Limite</th>
-                                    <th>Vencimento</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result_revendas && $result_revendas->num_rows > 0) {
-                                    while ($revenda = mysqli_fetch_assoc($result_revendas)) {
-                                        $sql_att = "SELECT * FROM atribuidos WHERE userid = '{$revenda['id']}'";
-                                        $result_att = $conn->query($sql_att);
-                                        $att_data = $result_att->fetch_assoc();
-                                        
-                                        if ($att_data) {
-                                            $expira = ($att_data['tipo'] == 'Credito') ? 'Nunca' : date('d/m/Y H:i:s', strtotime($att_data['expira']));
-                                            echo "<tr>";
-                                            echo "<td></td>";
-                                            echo "<td>" . htmlspecialchars($revenda['login']) . "</td>";
-                                            echo "<td>" . htmlspecialchars($revenda['senha']) . "</td>";
-                                            echo "<td>" . $att_data['limite'] . "</td>";
-                                            echo "<td>" . $expira . "</td>";
-                                            if ($att_data['suspenso'] == '1') {
-                                                echo "<td><span class='badge-danger'>Suspenso</span></td>";
-                                            } else {
-                                                echo "<td><span class='badge-success'>Ativo</span></td>";
-                                            }
-                                            echo "</tr>";
-                                        }
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='6' style='text-align: center;'>Nenhum revendedor subordinado</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Pagamentos Recebidos -->
-                    <div class="section-title" style="margin-top: 24px;">
-                        <i class='bx bx-dollar-circle'></i>
-                        Pagamentos Recebidos
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tablePagamentos">
-                            <thead>
-                                <tr>
-                                    <th>Login</th>
-                                    <th>ID do Pagamento</th>
-                                    <th>Valor</th>
-                                    <th>Detalhes</th>
-                                    <th>Data e Hora</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result_pagamentos && $result_pagamentos->num_rows > 0) {
-                                    while ($pagamento = mysqli_fetch_assoc($result_pagamentos)) {
-                                        $status = ($pagamento['status'] == 'Aprovado') ? "<span class='badge-success'>Aprovado</span>" : "<span class='badge-warning'>Pendente</span>";
-                                        echo "<tr>";
-                                        echo "<td>" . htmlspecialchars($pagamento['login'] ?? '') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['idpagamento'] ?? '') . "</td>";
-                                        echo "<td>R$ " . number_format($pagamento['valor'], 2, ',', '.') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['texto'] ?? '') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['data'] ?? '') . "</td>";
-                                        echo "<td>" . $status . "</td>";
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='6' style='text-align: center;'>Nenhum pagamento recebido</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+<!-- ========== LIMITE ========== -->
+<div class="modern-card">
+    <div class="card-header-custom green">
+        <div class="header-icon"><i class='bx bx-bar-chart-alt-2'></i></div>
+        <div>
+            <div class="header-title">Uso do Limite — <span class="limite-pct" style="font-size:16px;"><?php echo $pct_uso; ?>%</span></div>
+            <div class="header-subtitle">Distribuição de uso do limite total</div>
+        </div>
+    </div>
+    <div class="card-body-custom">
+        <div class="limite-body">
+            <div class="limite-chart"><div id="chartLimite"></div></div>
+            <div class="limite-stats">
+                <div class="ls-row">
+                    <div class="ls-icon" style="background:rgba(65,88,208,.2);color:#818cf8;"><i class='bx bx-user'></i></div>
+                    <div class="ls-info"><div class="ls-label">Usuários</div><div class="ls-val"><?php echo $limite_usado_users; ?></div><div class="ls-bar"><div class="ls-fill" style="width:<?php echo $limite>0?round(($limite_usado_users/$limite)*100):0; ?>%;background:linear-gradient(90deg,#4158D0,#6366f1);"></div></div></div>
+                </div>
+                <div class="ls-row">
+                    <div class="ls-icon" style="background:rgba(124,58,237,.2);color:#a78bfa;"><i class='bx bx-store-alt'></i></div>
+                    <div class="ls-info"><div class="ls-label">Revendedores</div><div class="ls-val"><?php echo $limite_usado_revs; ?></div><div class="ls-bar"><div class="ls-fill" style="width:<?php echo $limite>0?round(($limite_usado_revs/$limite)*100):0; ?>%;background:linear-gradient(90deg,#7c3aed,#a78bfa);"></div></div></div>
+                </div>
+                <div class="ls-row">
+                    <div class="ls-icon" style="background:rgba(16,185,129,.2);color:#34d399;"><i class='bx bx-check-circle'></i></div>
+                    <div class="ls-info"><div class="ls-label">Disponível</div><div class="ls-val"><?php echo max(0, $limite_restante); ?></div><div class="ls-bar"><div class="ls-fill" style="width:<?php echo $limite>0?round((max(0,$limite_restante)/$limite)*100):0; ?>%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div></div>
+                </div>
+                <div class="ls-row">
+                    <div class="ls-icon" style="background:rgba(251,191,36,.15);color:#fbbf24;"><i class='bx bx-bar-chart'></i></div>
+                    <div class="ls-info"><div class="ls-label">Total do Plano</div><div class="ls-val"><?php echo $limite; ?></div><div class="ls-bar"><div class="ls-fill" style="width:100%;background:linear-gradient(90deg,#fbbf24,#f59e0b);"></div></div></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../app-assets/sweetalert.min.js"></script>
-    
-    <script>
-        $(document).ready(function() {
-            $('#tableUsuarios').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-            
-            $('#tableRevendas').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-            
-            $('#tablePagamentos').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+<!-- ========== TABS ========== -->
+<div class="tabs-header">
+    <button class="tab-btn active" onclick="trocarTab('tabUsuarios',this)"><i class='bx bx-user'></i> Usuários <span class="tab-badge"><?php echo $total_usuarios; ?></span></button>
+    <button class="tab-btn" onclick="trocarTab('tabRevendas',this)"><i class='bx bx-store-alt'></i> Revendas <span class="tab-badge"><?php echo $total_revendas; ?></span></button>
+    <button class="tab-btn" onclick="trocarTab('tabPagamentos',this)"><i class='bx bx-receipt'></i> Pagamentos <span class="tab-badge"><?php echo $total_pagamentos; ?></span></button>
+</div>
 
-h2_tema ?? ['classe'=>'theme-dark'])); ?>">
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            
-            <div class="info-badge">
-                <i class='bx bx-store-alt'></i>
-                <span>Detalhes do Revendedor: <?php echo htmlspecialchars($login); ?></span>
-            </div>
-
-            <!-- Card Principal -->
-            <div class="modern-card">
-                <div class="card-bg-shapes">
-                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;">
-                        <circle cx="95%" cy="6%" r="60" fill="rgba(200,80,192,0.07)"/>
-                        <circle cx="88%" cy="92%" r="45" fill="rgba(65,88,208,0.07)"/>
-                    </svg>
-                </div>
-                <div class="card-header">
-                    <div class="header-icon">
-                        <i class='bx bx-store-alt'></i>
-                    </div>
-                    <div>
-                        <div class="header-title">Detalhes do Revendedor</div>
-                        <div class="header-subtitle">Informações completas do revendedor <?php echo htmlspecialchars($login); ?></div>
-                    </div>
-                    <a href="listarrevendedores.php" class="btn-back">
-                        <i class='bx bx-arrow-back'></i> Voltar
-                    </a>
-                </div>
-                <div class="card-body">
-                    
-                    <!-- Usuários do Revendedor -->
-                    <div class="section-title">
-                        <i class='bx bx-user'></i>
-                        Usuários do Revendedor
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tableUsuarios">
-                            <thead>
-                                <tr>
-                                    <th>Usuário</th>
-                                    <th>Senha</th>
-                                    <th>Limite</th>
-                                    <th>Vencimento</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result && $result->num_rows > 0) {
-                                    while ($user_data = mysqli_fetch_assoc($result)) {
-                                        $expira = date('d/m/Y H:i:s', strtotime($user_data['expira']));
-                                        echo "<tr>";
-                                        echo "<td>" . htmlspecialchars($user_data['login']) . "</td>";
-                                        echo "<td>" . htmlspecialchars($user_data['senha']) . "</td>";
-                                        echo "<td>" . $user_data['limite'] . "</td>";
-                                        echo "<td>" . $expira . "</td>";
-                                        if ($user_data['mainid'] == 'Suspenso') {
-                                            echo "<td><span class='badge-danger'>Suspenso</span></td>";
-                                        } else {
-                                            if($user_data['status'] == 'Online'){
-                                                echo "<td><span class='badge-success'>Online</span></td>";
-                                            } else {
-                                                echo "<td><span class='badge-danger'>Offline</span></td>";
-                                            }
-                                        }
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='5' style='text-align: center;'>Nenhum usuário encontrado</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Revendedores Subordinados -->
-                    <div class="section-title" style="margin-top: 24px;">
-                        <i class='bx bx-store-alt'></i>
-                        Revendedores Subordinados
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tableRevendas">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Usuário</th>
-                                    <th>Senha</th>
-                                    <th>Limite</th>
-                                    <th>Vencimento</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result_revendas && $result_revendas->num_rows > 0) {
-                                    while ($revenda = mysqli_fetch_assoc($result_revendas)) {
-                                        $sql_att = "SELECT * FROM atribuidos WHERE userid = '{$revenda['id']}'";
-                                        $result_att = $conn->query($sql_att);
-                                        $att_data = $result_att->fetch_assoc();
-                                        
-                                        if ($att_data) {
-                                            $expira = ($att_data['tipo'] == 'Credito') ? 'Nunca' : date('d/m/Y H:i:s', strtotime($att_data['expira']));
-                                            echo "<tr>";
-                                            echo "<td></td>";
-                                            echo "<td>" . htmlspecialchars($revenda['login']) . "</td>";
-                                            echo "<td>" . htmlspecialchars($revenda['senha']) . "</td>";
-                                            echo "<td>" . $att_data['limite'] . "</td>";
-                                            echo "<td>" . $expira . "</td>";
-                                            if ($att_data['suspenso'] == '1') {
-                                                echo "<td><span class='badge-danger'>Suspenso</span></td>";
-                                            } else {
-                                                echo "<td><span class='badge-success'>Ativo</span></td>";
-                                            }
-                                            echo "</tr>";
-                                        }
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='6' style='text-align: center;'>Nenhum revendedor subordinado</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Pagamentos Recebidos -->
-                    <div class="section-title" style="margin-top: 24px;">
-                        <i class='bx bx-dollar-circle'></i>
-                        Pagamentos Recebidos
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tablePagamentos">
-                            <thead>
-                                <tr>
-                                    <th>Login</th>
-                                    <th>ID do Pagamento</th>
-                                    <th>Valor</th>
-                                    <th>Detalhes</th>
-                                    <th>Data e Hora</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result_pagamentos && $result_pagamentos->num_rows > 0) {
-                                    while ($pagamento = mysqli_fetch_assoc($result_pagamentos)) {
-                                        $status = ($pagamento['status'] == 'Aprovado') ? "<span class='badge-success'>Aprovado</span>" : "<span class='badge-warning'>Pendente</span>";
-                                        echo "<tr>";
-                                        echo "<td>" . htmlspecialchars($pagamento['login'] ?? '') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['idpagamento'] ?? '') . "</td>";
-                                        echo "<td>R$ " . number_format($pagamento['valor'], 2, ',', '.') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['texto'] ?? '') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['data'] ?? '') . "</td>";
-                                        echo "<td>" . $status . "</td>";
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='6' style='text-align: center;'>Nenhum pagamento recebido</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<!-- TAB: USUÁRIOS -->
+<div class="tab-content active" id="tabUsuarios">
+    <div class="modern-card">
+        <div class="table-card-header">
+            <div class="table-card-title"><i class='bx bx-user'></i> Usuários do Revendedor</div>
+            <input type="text" class="table-search" placeholder="Buscar..." onkeyup="filtrarTabela('tabelaUsuarios',this.value)">
+        </div>
+        <div class="table-responsive">
+            <table class="data-table" id="tabelaUsuarios">
+                <thead><tr><th>Login</th><th>Senha</th><th>Limite</th><th>Vencimento</th><th>Status</th></tr></thead>
+                <tbody>
+                <?php if ($result_users && $result_users->num_rows > 0): while ($u = $result_users->fetch_assoc()):
+                    $u_exp = !empty($u['expira']) ? date('d/m/Y H:i', strtotime($u['expira'])) : 'N/A';
+                    $u_venc = (!empty($u['expira']) && strtotime($u['expira']) < time());
+                    $u_susp = ($u['mainid'] == 'Suspenso');
+                ?>
+                <tr>
+                    <td style="font-weight:600;"><?php echo htmlspecialchars($u['login']); ?></td>
+                    <td><?php echo htmlspecialchars($u['senha']); ?></td>
+                    <td><?php echo $u['limite']; ?></td>
+                    <td><?php if($u_venc): ?><span class="badge-sm badge-expirado"><?php echo $u_exp; ?></span><?php else: echo $u_exp; endif; ?></td>
+                    <td>
+                        <?php if ($u_susp): ?><span class="badge-sm badge-suspenso"><i class='bx bx-lock'></i> Suspenso</span>
+                        <?php elseif ($u['status'] == 'Online'): ?><span class="badge-sm badge-online"><i class='bx bx-wifi'></i> Online</span>
+                        <?php else: ?><span class="badge-sm badge-offline"><i class='bx bx-wifi-off'></i> Offline</span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endwhile; else: ?>
+                <tr><td colspan="5"><div class="empty-table"><i class='bx bx-user'></i>Nenhum usuário</div></td></tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../app-assets/sweetalert.min.js"></script>
-    
-    <script>
-        $(document).ready(function() {
-            $('#tableUsuarios').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-            
-            $('#tableRevendas').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-            
-            $('#tablePagamentos').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-        });
-    </script>
-</body>
-</html>
-
-
-
-h2_tema ?? ['classe'=>'theme-dark'])); ?>">
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            
-            <div class="info-badge">
-                <i class='bx bx-store-alt'></i>
-                <span>Detalhes do Revendedor: <?php echo htmlspecialchars($login); ?></span>
-            </div>
-
-            <!-- Card Principal -->
-            <div class="modern-card">
-                <div class="card-bg-shapes">
-                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;">
-                        <circle cx="95%" cy="6%" r="60" fill="rgba(200,80,192,0.07)"/>
-                        <circle cx="88%" cy="92%" r="45" fill="rgba(65,88,208,0.07)"/>
-                    </svg>
-                </div>
-                <div class="card-header">
-                    <div class="header-icon">
-                        <i class='bx bx-store-alt'></i>
-                    </div>
-                    <div>
-                        <div class="header-title">Detalhes do Revendedor</div>
-                        <div class="header-subtitle">Informações completas do revendedor <?php echo htmlspecialchars($login); ?></div>
-                    </div>
-                    <a href="listarrevendedores.php" class="btn-back">
-                        <i class='bx bx-arrow-back'></i> Voltar
-                    </a>
-                </div>
-                <div class="card-body">
-                    
-                    <!-- Usuários do Revendedor -->
-                    <div class="section-title">
-                        <i class='bx bx-user'></i>
-                        Usuários do Revendedor
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tableUsuarios">
-                            <thead>
-                                <tr>
-                                    <th>Usuário</th>
-                                    <th>Senha</th>
-                                    <th>Limite</th>
-                                    <th>Vencimento</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result && $result->num_rows > 0) {
-                                    while ($user_data = mysqli_fetch_assoc($result)) {
-                                        $expira = date('d/m/Y H:i:s', strtotime($user_data['expira']));
-                                        echo "<tr>";
-                                        echo "<td>" . htmlspecialchars($user_data['login']) . "</td>";
-                                        echo "<td>" . htmlspecialchars($user_data['senha']) . "</td>";
-                                        echo "<td>" . $user_data['limite'] . "</td>";
-                                        echo "<td>" . $expira . "</td>";
-                                        if ($user_data['mainid'] == 'Suspenso') {
-                                            echo "<td><span class='badge-danger'>Suspenso</span></td>";
-                                        } else {
-                                            if($user_data['status'] == 'Online'){
-                                                echo "<td><span class='badge-success'>Online</span></td>";
-                                            } else {
-                                                echo "<td><span class='badge-danger'>Offline</span></td>";
-                                            }
-                                        }
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='5' style='text-align: center;'>Nenhum usuário encontrado</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Revendedores Subordinados -->
-                    <div class="section-title" style="margin-top: 24px;">
-                        <i class='bx bx-store-alt'></i>
-                        Revendedores Subordinados
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tableRevendas">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Usuário</th>
-                                    <th>Senha</th>
-                                    <th>Limite</th>
-                                    <th>Vencimento</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result_revendas && $result_revendas->num_rows > 0) {
-                                    while ($revenda = mysqli_fetch_assoc($result_revendas)) {
-                                        $sql_att = "SELECT * FROM atribuidos WHERE userid = '{$revenda['id']}'";
-                                        $result_att = $conn->query($sql_att);
-                                        $att_data = $result_att->fetch_assoc();
-                                        
-                                        if ($att_data) {
-                                            $expira = ($att_data['tipo'] == 'Credito') ? 'Nunca' : date('d/m/Y H:i:s', strtotime($att_data['expira']));
-                                            echo "<tr>";
-                                            echo "<td></td>";
-                                            echo "<td>" . htmlspecialchars($revenda['login']) . "</td>";
-                                            echo "<td>" . htmlspecialchars($revenda['senha']) . "</td>";
-                                            echo "<td>" . $att_data['limite'] . "</td>";
-                                            echo "<td>" . $expira . "</td>";
-                                            if ($att_data['suspenso'] == '1') {
-                                                echo "<td><span class='badge-danger'>Suspenso</span></td>";
-                                            } else {
-                                                echo "<td><span class='badge-success'>Ativo</span></td>";
-                                            }
-                                            echo "</tr>";
-                                        }
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='6' style='text-align: center;'>Nenhum revendedor subordinado</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Pagamentos Recebidos -->
-                    <div class="section-title" style="margin-top: 24px;">
-                        <i class='bx bx-dollar-circle'></i>
-                        Pagamentos Recebidos
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tablePagamentos">
-                            <thead>
-                                <tr>
-                                    <th>Login</th>
-                                    <th>ID do Pagamento</th>
-                                    <th>Valor</th>
-                                    <th>Detalhes</th>
-                                    <th>Data e Hora</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result_pagamentos && $result_pagamentos->num_rows > 0) {
-                                    while ($pagamento = mysqli_fetch_assoc($result_pagamentos)) {
-                                        $status = ($pagamento['status'] == 'Aprovado') ? "<span class='badge-success'>Aprovado</span>" : "<span class='badge-warning'>Pendente</span>";
-                                        echo "<tr>";
-                                        echo "<td>" . htmlspecialchars($pagamento['login'] ?? '') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['idpagamento'] ?? '') . "</td>";
-                                        echo "<td>R$ " . number_format($pagamento['valor'], 2, ',', '.') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['texto'] ?? '') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['data'] ?? '') . "</td>";
-                                        echo "<td>" . $status . "</td>";
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='6' style='text-align: center;'>Nenhum pagamento recebido</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<!-- TAB: REVENDAS -->
+<div class="tab-content" id="tabRevendas">
+    <div class="modern-card">
+        <div class="table-card-header">
+            <div class="table-card-title"><i class='bx bx-store-alt'></i> Sub-Revendedores</div>
+            <input type="text" class="table-search" placeholder="Buscar..." onkeyup="filtrarTabela('tabelaRevendas',this.value)">
+        </div>
+        <div class="table-responsive">
+            <table class="data-table" id="tabelaRevendas">
+                <thead><tr><th>Login</th><th>Senha</th><th>Limite</th><th>Modo</th><th>Vencimento</th><th>Status</th></tr></thead>
+                <tbody>
+                <?php if ($result_sub_revs && $result_sub_revs->num_rows > 0): while ($sr = $result_sub_revs->fetch_assoc()):
+                    $sr_exp = (!empty($sr['rev_expira'])) ? date('d/m/Y H:i', strtotime($sr['rev_expira'])) : 'Nunca';
+                    $sr_susp = ($sr['rev_suspenso'] ?? 0) == 1;
+                ?>
+                <tr>
+                    <td style="font-weight:600;"><?php echo htmlspecialchars($sr['login']); ?></td>
+                    <td><?php echo htmlspecialchars($sr['senha']); ?></td>
+                    <td><?php echo $sr['rev_limite'] ?? 0; ?></td>
+                    <td><?php echo $sr['rev_tipo'] ?? 'N/A'; ?></td>
+                    <td><?php echo ($sr['rev_tipo'] ?? '') == 'Credito' ? 'Nunca' : $sr_exp; ?></td>
+                    <td><?php if ($sr_susp): ?><span class="badge-sm badge-suspenso"><i class='bx bx-lock'></i> Suspenso</span><?php else: ?><span class="badge-sm badge-ativo"><i class='bx bx-check-circle'></i> Ativo</span><?php endif; ?></td>
+                </tr>
+                <?php endwhile; else: ?>
+                <tr><td colspan="6"><div class="empty-table"><i class='bx bx-store-alt'></i>Nenhum sub-revendedor</div></td></tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../app-assets/sweetalert.min.js"></script>
-    
-    <script>
-        $(document).ready(function() {
-            $('#tableUsuarios').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-            
-            $('#tableRevendas').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-            
-            $('#tablePagamentos').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-        });
-    </script>
-</body>
-</html>
-
-h2_tema ?? ['classe'=>'theme-dark'])); ?>">
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            
-            <div class="info-badge">
-                <i class='bx bx-store-alt'></i>
-                <span>Detalhes do Revendedor: <?php echo htmlspecialchars($login); ?></span>
-            </div>
-
-            <!-- Card Principal -->
-            <div class="modern-card">
-                <div class="card-bg-shapes">
-                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;">
-                        <circle cx="95%" cy="6%" r="60" fill="rgba(200,80,192,0.07)"/>
-                        <circle cx="88%" cy="92%" r="45" fill="rgba(65,88,208,0.07)"/>
-                    </svg>
-                </div>
-                <div class="card-header">
-                    <div class="header-icon">
-                        <i class='bx bx-store-alt'></i>
-                    </div>
-                    <div>
-                        <div class="header-title">Detalhes do Revendedor</div>
-                        <div class="header-subtitle">Informações completas do revendedor <?php echo htmlspecialchars($login); ?></div>
-                    </div>
-                    <a href="listarrevendedores.php" class="btn-back">
-                        <i class='bx bx-arrow-back'></i> Voltar
-                    </a>
-                </div>
-                <div class="card-body">
-                    
-                    <!-- Usuários do Revendedor -->
-                    <div class="section-title">
-                        <i class='bx bx-user'></i>
-                        Usuários do Revendedor
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tableUsuarios">
-                            <thead>
-                                <tr>
-                                    <th>Usuário</th>
-                                    <th>Senha</th>
-                                    <th>Limite</th>
-                                    <th>Vencimento</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result && $result->num_rows > 0) {
-                                    while ($user_data = mysqli_fetch_assoc($result)) {
-                                        $expira = date('d/m/Y H:i:s', strtotime($user_data['expira']));
-                                        echo "<tr>";
-                                        echo "<td>" . htmlspecialchars($user_data['login']) . "</td>";
-                                        echo "<td>" . htmlspecialchars($user_data['senha']) . "</td>";
-                                        echo "<td>" . $user_data['limite'] . "</td>";
-                                        echo "<td>" . $expira . "</td>";
-                                        if ($user_data['mainid'] == 'Suspenso') {
-                                            echo "<td><span class='badge-danger'>Suspenso</span></td>";
-                                        } else {
-                                            if($user_data['status'] == 'Online'){
-                                                echo "<td><span class='badge-success'>Online</span></td>";
-                                            } else {
-                                                echo "<td><span class='badge-danger'>Offline</span></td>";
-                                            }
-                                        }
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='5' style='text-align: center;'>Nenhum usuário encontrado</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Revendedores Subordinados -->
-                    <div class="section-title" style="margin-top: 24px;">
-                        <i class='bx bx-store-alt'></i>
-                        Revendedores Subordinados
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tableRevendas">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Usuário</th>
-                                    <th>Senha</th>
-                                    <th>Limite</th>
-                                    <th>Vencimento</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result_revendas && $result_revendas->num_rows > 0) {
-                                    while ($revenda = mysqli_fetch_assoc($result_revendas)) {
-                                        $sql_att = "SELECT * FROM atribuidos WHERE userid = '{$revenda['id']}'";
-                                        $result_att = $conn->query($sql_att);
-                                        $att_data = $result_att->fetch_assoc();
-                                        
-                                        if ($att_data) {
-                                            $expira = ($att_data['tipo'] == 'Credito') ? 'Nunca' : date('d/m/Y H:i:s', strtotime($att_data['expira']));
-                                            echo "<tr>";
-                                            echo "<td></td>";
-                                            echo "<td>" . htmlspecialchars($revenda['login']) . "</td>";
-                                            echo "<td>" . htmlspecialchars($revenda['senha']) . "</td>";
-                                            echo "<td>" . $att_data['limite'] . "</td>";
-                                            echo "<td>" . $expira . "</td>";
-                                            if ($att_data['suspenso'] == '1') {
-                                                echo "<td><span class='badge-danger'>Suspenso</span></td>";
-                                            } else {
-                                                echo "<td><span class='badge-success'>Ativo</span></td>";
-                                            }
-                                            echo "</tr>";
-                                        }
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='6' style='text-align: center;'>Nenhum revendedor subordinado</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Pagamentos Recebidos -->
-                    <div class="section-title" style="margin-top: 24px;">
-                        <i class='bx bx-dollar-circle'></i>
-                        Pagamentos Recebidos
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="tablePagamentos">
-                            <thead>
-                                <tr>
-                                    <th>Login</th>
-                                    <th>ID do Pagamento</th>
-                                    <th>Valor</th>
-                                    <th>Detalhes</th>
-                                    <th>Data e Hora</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result_pagamentos && $result_pagamentos->num_rows > 0) {
-                                    while ($pagamento = mysqli_fetch_assoc($result_pagamentos)) {
-                                        $status = ($pagamento['status'] == 'Aprovado') ? "<span class='badge-success'>Aprovado</span>" : "<span class='badge-warning'>Pendente</span>";
-                                        echo "<tr>";
-                                        echo "<td>" . htmlspecialchars($pagamento['login'] ?? '') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['idpagamento'] ?? '') . "</td>";
-                                        echo "<td>R$ " . number_format($pagamento['valor'], 2, ',', '.') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['texto'] ?? '') . "</td>";
-                                        echo "<td>" . htmlspecialchars($pagamento['data'] ?? '') . "</td>";
-                                        echo "<td>" . $status . "</td>";
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='6' style='text-align: center;'>Nenhum pagamento recebido</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<!-- TAB: PAGAMENTOS -->
+<div class="tab-content" id="tabPagamentos">
+    <div class="modern-card">
+        <div class="table-card-header">
+            <div class="table-card-title"><i class='bx bx-receipt'></i> Pagamentos Recebidos</div>
+            <input type="text" class="table-search" placeholder="Buscar..." onkeyup="filtrarTabela('tabelaPagamentos',this.value)">
+        </div>
+        <div class="table-responsive">
+            <table class="data-table" id="tabelaPagamentos">
+                <thead><tr><th>Login</th><th>ID Pagamento</th><th>Valor</th><th>Detalhes</th><th>Data</th><th>Status</th></tr></thead>
+                <tbody>
+                <?php
+                $tem_pag = false;
+                if ($result_pags && $result_pags->num_rows > 0): $tem_pag = true; while ($pg = $result_pags->fetch_assoc()): ?>
+                <tr>
+                    <td style="font-weight:600;"><?php echo htmlspecialchars($pg['login'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($pg['idpagamento'] ?? ''); ?></td>
+                    <td style="font-weight:700;color:#34d399;">R$ <?php echo number_format((float)($pg['valor'] ?? 0), 2, ',', '.'); ?></td>
+                    <td><?php echo htmlspecialchars($pg['texto'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($pg['data'] ?? ''); ?></td>
+                    <td><?php if (($pg['status'] ?? '') == 'Aprovado'): ?><span class="badge-sm badge-aprovado"><i class='bx bx-check'></i> Aprovado</span><?php else: ?><span class="badge-sm badge-pendente"><i class='bx bx-time'></i> Pendente</span><?php endif; ?></td>
+                </tr>
+                <?php endwhile; endif; ?>
+                <?php if ($result_pags_uni && $result_pags_uni->num_rows > 0): $tem_pag = true; while ($pu = $result_pags_uni->fetch_assoc()): ?>
+                <tr>
+                    <td style="font-weight:600;"><?php echo htmlspecialchars($pu['payer_email'] ?? $pu['login'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($pu['payment_id'] ?? $pu['id']); ?></td>
+                    <td style="font-weight:700;color:#34d399;">R$ <?php echo number_format((float)($pu['valor'] ?? 0), 2, ',', '.'); ?></td>
+                    <td><?php echo htmlspecialchars($pu['descricao'] ?? ''); ?></td>
+                    <td><?php echo !empty($pu['created_at']) ? date('d/m/Y H:i', strtotime($pu['created_at'])) : ''; ?></td>
+                    <td><?php if (($pu['status'] ?? '') == 'approved'): ?><span class="badge-sm badge-aprovado"><i class='bx bx-check'></i> Aprovado</span><?php else: ?><span class="badge-sm badge-pendente"><i class='bx bx-time'></i> <?php echo ucfirst($pu['status'] ?? 'Pendente'); ?></span><?php endif; ?></td>
+                </tr>
+                <?php endwhile; endif; ?>
+                <?php if (!$tem_pag): ?>
+                <tr><td colspan="6"><div class="empty-table"><i class='bx bx-receipt'></i>Nenhum pagamento</div></td></tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../app-assets/sweetalert.min.js"></script>
-    
-    <script>
-        $(document).ready(function() {
-            $('#tableUsuarios').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-            
-            $('#tableRevendas').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-            
-            $('#tablePagamentos').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nenhum registro encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+<script>
+new ApexCharts(document.querySelector("#chartLimite"),{
+    series:[<?php echo $limite_usado_users; ?>,<?php echo $limite_usado_revs; ?>,<?php echo max(0,$limite_restante); ?>],
+    chart:{type:'donut',height:170,background:'transparent'},
+    labels:['Usuários','Revendedores','Disponível'],
+    colors:['#4158D0','#7c3aed','#10b981'],
+    dataLabels:{enabled:false},legend:{show:false},
+    plotOptions:{pie:{donut:{size:'65%',labels:{show:true,total:{show:true,label:'Usado',color:'#fff',formatter:function(){return '<?php echo $pct_uso; ?>%';}}}}}},
+    stroke:{width:0},theme:{mode:'dark'}
+}).render();
 
+function trocarTab(id,btn){
+    document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+    document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+}
 
+function filtrarTabela(tabelaId,busca){
+    busca=busca.toLowerCase();
+    document.querySelectorAll('#'+tabelaId+' tbody tr').forEach(function(row){
+        row.style.display=row.textContent.toLowerCase().includes(busca)?'':'none';
+    });
+}
+</script>
 
-
+</div></div></body></html>
