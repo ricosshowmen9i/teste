@@ -82,7 +82,7 @@ $total_suspensos = 0; $r = $conn->query("SELECT COUNT(*) as t FROM ssh_accounts 
 .user-info{display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
 .user-avatar{width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:white;}
 .user-text{flex:1;min-width:0;}
-.user-name{font-size:14px;font-weight:700;color:white;display:flex;align-items:center;gap:5px;flex-wrap:wrap;word-break:break-all;}
+.user-name{font-size:14px;font-weight:700;color:white;display:flex;align-items:center;gap:5px;flex-wrap:wrap;overflow-wrap:break-word;}
 .user-senha{font-size:10px;color:rgba(255,255,255,0.7);margin-top:2px;display:flex;align-items:center;gap:4px;}
 .v2ray-badge{background:rgba(255,255,255,0.2);padding:2px 6px;border-radius:20px;font-size:8px;font-weight:600;}
 .user-body{padding:12px;}
@@ -275,7 +275,7 @@ if ($result->num_rows > 0) {
             <div class="modal-info-row"><div class="modal-info-label"><i class='bx bx-calendar' style="color:#fbbf24;"></i> Validade Atual</div><div class="modal-info-value" id="confirmar-expira">—</div></div>
             <div class="modal-info-row"><div class="modal-info-label"><i class='bx bx-plus-circle' style="color:#10b981;"></i> Dias a Adicionar</div><div class="modal-info-value highlight-green">+30 dias</div></div>
         </div>
-        <p style="text-align:center;color:rgba(255,255,255,0.4);font-size:11px;">A validade será extendida a partir da data de expiração atual.</p>
+        <p style="text-align:center;color:rgba(255,255,255,0.4);font-size:11px;">A validade será estendida a partir da data de expiração atual.</p>
     </div>
     <div class="modal-footer-custom">
         <button class="btn-modal btn-modal-cancel" onclick="fecharModal('modalConfirmarRenovacao')"><i class='bx bx-x'></i> Cancelar</button>
@@ -517,15 +517,16 @@ function preencherModalSucessoRenovacao(data) {
     document.getElementById('renovacao-senha').textContent = data.senha || '—';
     document.getElementById('renovacao-nova-validade').textContent = data.new_expiry || '—';
     document.getElementById('renovacao-validade-anterior').textContent = data.validade_anterior || '—';
-    document.getElementById('renovacao-limite').textContent = data.limite ? data.limite + ' conexões' : '—';
+    document.getElementById('renovacao-limite').textContent = (data.limite != null && data.limite !== '') ? data.limite + ' conexões' : '—';
     var rowUUID = document.getElementById('renovacao-row-uuid');
     if (data.uuid) { rowUUID.style.display = 'flex'; document.getElementById('renovacao-uuid').textContent = data.uuid; }
     else { rowUUID.style.display = 'none'; }
     var divOk = document.getElementById('renovacao-servidores-ok'), listaOk = document.getElementById('renovacao-servidores-ok-lista');
-    if (data.servers && data.servers.length > 0) { divOk.style.display = 'block'; listaOk.innerHTML = data.servers.map(function(s) { return '<span class="modal-server-badge"><i class="bx bx-check-circle" style="font-size:10px;"></i> '+s+'</span>'; }).join(''); }
+    function esc(t){var d=document.createElement('span');d.textContent=t;return d.innerHTML;}
+    if (data.servers && data.servers.length > 0) { divOk.style.display = 'block'; listaOk.innerHTML = data.servers.map(function(s) { return '<span class="modal-server-badge"><i class="bx bx-check-circle" style="font-size:10px;"></i> '+esc(s)+'</span>'; }).join(''); }
     else { divOk.style.display = 'none'; }
     var divFail = document.getElementById('renovacao-servidores-fail'), listaFail = document.getElementById('renovacao-servidores-fail-lista');
-    if (data.failed && data.failed.length > 0) { divFail.style.display = 'block'; listaFail.innerHTML = data.failed.map(function(s) { return '<span class="modal-server-badge fail"><i class="bx bx-x-circle" style="font-size:10px;"></i> '+s+'</span>'; }).join(''); }
+    if (data.failed && data.failed.length > 0) { divFail.style.display = 'block'; listaFail.innerHTML = data.failed.map(function(s) { return '<span class="modal-server-badge fail"><i class="bx bx-x-circle" style="font-size:10px;"></i> '+esc(s)+'</span>'; }).join(''); }
     else { divFail.style.display = 'none'; }
 }
 
