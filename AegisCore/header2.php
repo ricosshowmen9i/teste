@@ -105,6 +105,7 @@ foreach ($linhas as $linha) {
     <script src="../app-assets/sweetalert.min.js"></script>
     <style>body{opacity:0;transition:opacity .15s ease;}</style>
     <link rel="stylesheet" href="../AegisCore/temas_visual.css?v=<?php echo time(); ?>" onload="document.body?document.body.style.opacity='1':document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';});">
+    <link rel="stylesheet" href="../AegisCore/components.css?v=<?php echo time(); ?>">
     <?php echo getFundoPersonalizadoCSS($conn, $_h2_tema); ?>
     <style>
         <?php echo $csspersonali; ?>
